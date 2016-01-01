@@ -1,0 +1,10 @@
+{
+	"Browser":
+	[
+		"Browser.php/lib/Browser.php"
+	],
+	"Minifier":
+	[
+		"magic-min/class.magic-min.php"
+	]
+}

@@ -1,0 +1,9 @@
+[submodule "gnuboard5"]
+	path = gnu5
+	url = https://github.com/gnuboard/gnuboard5.git
+[submodule "contribute/Browser.php"]
+	path = contribute/Browser.php
+	url = https://github.com/cbschuld/Browser.php.git
+[submodule "contribute/magic-min"]
+	path = contribute/magic-min
+	url = https://github.com/bennettstone/magic-min.git

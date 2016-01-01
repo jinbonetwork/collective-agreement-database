@@ -1,0 +1,6 @@
+.htacces
+.DS_Store
+.*.swp
+config/settings.php
+files/*
+files/*/
