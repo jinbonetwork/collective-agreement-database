@@ -1,0 +1,35 @@
+{
+	"react" : {
+		"js" : [
+			"contribute/node_modules/react/dist/react.min.js",
+			"contribute/node_modules/react/dist/react-with-addons.min.js"
+		],
+		"css": [],
+		"priority":"-999999999",
+		"deps": []
+	},
+	"redux": {
+		"js" : [
+			"contribute/node_modules/redux/dist/redux.min.js"
+		],
+		"css": [],
+		"priority": "-999999999",
+		"deps": []
+	},
+	"react-redux": {
+		"js": [
+			"contribute/node_modules/react-redux/dist/react-redux.min.js"
+		],
+		"css": [],
+		"priority": "-999999998",
+		"deps":["redux","react"]
+	},
+	"jquery": {
+		"js": [
+			"contribute/jquery/2.1.4/jquery-2.1.4.min.js"
+		],
+		"css": [],
+		"priority": "-999999999",
+		"deps":[]
+	}
+}

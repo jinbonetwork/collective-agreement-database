@@ -1,0 +1,3 @@
+<?php
+importResource("react-redux");
+?>

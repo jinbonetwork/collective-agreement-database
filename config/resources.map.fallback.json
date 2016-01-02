@@ -1,0 +1,28 @@
+{
+	"react" : {
+		"js" : [],
+		"css": [],
+		"priority":"-999999999",
+		"deps": []
+	},
+	"redux": {
+		"js" : [],
+		"css": [],
+		"priority":"-999999999",
+		"deps": []
+	}
+	"react-redux": {
+		"js": [],
+		"css": [],
+		"priority":"-999999998",
+		"deps":[]
+	}
+	"jquery": {
+		"js": [
+			"contribute/jquery/1.11.3/jquery-1.11.3.min.js"
+		],
+		"css": [],
+		"priority":"-999999999",
+		"deps":[]
+	}
+}

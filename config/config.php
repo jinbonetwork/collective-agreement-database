@@ -43,8 +43,6 @@ define('CADB_CACHE_PATH', CADB_PATH.'/files/cache');
 define('CADB_APP_PATH', CADB_PATH.'/app/');
 define('CADB_API_PATH', CADB_PATH.'/app/api');
 
-define('CADB_SESSION_PATH', CADB_PATH.'/include/session.php');
-
 define('CADB_DEBUG',			1);
 
 define("CADB_LOG_TYPE_PRINT",	1);
