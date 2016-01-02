@@ -9,7 +9,7 @@ $database['DB'] = 'database name';
 $database['CHARSET'] = 'utf8';
 $database['TIMEOUT'] = 5;
 $database['RECONN_COUNT'] = 2;
-$database['TB_PREFIX'] = 'tucad_';
+$database['TB_PREFIX'] = 'cadb_';
 
 $service['domain'] = 'site domain(example: example.com)';
 $service['title'] = "site title";
