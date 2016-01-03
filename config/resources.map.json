@@ -29,7 +29,36 @@
 			"contribute/jquery/2.1.4/jquery-2.1.4.min.js"
 		],
 		"css": [],
+		"options": {
+			"position": "footer"
+		},
 		"priority": "-999999999",
 		"deps":[]
+	},
+	"bootstrap": {
+		"js": [
+			"contribute/node_modules/bootstrap/dist/js/bootstrap.min.js"
+		],
+		"css": [
+			"contribute/node_modules/bootstrap/dist/css/bootstrap.min.css"
+		],
+		"options": {
+			"position": "footer"
+		},
+		"priority":"-999999999",
+		"deps":["jquery"]
+	},
+	"react-bootstrap": {
+		"js": [
+			"contribute/node_modules/react-bootstrap/dist/react-bootstrap.min.js"
+		],
+		"css": [
+			"contribute/node_modules/bootstrap/dist/css/bootstrap.min.css"
+		],
+		"options": {
+			"position": "footer"
+		},
+		"priority":"-999999998",
+		"deps":["react"]
 	}
 }

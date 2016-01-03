@@ -6,6 +6,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
 	<title>전국공공운수노조 단체협약 데이터베이스</title>
 <?php   print $this->header(); ?>
+
 </head>
 <body class="<?php print $breadcrumbs_class; ?>">
 	<header id="site-header">
@@ -21,5 +22,6 @@
 	</div>
 	<footer id="site-footer">
 	</footer>
+	<?php print $this->footer(); ?>
 </body>
 </html>

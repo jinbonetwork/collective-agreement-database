@@ -7,3 +7,9 @@
 [submodule "contribute/magic-min"]
 	path = contribute/magic-min
 	url = https://github.com/bennettstone/magic-min.git
+[submodule "contribute/html5shiv"]
+	path = contribute/html5shiv
+	url = https://github.com/aFarkas/html5shiv.git
+[submodule "contribute/Respond"]
+	path = contribute/Respond
+	url = https://github.com/scottjehl/Respond.git

@@ -105,7 +105,7 @@ class Resource extends \CADB\Objects {
 				self::$css[$key]['priority'] = $priority;
 			}
 		} else {
-			self::$css[$key] = array('css'=>$css,'id'=>'jinbo_css_'.self::getUniqueID($key),'priority'=>($priority ? $priority : 0),'type'=>$type,'options'=>$options);
+			self::$css[$key] = array('css'=>$css,'id'=>'cadb_css_'.self::getUniqueID($key),'priority'=>($priority ? $priority : 0),'type'=>$type,'options'=>$options);
 		}
 	}
 
@@ -153,7 +153,7 @@ class Resource extends \CADB\Objects {
 				self::$js[$key]['priority'] = $priority;
 			}
 		} else {
-			self::$js[$key] = array('script'=>$js,'id'=>'jinbo_js_'.self::getUniqueID($key),'priority'=>($priority ? $priority : 0),'type'=>$type,'options'=>$options);
+			self::$js[$key] = array('script'=>$js,'id'=>'cadb_js_'.self::getUniqueID($key),'priority'=>($priority ? $priority : 0),'type'=>$type,'options'=>$options);
 		}
 	}
 
@@ -193,8 +193,8 @@ class Resource extends \CADB\Objects {
 			foreach($_css as $p => $__css) {
 				if(is_array($__css)) {
 					foreach($__css as $css) {
-						if($position == 'header' && $css['options'] && $css['options']['position'] == 'footer') continue;
-						else if($position != 'header' && (!$css['options'] || $css['options']['position'] != 'footer')) continue;
+						if($position == 'header' && $css['options'] && $css['options']['position'] == 'footer' && $css['type'] == 'source') continue;
+						else if($position != 'header' && (!$css['options'] || $css['options']['position'] != 'footer' || $css['type'] != 'source')) continue;
 						if($css['options'] && $css['options']['condition']) {
 							$stylesheet .= "\t<!--[".$css['options']['condition']."]>\n\t";
 						}
@@ -242,7 +242,7 @@ class Resource extends \CADB\Objects {
 				'remove_comments' => true
 			);
 			$minified = new \Minifier( $vars );
-			$stylesheet .= "\t".'<link id="jinbo_css_'.self::getUniqueID($compress_uri).'" rel="stylesheet" href="'.CADB_URI.ltrim($minified->merge($compress_file,'css',$compress_array),CADB_PATH).'">'."\n";
+			$stylesheet .= "\t".'<link id="cadb_css_'.self::getUniqueID($compress_uri).'" rel="stylesheet" href="'.CADB_URI.ltrim($minified->merge($compress_file,'css',$compress_array),CADB_PATH).'">'."\n";
 		}
 		return $stylesheet;
 	}

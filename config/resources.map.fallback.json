@@ -24,5 +24,17 @@
 		"css": [],
 		"priority":"-999999999",
 		"deps":[]
+	},
+	"bootstrap": {
+		"js": [
+			"contribute/node_modules/bootstrap/dist/js/bootstrap.min.js",
+			"contribute/html5shiv/dist/html5shiv.min.js",
+			"contribute/Respond/dest/respond.min.js",
+		],
+		"css": [
+			"contribute/node_modules/bootstrap/dist/css/bootstrap.min.css"
+		],
+		"priority":"-999999998",
+		"deps":["jquery"]
 	}
 }
