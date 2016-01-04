@@ -43,12 +43,24 @@ class Resource extends \CADB\Objects {
 		$options['compress'] = $compress;
 		if($map['js'] && @count($map['js']) > 0) {
 			foreach($map['js'] as $js) {
-				self::addJsURI(CADB_URI.$js,$priority,$options);
+				if(is_array($js)) {
+					$_options = $options;
+					$_options['position'] = $js['position'];
+					self::addJsURI(CADB_URI.$js['uri'], ($js['priority'] ? $js['priority'] : $priority), $_options);
+				} else {
+					self::addJsURI(CADB_URI.$js,$priority,$options);
+				}
 			}
 		}
 		if($map['css'] && @count($map['css']) > 0) {
 			foreach($map['css'] as $css) {
-				self::addCssURI(CADB_URI.$css,$priority,$options);
+				if(is_array($css)) {
+					$_options = $options;
+					$_options['position'] = $css['position'];
+					self::addCssURI(CADB_URI.$css['uri'], ($css['priority'] ? $css['priority'] : $priority), $_options);
+				} else {
+					self::addCssURI(CADB_URI.$css,$priority,$options);
+				}
 			}
 		}
 		self::$map[$key]['loaded'] = true;
@@ -193,8 +205,8 @@ class Resource extends \CADB\Objects {
 			foreach($_css as $p => $__css) {
 				if(is_array($__css)) {
 					foreach($__css as $css) {
-						if($position == 'header' && $css['options'] && $css['options']['position'] == 'footer' && $css['type'] == 'source') continue;
-						else if($position != 'header' && (!$css['options'] || $css['options']['position'] != 'footer' || $css['type'] != 'source')) continue;
+						if($position == 'header' && $css['options'] && $css['options']['position'] == 'footer') continue;
+						else if($position != 'header' && (!$css['options'] || $css['options']['position'] != 'footer')) continue;
 						if($css['options'] && $css['options']['condition']) {
 							$stylesheet .= "\t<!--[".$css['options']['condition']."]>\n\t";
 						}

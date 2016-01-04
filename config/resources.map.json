@@ -37,27 +37,27 @@
 	},
 	"bootstrap": {
 		"js": [
-			"contribute/node_modules/bootstrap/dist/js/bootstrap.min.js"
+			{
+				"uri": "contribute/node_modules/bootstrap/dist/js/bootstrap.min.js",
+				"position": "footer"
+			}
 		],
 		"css": [
 			"contribute/node_modules/bootstrap/dist/css/bootstrap.min.css"
 		],
-		"options": {
-			"position": "footer"
-		},
 		"priority":"-999999999",
 		"deps":["jquery"]
 	},
 	"react-bootstrap": {
 		"js": [
-			"contribute/node_modules/react-bootstrap/dist/react-bootstrap.min.js"
+			{
+				"uri": "contribute/node_modules/react-bootstrap/dist/react-bootstrap.min.js",
+				"position": "footer"
+			}
 		],
 		"css": [
 			"contribute/node_modules/bootstrap/dist/css/bootstrap.min.css"
 		],
-		"options": {
-			"position": "footer"
-		},
 		"priority":"-999999998",
 		"deps":["react"]
 	}

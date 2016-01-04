@@ -1,35 +1,23 @@
 {
-	"react" : {
-		"js" : [],
-		"css": [],
-		"priority":"-999999999",
-		"deps": []
-	},
-	"redux": {
-		"js" : [],
-		"css": [],
-		"priority":"-999999999",
-		"deps": []
-	}
-	"react-redux": {
-		"js": [],
-		"css": [],
-		"priority":"-999999998",
-		"deps":[]
-	}
 	"jquery": {
 		"js": [
 			"contribute/jquery/1.11.3/jquery-1.11.3.min.js"
 		],
 		"css": [],
 		"priority":"-999999999",
+		"options": {
+			"position": "footer"
+		},
 		"deps":[]
 	},
 	"bootstrap": {
 		"js": [
-			"contribute/node_modules/bootstrap/dist/js/bootstrap.min.js",
 			"contribute/html5shiv/dist/html5shiv.min.js",
 			"contribute/Respond/dest/respond.min.js",
+			{
+				"uri": "contribute/node_modules/bootstrap/dist/js/bootstrap.min.js",
+				"position": "footer"
+			}
 		],
 		"css": [
 			"contribute/node_modules/bootstrap/dist/css/bootstrap.min.css"
