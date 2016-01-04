@@ -6,6 +6,8 @@
 
 노동조합들의 조직현황과 단체협약을 모아. 검색서비스를 제공합니다.
 
+<img src="https://github.com/jinbonetwork/collective-agreement-database/blob/master/document/images/1.jpg?raw=true">
+
 2. 설치
 =======
 
@@ -33,3 +35,8 @@
 -----------------
 * gnu5 폴더에 data 폴더 생성. 웹서버가 접근할 수 있도록 707 권한 부여.
 * http://domain/gnu5 에 접속하여 GNU5 보드 설치.
+
+3. document
+===========
+
+자세한 설명은 <a href="https://github.com/jinbonetwork/collective-agreement-database/wiki">위키</a> 참조
