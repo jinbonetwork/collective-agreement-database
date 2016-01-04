@@ -34,7 +34,7 @@ abstract class Controller {
 	}
 
 	public function render() {
-		global $uri;
+		global $uri, $browser;
 		$context = \CADB\Model\Context::instance();
 
 		/**
