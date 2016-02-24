@@ -46,9 +46,9 @@ class Resource extends \CADB\Objects {
 				if(is_array($js)) {
 					$_options = $options;
 					$_options['position'] = $js['position'];
-					self::addJsURI(CADB_URI.$js['uri'], ($js['priority'] ? $js['priority'] : $priority), $_options);
+					self::addJsURI( (!preg_match("/^http/i",$js['uri']) ? CADB_URI : '').$js['uri'], ($js['priority'] ? $js['priority'] : $priority), $_options);
 				} else {
-					self::addJsURI(CADB_URI.$js,$priority,$options);
+					self::addJsURI( (!preg_match("/^http/i",$js) ? CADB_URI : '').$js,$priority,$options);
 				}
 			}
 		}
@@ -57,9 +57,9 @@ class Resource extends \CADB\Objects {
 				if(is_array($css)) {
 					$_options = $options;
 					$_options['position'] = $css['position'];
-					self::addCssURI(CADB_URI.$css['uri'], ($css['priority'] ? $css['priority'] : $priority), $_options);
+					self::addCssURI( (!preg_match("/^http/i",$css['uri']) ? CADB_URI : '').$css['uri'], ($css['priority'] ? $css['priority'] : $priority), $_options);
 				} else {
-					self::addCssURI(CADB_URI.$css,$priority,$options);
+					self::addCssURI( (!preg_match("/^http/i",$css) ? CADB_URI : '').$css,$priority,$options);
 				}
 			}
 		}
@@ -126,6 +126,14 @@ class Resource extends \CADB\Objects {
 			self::addJsCss($js,$priority,$options);
 		} else {
 			self::pushJs(CADB_RESOURCE_URI.'/js/'.$js,$priority,'src',$options);
+		}
+	}
+
+	public static function addReact($js,$priority=0,$options='') {
+		if(preg_match("/(.+)\.css$/i",$js)) {
+			self::pushCss(CADB_RESOURCE_URI.'/react/css/'.$css,$priority,'src',$options);
+		} else {
+			self::pushJs(CADB_RESOURCE_URI.'/react/js/'.$js,$priority,'src',$options);
 		}
 	}
 
@@ -292,7 +300,7 @@ class Resource extends \CADB\Objects {
 								break;
 							case 'src':
 							default:
-								$script .= "\t".'<script id="'.$js['id'].'"'.($js['options'] && $js['options']['class'] ? ' class="'.$js['options']['class'].'"' : '').' type="text/javascript" src="'.$js['script'].'"></script>'."\n";
+								$script .= "\t".'<script id="'.$js['id'].'"'.($js['options'] && $js['options']['class'] ? ' class="'.$js['options']['class'].'"' : '').' type="text/'.($js['options']['type'] == 'babel' ? 'babel' : 'javascript').'" src="'.$js['script'].'"></script>'."\n";
 								break;
 						}
 						if($js['options'] && $js['options']['condition']) {

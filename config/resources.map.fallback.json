@@ -15,12 +15,12 @@
 			"contribute/html5shiv/dist/html5shiv.min.js",
 			"contribute/Respond/dest/respond.min.js",
 			{
-				"uri": "contribute/node_modules/bootstrap/dist/js/bootstrap.min.js",
+				"uri": "contribute/bootstrap/3.3.6/js/bootstrap.min.js",
 				"position": "footer"
 			}
 		],
 		"css": [
-			"contribute/node_modules/bootstrap/dist/css/bootstrap.min.css"
+			"contribute/bootstrap/3.3.6/css/bootstrap.min.css"
 		],
 		"priority":"-999999998",
 		"deps":["jquery"]

@@ -60,6 +60,9 @@ final class URIHandler extends \CADB\Objects {
 		if(!count($uri['fragment'])) {
 			$uri['appType'] = 'front';
 			$pathPart = CADB_APP_PATH."front";
+		} else if($url['fragment'][0] == 'search') {
+			$uri['appType'] = 'front';
+			$pathPart = CADB_APP_PATH."front";
 		} else {
 			if (isset($uri['fragment'][0]) && file_exists(CADB_APP_PATH."/".$uri['fragment'][0])) {
 				$uri['appType'] = $uri['fragment'][0];

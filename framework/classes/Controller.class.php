@@ -115,6 +115,17 @@ abstract class Controller {
 						\CADB\View\Resource::addJs($js,0,array('compress'=>true));
 					}
 				}
+				if(@count($this->react)) {
+					foreach($this->react as $script) {
+						\CADB\View\Resource::addReact($script,0,array('compress'=>false,'position'=>'footer'));
+					}
+				}
+				if(@count($this->babel)) {
+					importResource('babel');
+					foreach($this->babel as $script) {
+						\CADB\View\Resource::addScript($script,0,array('compress'=>true,'type'=>'babel'));
+					}
+				}
 				if(@count($this->script)) {
 					foreach($this->script as $script) {
 						\CADB\View\Resource::addScript($script,0,array('compress'=>true));

@@ -43,7 +43,7 @@ final class DBM extends \CADB\Objects {
 			$this->_mysqli->real_connect($dbInfo['HOST'], $dbInfo['USER'], $dbInfo['PWD'], $this->_dbName);
 
 		if(mysqli_connect_errno()) {
-			throw new Exception("Connection Exception : ".mysqli_connect_error(), mysqli_connect_errno());
+			throw new \Exception("Connection Exception : ".mysqli_connect_error(), mysqli_connect_errno());
 		}
 
 		$this->_is_connect = 1;
@@ -81,7 +81,7 @@ final class DBM extends \CADB\Objects {
 			if($this->_mysqli->errno == '2006' || $this->_mysqli->errno =='2013')
 				$this->reConnect();
 			else
-				throw new Exception("Prepare Statement Exception : ".$this->_mysqli->error, $this->_mysqli->errno);
+				throw new \Exception("Prepare Statement Exception : ".$this->_mysqli->error, $this->_mysqli->errno);
 		}
 
 		$this->_query = $query;
@@ -90,10 +90,10 @@ final class DBM extends \CADB\Objects {
 	public function bindParam($params){
 		if(version_compare(phpversion(), '5.3.0', '>=')) {
 			if(!call_user_func_array(array(&$this->_stmt, 'bind_param'), $this->makeValuesReferenced($params)))
-				throw new Exception("Bind Parameter Exception : ".$this->_query." : ".$this->_mysqli->error, $this->_mysqli->errno);
+				throw new \Exception("Bind Parameter Exception : ".$this->_query." : ".$this->_mysqli->error, $this->_mysqli->errno);
 		} else {
 			if(!call_user_func_array(array(&$this->_stmt, 'bind_param'), $params))
-				throw new Exception("Bind Parameter Exception : ".$this->_query." : ".$this->_mysqli->error, $this->_mysqli->errno);
+				throw new \Exception("Bind Parameter Exception : ".$this->_query." : ".$this->_mysqli->error, $this->_mysqli->errno);
 		}
 	}
 
@@ -114,7 +114,7 @@ final class DBM extends \CADB\Objects {
 
 		if(!$this->_stmt->execute()){
 			if($this->getErrNo() != $this->_dbInfo['MYSQL_ERRNO_DUPKEY']) // add this condition at 20051117 ( because using duplicate)
-				throw new Exception("Execute Query Exception : ".$this->_mysqli->error." |query> ".$this->_query, $this->_mysqli->errno);
+				throw new \Exception("Execute Query Exception : ".$this->_mysqli->error." |query> ".$this->_query, $this->_mysqli->errno);
 		}
 		$this->_affectedRows = $this->_stmt->affected_rows;
 		return $this->_affectedRows;
@@ -122,7 +122,7 @@ final class DBM extends \CADB\Objects {
 
 	public function bindResult($params){
 		if(!call_user_func_array(array(&$this->_stmt, 'bind_result'), $params))
-			throw new Exception("Bind Result Exception : ".$this->_mysqli->error, $this->_mysqli->errno);
+			throw new \Exception("Bind Result Exception : ".$this->_mysqli->error, $this->_mysqli->errno);
 	}
 
 	public function fetchStmtResult(){
@@ -132,12 +132,12 @@ final class DBM extends \CADB\Objects {
 	/** methods about Transactions. Need autocommit=0 ****/
 	public function commit(){
 		if(!$this->_mysqli->commit())
-			throw new Exception("Commit Exception : ".$this->_mysqli->error, $this->_mysqli->errno);
+			throw new \Exception("Commit Exception : ".$this->_mysqli->error, $this->_mysqli->errno);
 	}
 
 	public function rollback(){
 		if(!$this->_mysqli->rollback())
-			throw new Exception("Rollback Exception : ".$this->_mysqli->error, $this->_mysqli->errno);
+			throw new \Exception("Rollback Exception : ".$this->_mysqli->error, $this->_mysqli->errno);
 	}
 
 	/** methods about smple query ****/
@@ -155,7 +155,7 @@ final class DBM extends \CADB\Objects {
 			if($this->_mysqli->errno == '2006' || $this->_mysqli->errno =='2013')
 				$this->reConnect();
 			else
-				throw new Exception("query Exception!!! : ".$this->_mysqli->error." | query> ".$this->_query, $this->_mysqli->errno);
+				throw new \Exception("query Exception!!! : ".$this->_mysqli->error." | query> ".$this->_query, $this->_mysqli->errno);
 
 		}
 	}

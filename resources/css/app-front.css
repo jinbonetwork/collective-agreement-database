@@ -1,0 +1,11 @@
+header, footer {
+  height: 80px;
+  padding: 30px 0px 30px 0px;
+  background: #eaeaea;
+}
+header {
+  margin-bottom: 50px;
+}
+footer {
+  margin-top: 50px;
+}

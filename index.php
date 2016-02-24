@@ -81,7 +81,7 @@ try {
 
 	$dbm->release();
 } catch(Exception $e) {
-	$logger = Logger::instance();
+	$logger = \CADB\Logger::instance();
 	$logger->Error($e);
 }
 ?>

@@ -10,7 +10,7 @@ CREATE TABLE `cadb_agreement` (
 
 	KEY `DID` (`nid`,`did`),
 	KEY `OID` (`oid`,`vid`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `cadb_fields`;
 CREATE TABLE `cadb_fields` (
@@ -28,7 +28,7 @@ CREATE TABLE `cadb_fields` (
 
 	PRIMARY KEY (`table`,`idx`,`fid`),
 	KEY `FID` (`table`,`fid`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `cadb_guide`;
 CREATE TABLE `cadb_guide` (
@@ -43,7 +43,7 @@ CREATE TABLE `cadb_guide` (
 
 	KEY `OID` (`oid`,`vid`,`year`),
 	KEY `YEAR` (`year`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `cadb_guide_clause`;
 CREATE TABLE `cadb_guide_clause` (
@@ -54,7 +54,7 @@ CREATE TABLE `cadb_guide_clause` (
 	`custom`	mediumtext,
 
 	KEY `NID`	(`nid`,`idx`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `cadb_log`;
 CREATE TABLE `cadb_log` (
@@ -71,7 +71,7 @@ CREATE TABLE `cadb_log` (
 
 	KEY `Action` (`action`,`oid`,`fid`,`vid`),
 	KEY `Editor` (`editor`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS cadb_organize;
 CREATE TABLE cadb_organize (
@@ -95,8 +95,9 @@ CREATE TABLE cadb_organize (
 
 	KEY `ID` (`oid`,`current`),
 	KEY `DEPTH` (`depth`),
-	KEY `P` (`p1`,`p2`,`p3`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+	KEY `P` (`p1`,`p2`,`p3`),
+	FULLTEXT `skey` (fullname) WITH PARSER mecab
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS cadb_privilege;
 CREATE TABLE cadb_privilege (
@@ -107,7 +108,7 @@ CREATE TABLE cadb_privilege (
 
 	KEY `USER_ID` (`user_id`),
 	KEY `OID` (`oid`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `cadb_taxonomy`;
 CREATE TABLE `cadb_taxonomy` (
@@ -117,7 +118,7 @@ CREATE TABLE `cadb_taxonomy` (
 	`active`	char(1) DEFAULT 1,
 
 	KEY `SKEY` (`skey`,`cid`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `cadb_taxonomy_terms`;
 CREATE TABLE `cadb_taxonomy_terms` (
@@ -135,7 +136,7 @@ CREATE TABLE `cadb_taxonomy_terms` (
 	`created`	int(10) NOT NULL DEFAULT 0,
 
 	KEY `TID` (`tid`,`vid`,`idx`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `cadb_taxonomy_term_relative`;
 CREATE TABLE `cadb_taxonomy_term_relative` (
@@ -146,4 +147,4 @@ CREATE TABLE `cadb_taxonomy_term_relative` (
 
 	PRIMARY KEY `TID` (`tid`,`table`,`rid`),
 	KEY `FID` (`table`,`rid`,`fid`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

@@ -1,28 +1,29 @@
 {
 	"react" : {
 		"js" : [
-			"contribute/node_modules/react/dist/react.min.js",
-			"contribute/node_modules/react/dist/react-with-addons.min.js"
+			"contribute/react/0.14.7/react-0.14.7.min.js",
+			"contribute/react/0.14.7/react-with-addons-0.14.7.min.js",
+			"contribute/react/0.14.7/react-dom-0.14.7.min.js"
 		],
 		"css": [],
 		"priority":"-999999999",
 		"deps": []
 	},
-	"redux": {
+	"react-router": {
 		"js" : [
-			"contribute/node_modules/redux/dist/redux.min.js"
+			"contribute/react-router/1.0.3/ReactRouter.min.js"
 		],
 		"css": [],
-		"priority": "-999999999",
-		"deps": []
+		"priority":"-999999999",
+		"deps": ["react"]
 	},
-	"react-redux": {
+	"babel": {
 		"js": [
-			"contribute/node_modules/react-redux/dist/react-redux.min.js"
+			"contribute/babel-core/5.8.34/browser.min.js"
 		],
 		"css": [],
 		"priority": "-999999998",
-		"deps":["redux","react"]
+		"deps":[]
 	},
 	"jquery": {
 		"js": [
@@ -38,12 +39,12 @@
 	"bootstrap": {
 		"js": [
 			{
-				"uri": "contribute/node_modules/bootstrap/dist/js/bootstrap.min.js",
+				"uri": "contribute/bootstrap/3.3.6/js/bootstrap.min.js",
 				"position": "footer"
 			}
 		],
 		"css": [
-			"contribute/node_modules/bootstrap/dist/css/bootstrap.min.css"
+			"contribute/bootstrap/3.3.6/css/bootstrap.min.css"
 		],
 		"priority":"-999999999",
 		"deps":["jquery"]
@@ -51,14 +52,24 @@
 	"react-bootstrap": {
 		"js": [
 			{
-				"uri": "contribute/node_modules/react-bootstrap/dist/react-bootstrap.min.js",
+				"uri": "contribute/react-bootstrap/0.28.2/react-bootstrap.min.js",
 				"position": "footer"
 			}
 		],
 		"css": [
-			"contribute/node_modules/bootstrap/dist/css/bootstrap.min.css"
+			"contribute/bootstrap/3.3.6/css/bootstrap.min.css"
 		],
 		"priority":"-999999998",
+		"deps":["react"]
+	},
+	"app-hello": {
+		"js": [
+			"resources/script/app-hello.js"
+		],
+		"css": [
+			"resources/css/app-hello.css"
+		],
+		"priority":"10",
 		"deps":["react"]
 	}
 }
