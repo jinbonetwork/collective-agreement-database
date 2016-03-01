@@ -67,6 +67,7 @@ abstract class Controller {
 				\CADB\Respond::NotFoundPage(true);
 		} else if(($this->params['browserType'] == 'api' || $this->params['output'] == 'json' || $this->contentType == "json")) {
 			extract((array)$this);
+			header("Content-Type: application/json; charset=utf-8");
 			if(file_exists($this->params['controller']['path']."/".$this->params['controller']['file'].".json.php"))
 			include $this->params['controller']['path']."/".$this->params['controller']['file'].".json.php";
 			else if(file_exists($this->params['controller']['path']."/".$this->params['controller']['process'].".json.php"))

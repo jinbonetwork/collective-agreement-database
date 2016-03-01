@@ -11,8 +11,10 @@
 2. Requrement
 =============
 
-* PHP 5.4 이상
-* MySQL 5.7 이상.
+* PHP 5.4 이상.
+* MySQL 5.7.6 이상.
+* Mecab 최신버젼.
+* npm(nodeJS)과 webpack이 global 설치되어 있어야 합니다.
 
 3. 설치
 =======
@@ -28,6 +30,7 @@
 2) mysqlDB 생성
 --------------
 * 단체협약데이터베이스 시스템은 현재 MySQL 만 지원합니다.
+* MySQL에 Mecab plugin을 설치하셔야 합니다.
 * 사용하실 MySQL DB를 수동으로 만드셔야 합니다.
 * install/sql/schema.sql 파일을 이용해서 새로 생성된 DB에 필요한 테이블을 생성합니다.
 
@@ -41,6 +44,12 @@
 -----------------
 * gnu5 폴더에 data 폴더 생성. 웹서버가 접근할 수 있도록 707 권한 부여.
 * http://domain/gnu5 에 접속하여 GNU5 보드 설치.
+
+5) react 코드를 위한 설정
+-----------------------------------
+* cd resource/react
+* 'npm install' 실행하여 필요한 nodejs package 설치
+* 'webpack' 실행.
 
 4. document
 ===========

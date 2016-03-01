@@ -18,6 +18,10 @@ class Organize extends \CADB\Objects  {
 		return self::$fields;
 	}
 
+	public static function setFieldInfo($fields) {
+		self::$fields = $fields;
+	}
+
 	public static function totalCnt($q,$args=null) {
 		$dbm = DBM::instance();
 		if($args) {
@@ -59,6 +63,26 @@ class Organize extends \CADB\Objects  {
 		while($row = $dbm->getFetchArray($que)) {
 			$organize[] = self::fetchOrganize($row);
 		}
+
+		return $organize;
+	}
+
+	public static function getOrganizeByOid($oid,$current=1) {
+		$dbm = DBM::instance();
+
+		$que = "SELECT * FROM {organize} WHERE `oid` = ".$oid.($current ? " AND `current` = '1' AND `active` = '1'" : "")." ORDER BY vid DESC LIMIT 1";
+		$row = $dbm->getFetchArray($que);
+		$organize = self::fetchOrganize($row);
+
+		return $organize;
+	}
+
+	public static function getOrganizeByVid($vid) {
+		$dbm = DBM::instance();
+
+		$que = "SELECT * FROM {organize} WHERE `vid` = ".$vid;
+		$row = $dbm->getFetchArray($que);
+		$organize = self::fetchOrganize($row);
 
 		return $organize;
 	}

@@ -66,7 +66,24 @@ final class URIHandler extends \CADB\Objects {
 		} else {
 			if (isset($uri['fragment'][0]) && file_exists(CADB_APP_PATH."/".$uri['fragment'][0])) {
 				$uri['appType'] = $uri['fragment'][0];
-				$pathPart = CADB_APP_PATH.ltrim(rtrim(strtok(strstr($uri['input'],'/'), '?'), '/'),'/');
+				if($uri['appType'] == 'api') {
+					switch($uri['fragment'][1]) {
+						case 'orgs':
+							if(is_numeric($uri['fragment'][2])) $_GET['oid'] = $uri['fragment'][2];
+							break;
+						case 'standards':
+							if(is_numeric($uri['fragment'][2])) $_GET['id'] = $uri['fragment'][2];
+							break;
+						case 'articles':
+							if(is_numeric($uri['fragment'][2])) $_GET['nid'] = $uri['fragment'][2];
+							break;
+						default:
+							break;
+					}
+					$pathPart = CADB_APP_PATH.$uri['fragment'][0]."/".$uri['fragment'][1];
+				} else {
+					$pathPart = CADB_APP_PATH.ltrim(rtrim(strtok(strstr($uri['input'],'/'), '?'), '/'),'/');
+				}
 			} else {
 				header("HTTP/1.0 404 Not Found");exit;
 			}

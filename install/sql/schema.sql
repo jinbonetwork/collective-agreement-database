@@ -2,14 +2,26 @@ DROP TABLE IF EXISTS `cadb_agreement`;
 CREATE TABLE `cadb_agreement` (
 	nid     int(10) NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	did     int(10) NOT NULL DEFAULT 1,
-	oid     int(10) NOT NULL DEFAULT 0,
-	vid     int(10) NOT NULL DEFAULT 1,
+	subject char(255),
 	content mediumtext,
 	created int(10) NOT NULL DEFAULT 0,
 	current char(1) NOT NULL DEFAULT '1',
 
 	KEY `DID` (`nid`,`did`),
-	KEY `OID` (`oid`,`vid`)
+	FULLTEXT `skey` (`subject`,`content`) WITH PARSER mecab
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `cadb_agreement_organize`;
+CREATE TABLE `cadb_agreement_organize` (
+	nid		int(10) NOT NULL DEFAULT 0,
+	did     int(10) NOT NULL DEFAULT 1,
+	oid     int(10) NOT NULL DEFAULT 0,
+	vid     int(10) NOT NULL DEFAULT 1,
+	owner	int(10) NOT NULL DEFAULT 0,
+
+	KEY `NID` (`nid`,`oid`),
+	KEY `OID` (`oid`,`nid`),
+	KEY `OWNER` (`owner`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `cadb_fields`;
