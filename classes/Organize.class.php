@@ -19,52 +19,58 @@ class Organize extends \CADB\Objects  {
 	}
 
 	public static function setFieldInfo($fields) {
-		self::$fields = $fields;
+		if(is_array($fields)) {
+			foreach($fields as $k => $v) {
+				$t = substr($k,0,1);
+				if($t == 'a') continue;
+				$key = (int)substr($k,1);
+				self::$fields[$key] = $v;
+			}
+		}
 	}
 
 	public static function totalCnt($q,$args=null) {
 		$dbm = DBM::instance();
-		if($args) {
-			$options = self::makeQuery($args);
-			if($q) {
-				$que = "SELECT count(*) as cnt FROM {taxonomy_term_relative} AS t LEFT JOIN {organize} AS o ON t.rid = o.oid WHERE ".$options.($options ? " AND " : "")."match(o.fullname,o.f8,o.f9) against('".$q."' IN NATURAL LANGUAGE MODE) AND o.current = '1' AND o.active = '1' GROUP BY o.oid";
-			} else {
-				$que = "SELECT count(*) as cnt FROM {taxonomy_term_relative} AS t LEFT JOIN {organize} AS o ON t.rid = o.oid WHERE ".$options.($options ? " AND " : "")."o.current = '1' AND o.active = '1' GROUP BY o.oid";
-			}
-		} else {
-			if($q) {
-				$que = "SELECT count(*) AS cnt FROM {organize} WHERE match(`fullname`,`f8`,`f9`) against('".$q."' IN NATURAL LANGUAGE MODE) AND current = '1' AND active = '1'";
-			} else {
-				$que = "SELECT count(*) AS cnt FROM {organize} WHERE current = '1' AND active = '1'";
-			}
+
+		$que = self::makeQuery($q,$args,'count(*) AS cnt');
+		if($que) {
+			$row = $dbm->getFetchArray($que);
 		}
-		$row = $dbm->getFetchArray($que);
 		return ($row['cnt'] ? $row['cnt'] : 0);
 	}
 
 	public static function getList($q,$page=1,$limit=20,$args=null) {
 		if(!$page) $page = 1;
 		$dbm = DBM::instance();
-		if($args) {
-			$options = self::makeQuery($args);
-			if($q) {
-				$que = "SELECT o.* FROM {taxonomy_term_relative} AS t LEFT JOIN {organize} AS o ON t.rid = o.oid WHERE ".$options.($options ? " AND " : "")."match(o.fullname,o.f8,o.f9) against('".$q."' IN NATURAL LANGUAGE MODE) AND o.current = '1' AND o.active = '1' GROUP BY o.oid ORDER BY o.depth ASC, o.oid ASC LIMIT ".(($page-1)*$limit).",".$limit;
-			} else {
-				$que = "SELECT o.* FROM {taxonomy_term_relative} AS t LEFT JOIN {organize} AS o ON t.rid = o.oid WHERE ".$options.($options ? " AND " : "")."o.current = '1' AND o.active = '1' GROUP BY o.oid ORDER BY o.depth ASC, o.oid ASC LIMIT ".(($page-1)*$limit).",".$limit;
+
+		$que = self::makeQuery($q,$args,'o.*');
+		if($que) {
+			$que .= " ORDER BY o.depth ASC, o.oid ASC LIMIT ".(($page-1)*$limit).",".$limit;
+
+			$organize = array();
+			while($row = $dbm->getFetchArray($que)) {
+				$organize[] = self::fetchOrganize($row);
 			}
-		} else {
-			if($q) {
-				$que = "SELECT * FROM {organize} WHERE match(`fullname`,`f8`,`f9`) against('".$q."' IN NATURAL LANGUAGE MODE) AND current = '1' AND active = '1' ORDER BY depth ASC, oid ASC LIMIT ".(($page-1)*$limit).",".$limit;
-			} else {
-				$que = "SELECT * FROM {organize} WHERE current = '1' AND active = '1' ORDER BY depth ASC, oid ASC LIMIT ".(($page-1)*$limit).",".$limit;
-			}
-		}
-		$organize = array();
-		while($row = $dbm->getFetchArray($que)) {
-			$organize[] = self::fetchOrganize($row);
 		}
 
 		return $organize;
+	}
+
+	public static function makeQuery($q,$args=null,$result) {
+		if($args) {
+			$options = self::makeQueryOptions($args);
+			if($options) {
+				if($q) {
+					$que = "SELECT ".$result." FROM {taxonomy_term_relative} AS t LEFT JOIN {organize} AS o ON t.rid = o.oid WHERE ".$options." AND match(o.fullname,o.f8,o.f9) against('".$q."' IN NATURAL LANGUAGE MODE) AND o.current = '1' AND o.active = '1'";
+				} else {
+					$que = "SELECT ".$result." FROM {taxonomy_term_relative} AS t LEFT JOIN {organize} AS o ON t.rid = o.oid WHERE ".$options." AND o.current = '1' AND o.active = '1'";
+				}
+			}
+		} else if($q) {
+			$que = "SELECT ".$result." FROM {organize} AS o WHERE match(o.`fullname`,o.`f8`,o.`f9`) against('".$q."' IN NATURAL LANGUAGE MODE) AND o.current = '1' AND o.active = '1'";
+		}
+
+		return $que;
 	}
 
 	public static function getOrganizeByOid($oid,$current=1) {
@@ -87,47 +93,61 @@ class Organize extends \CADB\Objects  {
 		return $organize;
 	}
 
-	public static function makeQuery($args) {
+	private static function makeQueryOptions($args) {
 		if(!is_array($args)) {
-			$args = json_decode($args,true);
+			$args = @json_decode($args,true);
 		}
 		$c=0;
+		$sub_query_cnt = 0;
+		$sub_query = '';
 		foreach($args as $k => $v) {
+			$t = substr($k,0,1);
+			if($t == 'a') continue;
 			$key = (int)substr($k,1);
 			if(self::$fields[$key]) {
 				switch(self::$fields[$key]['type']) {
 					case 'taxonomy':
 						if(!is_array($v)) $v = array($v);
-						$que .= ($c++ ? " AND " : "")."t.tid IN (";
-						$cc=0;
-						foreach($v as $value) {
-							$que .= ($cc++ ? "," : "").$value;
-						}
-						$que .= ")";
+						if($sub_query_cnt)
+							$sub_query .= " AND t.rid IN ( SELECT t.rid FROM {taxonomy_term_relative} AS t WHERE t.tid IN (".implode(",",$v).") AND t.`table` = 'organize'";
+						else
+							$sub_query .= " t.tid IN (".implode(",",$v).") AND t.`table` = 'organize'";
+						$sub_query_cnt++;
+						$c++;
 						break;
 					case 'int':
 						if(self::$fields[$key]['iscolumn']) {
 							if(is_array($v)) {
-								$que .= ($c++ ? " AND " : "")."o.f".$k." >= ".$v[0]." AND o.".$k." <= ".$v[1];
+								$extra_que .= ($c++ ? " AND " : "")."o.f".$key." >= ".$v[0];
+								if($v[1]) $extra_que .=" AND o.f".$key." <= ".$v[1];
 							} else {
-								$que .= ($c++ ? " AND " : "")."o.f".$k." >= ".$v;
+								$extra_que .= ($c++ ? " AND " : "")."o.f".$key." >= ".$v;
 							}
 						}
 						break;
 					default:
 						if(self::$fields[$key]['iscolumn']) {
-							$que .= ($c++ ? " AND " : "")."o.f".$k." LIKE '%".$v."%'";
+							$extra_que .= ($c++ ? " AND " : "")."o.f".$key." LIKE '%".$v."%'";
 						}
 						break;
 				}
 			}
 		}
 
+		if($sub_query_cnt) {
+			$sub_query .= str_repeat(")",($sub_query_cnt-1));
+			$que = $sub_query;
+		}
+		if($extra_que) {
+			$que .= $extra_que;
+		}
+
 		return $que;
 	}
 
-	public static function fetchOrganize($row) {
+	private static function fetchOrganize($row) {
 		if($row['custom']) $row['custom'] = unserialize($row['custom']);
+		if(!is_array($row)) return null;
 		foreach($row as $k => $v) {
 			if(in_array($k,  array('current','active','from','to','created'))) continue;
 			if(is_string($v)) {

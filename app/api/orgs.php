@@ -15,6 +15,16 @@ class orgs extends \CADB\Controller {
 		if($this->params['oid']) {
 			$this->organize = \CADB\Organize::getOrganizeByOid($this->params['oid']);
 			if($this->organize) {
+				$agreement = \CADB\Agreement::getAgreementsByOid($this->params['oid']);
+				if($agreement && is_array($agreement)) {
+					$this->fields['nid'] = array('subject' => '단체협약','type'=>'int','multiple'=>true);
+					foreach($agreement as $ag) {
+						$this->organize['nid'][$ag['nid']] =  array(
+							'did'=>$ag['did'],
+							'subject'=>$ag['subject']
+						);
+					}
+				}
 				$this->result = array(
 					'found'=>true
 				);

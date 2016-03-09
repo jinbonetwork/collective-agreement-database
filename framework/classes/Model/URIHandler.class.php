@@ -100,13 +100,13 @@ final class URIHandler extends \CADB\Objects {
 		} else if(file_exists($pathPart."/index.php")) {
 			$uri['appPath'] = $pathPart;
 			$uri['appFile'] = "index";
-			$uri['appSpace'] = "CADB\\App\\".str_replace( "/", "\\", substr($pathPart, strlen(CADB_APP_PATH) ) );
+			$uri['appSpace'] = "CADB\\App\\".str_replace( "/", "\\", rtrim(substr($pathPart, strlen(CADB_APP_PATH) ) ,"/") );
 			$uri['appClass'] = $uri['appSpace']."\\"."index";
 			$uri['appProcessor'] = "process";
 		} else if(file_exists(dirname($pathPart)."/index.php")) {
 			$uri['appPath'] = dirname($pathPart);
 			$uri['appFile'] = "index";
-			$uri['appSpace'] = "CADB\\App\\".str_replace( "/", "\\", dirname( substr($pathPart, strlen(CADB_APP_PATH)) ) );
+			$uri['appSpace'] = "CADB\\App\\".str_replace( "/", "\\", rtrim(dirname( substr($pathPart, strlen(CADB_APP_PATH)) ) ,"/") );
 			$uri['appClass'] = $uri['appSpace']."\\"."index";
 			$uri['appProcessor'] = basename($pathPart);
 		}

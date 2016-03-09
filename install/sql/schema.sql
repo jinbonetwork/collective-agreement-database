@@ -4,6 +4,7 @@ CREATE TABLE `cadb_agreement` (
 	did     int(10) NOT NULL DEFAULT 1,
 	subject char(255),
 	content mediumtext,
+	custom  text,
 	created int(10) NOT NULL DEFAULT 0,
 	current char(1) NOT NULL DEFAULT '1',
 
@@ -24,6 +25,15 @@ CREATE TABLE `cadb_agreement_organize` (
 	KEY `OWNER` (`owner`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `cadb_options`;
+CREATE TABLE `cadb_options` (
+	id		int(10) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	name	char(128),
+	value	mediumtext,
+
+	KEY `NAME` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 DROP TABLE IF EXISTS `cadb_fields`;
 CREATE TABLE `cadb_fields` (
 	`fid`		int(10) NOT NULL AUTO_INCREMENT,
@@ -37,6 +47,7 @@ CREATE TABLE `cadb_fields` (
 	`cid`		int(10),
 	`active`	char(1) DEFAULT '1',
 	`system`	char(1) DEFAULT '0',
+	`indextype`	char(128) DEFAULT 'none',
 
 	PRIMARY KEY (`table`,`idx`,`fid`),
 	KEY `FID` (`table`,`fid`)
@@ -49,7 +60,9 @@ CREATE TABLE `cadb_guide` (
 	`vid`		int(10) NOT NULL DEFAULT 1,
 	`year`		smallint(10) NOT NULL DEFAULT 1,
 	`subject`	char(255) NOT NULL DEFAULT '',
+	`content`	text,
 	`custom`	text,
+	`cid`		char(255),
 	`created`	int(10) NOT NULL DEFAULT 0,
 	`current`	char(1) NOT NULL DEFAULT '1',
 
@@ -61,7 +74,9 @@ DROP TABLE IF EXISTS `cadb_guide_clause`;
 CREATE TABLE `cadb_guide_clause` (
 	`id`		int(10) NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	`nid`		int(10) NOT NULL DEFAULT 0,
+	`parent`	int(10) NOT NULL DEFAULT 0,
 	`idx`		smallint(10) DEFAULT 0,
+	`subject`	char(255),
 	`content`	text,
 	`custom`	mediumtext,
 
@@ -92,11 +107,13 @@ CREATE TABLE cadb_organize (
 	`p1`		int(10),
 	`p2`		int(10),
 	`p3`		int(10),
+	`p4`		int(10),
 	`depth`		smallint(3),
-	`p1name`	char(128),
-	`p2name`	char(128),
-	`p3name`	char(128),
-	`name`		char(128) NOT NULL DEFAULT '',
+	`nojo`		char(128),
+	`sub1`		char(128),
+	`sub2`		char(128),
+	`sub3`		char(128),
+	`sub4`		char(128),
 	`fullname`	char(128),
 	`custom`	text,
 	`current`	char(1) DEFAULT 1,

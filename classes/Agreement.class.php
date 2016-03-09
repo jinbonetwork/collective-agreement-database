@@ -20,14 +20,29 @@ class Agreement extends \CADB\Objects  {
 		}
 
 		$cids = \CADB\Guide::getTaxonomy(1);
+		self::setTaxonomy($cids);
+
+		return self::$fields;
+	}
+
+	public static function setFieldInfo($fields) {
+		if(is_array($fields)) {
+			foreach($fields as $k => $v) {
+				if($v['table'] == 'organize' || $v['table'] == 'agreement') {
+					$v['subject'] = stripslashes($v['subject']);
+					self::$fields['field'][$k] = $v;
+				}
+			}
+		}
+	}
+
+	public static function setTaxonomy($cids) {
 		if($cids) {
 			$taxonomies = \CADB\Taxonomy::getTaxonomy($cids);
 			foreach($taxonomies as $cid => $row) {
 				self::$fields['taxonomy'][$cid] = $row;
 			}
 		}
-
-		return self::$fields;
 	}
 
 	public static function totalCnt($q,$args=null) {
@@ -60,12 +75,30 @@ class Agreement extends \CADB\Objects  {
 		$dbm = DBM::instance();
 
 		if($did) {
-			$que = "SELECT * FROM {agreement} AS a LEFT JOIN {agreement_organize} AS r ON (a.nid = r.nid AND a.did = r.did) WHERE `nid` = ".$nid." AND `did` = ".$did;
+			$que = "SELECT * FROM {agreement} AS a LEFT JOIN {agreement_organize} AS r ON (a.nid = r.nid AND a.did = r.did) WHERE a.`nid` = ".$nid." AND a.`did` = ".$did;
 		} else {
-			$que = "SELECT * FROM {agreement} AS a LEFT JOIN {agreement_organize} AS r ON (a.nid = r.nid AND a.did = r.did) WHERE `nid` = ".$nid.($current ? " AND `current` = '1'" : "")." ORDER BY did DESC LIMIT 1";
+			$que = "SELECT * FROM {agreement} AS a LEFT JOIN {agreement_organize} AS r ON (a.nid = r.nid AND a.did = r.did) WHERE a.`nid` = ".$nid.($current ? " AND a.`current` = '1'" : "")." ORDER BY a.did DESC LIMIT 1";
 		}
 		$row = $dbm->getFetchArray($que);
 		$article = self::fetchAgreement($row);
+
+		return $article;
+	}
+
+	public static function getAgreementsByOid($oid,$vid=0,$current=1) {
+		$dbm = DBM::instance();
+
+		if($vid) {
+			$que = "SELECT a.* FROM {agreement_organize} AS r LEFT JOIN {agreement} AS a ON ( r.nid = a.nid AND r.did = a.did ) WHERE r.oid = ".$oid." AND r.vid = ".$vid;
+		} else {
+			$que = "SELECT a.* FROM {agreement_organize} AS r LEFT JOIN {agreement} AS a ON ( r.nid = a.nid AND r.did = a.did ) WHERE r.oid = ".$oid.($current ? " AND a.`current` = '1'" : "")." ORDER BY r.did";
+		}
+		$articles = array();
+		while($row = $dbm->getFetchArray($que)) {
+			if($row) {
+				$article[] = self::fetchAgreement($row);
+			}
+		}
 
 		return $article;
 	}
@@ -79,17 +112,16 @@ class Agreement extends \CADB\Objects  {
 			switch($type) {
 				case 1:
 					$options = self::makeArgsQuery($args,1);
-					$que = "SELECT ".$result." FROM {taxonomy_term_relative} AS t LEFT JOIN {agreement_organize} AS r ON (t.rid = r.oid) LEFT JOIN {agreement} AS a ON (r.nid = a.nid) LEFT JOIN {organize} AS o ON r.oid = o.oid WHERE ".$options.($options ? " AND " : "").($q ? "match(a.subject,a.content) against('".$q."' IN NATURAL LANGUAGE MODE) AND " : "")."a.current = '1'";
+					$que = "SELECT ".$result." FROM {agreement_organize} AS r LEFT JOIN {agreement} AS a ON (r.nid = a.nid) LEFT JOIN {organize} AS o ON r.oid = o.oid WHERE ".($options ? "r.oid IN (".$options.") AND " : "").($q ? "match(a.subject,a.content) against('".$q."' IN NATURAL LANGUAGE MODE) AND " : "")."a.current = '1'";
 					break;
 				case 2:
 					$options = self::makeArgsQuery($args,2);
-					$que = "SELECT ".$result." FROM {taxonomy_term_relative} AS t LEFT JOIN {agreement} AS a ON (t.rid = a.nid) LEFT JOIN {agreement_organize} AS r ON (t.rid = r.nid) LEFT JOIN {organize} AS o ON r.oid = o.oid WHERE ".$options.($options ? " AND " : "").($q ? "match(a.subject,a.content) against('".$q."' IN NATURAL LANGUAGE MODE) AND " : "")."a.current = '1'";
+					$que = "SELECT ".$result." FROM {taxonomy_term_relative} AS t LEFT JOIN {agreement} AS a ON (t.`table` = 'agreement' AND t.rid = a.nid) LEFT JOIN {agreement_organize} AS r ON (t.`table`='agreement' AND t.rid = r.nid) LEFT JOIN {organize} AS o ON r.oid = o.oid WHERE ".$options.($options ? " AND " : "").($q ? "match(a.subject,a.content) against('".$q."' IN NATURAL LANGUAGE MODE) AND " : "")."a.current = '1'";
 					break;
 				case 3:
 					$sub_options = self::makeArgsQuery($args,1);
-					$sub_que = "SELECT o.oid FROM {taxonomy_term_relative} AS t LEFT JOIN {organize} AS o ON t.rid = o.oid WHERE ".$sub_options.($sub_options ? " AND " : "")."o.current = '1' AND o.active = '1' GROUP BY o.oid";
 					$options = self::makeArgsQuery($args,2);
-					$que = "SELECT ".$result." FROM {taxonomy_term_relative} AS t LEFT JOIN {agreement_organize} AS r ON (t.rid = r.nid) LEFT JOIN {agreement} AS a ON t.rid = a.nid LEFT JOIN {organize} AS o ON r.oid = o.oid WHERE ".$options.($options ? " AND " : "").($q ? "match(a.subject,a.content) against('".$q."' IN NATURAL LANGUAGE MODE) AND " : "")."r.oid IN (".$sub_que.") AND a.current = '1'";
+					$que = "SELECT ".$result." FROM {taxonomy_term_relative} AS t LEFT JOIN {agreement_organize} AS r ON (t.`table` = 'agreement' AND t.rid = r.nid) LEFT JOIN {agreement} AS a ON t.rid = a.nid LEFT JOIN {organize} AS o ON r.oid = o.oid WHERE ".$options.($options ? " AND " : "").($q ? "match(a.subject,a.content) against('".$q."' IN NATURAL LANGUAGE MODE) AND " : "").($sub_options ? "r.oid IN (".$sub_options.") AND " : "")."a.current = '1'";
 					break;
 				default:
 					break;
@@ -97,8 +129,8 @@ class Agreement extends \CADB\Objects  {
 		} else {
 			if($q) {
 				$que = "SELECT ".$result." FROM {agreement} AS a LEFT JOIN {agreement_organize} AS r ON a.nid = r.nid LEFT JOIN {organize} AS o ON r.oid = o.oid WHERE match(a.subject,a.content) against('".$q."' IN NATURAL LANGUAGE MODE) AND a.current = '1'";
-			} else {
-				$que = "SELECT ".$result." FROM {agreement} AS a LEFT JOIN {agreement_organize} AS r ON a.nid = r.nid LEFT JOIN {organize} AS o ON r.oid = o.oid WHERE a.current = '1'";
+//			} else {
+//				$que = "SELECT ".$result." FROM {agreement} AS a LEFT JOIN {agreement_organize} AS r ON a.nid = r.nid LEFT JOIN {organize} AS o ON r.oid = o.oid WHERE a.current = '1'";
 			}
 		}
 
@@ -112,7 +144,7 @@ class Agreement extends \CADB\Objects  {
 			$t = substr($k,0,1);
 			$key = (int)substr($k,1);
 			if($t == 'o' && self::$fields['field'][$key]) {
-				switch(self::$fields[$key]['type']) {
+				switch(self::$fields['field'][$key]['table']) {
 					case 'organize':
 						$organize_type = true;
 						break;
@@ -138,55 +170,29 @@ class Agreement extends \CADB\Objects  {
 	private static function makeArgsQuery($args,$type) {
 		$key = (int)substr($k,1);
 		$c=0;
-		foreach($args as $k => $v) {
-			$t = substr($k,0,1);
-			$key = (int)substr($k,1);
-			if($t == 'o' && self::$fields['field'][$key]) {
-				switch(self::$fields[$key]['type']) {
-					case 'taxonomy':
-						if(!is_array($v)) $v = array($v);
-						switch(self::$fields[$key]['table']) {
-							case 'organize':
-								if($type != 2) {
-									$que .= ($c++ ? " AND " : "")."(t.`table` = 'organize' AND t.tid IN (".implode(",",$v)."))";
-								}
-							case 'agreement':
-								if($type != 1) {
+
+		if($type == 1) {
+			\CADB\Organize::setFieldInfo(self::$fields['field']);
+			$que = \CADB\Organize::makeQuery($q,$args,'t.rid');
+		} else {
+			foreach($args as $k => $v) {
+				$t = substr($k,0,1);
+				$key = (int)substr($k,1);
+				if($t == 'o' && self::$fields['field'][$key]) {
+					switch(self::$fields[$key]['type']) {
+						case 'taxonomy':
+							if(!is_array($v)) $v = array($v);
+							switch(self::$fields[$key]['table']) {
+								case 'agreement':
 									$que .= ($c++ ? " AND " : "")."(t.`table` = 'agreement' AND t.tid IN (".implode(",",$v)."))";
-								}
-								break;
-							default: break;
-						}
-						break;
-					case 'int':
-						switch(self::$fields[$key]['table']) {
-							case 'organize':
-								if($type != 2 && self::$fields[$key]['iscolumn']) {
-									if(is_array($v)) {
-										$que .= ($c++ ? " AND " : "")."o.f".$k." >= ".$v[0]." AND o.".$k." <= ".$v[1];
-									} else {
-										$que .= ($c++ ? " AND " : "")."o.f".$k." >= ".$v;
-									}
-								}
-								break;
-							default:
-								break;
-						}
-						break;
-					default:
-						switch(self::$fields[$key]['table']) {
-							case 'organize':
-								if($type != 2 && self::$fields[$key]['iscolumn']) {
-									$que .= ($c++ ? " AND " : "")."o.f".$k." LIKE '%".$v."%'";
-								}
-								break;
-							default:
-								break;
-						}
-						break;
-				}
-			} else if($t == 'a' && self::$fields['taxonomy'][$key]) {
-				if($type != 1) {
+									break;
+								default: break;
+							}
+							break;
+						default:
+							break;
+					}
+				} else if($t == 'a' && self::$fields['taxonomy'][$key]) {
 					$que .= ($c++ ? " AND " : "")."(t.`table` = 'agreement' AND t.tid IN (".implode(",",$v)."))";
 				}
 			}
