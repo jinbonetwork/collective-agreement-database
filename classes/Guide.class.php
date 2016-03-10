@@ -10,12 +10,8 @@ class Guide extends \CADB\Objects  {
 	}
 
 	public static function getFieldInfo($active=1) {
-		$dbm = DBM::instance();
-		$que = "SELECT * FROM {fields} WHERE `table` = 'guide_clause' AND active = '".$active."' ORDER BY idx ASC";
-		while($row = $dbm->getFetchArray($que)) {
-			$row['subject'] = stripslashes($row['subject']);
-			self::$fields[$row['idx']] = $row;
-		}
+		if(!self::$fields)
+			self::$fields = \CADB\Fields::getFields('guide_clause',$active);
 		return self::$fields;
 	}
 

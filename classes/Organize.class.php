@@ -9,28 +9,15 @@ class Organize extends \CADB\Objects  {
 	}
 
 	public static function getFieldInfo($active=1) {
-		$dbm = DBM::instance();
-		$que = "SELECT * FROM {fields} WHERE `table` = 'organize' AND active = '".$active."' ORDER BY idx ASC";
-		while($row = $dbm->getFetchArray($que)) {
-			$row['subject'] = stripslashes($row['subject']);
-			self::$fields[$row['fid']] = $row;
-		}
+		if(!self::$fields)
+			self::$fields = \CADB\Fields::getFields('organize',$active);
 		return self::$fields;
 	}
 
-	public static function setFieldInfo($fields) {
-		if(is_array($fields)) {
-			foreach($fields as $k => $v) {
-				$t = substr($k,0,1);
-				if($t == 'a') continue;
-				$key = (int)substr($k,1);
-				self::$fields[$key] = $v;
-			}
-		}
-	}
-
 	public static function totalCnt($q,$args=null) {
-		$dbm = DBM::instance();
+		$dbm = \CADB\DBM::instance();
+
+		if(!self::$fields) self::getFieldInfo();
 
 		$que = self::makeQuery($q,$args,'count(*) AS cnt');
 		if($que) {
@@ -41,7 +28,9 @@ class Organize extends \CADB\Objects  {
 
 	public static function getList($q,$page=1,$limit=20,$args=null) {
 		if(!$page) $page = 1;
-		$dbm = DBM::instance();
+		$dbm = \CADB\DBM::instance();
+
+		if(!self::$fields) self::getFieldInfo();
 
 		$que = self::makeQuery($q,$args,'o.*');
 		if($que) {
@@ -50,6 +39,35 @@ class Organize extends \CADB\Objects  {
 			$organize = array();
 			while($row = $dbm->getFetchArray($que)) {
 				$organize[] = self::fetchOrganize($row);
+			}
+		}
+
+		return self::getAgreementList($organize);
+	}
+
+	private static function getAgreementList($organize) {
+		$o = array();
+		if(is_array($organize)) {
+			foreach($organize as $og) {
+				$o[] = $og['oid'];
+			}
+		}
+		if(count($o) > 0) {
+			$dbm = \CADB\DBM::instance();
+
+			$que = "SELECT r.*, a.subject FROM {agreement_organize} AS r LEFT JOIN {agreement} AS a ON (r.nid = a.nid AND r.did = a.did) WHERE r.oid IN (".implode(",",$o).")";
+			while($row = $dbm->getFetchArray($que)) {
+				$ag[$row['oid']][$row['nid']] = array('did'=>$row['did'],'subject'=>stripslashes($row['subject']));
+			}
+
+			for($i=0; $i<@count($organize); $i++) {
+				$_oid = $organize[$i]['oid'];
+				if($ag[$_oid]) {
+					$organize[$i]['nid'] = array();
+					foreach($ag[$_oid] as $nid => $v) {
+						$organize[$i]['articles'][] = array('nid'=>$nid, 'did'=>$v['did'], 'subject'=>$v['subject']);
+					}
+				}
 			}
 		}
 
@@ -74,7 +92,7 @@ class Organize extends \CADB\Objects  {
 	}
 
 	public static function getOrganizeByOid($oid,$current=1) {
-		$dbm = DBM::instance();
+		$dbm = \CADB\DBM::instance();
 
 		$que = "SELECT * FROM {organize} WHERE `oid` = ".$oid.($current ? " AND `current` = '1' AND `active` = '1'" : "")." ORDER BY vid DESC LIMIT 1";
 		$row = $dbm->getFetchArray($que);
@@ -84,7 +102,7 @@ class Organize extends \CADB\Objects  {
 	}
 
 	public static function getOrganizeByVid($vid) {
-		$dbm = DBM::instance();
+		$dbm = \CADB\DBM::instance();
 
 		$que = "SELECT * FROM {organize} WHERE `vid` = ".$vid;
 		$row = $dbm->getFetchArray($que);

@@ -10,7 +10,7 @@ class articles extends \CADB\Controller {
 		$this->fields = array();
 		foreach($fields['field'] as $f => $v) {
 			if($v['table'] == 'agreement') {
-				$this->fields['f'.$f] = array('subject' => $v['subject'],'type'=>$v['type'], 'mutiple'=>( 1 ?true : false ),'cid'=>$v['cid']);
+				$this->fields[] = array('field' => 'f'.$f, 'subject' => $v['subject'],'type'=>$v['type'], 'mutiple'=>( 1 ? true : false ),'cid'=>$v['cid']);
 			}
 		}
 

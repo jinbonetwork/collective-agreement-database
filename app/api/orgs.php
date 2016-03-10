@@ -9,7 +9,7 @@ class orgs extends \CADB\Controller {
 		$fields = \CADB\Organize::getFieldInfo(1);
 		$this->fields = array();
 		foreach($fields as $f => $v) {
-			$this->fields["f".$f] = array('subject' => $v['subject'],'type'=>$v['type'],'mutiple'=>( 1 ?true : false ),'cid'=>$v['cid']);
+			$this->fields[] = array('field' => 'f'.$f, 'subject' => $v['subject'],'type'=>$v['type'],'mutiple'=>( 1 ? true : false ),'cid'=>$v['cid']);
 		}
 
 		if($this->params['oid']) {
@@ -18,8 +18,10 @@ class orgs extends \CADB\Controller {
 				$agreement = \CADB\Agreement::getAgreementsByOid($this->params['oid']);
 				if($agreement && is_array($agreement)) {
 					$this->fields['nid'] = array('subject' => '단체협약','type'=>'int','multiple'=>true);
+					$this->organize['nid'] = array();
 					foreach($agreement as $ag) {
-						$this->organize['nid'][$ag['nid']] =  array(
+						$this->organize['nid'][] =  array(
+							'nid'=>$ag['nid'],
 							'did'=>$ag['did'],
 							'subject'=>$ag['subject']
 						);

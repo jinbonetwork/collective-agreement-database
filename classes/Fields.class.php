@@ -9,16 +9,34 @@ class Fields extends \CADB\Objects  {
 	}
 
 	public static function getFields($table="all",$active=1) {
-		$dbm = DBM::instance();
+		$context = \CADB\Model\Context::instance();
 
 		if(!is_array($table)) {
 			if($table != 'all') $table = array($table);
 		}
+
 		$fields = array();
-		$que = "SELECT * FROM {fields} WHERE ".(is_array($table) ? "`table` IN ('".implode("','",$table)."') AND " : "")."active = '".$active."' ORDER BY `table` ASC, idx ASC";
-		while($row = $dbm->getFetchArray($que)) {
-			$fields[$row['fid']] = self::fetchFields($row);
+
+		self::$fields = $context->getProperty('fields');
+		if(!self::$fields) {
+			$dbm = \CADB\DBM::instance();
+			$que = "SELECT * FROM {fields} ".($active ? "WHERE active = '".$active."' " : "")."ORDER BY `table` ASC, idx ASC";
+			while($row = $dbm->getFetchArray($que)) {
+				self::$fields[$row['fid']] = self::fetchFields($row);
+			}
+			$context->setProperty('fields',self::$fields);
 		}
+
+		if($table == 'all') {
+			$fields = self::$fields;
+		} else {
+			foreach(self::$fields as $f => $v) {
+				if( in_array($v['table'], $table) ) {
+					$fields[$f] = $v;
+				}
+			}
+		}
+
 		return $fields;
 	}
 

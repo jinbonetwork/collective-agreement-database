@@ -9,12 +9,11 @@ class all extends \CADB\Controller {
 		$fields = \CADB\Fields::getFields('all',1);
 		$this->fields = array();
 		foreach($fields as $f => $v) {
-			$this->fields[$v['table']]['f'.$f] = array('subject' => $v['subject'],'type'=>$v['type'], 'mutiple'=>( 1 ?true : false ),'cid'=>$v['cid']);
+			if(!$this->fields[$v['table']])
+				$this->fields[$v['table']] = array();
+			$this->fields[$v['table']][] = array('field'=>'f'.$f, 'subject' => $v['subject'],'type'=>$v['type'], 'mutiple'=>( 1 ?true : false ),'cid'=>$v['cid']);
 		}
 
-		\CADB\Organize::setFieldInfo($this->fields['organize']);
-		\CADB\Guide::setFieldInfo($this->fields['guide_clause']);
-		\CADB\Agreement::setFieldInfo($fields);
 		$nid = \CADB\Guide::getCurrent(($this->params['nid'] ? $this->params['nid'] : 1));
 
 		foreach($this->params as $k => $v) {

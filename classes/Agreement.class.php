@@ -10,17 +10,14 @@ class Agreement extends \CADB\Objects  {
 	}
 
 	public static function getFieldInfo($active=1) {
-		$dbm = DBM::instance();
-		$que = "SELECT * FROM {fields} WHERE active = '".$active."' ORDER BY idx ASC";
-		while($row = $dbm->getFetchArray($que)) {
-			if($row['table'] == 'organize' || $row['table'] == 'agreement') {
-				$row['subject'] = stripslashes($row['subject']);
-				self::$fields['field'][$row['fid']] = $row;
-			}
+		if(!self::$fields['field']) {
+			self::$fields['field'] = \CADB\Fields::getFields(array('organize','agreement'),$active);
 		}
 
-		$cids = \CADB\Guide::getTaxonomy(1);
-		self::setTaxonomy($cids);
+		if(!self::$fields['taxonomy']) {
+			$cids = \CADB\Guide::getTaxonomy(1);
+			self::setTaxonomy($cids);
+		}
 
 		return self::$fields;
 	}
@@ -37,7 +34,7 @@ class Agreement extends \CADB\Objects  {
 	}
 
 	public static function setTaxonomy($cids) {
-		if($cids) {
+		if(!self::$fields['taxonomy'] && $cids) {
 			$taxonomies = \CADB\Taxonomy::getTaxonomy($cids);
 			foreach($taxonomies as $cid => $row) {
 				self::$fields['taxonomy'][$cid] = $row;
@@ -47,6 +44,8 @@ class Agreement extends \CADB\Objects  {
 
 	public static function totalCnt($q,$args=null) {
 		$dbm = DBM::instance();
+
+		self::getFieldInfo();
 
 		$que = self::makeQuery($q,$args,"count(*) AS cnt");
 		if($que) {
@@ -59,9 +58,11 @@ class Agreement extends \CADB\Objects  {
 		if(!$page) $page = 1;
 		$dbm = DBM::instance();
 
-		$que = self::makeQuery($q,$args,"a.*,o.oid");
+		self::getFieldInfo();
+
+		$que = self::makeQuery($q,$args,"a.*");
 		if($que) {
-			$que .= " ORDER BY o.depth ASC, o.oid ASC LIMIT ".(($page-1)*$limit).",".$limit;
+			$que .= " GROUP BY a.nid ORDER BY r.nid ASC LIMIT ".(($page-1)*$limit).",".$limit;
 			$articles = array();
 			while($row = $dbm->getFetchArray($que)) {
 				$articles[] = self::fetchAgreement($row,true);
@@ -112,16 +113,16 @@ class Agreement extends \CADB\Objects  {
 			switch($type) {
 				case 1:
 					$options = self::makeArgsQuery($args,1);
-					$que = "SELECT ".$result." FROM {agreement_organize} AS r LEFT JOIN {agreement} AS a ON (r.nid = a.nid) LEFT JOIN {organize} AS o ON r.oid = o.oid WHERE ".($options ? "r.oid IN (".$options.") AND " : "").($q ? "match(a.subject,a.content) against('".$q."' IN NATURAL LANGUAGE MODE) AND " : "")."a.current = '1'";
+					$que = "SELECT ".$result." FROM {agreement_organize} AS r LEFT JOIN {agreement} AS a ON (r.nid = a.nid) WHERE ".($options ? "r.oid IN (".$options.") AND " : "").($q ? "match(a.subject,a.content) against('".$q."' IN NATURAL LANGUAGE MODE) AND " : "")."a.current = '1'";
 					break;
 				case 2:
 					$options = self::makeArgsQuery($args,2);
-					$que = "SELECT ".$result." FROM {taxonomy_term_relative} AS t LEFT JOIN {agreement} AS a ON (t.`table` = 'agreement' AND t.rid = a.nid) LEFT JOIN {agreement_organize} AS r ON (t.`table`='agreement' AND t.rid = r.nid) LEFT JOIN {organize} AS o ON r.oid = o.oid WHERE ".$options.($options ? " AND " : "").($q ? "match(a.subject,a.content) against('".$q."' IN NATURAL LANGUAGE MODE) AND " : "")."a.current = '1'";
+					$que = "SELECT ".$result." FROM {taxonomy_term_relative} AS t LEFT JOIN {agreement} AS a ON (t.`table` = 'agreement' AND t.rid = a.nid) WHERE ".$options.($options ? " AND " : "").($q ? "match(a.subject,a.content) against('".$q."' IN NATURAL LANGUAGE MODE) AND " : "")."a.current = '1'";
 					break;
 				case 3:
 					$sub_options = self::makeArgsQuery($args,1);
 					$options = self::makeArgsQuery($args,2);
-					$que = "SELECT ".$result." FROM {taxonomy_term_relative} AS t LEFT JOIN {agreement_organize} AS r ON (t.`table` = 'agreement' AND t.rid = r.nid) LEFT JOIN {agreement} AS a ON t.rid = a.nid LEFT JOIN {organize} AS o ON r.oid = o.oid WHERE ".$options.($options ? " AND " : "").($q ? "match(a.subject,a.content) against('".$q."' IN NATURAL LANGUAGE MODE) AND " : "").($sub_options ? "r.oid IN (".$sub_options.") AND " : "")."a.current = '1'";
+					$que = "SELECT ".$result." FROM {taxonomy_term_relative} AS t LEFT JOIN {agreement_organize} AS r ON (t.`table` = 'agreement' AND t.rid = r.nid) LEFT JOIN {agreement} AS a ON t.rid = a.nid WHERE ".$options.($options ? " AND " : "").($q ? "match(a.subject,a.content) against('".$q."' IN NATURAL LANGUAGE MODE) AND " : "").($sub_options ? "r.oid IN (".$sub_options.") AND " : "")."a.current = '1'";
 					break;
 				default:
 					break;

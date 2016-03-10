@@ -18,7 +18,7 @@ class standards extends \CADB\Controller {
 		if($this->params['id']) {
 			$this->fields = array();
 			foreach($fields as $f => $v) {
-				$this->fields["f".$f] = array('subject' => $v['subject']);
+				$this->fields[] = array('field' => 'f'.$f, 'subject' => $v['subject'],'type'=>$v['type'],'mutiple'=>( 1 ? true : false ),'cid'=>$v['cid']);
 			}
 			$this->standard = \CADB\Guide::getClause($this->params['id']);
 			if($this->standard) {
