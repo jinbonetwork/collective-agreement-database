@@ -10,7 +10,7 @@ class Taxonomy extends \CADB\Objects  {
 	}
 
 	public static function getTaxonomy($cids) {
-		$dbm = DBM::instance();
+		$dbm = \CADB\DBM::instance();
 
 		if(!is_array($cids)) $cids = array($cids);
 		$que = "SELECT * FROM {taxonomy} WHERE cid IN (".implode(",",$cids).")";
@@ -21,7 +21,7 @@ class Taxonomy extends \CADB\Objects  {
 	}
 
 	public static function getTaxonomyTerms($cids) {
-		$dbm = DBM::instance();
+		$dbm = \CADB\DBM::instance();
 		if(!is_array($cids)) $cids = array($cids);
 		$que = "SELECT * FROM {taxonomy_terms} WHERE cid IN (".implode(",",$cids).") AND current = '1' AND active = '1' ORDER BY cid ASC, parent ASC, idx ASC";
 		while($row = $dbm->getFetchArray($que)) {

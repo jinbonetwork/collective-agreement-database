@@ -43,7 +43,7 @@ class Agreement extends \CADB\Objects  {
 	}
 
 	public static function totalCnt($q,$args=null) {
-		$dbm = DBM::instance();
+		$dbm = \CADB\DBM::instance();
 
 		self::getFieldInfo();
 
@@ -56,7 +56,7 @@ class Agreement extends \CADB\Objects  {
 
 	public static function getList($q,$page=1,$limit=20,$args=null) {
 		if(!$page) $page = 1;
-		$dbm = DBM::instance();
+		$dbm = \CADB\DBM::instance();
 
 		self::getFieldInfo();
 
@@ -73,7 +73,7 @@ class Agreement extends \CADB\Objects  {
 	}
 
 	public static function getAgreement($nid,$did=0,$current=1) {
-		$dbm = DBM::instance();
+		$dbm = \CADB\DBM::instance();
 
 		if($did) {
 			$que = "SELECT * FROM {agreement} AS a LEFT JOIN {agreement_organize} AS r ON (a.nid = r.nid AND a.did = r.did) WHERE a.`nid` = ".$nid." AND a.`did` = ".$did;
@@ -87,7 +87,7 @@ class Agreement extends \CADB\Objects  {
 	}
 
 	public static function getAgreementsByOid($oid,$vid=0,$current=1) {
-		$dbm = DBM::instance();
+		$dbm = \CADB\DBM::instance();
 
 		if($vid) {
 			$que = "SELECT a.* FROM {agreement_organize} AS r LEFT JOIN {agreement} AS a ON ( r.nid = a.nid AND r.did = a.did ) WHERE r.oid = ".$oid." AND r.vid = ".$vid;
@@ -229,7 +229,19 @@ class Agreement extends \CADB\Objects  {
 							break;
 					}
 					$v = mb_substr(strip_tags(mb_substr($v,$p,500,'utf-8')),0,128,'utf-8');
-				} 
+				}
+				if($summary && ($k == 'subject' || $k == 'content')) {
+					$matched = self::$summary_method['value'];
+					if(is_array($matched)) {
+						foreach($matched as $m) {
+							if($m) {
+								$v = str_replace($m,'<span class="keyword">'.$m.'</span>',$v);
+							}
+						}
+					} else if($matched) {
+						$v = str_replace($matched,'<span class="keyword">'.$matched.'</span>',$v);
+					}
+				}
 				$article[$k] = $v;
 			} else if(is_array($v)) {
 				foreach($v as $k2 => $v2) {

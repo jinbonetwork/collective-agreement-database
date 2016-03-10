@@ -20,7 +20,7 @@ class Guide extends \CADB\Objects  {
 	}
 
 	public static function getCurrent($oid=1) {
-		$dbm = DBM::instance();
+		$dbm = \CADB\DBM::instance();
 		$que = "SElECT  * FROM {guide} WHERE oid = ".$oid." AND current = '1' ORDER BY nid DESC LIMIT 1";
 		self::$guide = $dbm->getFetchArray($que);
 		if(self::$guide) {
@@ -41,7 +41,7 @@ class Guide extends \CADB\Objects  {
 	public static function getRelativeTerm($q) {
 		$cids = self::getTaxonomy(self::$guide['oid']);
 		if(count($cids)) {
-			$dbm = DBM::instance();
+			$dbm = \CADB\DBM::instance();
 			$que = "SELECT * FROM {taxonomy_terms} WHERE cid IN (".implode(",",$cids).") AND name LIKE '%".$q."%'";
 			while($row = $dbm->getFetchArray($que)) {
 				if(!$args['a'.$row['cid']])
@@ -53,7 +53,7 @@ class Guide extends \CADB\Objects  {
 	}
 
 	public static function getList($q,$args=null) {
-		$dbm = DBM::instance();
+		$dbm = \CADB\DBM::instance();
 		if($q) {
 			$args2 = self::getRelativeTerm($q);
 		}
@@ -75,7 +75,7 @@ class Guide extends \CADB\Objects  {
 	}
 
 	public static function getClause($id) {
-		$dbm = DBM::instance();
+		$dbm = \CADB\DBM::instance();
 
 		$que = "SELECT * FROM {guide_clause} WHERE id = ".$id;
 		$row = $dbm->getFetchArray($que);
