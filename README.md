@@ -51,6 +51,14 @@
 * 'npm install' 실행하여 필요한 nodejs package 설치
 * 'webpack' 실행.
 
+6) TCPDF 한글 지원을 위한 한글폰트 세팅
+-----------------------------------------
+* 단협을 PDF 로 출력받기 위한 서비스를 위해 TCPDF 라이브러리를 이용합니다. 단 한글출력을 위한 한글웹폰트를 TCPDF에 추가합니다.
+```
+cd contribute/TCPDF/tools
+ls ../../NanumBarunGothic/fonts/*.ttf | xargs -I TTF php tcpdf_addfont.php -i TTF
+```
+
 4. document
 ===========
 

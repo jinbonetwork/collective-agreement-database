@@ -52,6 +52,24 @@ class Guide extends \CADB\Objects  {
 		return $args;
 	}
 
+	public static function getRelativeGuideTerm($cid) {
+		$dbm = \CADB\DBM::instance();
+		$nid = self::$guide['nid'];
+
+		$terms = \CADB\Taxonomy::getTaxonomyTerms($cid);
+
+		$que = "SELECT r.tid, c.subject FROM {taxonomy_term_relative} AS r LEFT JOIN {guide_clause} AS c ON (r.`table` = 'guide_clause' AND r.rid = ".$nid." AND r.fid = c.id) WHERE r.`table` = 'guide_clause' AND r.rid = ".$nid." ORDER BY r.tid ASC";
+		$tids = array();
+		while($row = $dbm->getFetchArray($que)) {
+			if(!$tids[$row['tid']]) {
+				$terms[$cid][$row['tid']]['name'] = stripslashes($row['subject']);
+				$tids[$row['tid']] = 1;
+			}
+		}
+
+		return $terms;
+	}
+
 	public static function getList($q,$args=null) {
 		$dbm = \CADB\DBM::instance();
 		if($q) {
@@ -62,9 +80,10 @@ class Guide extends \CADB\Objects  {
 		} else {
 			if(@count($args2)) $args = $args2;
 		}
+		$nid = self::$guide['nid'];
 		if($args) {
 			$options = self::makeQuery($args);
-			$que = "SELECT c.id,c.nid,c.parent,c.idx,c.subject,c.content FROM {taxonomy_term_relative} AS t LEFT JOIN {guide_clause} AS c ON t.`table` = 'guide_clause' AND t.rid = c.id WHERE ".$options." AND c.id IS NOT NULL GROUP BY t.rid ORDER BY c.idx ASC";
+			$que = "SELECT c.id,c.nid,c.parent,c.idx,c.subject,c.content FROM {taxonomy_term_relative} AS t LEFT JOIN {guide_clause} AS c ON t.`table` = 'guide_clause' AND t.rid = ".$nid." AND t.fid = c.id WHERE ".$options." AND c.id IS NOT NULL GROUP BY t.fid ORDER BY c.idx ASC";
 			$standard = array();
 			while($row = $dbm->getFetchArray($que)) {
 				$standard[] = self::fetchGuideClause($row);

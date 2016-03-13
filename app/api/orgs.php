@@ -9,7 +9,7 @@ class orgs extends \CADB\Controller {
 		$fields = \CADB\Organize::getFieldInfo(1);
 		$this->fields = array();
 		foreach($fields as $f => $v) {
-			$this->fields[] = array('field' => 'f'.$f, 'subject' => $v['subject'],'type'=>$v['type'],'mutiple'=>( 1 ? true : false ),'cid'=>$v['cid']);
+			$this->fields[] = array('field' => 'f'.$f, 'subject' => $v['subject'],'type'=>$v['type'],'multiple'=>( $v['multiple'] ? true : false ),'cid'=>$v['cid']);
 		}
 
 		if($this->params['oid']) {

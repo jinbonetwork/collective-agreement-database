@@ -9,25 +9,41 @@
 
 </head>
 <body class="<?php print $breadcrumbs_class; ?>">
-	<header id="site-header">
-		<div class="container">
-			<a href="/">[header] 단체협약DB</a></a>
-			<nav>
-				<ul>
-					<li>내조직</li>
-					<li>로그인</li>
-				</ul>
-			</nav>
+	<div class="container">
+		<div class="header">
+			 <div class="logos">
+				<div class="organization">
+					<div class="logo logo-org"></div>
+				</div>
+				<div class="title">
+					<div class="logo logo-DB"></div><span>단체협약 DB</span>
+				</div>
+			</div>
+			<div class="anchors">
+				<div class="logged-in">
+					<a href="" class="organization-info">내 조직</a>
+					<a href="" class="logged-out">로그아웃</a>
+				</div>
+				<div class="logged-out hidden">
+					<a href="" class="logged-in">로그인</a>
+				</div>
+			</div>
 		</div>
-	</header>
-	<div id="site-main-container">
-<?php	print $content; ?>
+		<div class="inner-container">
+<?php		print $content; ?>
+			<div class="side">
+			</div>
+			<div class="footer">
+				<div class="banner">
+					<div class="logo logo-DB-project-banner"></div>
+				</div>
+				<div class="labels">
+					<p class="jinbonet">Powered by <a href="http://jinbo.net">진보넷</a></p>
+					<p class="db-project">단체협약 DB 프로젝트 <a href="https://github.com/jinbonetwork/collective-agreement-database"><i class="fa fa-github-alt"></i></a></p>
+				</div>
+			</div>
+		</div>
 	</div>
-	<footer id="site-footer">
-		<div class="container">
-			[footer] 진보넷
-		</div>
-	</footer>
 	<?php print $this->footer(); ?>
 </body>
 </html>

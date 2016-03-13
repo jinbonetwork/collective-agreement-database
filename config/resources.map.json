@@ -62,14 +62,33 @@
 		"priority":"-999999998",
 		"deps":["react"]
 	},
-	"app-hello": {
+	"NanumBarunGothic": {
+		"js": [],
+		"css": [
+			"contribute/NanumBarunGothic/css/nanumbarungothic.css"
+		],
+		"priority":"0",
+		"deps":[]
+	},
+	"Font-Awesome": {
+		"js": [],
+		"css": [
+			"contribute/Font-Awesome/css/font-awesome.min.css"
+		],
+		"priority":"0",
+		"deps":[]
+	},
+	"app-login": {
 		"js": [
-			"resources/script/app-hello.js"
+			{
+				"uri": "resources/script/app-login.js",
+				"position": "footer"
+			}
 		],
 		"css": [
-			"resources/css/app-hello.css"
+			"resources/css/app-login.css"
 		],
-		"priority":"10",
-		"deps":["react"]
+		"priority":"0",
+		"deps":["jquery"]
 	}
 }

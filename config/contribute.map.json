@@ -6,5 +6,10 @@
 	"Minifier":
 	[
 		"magic-min/class.magic-min.php"
+	],
+	"TCPDF":
+	[
+		"../config/tcpdf_config.php",
+		"TCPDF/tcpdf.php"
 	]
 }

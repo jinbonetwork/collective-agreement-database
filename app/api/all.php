@@ -11,7 +11,7 @@ class all extends \CADB\Controller {
 		foreach($fields as $f => $v) {
 			if(!$this->fields[$v['table']])
 				$this->fields[$v['table']] = array();
-			$this->fields[$v['table']][] = array('field'=>'f'.$f, 'subject' => $v['subject'],'type'=>$v['type'], 'mutiple'=>( 1 ?true : false ),'cid'=>$v['cid']);
+			$this->fields[$v['table']][] = array('field'=>'f'.$f, 'subject' => $v['subject'],'type'=>$v['type'], 'multiple'=>( $v['multiple'] ? true : false ),'cid'=>$v['cid']);
 		}
 
 		$nid = \CADB\Guide::getCurrent(($this->params['nid'] ? $this->params['nid'] : 1));

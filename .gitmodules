@@ -13,3 +13,12 @@
 [submodule "contribute/Respond"]
 	path = contribute/Respond
 	url = https://github.com/scottjehl/Respond.git
+[submodule "contribute/TCPDF"]
+	path = contribute/TCPDF
+	url = https://github.com/tecnickcom/TCPDF.git
+[submodule "contribute/NanumBarunGothic"]
+	path = contribute/NanumBarunGothic
+	url = https://github.com/zkyz/NanumBarunGothic-webfont.git
+[submodule "contribute/Font-Awesome"]
+	path = contribute/Font-Awesome
+	url = https://github.com/FortAwesome/Font-Awesome.git

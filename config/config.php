@@ -12,7 +12,7 @@ if(!defined('__CADB__')) exit();
 /**
  * @brief JinboNet PHP Framework System의 전체 버젼 표기
  **/
-define('CADB_NAME', 'JINBONET');
+define('CADB_NAME', 'CADB');
 define('CADB_VERSION', '0.5');
 
 /**

@@ -120,6 +120,10 @@ final class URIHandler extends \CADB\Objects {
 			\CADB\Respond::NotFoundPage();
 		}
 		$this->params = array_merge($_GET, $_POST);
+		foreach($this->params as $k => $v) {
+			if($this->isJson($v))
+				$this->params[$k] = json_decode($v,true);
+		}
 		$this->params['appType'] = $this->uri['appType'];
 		$this->params['path'] = substr($this->uri['appPath'],strlen(CADB_PATH)+1);
 		$this->params['browserType'] = $this->uri['browserType'];
@@ -128,6 +132,11 @@ final class URIHandler extends \CADB\Objects {
 		$this->params['controller']['file'] = $this->uri['appFile'];
 		$this->params['controller']['class'] = $this->uri['appClass'];
 		$this->params['controller']['process'] = $this->uri['appProcessor'];
+	}
+
+	private function isJson($json_string) {
+		return !preg_match('/[^,:{}\\[\\]0-9.\\-+Eaeflnr-u \\n\\r\\t]/',
+		       preg_replace('/"(\\.|[^"\\\\])*"/', '', $json_string));
 	}
 }
 ?>
