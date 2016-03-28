@@ -1,6 +1,8 @@
 <?php
 namespace CADB\App\articles;
 
+$Acl = "authenticated";
+
 class pdf extends \CADB\Controller {
 	public function process() {
 		$context = \CADB\Model\Context::instance();
@@ -8,6 +10,9 @@ class pdf extends \CADB\Controller {
 		if(!$this->params['nid']) {
 			Error('단체협약서 번호를 입력하세요.');
 		}
+
+		if(!$this->themes) $this->themes = $context->getProperty('service.themes');
+
 		$this->fields = \CADB\Agreement::getFieldInfo(1);
 		$this->articles = \CADB\Agreement::getAgreement($this->params['nid'],($this->params['did'] ? $this->params['did'] : 0));
 		if(!$this->articles) {
@@ -57,7 +62,17 @@ class pdf extends \CADB\Controller {
 		$pdf->writeHTMLCell(0, 0, '', '', '<h1>'.$this->articles['subject'].'</h1><br><br>', 0, 1, 0, true, '', true);
 
 		ob_start();
-		include dirname(__FILE__)."/pdf.html.php";
+		$theme_html_file = "";
+		if($this->themes) {
+			$theme_html_file = CADB_PATH."/themes/".$this->themes."/articles/pdf.html.php";
+			if($theme_html_file && file_exists($theme_html_file)) {
+				include $theme_html_file;
+			} else {
+				include dirname(__FILE__)."/pdf.html.php";
+			}
+		} else {
+			include dirname(__FILE__)."/pdf.html.php";
+		}
 		$content = ob_get_contents();
 		ob_end_clean();
 

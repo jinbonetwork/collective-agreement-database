@@ -30,11 +30,17 @@ function requireLogin() {
 }
 
 function doesHaveMembership() {
-	return \CADB\Acl::getIdentity('jinbo') !== null;
+	$context = \CADB\Model\Context::instance();
+	$domain = $context->getProperty('service.domain');
+	$__Acl = \CADB\Acl::instance();
+	return $__Acl->getIdentity($domain) !== null;
 }
 
 function requireMembership() {
-	if(\CADB\Acl::getIdentity('jinbo') !== null) {
+	$context = \CADB\Model\Context::instance();
+	$domain = $context->getProperty('service.domain');
+	$__Acl = \CADB\Acl::instance();
+	if($__Acl->getIdentity($domain) !== null) {
 		return true;
 	}
 	requireLogin();

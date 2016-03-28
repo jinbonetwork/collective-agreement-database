@@ -131,9 +131,9 @@ class Resource extends \CADB\Objects {
 
 	public static function addReact($js,$priority=0,$options='') {
 		if(preg_match("/(.+)\.css$/i",$js)) {
-			self::pushCss(CADB_RESOURCE_URI.'/react/css/'.$css,$priority,'src',$options);
+			self::pushCss(CADB_RESOURCE_URI.'/react/'.$css,$priority,'src',$options);
 		} else {
-			self::pushJs(CADB_RESOURCE_URI.'/react/js/'.$js,$priority,'src',$options);
+			self::pushJs(CADB_RESOURCE_URI.'/react/'.$js,$priority,'src',$options);
 		}
 	}
 

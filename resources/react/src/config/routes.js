@@ -1,23 +1,29 @@
 import React from 'react';
 import { Route, IndexRoute } from 'react-router';
-import Main from '../components/Main';
-import Home from '../components/Home';
-import NotFound from '../components/NotFound';
-import Search from '../components/Search';
-import SearchOrgs from '../components/SearchOrgs';
-import SearchArticles from '../components/SearchArticles';
-import OrgView from '../components/OrgView';
-import AgreementView from '../components/AgreementView';
+
+import Main from '../component/Main';
+import Home from '../component/Home';
+import Search from '../component/Search';
+import Articles from '../component/Articles';
+import Article from '../component/Article';
+import Orgs from '../component/Orgs';
+import Org from '../component/Org';
+import Standard from '../component/Standard';
+
+import Sandbox from '../component/Sandbox';
+import NotFound from '../component/NotFound';
 
 export default (
   <Route path="/" component={Main}>
     <IndexRoute component={Home} />
     <Route path="/search" component={Search} />
-    <Route path="/search/orgs/:keyword" component={SearchOrgs} />
-    <Route path="/search/articles/:keyword" component={SearchArticles} />
-    <Route path="/org/:orgId" component={OrgView} />
-    <Route path="/agreement/:agreementId" component={AgreementView} />
+    <Route path="/articles" component={Articles} />
+    <Route path="/articles/:aid" component={Article} />
+    <Route path="/orgs" component={Orgs} />
+    <Route path="/orgs/:oid" component={Org} />
+    <Route path="/standards/:sid" component={Standard} />
 
+    <Route path="/sandbox" component={Sandbox} />
     <Route path="*" component={NotFound} />
   </Route>
 );

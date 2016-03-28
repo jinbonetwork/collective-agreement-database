@@ -73,7 +73,9 @@ try {
 	 * @brief Acl(Access Controll Logic
 	**/
 	$__Acl = \CADB\Acl::instance();
+	$__Acl->getPrivilege();
 	$__Acl->setAcl($Acl);
+	/* login check */
 	$__Acl->check();
 
 	$controller = new $controller_class;

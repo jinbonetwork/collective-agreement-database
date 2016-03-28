@@ -1,5 +1,5 @@
 <?php
-importResource("bootstrap");
+importResource("jquery");
 importResource("NanumBarunGothic");
 importResource("Font-Awesome");
 ?>

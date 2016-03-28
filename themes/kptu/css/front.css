@@ -1,0 +1,686 @@
+/*
+max-width: 924px
+gutter: 15px
+input의 height: 56px
+
+테마색(하늘색): #5a91e2
+연한 색: #ebeef2
+글자 색(회색): #595757
+heading색(진한 회색): #3e3a39
+스크롤바: #727171, opacity: 0.5
+검색창 안내문 색: #9fa0a0
+검색창 선택된 카테고리 색: #727171
+
+기본 글씨는 font-weight: 200
+굵은 글씨는 700
+*/
+
+/* 범용 ****/
+* {
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+}
+p {
+	margin: 0;
+	line-height: 1.5em;
+}
+a:link, a:hover, a:active, a:visited {
+	color: inherit;
+	text-decoration: none;
+}
+ul {
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+}
+input[type=text], button {
+	width: 100%;
+	height: 100%;
+	line-height: inherit;
+	border: 0;
+	padding: 0;
+	margin: 0;
+	outline: none;
+	color: inherit;
+	font-family: inherit;
+	font-size: inherit;
+}
+button {
+	border-radius: 30px;
+	cursor: pointer;
+}
+.checkbox-wrap {
+	position: relative;
+}
+.checkbox-wrap input[type="radio"],
+.checkbox-wrap input[type="checkbox"] {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: -1000;
+}
+.checkbox-wrap input[type="radio"] ~ label.checkbox,
+.checkbox-wrap input[type="checkbox"] ~ label.checkbox {
+	position: relative;
+	cursor: pointer;
+}
+.checkbox-wrap input[type="radio"] ~ label.label,
+.checkbox-wrap input[type="checkbox"] ~ label.label {
+	cursor: pointer;
+}
+.checkbox-wrap input[type="radio"] ~ label.checkbox > i,
+.checkbox-wrap input[type="checkbox"] ~ label.checkbox > i {
+	vertical-align: bottom;
+}
+.checkbox-wrap input[type="radio"] ~ label.checkbox > .checked,
+.checkbox-wrap input[type="checkbox"] ~ label.checkbox > .checked {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+}
+.checkbox-wrap input[type="radio"] ~ label.checkbox > .checked,
+.checkbox-wrap input[type="checkbox"] ~ label.checkbox > .checked {
+	color: transparent;
+}
+.checkbox-wrap input[type="radio"]:checked ~ label.checkbox > .checked,
+.checkbox-wrap input[type="checkbox"]:checked ~ label.checkbox > .checked {
+	color: inherit;
+}
+.checkbox-wrap input[type="radio"]:checked ~ label.checkbox > .unchecked,
+.checkbox-wrap input[type="checkbox"]:checked ~ label.checkbox > .unchecked {
+	color: transparent;
+}
+.hidden {
+	display: none;
+}
+.box {
+	height: 56px;
+	line-height: 56px;
+	background-color: #ffffff;
+}
+.box > div {
+	float: left;
+	height: 100%;
+}
+.box:after {
+	content: '';
+	display: block;
+	clear: both;
+}
+.shadow {
+	box-shadow: 0px 10px 10px #dee0e0;
+}
+.radio-button {
+	position: relative;
+}
+.radio-button input[type="radio"] {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: -1000;
+}
+.radio-button label {
+	display: block;
+	width: 100%;
+	height: 100%;
+	cursor: pointer;
+}
+.underline {
+	background-color: transparent;
+	text-decoration: none;
+	border-bottom: 1px solid #5a91e2;
+	box-shadow: 0 -6px 0 #5a91e2 inset;
+	color: inherit;
+}
+
+/* 스크롤바 ****/
+::-webkit-scrollbar {
+	width: 10px;
+}
+::-webkit-scrollbar-track {
+	background-color: #ebeef2;
+}
+::-webkit-scrollbar-thumb {
+	background-color: #cdcbcb;
+	border-radius: 5px;
+}
+
+/* 로고 ****/
+.logo {
+	float: left;
+	background-image: url("../images/images.svg");
+	background-repeat: no-repeat;
+}
+.logo.logo-org {
+	width: 148px;
+	height: 50px;
+}
+.logo.logo-DB {
+	width: 33px;
+	height: 35px;
+	background-position: 0px -60px;
+}
+.logo.logo-DB-project-banner {
+	width: 60px;
+	height: 64px;
+	background-position: 0px -100px;
+}
+
+/* ****/
+body {
+	margin: 0;
+	background-color: #ebeef2;
+}
+.container {
+	font-family: 'Nanum Barun Gothic', sans-serif;
+	font-size: 16px;
+	font-weight: 200;
+	color: #595757;
+}
+.container > .header {
+	position: fixed;
+	z-index: 100;
+	top: 0;
+	left: 0;
+	height: 85px;
+	width: 100%;
+	padding: 20px;
+	line-height: 45px;
+	background-color: #ffffff;
+	color: #5a91e2;
+}
+.container > .header:after {
+	content: '';
+	display: block;
+	clear: both;
+}
+	.container > .header .organization {
+		float: left;
+	}
+	.container > .header .title {
+		float: left;
+		font-size: 1.5em;
+		font-weight: 700;
+		margin-top: 10px;
+		margin-left: 20px;
+	}
+	.container > .header .title > .logo {
+		margin-right: 10px;
+	}
+	.container > .header .anchors {
+		float: right;
+		font-weight: 700;
+	}
+	.container > .header .anchors a {
+		margin-left: 10px;
+	}
+.inner-container {
+	position: relative;
+}
+.search-keyword-container, .search-result-container {
+	max-width: 924px;
+	/* script: 항상 중간에 오도록 아래의 값들을 스크립로 변경해 준다. */
+	width: 80%;
+	margin-left: 10%;
+	margin-right: 10%;
+}
+.search-keyword-container {
+	position: fixed;
+	z-index: 100;
+	top: 0;
+	left: 0;
+	margin-top: 115px;
+}
+	.general-keyword {
+		padding: 10px 0 0 10px;
+		margin-bottom: 15px;
+	}
+	.general-keyword.box {
+		height: auto;
+	}
+		.general-keyword > div {
+			line-height: 36px;
+			margin: 0 10px 10px 0;
+		}
+		.general-keyword > .header {
+			color: #5a91e2;
+			font-size: 1.5em;
+			width: 50px;
+			text-align: center;
+		}
+		.general-keyword .key-list {
+			float: left;
+			padding: 0 15px;
+			border-radius: 20px;
+			font-weight: 700;
+		}
+		.general-keyword .key-list:last-of-type {
+			margin-right: 0;
+		}
+		.general-keyword .key-list i.close {
+			margin-left: 10px;
+			cursor: pointer;
+		}
+		.general-keyword .key-list i.header {
+			margin-right: 10px;
+		}
+		.general-keyword .key-list.gen-key {
+			background-color: #5a91e2;
+			color: #ffffff;
+		}
+		.general-keyword .key-list.cat-key {
+			background-color: #ebeef2;
+			color: #727171;
+		}
+		.general-keyword .key-list.cat-key i.close {
+			color: #5a91e2;
+		}
+		.general-keyword .keyword-input {
+			min-width: 170px;
+			/* script: 영역이 div.general-keyword의 오른쪽 끝까지 차도록 width를 조정한다. */
+		}
+	.categorized-keyword {}
+		.search-button {
+			float: right;
+			width: 20%;
+		}
+		.search-button.box {
+			background-color: transparent;
+		}
+		.search-button button {
+			background-color: #5a91e2;
+			color: #ffffff;
+			font-weight: 700;
+		}
+		.categories {
+			margin-right: 20%;
+			margin-bottom: 15px;
+		}
+		.categories.box {
+			background-color: transparent;
+		}
+			.categories .selection {
+				float: left;
+				width: 50%;
+			}
+			.categories .selection > div {
+				height: 100%;
+				margin-right: 15px;
+				background-color: #ffffff;
+			}
+			.categories .selection label {
+				position: relative;
+				padding-left: 18px;
+				border: solid 2px transparent;
+				font-weight: 700;
+			}
+			.categories .selection label i {
+				float: right;
+				line-height: inherit;
+				font-size: 1.5em;
+				margin-right: 10px;
+				font-weight: 700;
+			}
+			.categories .selection input[type=radio]:checked + label {
+				padding-left: 18px;
+				border-color: #5a91e2;
+				color: #5a91e2;
+				box-shadow: 0px 10px 10px #dee0e0;
+			}
+		.sub-categories {
+			display: none;
+		}
+			.example {
+				height: 393px;
+			}
+			.example .chapters {
+				float: left;
+				width: 40%;
+				height: 100%;
+			}
+				.example .chapters ul {
+					background-color: #ebeef2;
+					margin-right: 15px;
+					height: 100%;
+					overflow-y: auto;
+				}
+				.example .chapters li {
+					margin-bottom: 1px;
+				}
+				.example .chapters li:last-of-type {
+					margin-bottom: 0;
+				}
+				.example .chapters li > .radio-button {
+					width: 100%;
+					background-color: #ffffff;
+				}
+				.example .chapters label {
+					padding-left: 20px;
+				}
+				.example .chapters input[type=radio]:checked + label {
+					position: absolute;
+					top: 0;
+					left: 0;
+					z-index: 2;
+					border-left: solid 15px #5a91e2;
+					box-shadow: 0px 0px 20px #dee0e0;
+				}
+			.example .articles {
+				margin-left: 40%;
+				height: 100%;
+				background-color: #ffffff;
+			}
+				.example .articles ul {
+					padding: 30px;
+					height: 100%;
+					overflow-x: hidden;
+					overflow-y: auto;
+				}
+				.example .articles li {
+					margin-bottom: 15px;
+				}
+				.example .articles .checkbox {
+					color: #5a91e2;
+				}
+				.example .articles .checkbox .unchecked {
+					color: #595757;
+				}
+			.sub-categories .organization  {
+				height: 650px;
+				max-height: 80%;
+				overflow-y: auto;
+				background: #fff;
+			}
+				.sub-categories .organization .width33 {
+					border-right: 1px dotted #ebeef2;
+				}
+				.sub-categories .organization .width33:last-child {
+					border-right: 0;
+				}
+				.sub-categories .organization .top-dotted {
+					border-top: 1px dotted #ebeef2;
+				}
+				.sub-categories .organization ul.selectElement {
+					display: none;
+					padding: 15px 20px 0 20px;
+				}
+				.sub-categories .organization ul.column2 li {
+					display: inline-block;
+					width: 50%;
+				}
+				.sub-categories .organization ul li {
+					padding: 0 0 15px 0;
+				}
+				.sub-categories .organization ul li label.label {
+					padding-left: 8px;
+				}
+
+.search-result-container {
+	padding-top: 303px; /* scritp: 이 값은 div.general-keyword와 div.categores의 높이에 따라 변해야 한다. */
+}
+	.search-result:after {
+		content: '';
+		display: block;
+		clear: both;
+	}
+	.example-result {
+		float: left;
+		width: 40%;
+	}
+		.example-result > ul {
+			margin-right: 15px;
+		}
+		.example-result li {
+			padding: 30px;
+			margin-bottom: 2px;
+			background-color: #ffffff;
+		}
+		.example-result li:after {
+			content: '';
+			display: block;
+			clear: both;
+		}
+		.example-result li:last-of-type {
+			margin-bottom: 0;
+		}
+		.example-result li .header {
+			margin-bottom: 15px;
+			color: #3e3a39;
+			font-size: 1.3em;
+			font-weight: 700;
+		}
+		.example-result li .footer {
+			float: right;
+			margin-top: 15px;
+		}
+		.example-result li .footer button {
+			width: auto;
+			padding: 10px 15px 10px 15px;
+			background-color: #5a91e2;
+			color: #ffffff;
+			font-weight: 700;
+		}
+	.organ-article-result {
+		margin-left: 40%;
+	}
+		.organ-article-result div > .header {
+			padding: 30px 10px 30px 20px;
+			font-size: 1.2em;
+			font-weight: 700;
+		}
+		.organ-article-result .no-result {
+			padding-left: 20px;
+			padding-bottom: 40px;
+			color: #9fa0a0;
+		}
+	.organization-result {
+		border-bottom: solid 2px #9fa0a0;
+		padding-bottom: 40px;
+	}
+		.organization-result li {
+			padding: 20px;
+			background-color: #ffffff;
+			margin-bottom: 15px;
+		}
+		.organization-result li:last-of-type {
+			margin-bottom: 0;
+		}
+		.organization-result li .header {
+			margin-bottom: 25px;
+		}
+		.organization-result li .title {
+			position: relative;
+			line-height: 24px;
+			margin-bottom: 15px;
+		}
+		.organization-result li .organ-name {
+			font-size: 1.3em;
+		}
+		.organization-result li a.view-whole {
+			position: absolute;
+			top: 0;
+			right: 0;
+			font-size: 0.95em;
+			font-weight: 700;
+			color: #5a91e2;
+			text-decoration: underline;
+		}
+		.organization-result li .info {
+			color: #9fa0a0;
+			font-size: 0.95em;
+		}
+	.article-result {}
+		.article-result li {
+			padding: 20px;
+			background-color: #ffffff;
+			margin-bottom: 15px;
+		}
+		.article-result li:last-of-type {
+			margin-bottom: 0;
+		}
+		.article-result li .header {
+			margin-bottom: 25px;
+		}
+		.article-result li .title {
+			position: relative;
+			line-height: 24px;
+			margin-bottom: 15px;
+		}
+		.article-result li .organ-name {
+			font-size: 1.3em;
+		}
+		.article-result li a.view-whole {
+			position: absolute;
+			top: 0;
+			right: 0;
+			font-size: 0.95em;
+			font-weight: 700;
+			color: #5a91e2;
+			text-decoration: underline;
+		}
+		.article-result li .info {
+			color: #9fa0a0;
+			font-size: 0.95em;
+		}
+	.whole-document {}
+		.whole-document .meta-info-wrap {
+			float: left;
+			width: 40%;
+			font-size: 0.95em;
+		}
+			.whole-document .meta-info {
+				margin-right: 15px;
+				padding: 25px;
+				background-color: #f5f6f8;
+				color: #9fa0a0;
+			}
+			.whole-document .meta-info:after {
+				content: '';
+				display: block;
+				clear: both;
+			}
+			.whole-document .meta-info .column.label {
+				float: left;
+				font-weight: 700;
+				text-align: right;
+				border-right: dotted 2px #5a91e2;
+			}
+			.whole-document .meta-info .row {
+				margin-bottom: 10px;
+			}
+			.whole-document .meta-info .row:last-of-type {
+				margin-bottom: 0;
+			}
+			.whole-document .meta-info .column.label .row {
+				width: 80px;
+				padding-right: 10px;
+			}
+			.whole-document .meta-info .column.info {
+				margin-left: 90px;
+			}
+		.whole-document .document {
+			padding: 20px;
+			margin-left: 40%;
+			background-color: #ffffff;
+		}
+		.whole-document .document h1 {
+			margin: 0;
+			font-size: 1.5em;
+			margin-bottom: 40px;
+		}
+.inner-container .is-searching {
+	position: absolute;
+	z-index: 11;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: #000000;
+	opacity: 0.5;
+}
+	.inner-container .is-searching .progress-spinner {
+		margin: 750px 0 0 50%;
+		font-size: 2.5em;
+		color: #5a91e2;
+	}
+.inner-container > .side {
+	position: fixed;
+	top: 340px; /* script: 이 값은 div.general-keyword와 div.categores의 높이에 따라 변해야 한다. */
+	right: 30px; /* script: 이 값은 div.general-keyword와 div.categores의 높이에 따라 변해야 한다. */
+}
+	.inner-container > .side label {
+		font-size: 0.95em;
+		font-weight: 700;
+		cursor: pointer;
+	}
+	.inner-container > .side i {
+		color: #5a91e2;
+		width: 25px;
+	}
+	.inner-container > .side .save-document i {
+		margin-top: 15px;
+		margin-left: 1px;
+	}
+.inner-container > .footer {
+	position: fixed;
+	z-index: -1;
+	bottom: 10px;
+	right: 30px; /* script: 이 값은 div.general-keyword와 div.categores의 높이에 따라 변해야 한다. */
+	width: 210px;
+	font-weight: 700;
+	color: #9fa0a0;
+}
+	.inner-container > .footer a {
+		color: #5a91e2;
+	}
+	.inner-container > .footer .label {
+		margin-top: 15px;
+	}
+	.inner-container > .footer .db-project {
+		font-size: 0.85em;
+	}
+	.inner-container > .footer .banner {
+		float: right;
+	}
+
+
+/* -------------------------------------------- */
+.is-searching {
+	display: none;
+}
+
+.checkbox-options {
+	background: #ffffff;
+	padding: 15px;
+}
+.organization .checkbox-options {
+	padding: 15px 15px 15px 20px;
+}
+.organization .checkbox-options p {
+	font-size: 1.1em;
+	color: #3e3a39;
+	font-weight: bold;
+	padding-bottom: 30px;
+}
+.select-options {
+	background: #ffffff;
+	padding: 15px 15px 0 15px;
+}
+.select-options .radio-button {
+	padding: 15px;
+	background: #ebeef2;
+}
+.select-options .radio-button label {
+	font-weight: bold;
+	font-size: 1.1em;
+}
+.select-options .radio-button label i {
+	float: right;
+}
+
+.width33 {
+	position: relative;
+	float: left;
+	width: 33%;
+}

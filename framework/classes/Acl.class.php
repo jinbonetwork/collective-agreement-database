@@ -2,6 +2,8 @@
 namespace CADB;
 class Acl extends \CADB\Objects {
 	private $predefinedrole;
+	private $acl;
+
 	public static function instance() {
 		return self::_instance(__CLASS__);
 	}
@@ -13,53 +15,43 @@ class Acl extends \CADB\Objects {
 	}
 
 	public function setAcl($Acl) {
+		if( !isset( $this->acl ) ) {
+			$this->getPrivilege();
+		}
+
 		if($Acl)
 			$this->role = $this->predefinedrole[$Acl];
 		else
 			$this->role = BITWISE_ANONYMOUS;
 	}
 
-	function check() {
+	public function getAcl() {
+		return $this->role;
+	}
+
+	public function check() {
 		if($this->role < BITWISE_ANONYMOUS && !$_SESSION['user']['uid']) {
 			importLibrary('auth');
 			requireMembership();
 		}
-		if($_SESSION['user']['uid'] && $this->role < $_SESSION['user']['glevel']) {
+/*		if($_SESSION['user']['uid'] && $this->role < $_SESSION['user']['glevel']) {
 			Error('접근 권한이 없습니다');
 			exit;
-		}
+		} */
 	}
 
-	function getCurrentPrivilege() {
+	function getPrivilege() {
 		$context = \CADB\Model\Context::instance();
-		/* anonymouse 보다 작음 */
-		switch($this->role) {
-			case BITWISE_ADMINISTRATOR:
-				if($_SESSION['user']['glevel'] == 1) return BITWISE_ADMINISTRATOR;
-				break;
-			case BITWISE_OWNER:
-				if($_SESSION['user']['uid'] > 0 && $_SESSION['user']['glevel'] == BITWISE_OWNER)
-					return BITWISE_USER;
-				break;
-			case BITWISE_USER:
-				if($_SESSION['user']['uid'] > 0 && $_SESSION['user']['glevel'] == BITWISE_USER)
-					return BITWISE_USER;
-				break;
-			case BITWISE_ATHENTICATED:
-				if($_SESSION['user']['uid']) return BITWISE_ATHENTICATED;
-				break;
-			case BITWISE_ANONYMOUS:
-				return BITWISE_ANONYMOUS;
-				break;
-		}
-		return BITWISE_ANONYMOUS;
-	}
 
-	public static function getIdentity($domain) {
-		if( empty($_SESSION['identity'][$domain]) ) {
-			return null;
+		$domain = $context->getProperty('service.domain');
+		$session_type = $context->getProperty('session.type');
+
+		if(!isset( $this->acl ) ) {
+			$classname = "CADB\\Model\\".strtoupper($session_type);
+
+			$acl = new $classname;
+			$this->acl = $acl->getAcl($domain);
 		}
-		return $_SESSION['identity'][$domain];
 	}
 
 	public static function imMaster() {
@@ -67,24 +59,28 @@ class Acl extends \CADB\Objects {
 		else return 0;
 	}
 
-	public static function checkAcl($role,$eq='ge') {
+	public function checkAcl($role,$eq='ge') {
 		$permission = false;
 		switch($eq) {
 			case 'ge':
-				if($_SESSION['user']['glevel'] >= $role)
+				if($this->role >= $role)
 					$permission = true;
 				break;
 			case 'le':
-				if($_SESSION['user']['glevel'] <= $role)
-				$permission = true;
+				if($this->role <= $role)
+					$permission = true;
 				break;
 			case 'eq':
 				default:
-				if($_SESSION['user']['glevel'] == $role)
-				$permission = true;
+				if($this->role == $role)
+					$permission = true;
 				break;
 		}
 		return $permission;
+	}
+
+	public function getIdentity($domain) {
+		return $_SESSION['user']['uid'];
 	}
 }
 ?>

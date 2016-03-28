@@ -1,6 +1,8 @@
 <?php
 namespace CADB\App\api;
 
+$Acl = "authenticated";
+
 $IV = array(
 	'GET' => array(
 		'id' => array('number','default'=>null),

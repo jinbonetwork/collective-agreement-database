@@ -16,17 +16,20 @@
 					<div class="logo logo-org"></div>
 				</div>
 				<div class="title">
-					<div class="logo logo-DB"></div><span>단체협약 DB</span>
+					<a href="<?php print url("/"); ?>"><div class="logo logo-DB"></div><span>단체협약 DB</span></a>
 				</div>
 			</div>
 			<div class="anchors">
-				<div class="logged-in">
+<?php		if(user_logged_in()) {?>
+				<div class="logged-in<?php print(!user_logged_in() ? " hidden" : ""); ?>">
 					<a href="" class="organization-info">내 조직</a>
-					<a href="" class="logged-out">로그아웃</a>
+					<a href="<?php print url('loing/logout'); ?>" class="logged-out">로그아웃</a>
 				</div>
-				<div class="logged-out hidden">
-					<a href="" class="logged-in">로그인</a>
+<?php		} else {?>
+				<div class="logged-out<?php print(user_logged_in() ? " hidden" : ""); ?>">
+					<a href="<?php print url("login"); ?>" class="logged-in">로그인</a>
 				</div>
+<?php		}?>
 			</div>
 		</div>
 		<div class="inner-container">

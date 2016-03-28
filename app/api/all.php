@@ -1,6 +1,8 @@
 <?php
 namespace CADB\App\api;
 
+$Acl = "authenticated";
+
 class all extends \CADB\Controller {
 	public function process() {
 		$this->params['output'] = 'json';
@@ -64,7 +66,7 @@ class all extends \CADB\Controller {
 		if($total_cnt) {
 			$this->articles = \CADB\Agreement::getList($this->params['q'],1,($this->params['limit'] ? $this->params['limit'] : 10),$args);
 			$this->result['articles'] = array(
-				'total_cnt'=>$total_cnt,
+				'total_cnt'=>min($total_cnt,@count($this->articles)),
 				'total_page'=>$total_page,
 				'count'=>@count($this->articles)
 			);

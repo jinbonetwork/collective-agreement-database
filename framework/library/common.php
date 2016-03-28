@@ -58,8 +58,15 @@ function load_view() {
 }
 
 function user_logged_in() {
-	global $user;
-	return $user['uid'];
+	$context = \CADB\Model\Context::instance();
+	if($_SESSION['user']['uid']) return true;
+	switch($context->getProperty('session.type')) {
+		case "gnu5":
+		default:
+			if($_SESSION['mb_id']) return true;
+			break;
+	}
+	return false;
 }
 
 function isMaster() {

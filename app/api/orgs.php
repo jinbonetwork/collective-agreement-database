@@ -1,6 +1,8 @@
 <?php
 namespace CADB\App\api;
 
+$Acl = "authenticated";
+
 class orgs extends \CADB\Controller {
 	public function process() {
 		$this->params['output'] = 'json';
@@ -15,6 +17,9 @@ class orgs extends \CADB\Controller {
 		if($this->params['oid']) {
 			$this->organize = \CADB\Organize::getOrganizeByOid($this->params['oid']);
 			if($this->organize) {
+				if(!$this->organize['f7']) {
+					$this->organize['f7'] = '정보없음';
+				}
 				$agreement = \CADB\Agreement::getAgreementsByOid($this->params['oid']);
 				if($agreement && is_array($agreement)) {
 					$this->fields['nid'] = array('subject' => '단체협약','type'=>'int','multiple'=>true);

@@ -2,7 +2,8 @@
 <div>
 	<table border="0" cellpadding="2" cellspacing="1" width="100%">
 		<tbody>
-<?php	foreach($this->fields['field'] as $f) {
+<?php if(is_array($this->fields['field'])) {
+		foreach($this->fields['field'] as $f) {
 			if($f['table'] != 'agreement') continue;
 			if(!$this->articles['f'.$f['fid']]) continue; ?>
 			<tr>
@@ -18,7 +19,8 @@
 				}?>
 				</td>
 			</tr>
-<?php	}?>
+<?php	}
+	}?>
 		</tbody>
 	</table>
 	<br /><hr />

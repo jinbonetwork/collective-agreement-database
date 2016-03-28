@@ -1,7 +1,10 @@
 #login-container {
-	padding-top: 25%;
+	padding-top: 15%;
 	width: 250px;
 	margin: auto;
+}
+fieldset {
+	border : 0;
 }
 #login-container h2 {
 	display: none;

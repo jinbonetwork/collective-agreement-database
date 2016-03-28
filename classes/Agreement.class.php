@@ -62,7 +62,8 @@ class Agreement extends \CADB\Objects  {
 
 		$que = self::makeQuery($q,$args,"a.*");
 		if($que) {
-			$que .= " GROUP BY a.nid ORDER BY r.nid ASC LIMIT ".(($page-1)*$limit).",".$limit;
+//			$que .= " GROUP BY a.nid ORDER BY r.nid ASC LIMIT ".(($page-1)*$limit).",".$limit;
+			$que .= " GROUP BY a.nid LIMIT ".(($page-1)*$limit).",".$limit;
 			$articles = array();
 			while($row = $dbm->getFetchArray($que)) {
 				$articles[] = self::fetchAgreement($row,true);
@@ -173,7 +174,7 @@ class Agreement extends \CADB\Objects  {
 		$c=0;
 
 		if($type == 1) {
-			\CADB\Organize::setFieldInfo(self::$fields['field']);
+			\CADB\Organize::getFieldInfo();
 			$que = \CADB\Organize::makeQuery($q,$args,'t.rid');
 		} else {
 			foreach($args as $k => $v) {
@@ -235,11 +236,11 @@ class Agreement extends \CADB\Objects  {
 					if(is_array($matched)) {
 						foreach($matched as $m) {
 							if($m) {
-								$v = str_replace($m,'<span class="keyword">'.$m.'</span>',$v);
+//								$v = str_replace($m,'<span class="keyword">'.$m.'</span>',$v);
 							}
 						}
 					} else if($matched) {
-						$v = str_replace($matched,'<span class="keyword">'.$matched.'</span>',$v);
+//						$v = str_replace($matched,'<span class="keyword">'.$matched.'</span>',$v);
 					}
 				}
 				$article[$k] = $v;

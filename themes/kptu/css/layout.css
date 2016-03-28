@@ -192,6 +192,19 @@ body {
 	}
 .inner-container {
 	position: relative;
+	*zoom: 1
+}
+.inner-container:after {
+	clear: both;
+	content: ' ';
+	display: block;
+}
+.inner-container .app-page {
+	padding-top: 90px;
+	max-width: 924px;
+	width: 80%;
+	margin-left: 10%;
+	margin-right: 10%;
 }
 .inner-container > .side {
 	position: fixed;

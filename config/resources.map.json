@@ -78,6 +78,45 @@
 		"priority":"0",
 		"deps":[]
 	},
+	"modernizr": {
+		"js":[
+			{
+				"uri" : "contribute/modernizr/2.8.3/modernizr.js",
+				"position": "footer"
+			}
+		],
+		"css":[],
+		"deps":[],
+		"priority":"-999999999"
+	},
+	"es6-promise": {
+		"js": [
+			{
+				"uri": "contribute/es6-promise/es6-promise-modified.js",
+				"position": "footer"
+			}
+		],
+		"css" : [],
+		"priority":"-10",
+		"deps":[]
+	},
+	"medium-editor": {
+		"js": [
+			{
+				"uri": "contribute/medium-editor.min.js",
+				"position": "footer"
+			}
+		],
+		"css": [
+			"contribute/medium-editor/dist/css/medium-editor.min.css",
+			"contribute/medium-editor/dist/css/themes/bootstrap.min.css"
+		],
+		"priority":"-9"
+	},
+	"ckeditor": {
+		"js": [ "http://cdn.ckeditor.com/4.5.7/standard/ckeditor.js" ],
+		"priority":"-9"
+	},
 	"app-login": {
 		"js": [
 			{
@@ -90,5 +129,18 @@
 		],
 		"priority":"0",
 		"deps":["jquery"]
+	},
+	"app-article-edit": {
+		"js": [
+			{
+				"uri": "resources/script/app-article-edit.js",
+				"position": "footer"
+			}
+		],
+		"css": [
+			"resources/css/app-article-edit.css"
+		],
+		"priority":"0",
+		"deps":["jquery","modernizr","medium-editor"]
 	}
 }

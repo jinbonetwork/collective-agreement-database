@@ -1,6 +1,8 @@
 <?php
 namespace CADB\App\api;
 
+$Acl = "authenticated";
+
 class articles extends \CADB\Controller {
 	public function process() {
 		$this->params['output'] = 'json';

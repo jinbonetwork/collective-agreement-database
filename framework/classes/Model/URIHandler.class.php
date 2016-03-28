@@ -70,17 +70,43 @@ final class URIHandler extends \CADB\Objects {
 					switch($uri['fragment'][1]) {
 						case 'orgs':
 							if(is_numeric($uri['fragment'][2])) $_GET['oid'] = $uri['fragment'][2];
+							$pathPart = CADB_APP_PATH."api/orgs";
 							break;
 						case 'standards':
 							if(is_numeric($uri['fragment'][2])) $_GET['id'] = $uri['fragment'][2];
+							$pathPart = CADB_APP_PATH."api/standards";
 							break;
 						case 'articles':
 							if(is_numeric($uri['fragment'][2])) $_GET['nid'] = $uri['fragment'][2];
+							$pathPart = CADB_APP_PATH."api/articles";
+							break;
+						case 'all':
+							$pathPart = CADB_APP_PATH."api/all";
+							break;
+						case 'save':
+							switch($uri['fragment'][2]) {
+								case "orgs":
+									if(is_numeric($uri['fragment'][3])) $_GET['oid'] = $uri['fragment'][3];
+									$pathPart = CADB_APP_PATH."api/save/orgs";
+									break;
+								case "standards":
+									if(is_numeric($uri['fragment'][3])) $_GET['id'] = $uri['fragment'][3];
+									$pathPart = CADB_APP_PATH."api/save/standards";
+									break;
+								case "articles":
+									if(is_numeric($uri['fragment'][3])) $_GET['nid'] = $uri['fragment'][3];
+									$pathPart = CADB_APP_PATH."api/save/articles";
+									break;
+								default:
+									header("HTTP/1.0 404 Not Found");exit;
+									break;
+							}
 							break;
 						default:
+							$pathPart = CADB_APP_PATH."api";
 							break;
 					}
-					$pathPart = CADB_APP_PATH.$uri['fragment'][0]."/".$uri['fragment'][1];
+//					$pathPart = CADB_APP_PATH.$uri['fragment'][0]."/".$uri['fragment'][1];
 				} else {
 					$pathPart = CADB_APP_PATH.ltrim(rtrim(strtok(strstr($uri['input'],'/'), '?'), '/'),'/');
 				}
@@ -120,9 +146,13 @@ final class URIHandler extends \CADB\Objects {
 			\CADB\Respond::NotFoundPage();
 		}
 		$this->params = array_merge($_GET, $_POST);
+		$fp = fopen("/tmp/cadb2.txt","w");
+		fputs($fp,serialize($this->params));
+		fclose($fp);
 		foreach($this->params as $k => $v) {
-			if($this->isJson($v))
+			if($this->isJson($v)) {
 				$this->params[$k] = json_decode($v,true);
+			}
 		}
 		$this->params['appType'] = $this->uri['appType'];
 		$this->params['path'] = substr($this->uri['appPath'],strlen(CADB_PATH)+1);
@@ -135,8 +165,10 @@ final class URIHandler extends \CADB\Objects {
 	}
 
 	private function isJson($json_string) {
-		return !preg_match('/[^,:{}\\[\\]0-9.\\-+Eaeflnr-u \\n\\r\\t]/',
-		       preg_replace('/"(\\.|[^"\\\\])*"/', '', $json_string));
+		call_user_func_array('json_decode',func_get_args());
+		    return (json_last_error()===JSON_ERROR_NONE);
+//		return !preg_match('/[^,:{}\\[\\]0-9.\\-+Eaeflnr-u \\n\\r\\t]/',
+//		       preg_replace('/"(\\.|[^"\\\\])*"/', '', $json_string));
 	}
 }
 ?>
