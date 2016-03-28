@@ -1,20 +1,31 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+
+import { pageList } from '../util/utils';
+
 import OrgList from './Org/OrgList';
+import PageList from './Page/PageList';
 
 export default class Orgs extends Component {
   constructor() {
     super();
     this.state = {
+	  result: {},
       orgs: [],
+	  pages: [],
     };
   }
 
   render() {
     return (
       <div>
-        Orgs
-        <OrgList orgs={this.state.orgs} />
+        <OrgList
+			result={this.state.result}
+			orgs={this.state.orgs}
+		/>
+		<PageList
+          pages={this.state.pages}
+        />
       </div>
     );
   }
@@ -24,17 +35,27 @@ export default class Orgs extends Component {
     this.doSearch();
   }
 
+  componentWillReceiveProps() {
+    this.doSearch();
+	window.$('body').animate({scrollTop:0}, '500');
+  }
+
   doSearch() {
     const api = '/api/orgs';
     const query = window.location.search;
-    const url = `${api}?${query}`;
+    const url = `${api}${query}`;
 
     axios.get(url)
     .then(({ data }) => {
       console.log(window.location.pathname, url, data);
       // TODO: checkLogin
+	  const pages = pageList(data.result.orgs);
 
-      this.setState({ orgs: data.orgs });
+      this.setState({
+	    result: data.result || {},
+	    orgs: data.orgs || [],
+		pages: pages || [],
+      });
     });
   }
 }

@@ -41,18 +41,22 @@ class articles extends \CADB\Controller {
 			if($total_cnt && $this->params['page'] <= $total_page) {
 				$this->articles = \CADB\Agreement::getList($this->params['q'],$this->params['page'],($this->params['limit'] ? $this->params['limit'] : 20),$args);
 				$this->result = array(
-					'total_cnt'=>$total_cnt,
-					'total_page'=>$total_page,
-					'page'=>$this->params['page'],
-					'count'=>@count($this->articles)
+					'articles' => array(
+						'total_cnt'=>$total_cnt,
+						'total_page'=>$total_page,
+						'page'=>$this->params['page'],
+						'count'=>@count($this->articles)
+					)
 				);
 			} else {
 				$this->result = array(
-					'total_cnt'=>$total_cnt,
-					'total_page'=>$total_page,
-					'page'=>$this->params['page'],
-					'count'=>0,
-					'error'=>'검색결과가 없습니다.'
+					'articles' => array(
+						'total_cnt'=>$total_cnt,
+						'total_page'=>$total_page,
+						'page'=>$this->params['page'],
+						'count'=>0,
+						'error'=>'검색결과가 없습니다.'
+					)
 				);
 			}
 		}

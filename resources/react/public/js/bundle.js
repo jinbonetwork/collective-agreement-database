@@ -25104,6 +25104,8 @@
 	        for (var field in queries) {
 	          if (field === 'q') {
 	            _this3.input.value = queries.q || '';
+	          } else if (field === 'page') {
+	            continue;
 	          } else {
 	            var valuesAsInt = JSON.parse(queries[field]);
 	            // value should be string in query
@@ -26324,6 +26326,7 @@
 	exports.inQuery = inQuery;
 	exports.toggleInQuery = toggleInQuery;
 	exports.changeInQuery = changeInQuery;
+	exports.pageList = pageList;
 	function storeLabels(labels, optBlock) {
 	  var field = optBlock.key;
 	  labels[field] = {};
@@ -26373,6 +26376,32 @@
 	  console.log('- changeInQuery', query);
 
 	  return query;
+	}
+
+	function pageList(result) {
+	  var total_cnt = result.total_cnt;
+	  var total_page = result.total_page;
+	  var page = result.page;
+	  var count = result.count;
+
+	  var page_num = 10;
+	  var s_page = parseInt((page - 1) / page_num) * page_num + 1;
+	  var e_page = Math.min(total_page, s_page + page_num - 1);
+	  var p_page = s_page > 1 ? s_page - 1 : 0;
+	  var n_page = e_page < total_page ? e_page + 1 : 0;
+
+	  var pages = [];
+	  if (p_page) {
+	    pages.push({ type: 'prev', value: p_page });
+	  }
+	  for (var p = s_page; p <= e_page; p++) {
+	    pages.push({ type: p == page ? 'current' : 'page', value: p });
+	  }
+	  if (n_page) {
+	    pages.push({ type: 'next', value: n_page });
+	  }
+
+	  return pages;
 	}
 
 /***/ },
@@ -27343,9 +27372,15 @@
 
 	var _axios2 = _interopRequireDefault(_axios);
 
+	var _utils = __webpack_require__(236);
+
 	var _ArticleList = __webpack_require__(245);
 
 	var _ArticleList2 = _interopRequireDefault(_ArticleList);
+
+	var _PageList = __webpack_require__(259);
+
+	var _PageList2 = _interopRequireDefault(_PageList);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -27364,7 +27399,9 @@
 	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Articles).call(this));
 
 	    _this.state = {
-	      articles: []
+	      result: {},
+	      articles: [],
+	      pages: []
 	    };
 	    return _this;
 	  }
@@ -27383,8 +27420,13 @@
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'col-sm-9' },
-	          'Articles',
-	          _react2.default.createElement(_ArticleList2.default, { articles: this.state.articles })
+	          _react2.default.createElement(_ArticleList2.default, {
+	            result: this.state.result,
+	            articles: this.state.articles
+	          }),
+	          _react2.default.createElement(_PageList2.default, {
+	            pages: this.state.pages
+	          })
 	        )
 	      );
 	    }
@@ -27395,21 +27437,32 @@
 	      this.doSearch();
 	    }
 	  }, {
+	    key: 'componentWillReceiveProps',
+	    value: function componentWillReceiveProps() {
+	      this.doSearch();
+	      window.$('body').animate({ scrollTop: 0 }, '500');
+	    }
+	  }, {
 	    key: 'doSearch',
 	    value: function doSearch() {
 	      var _this2 = this;
 
 	      var api = '/api/articles';
 	      var query = window.location.search;
-	      var url = api + '?' + query;
+	      var url = '' + api + query;
 
 	      _axios2.default.get(url).then(function (_ref) {
 	        var data = _ref.data;
 
 	        console.log(window.location.pathname, url, data);
 	        // TODO: checkLogin
+	        var pages = (0, _utils.pageList)(data.result.articles);
 
-	        _this2.setState({ articles: data.articles });
+	        _this2.setState({
+	          result: data.result || {},
+	          articles: data.articles || [],
+	          pages: pages || []
+	        });
 	      });
 	    }
 	  }]);
@@ -27594,9 +27647,15 @@
 
 	var _axios2 = _interopRequireDefault(_axios);
 
+	var _utils = __webpack_require__(236);
+
 	var _OrgList = __webpack_require__(247);
 
 	var _OrgList2 = _interopRequireDefault(_OrgList);
+
+	var _PageList = __webpack_require__(259);
+
+	var _PageList2 = _interopRequireDefault(_PageList);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -27615,7 +27674,9 @@
 	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Orgs).call(this));
 
 	    _this.state = {
-	      orgs: []
+	      result: {},
+	      orgs: [],
+	      pages: []
 	    };
 	    return _this;
 	  }
@@ -27626,8 +27687,13 @@
 	      return _react2.default.createElement(
 	        'div',
 	        null,
-	        'Orgs',
-	        _react2.default.createElement(_OrgList2.default, { orgs: this.state.orgs })
+	        _react2.default.createElement(_OrgList2.default, {
+	          result: this.state.result,
+	          orgs: this.state.orgs
+	        }),
+	        _react2.default.createElement(_PageList2.default, {
+	          pages: this.state.pages
+	        })
 	      );
 	    }
 	  }, {
@@ -27637,21 +27703,32 @@
 	      this.doSearch();
 	    }
 	  }, {
+	    key: 'componentWillReceiveProps',
+	    value: function componentWillReceiveProps() {
+	      this.doSearch();
+	      window.$('body').animate({ scrollTop: 0 }, '500');
+	    }
+	  }, {
 	    key: 'doSearch',
 	    value: function doSearch() {
 	      var _this2 = this;
 
 	      var api = '/api/orgs';
 	      var query = window.location.search;
-	      var url = api + '?' + query;
+	      var url = '' + api + query;
 
 	      _axios2.default.get(url).then(function (_ref) {
 	        var data = _ref.data;
 
 	        console.log(window.location.pathname, url, data);
 	        // TODO: checkLogin
+	        var pages = (0, _utils.pageList)(data.result.orgs);
 
-	        _this2.setState({ orgs: data.orgs });
+	        _this2.setState({
+	          result: data.result || {},
+	          orgs: data.orgs || [],
+	          pages: pages || []
+	        });
 	      });
 	    }
 	  }]);
@@ -28279,6 +28356,106 @@
 	};
 
 	exports.default = SelectOptions;
+
+/***/ },
+/* 257 */,
+/* 258 */,
+/* 259 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _PageItem = __webpack_require__(260);
+
+	var _PageItem2 = _interopRequireDefault(_PageItem);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var PageList = function PageList(_ref) {
+		var pages = _ref.pages;
+
+		var items = pages.map(makeItem);
+		var rows = items.length ? _react2.default.createElement(
+			'ul',
+			null,
+			' ',
+			items,
+			' '
+		) : _react2.default.createElement('ul', null);
+
+		return _react2.default.createElement(
+			'div',
+			{ className: 'page-navi-box' },
+			rows
+		);
+	};
+
+	exports.default = PageList;
+
+
+	function makeItem(page) {
+		var type = page.type;
+		var value = page.value;
+
+		var props = {
+			type: type, value: value
+		};
+		return _react2.default.createElement(_PageItem2.default, _extends({ key: value }, props));
+	}
+
+/***/ },
+/* 260 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRouter = __webpack_require__(159);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var PageItem = function PageItem(_ref) {
+	  var type = _ref.type;
+	  var value = _ref.value;
+
+	  var pclass = '' + type;
+	  var pathname = window.location.pathname;
+	  var query = window.location.search.replace(/&page=[0-9]+/, "");
+	  var uri = '' + pathname + query;
+
+	  return _react2.default.createElement(
+	    'li',
+	    { key: value, className: pclass },
+	    _react2.default.createElement(
+	      _reactRouter.Link,
+	      { to: uri + '&page=' + value },
+	      _react2.default.createElement(
+	        'span',
+	        null,
+	        value
+	      )
+	    )
+	  );
+	};
+
+	exports.default = PageItem;
 
 /***/ }
 /******/ ]);

@@ -42,9 +42,11 @@ class standards extends \CADB\Controller {
 			}
 			$this->standard = \CADB\Guide::getList($this->params['q'],$args);
 			$this->result = array(
-				'q'=> $this->params['q'],
-				'taxonomy'=>$args,
-				'count' => (@count($this->standard) > 0 ? @count($this->standard) : 0)
+				'standards' => array(
+					'q'=> $this->params['q'],
+					'taxonomy'=>$args,
+					'count' => (@count($this->standard) > 0 ? @count($this->standard) : 0)
+				)
 			);
 		}
 	}

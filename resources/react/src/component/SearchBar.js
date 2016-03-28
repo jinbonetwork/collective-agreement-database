@@ -136,6 +136,8 @@ export default class SearchBar extends Component {
       for (const field in queries) {
         if (field === 'q') {
           this.input.value = queries.q || '';
+		} else if(field === 'page') {
+		  continue;
         } else {
           const valuesAsInt = JSON.parse(queries[field]);
           // value should be string in query

@@ -54,18 +54,22 @@ class orgs extends \CADB\Controller {
 			if($total_cnt && $this->params['page'] <= $total_page) {
 				$this->organize = \CADB\Organize::getList($this->params['q'],$this->params['page'],($this->params['limit'] ? $this->params['limit'] : 20),$args);
 				$this->result = array(
-					'total_cnt'=>$total_cnt,
-					'total_page'=>$total_page,
-					'page'=>$this->params['page'],
-					'count'=>@count($this->organize)
+					'orgs'=> array(
+						'total_cnt'=>$total_cnt,
+						'total_page'=>$total_page,
+						'page'=>$this->params['page'],
+						'count'=>@count($this->organize)
+					)
 				);
 			} else {
 				$this->result = array(
-					'total_cnt'=>$total_cnt,
-					'total_page'=>$total_page,
-					'page'=>$this->params['page'],
-					'count'=>0,
-					'error'=>'검색결과가 없습니다.'
+					'orgs'=> array(
+						'total_cnt'=>$total_cnt,
+						'total_page'=>$total_page,
+						'page'=>$this->params['page'],
+						'count'=>0,
+						'error'=>'검색결과가 없습니다.'
+					)
 				);
 			}
 		}

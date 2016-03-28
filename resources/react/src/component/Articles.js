@@ -1,12 +1,18 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+
+import { pageList } from '../util/utils';
+
 import ArticleList from './Article/ArticleList';
+import PageList from './Page/PageList';
 
 export default class Articles extends Component {
   constructor() {
     super();
     this.state = {
+      result: {},
       articles: [],
+	  pages: [],
     };
   }
 
@@ -17,8 +23,13 @@ export default class Articles extends Component {
           Standards
         </div>
         <div className="col-sm-9">
-          Articles
-          <ArticleList articles={this.state.articles} />
+          <ArticleList
+		  	result={this.state.result}
+		  	articles={this.state.articles}
+		 />
+		 <PageList
+		   pages={this.state.pages}
+		 />
         </div>
       </div>
     );
@@ -29,17 +40,27 @@ export default class Articles extends Component {
     this.doSearch();
   }
 
+  componentWillReceiveProps() {
+    this.doSearch();
+	window.$('body').animate({scrollTop:0}, '500');
+  }
+
   doSearch() {
     const api = '/api/articles';
     const query = window.location.search;
-    const url = `${api}?${query}`;
+    const url = `${api}${query}`;
 
     axios.get(url)
     .then(({ data }) => {
       console.log(window.location.pathname, url, data);
       // TODO: checkLogin
+	  const pages = pageList(data.result.articles);
 
-      this.setState({ articles: data.articles });
+      this.setState({
+        result: data.result || {},
+	  	articles: data.articles || [],
+		pages: pages || [],
+      });
     });
   }
 }

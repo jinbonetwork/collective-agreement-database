@@ -684,3 +684,43 @@ body {
 	float: left;
 	width: 33%;
 }
+
+.page-navi-box {
+	padding: 30px;
+	text-align: center;
+}
+.page-navi-box ul {
+	display: inline-block;
+}
+.page-navi-box ul li.prev {
+	color: #5a91e2;
+}
+.page-navi-box ul li.prev span {
+	display: none;
+}
+.page-navi-box ul li.prev a:before {
+	font-family: "FontAwesome";
+	content: "\f104";
+}
+.page-navi-box ul li {
+	font-size: 0.85em;
+	padding: 5px 8px;
+	margin: 3px;
+	display: inline-block;
+	background: #fff;
+	color: #202020;
+}
+.page-navi-box ul li.current {
+	color: #fff;
+	background: #5a91e2;
+}
+.page-navi-box ul li.next {
+	color: #5a91e2;
+}
+.page-navi-box ul li.next span {
+	display: none;
+}
+.page-navi-box ul li.next a:after {
+	font-family: "FontAwesome";
+	content: "\f105";
+}

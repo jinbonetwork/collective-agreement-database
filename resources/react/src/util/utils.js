@@ -50,3 +50,25 @@ export function changeInQuery(query, field, value) {
 
   return query;
 }
+
+export function pageList(result) {
+	const { total_cnt, total_page, page, count } = result;
+	const page_num = 10;
+	const s_page = ( parseInt( ( page - 1 ) / page_num ) * page_num ) + 1;
+	const e_page = Math.min( total_page, ( s_page + page_num - 1 ) );
+	const p_page = ( s_page > 1 ? ( s_page - 1 ) : 0 );
+	const n_page = ( ( e_page < total_page ) ? ( e_page + 1 ) : 0 );
+
+	const pages = [];
+	if(p_page) {
+		pages.push({type: 'prev',value: p_page});
+	}
+	for(var p=s_page; p<=e_page; p++) {
+		pages.push({type: (p == page ? 'current' : 'page'),value: p});
+	}
+	if(n_page) {
+		pages.push({type: 'next',value: n_page});
+	}
+
+	return pages;
+}
