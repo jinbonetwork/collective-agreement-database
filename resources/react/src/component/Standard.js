@@ -29,7 +29,7 @@ export default class Standard extends Component {
 	    <div className="whole-document">
 		  <div className="meta-info-wrap">
 		    <div className="meta-info">
-			  <label>단체협약 목차</label>
+			  <label>모범단체협약안 목차</label>
 			</div>
 		  </div>
 	      <div className="guide-document document">

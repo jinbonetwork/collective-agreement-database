@@ -4,12 +4,13 @@ import { inQuery } from '../../util/utils';
 const ArticleCategory = ({
   query, chapters, articles, onChapterClick, onCheckboxClick
 }) => {
-  const chapterRows = chapters.map(({ value, name }) => {
+  const chapterRows = chapters.map(({ value, name, nsubs }) => {
     const id = `chapter-${value}`;
+    const field = 'a11';
     return (
       <li key={id} className="box"><div className="radio-button">
         <input type="radio" name="chapter" id={id}
-          onClick={() => onChapterClick(value)}
+          onClick={() => onChapterClick(field,value,nsubs)}
         />
         <label htmlFor={id}>{name}</label>
       </div></li>

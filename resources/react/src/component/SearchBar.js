@@ -170,11 +170,17 @@ export default class SearchBar extends Component {
 	});
   }
 
-  handleChapterClick(value) {
-    console.log('- handleChapterSelect', value);
-    this.setState({
-      articles: this.state.chapterArticles[value] || []
-    });
+  handleChapterClick(field, value, nsubs) {
+    console.log('- handleChapterSelect', field, value, nsubs);
+	if(parseInt(nsubs)) {
+      this.setState({
+        articles: this.state.chapterArticles[value] || []
+      });
+	} else {
+	  this.setState({
+        query: toggleInQuery(this.state.query, field, value)
+      });
+	}
   }
 
   handleSelectClick(value) {

@@ -25144,11 +25144,17 @@
 	    }
 	  }, {
 	    key: 'handleChapterClick',
-	    value: function handleChapterClick(value) {
-	      console.log('- handleChapterSelect', value);
-	      this.setState({
-	        articles: this.state.chapterArticles[value] || []
-	      });
+	    value: function handleChapterClick(field, value, nsubs) {
+	      console.log('- handleChapterSelect', field, value, nsubs);
+	      if (parseInt(nsubs)) {
+	        this.setState({
+	          articles: this.state.chapterArticles[value] || []
+	        });
+	      } else {
+	        this.setState({
+	          query: (0, _utils.toggleInQuery)(this.state.query, field, value)
+	        });
+	      }
 	    }
 	  }, {
 	    key: 'handleSelectClick',
@@ -26681,8 +26687,10 @@
 	  var chapterRows = chapters.map(function (_ref2) {
 	    var value = _ref2.value;
 	    var name = _ref2.name;
+	    var nsubs = _ref2.nsubs;
 
 	    var id = 'chapter-' + value;
+	    var field = 'a11';
 	    return _react2.default.createElement(
 	      'li',
 	      { key: id, className: 'box' },
@@ -26691,7 +26699,7 @@
 	        { className: 'radio-button' },
 	        _react2.default.createElement('input', { type: 'radio', name: 'chapter', id: id,
 	          onClick: function onClick() {
-	            return onChapterClick(value);
+	            return onChapterClick(field, value, nsubs);
 	          }
 	        }),
 	        _react2.default.createElement(
@@ -28194,7 +28202,7 @@
 	              _react2.default.createElement(
 	                'label',
 	                null,
-	                '단체협약 목차'
+	                '모범단체협약안 목차'
 	              )
 	            )
 	          ),
