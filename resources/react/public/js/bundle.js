@@ -27068,6 +27068,8 @@
 
 	var _ArticleItem2 = _interopRequireDefault(_ArticleItem);
 
+	var _reactRouter = __webpack_require__(159);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var ArticleList = function ArticleList(_ref) {
@@ -27086,6 +27088,9 @@
 	    { className: 'no-result' },
 	    '검색 결과가 없습니다.'
 	  );
+	  var more = result.articles && result.articles.more || 0;
+	  var moreClass = more ? 'more-box show' : 'more-box hide';
+	  var query = window.location.search;
 	  var totalCount = result.articles && result.articles.total_cnt || 0;
 
 	  return _react2.default.createElement(
@@ -27103,7 +27108,20 @@
 	      ),
 	      '개'
 	    ),
-	    rows
+	    rows,
+	    _react2.default.createElement(
+	      'div',
+	      { className: moreClass },
+	      _react2.default.createElement(
+	        _reactRouter.Link,
+	        { to: '/articles' + query },
+	        _react2.default.createElement(
+	          'span',
+	          null,
+	          '더보기'
+	        )
+	      )
+	    )
 	  );
 	};
 
@@ -27241,6 +27259,8 @@
 
 	var _OrgItem2 = _interopRequireDefault(_OrgItem);
 
+	var _reactRouter = __webpack_require__(159);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var OrgList = function OrgList(_ref) {
@@ -27259,6 +27279,9 @@
 	    { className: 'no-result' },
 	    '검색 결과가 없습니다.'
 	  );
+	  var more = result.orgs && result.orgs.more || 0;
+	  var moreClass = more ? 'more-box show' : 'more-box hide';
+	  var query = window.location.search;
 	  var totalCount = result.orgs && result.orgs.total_cnt || 0;
 
 	  return _react2.default.createElement(
@@ -27276,7 +27299,20 @@
 	      ),
 	      '개'
 	    ),
-	    rows
+	    rows,
+	    _react2.default.createElement(
+	      'div',
+	      { className: moreClass },
+	      _react2.default.createElement(
+	        _reactRouter.Link,
+	        { to: '/orgs' + query },
+	        _react2.default.createElement(
+	          'span',
+	          null,
+	          '더보기'
+	        )
+	      )
+	    )
 	  );
 	};
 
@@ -27758,6 +27794,8 @@
 
 	var _axios2 = _interopRequireDefault(_axios);
 
+	var _reactRouter = __webpack_require__(159);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -27785,79 +27823,230 @@
 	    value: function render() {
 	      return _react2.default.createElement(
 	        'div',
-	        { className: 'row' },
-	        'Org ',
-	        this.props.params.oid,
-	        ' ',
-	        _react2.default.createElement('br', null),
-	        '상급1 | 상급2 ',
-	        _react2.default.createElement('br', null),
-	        '단체협역 보기 | 다운받기 ',
-	        _react2.default.createElement('br', null),
-	        _react2.default.createElement('br', null),
-	        '총연합단체: ',
-	        getNames(this.state.org.f1),
-	        ' ',
-	        _react2.default.createElement('br', null),
-	        '산별연맹: ',
-	        getNames(this.state.org.f2),
-	        ' ',
-	        _react2.default.createElement('br', null),
-	        '업종조직: ',
-	        getNames(this.state.org.f3),
-	        ' ',
-	        _react2.default.createElement('br', null),
-	        '지역: ',
-	        getNames(this.state.org.f4),
-	        ' ',
-	        _react2.default.createElement('br', null),
-	        '복수노조: ',
-	        getNames(this.state.org.f5),
-	        ' ',
-	        _react2.default.createElement('br', null),
-	        '과반노조: ',
-	        getNames(this.state.org.f6),
-	        ' ',
-	        _react2.default.createElement('br', null),
-	        '조합원수: ',
-	        this.state.org.f7,
-	        ' ',
-	        _react2.default.createElement('br', null),
-	        '사업자명(원청): ',
-	        this.state.org.f8,
-	        ' ',
-	        _react2.default.createElement('br', null),
-	        '특성: ',
-	        getNames(this.state.org.f10),
-	        ' ',
-	        _react2.default.createElement('br', null),
-	        '고용형태: ',
-	        getNames(this.state.org.f11),
-	        ' ',
-	        _react2.default.createElement('br', null),
-	        '산업/직종: ',
-	        getNames(this.state.org.f12),
-	        ' ',
-	        _react2.default.createElement('br', null),
-	        '부처 : ',
-	        getNames(this.state.org.f13),
-	        ' ',
-	        _react2.default.createElement('br', null),
-	        _react2.default.createElement('br', null),
-	        '사업장 정보',
-	        _react2.default.createElement('br', null),
-	        '대표자명: ',
-	        this.state.org.f14,
-	        ' ',
-	        _react2.default.createElement('br', null),
-	        '전화: ',
-	        this.state.org.f15,
-	        ' ',
-	        _react2.default.createElement('br', null),
-	        '주소: ',
-	        this.state.org.f16,
-	        ' ',
-	        _react2.default.createElement('br', null)
+	        { className: 'organ-info-container' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'orgain-info' },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'header' },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'organ-name' },
+	              _react2.default.createElement(
+	                'span',
+	                { className: 'lowset-level' },
+	                this.state.org.fullname
+	              )
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'agreement' },
+	              _react2.default.createElement(
+	                'a',
+	                { className: 'agree-view' },
+	                _react2.default.createElement(
+	                  'span',
+	                  null,
+	                  '단체협역 보기'
+	                )
+	              ),
+	              _react2.default.createElement(
+	                'a',
+	                { className: 'agree-download' },
+	                _react2.default.createElement(
+	                  'span',
+	                  null,
+	                  '다운받기'
+	                )
+	              )
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'content' },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'column label' },
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'row' },
+	                '총연합단체'
+	              ),
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'row' },
+	                '산별연맹'
+	              ),
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'row' },
+	                '업종조직'
+	              ),
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'row' },
+	                '지역'
+	              ),
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'row' },
+	                '복수노조'
+	              ),
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'row' },
+	                '과반노조'
+	              ),
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'row' },
+	                '조합원수'
+	              ),
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'row' },
+	                '사업자명(원청)'
+	              ),
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'row' },
+	                '특성'
+	              ),
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'row' },
+	                '고용형태'
+	              ),
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'row' },
+	                '산업/직종'
+	              ),
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'row' },
+	                '부처'
+	              )
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'column info' },
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'row' },
+	                getNames(this.state.org.f1)
+	              ),
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'row' },
+	                getNames(this.state.org.f2)
+	              ),
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'row' },
+	                getNames(this.state.org.f3)
+	              ),
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'row' },
+	                getNames(this.state.org.f4)
+	              ),
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'row' },
+	                getNames(this.state.org.f5)
+	              ),
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'row' },
+	                getNames(this.state.org.f6)
+	              ),
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'row' },
+	                this.state.org.f7
+	              ),
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'row' },
+	                this.state.org.f8
+	              ),
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'row' },
+	                getNames(this.state.org.f10)
+	              ),
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'row' },
+	                getNames(this.state.org.f11)
+	              ),
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'row' },
+	                getNames(this.state.org.f12)
+	              ),
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'row' },
+	                getNames(this.state.org.f13)
+	              )
+	            )
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'company-info' },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'header' },
+	            '사업장 정보'
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'content' },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'column label' },
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'row' },
+	                '대표자명'
+	              ),
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'row' },
+	                '전화'
+	              ),
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'row' },
+	                '주소'
+	              )
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'column info' },
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'row' },
+	                this.state.org.f14
+	              ),
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'row' },
+	                this.state.org.f15
+	              ),
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'row' },
+	                this.state.org.f16
+	              )
+	            )
+	          )
+	        ),
+	        _react2.default.createElement('div', { className: 'footer' })
 	      );
 	    }
 	  }, {
@@ -27880,6 +28069,7 @@
 
 	        console.log(window.location.pathname, url, data);
 	        // TODO: checkLogin
+	        console.log(data.orgs);
 
 	        _this2.setState({
 	          org: data.orgs
@@ -27898,6 +28088,30 @@
 	  return arr ? arr.reduce(function (acc, v) {
 	    return acc ? acc + ', ' + v.name : v.name;
 	  }, '') : '-';
+	}
+
+	function makeOrgName(orgs) {
+	  var oid = orgs.oid;
+	  var name = orgs.name;
+
+
+	  if (oid) {
+	    return _react2.default.createElement(
+	      _reactRouter.Link,
+	      { to: '/orgs/' + oid },
+	      _react2.default.createElement(
+	        'span',
+	        { className: 'higher-level' },
+	        name
+	      )
+	    );
+	  } else {
+	    return _react2.default.createElement(
+	      'span',
+	      { className: 'lowset-level' },
+	      name
+	    );
+	  }
 	}
 
 /***/ },
@@ -27950,34 +28164,52 @@
 
 	      var rows = [];
 	      for (var key in this.state.fields) {
-	        if (standard[key]) {
+	        if (standard[this.state.fields[key].field]) {
+	          var cname = this.state.fields[key].field;
 	          rows.push(_react2.default.createElement(
 	            'div',
-	            { key: key },
+	            { className: cname, key: key },
 	            _react2.default.createElement(
-	              'p',
+	              'h3',
 	              null,
-	              _react2.default.createElement(
-	                'b',
-	                null,
-	                this.state.fields[key].subject
-	              )
+	              this.state.fields[key].subject
 	            ),
-	            _react2.default.createElement('p', { dangerouslySetInnerHTML: { __html: standard[key] } })
+	            _react2.default.createElement('p', { dangerouslySetInnerHTML: { __html: standard[this.state.fields[key].field] } })
 	          ));
 	        }
 	      }
 
 	      return _react2.default.createElement(
 	        'div',
-	        { className: 'row' },
+	        { className: 'guide-clause-container' },
 	        _react2.default.createElement(
-	          'p',
-	          null,
-	          standard.subject
-	        ),
-	        _react2.default.createElement('p', { dangerouslySetInnerHTML: { __html: standard.content } }),
-	        rows
+	          'div',
+	          { className: 'whole-document' },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'meta-info-wrap' },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'meta-info' },
+	              _react2.default.createElement(
+	                'label',
+	                null,
+	                '단체협약 목차'
+	              )
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'guide-document document' },
+	            _react2.default.createElement(
+	              'h2',
+	              null,
+	              standard.subject
+	            ),
+	            _react2.default.createElement('p', { classNname: 'guide-content', dangerouslySetInnerHTML: { __html: standard.content } }),
+	            rows
+	          )
+	        )
 	      );
 	    }
 	  }, {

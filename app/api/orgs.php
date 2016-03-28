@@ -17,6 +17,26 @@ class orgs extends \CADB\Controller {
 		if($this->params['oid']) {
 			$this->organize = \CADB\Organize::getOrganizeByOid($this->params['oid']);
 			if($this->organize) {
+				$org_map = array();
+				$org_map[] = array(
+					'oid' => ($this->organize['depth'] > 1 ? $this->organize['oid'] : 0),
+					'name' => $this->organize['nojo']
+				);
+				for($i=2; $i<($this->organize['depth']); $i++) {
+					if($this->organize['p'.$i]) {
+						$org_map[] = array(
+							'oid' => $this->oraganize['p'.$i],
+							'name' => $this->organize['sub'.($i-1)]
+						);
+					}
+				}
+				if($this->organize['depth'] > 1) {
+					$org_map[] = array(
+						'oid' => 0,
+						'name' => $this->organize['sub'.($this->organize['depth']-1)]
+					);
+				}
+				$this->organize['organizes'] = $org_map;
 				if(!$this->organize['f7']) {
 					$this->organize['f7'] = '정보없음';
 				}

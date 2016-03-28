@@ -34,13 +34,15 @@ class all extends \CADB\Controller {
 			$this->result['orgs'] = array(
 				'total_cnt'=>$organize_total_cnt,
 				'total_page'=>$organize_total_page,
-				'count'=>@count($this->organize)
+				'count'=>@count($this->organize),
+				'more'=>( ( $organize_total_cnt > @count($this->organize) ) ? 1 : 0 )
 			);
 		} else {
 			$this->result['orgs'] = array(
 				'total_cnt'=>0,
 				'total_page'=>0,
 				'count'=>0,
+				'more'=>0,
 				'error'=>'검색결과가 없습니다.'
 			);
 		}
@@ -68,13 +70,15 @@ class all extends \CADB\Controller {
 			$this->result['articles'] = array(
 				'total_cnt'=>min($total_cnt,@count($this->articles)),
 				'total_page'=>$total_page,
-				'count'=>@count($this->articles)
+				'count'=>@count($this->articles),
+				'more'=>( ( $total_cnt > @count($this->articles) ) ? 1 : 0 )
 			);
 		} else {
 			$this->result['articles'] = array(
 				'total_cnt'=>0,
 				'total_page'=>0,
 				'count'=>0,
+				'more'=>0,
 				'error'=>'검색결과가 없습니다.'
 			);
 		}

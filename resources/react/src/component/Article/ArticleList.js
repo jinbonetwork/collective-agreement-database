@@ -1,5 +1,6 @@
 import React from 'react';
 import ArticleItem from './ArticleItem';
+import { Link } from 'react-router';
 
 const ArticleList = ({
   result, articles
@@ -7,6 +8,9 @@ const ArticleList = ({
   const items = articles.map(makeItem);
   const rows = items.length ? <ul> {items} </ul>
              : <div className="no-result">검색 결과가 없습니다.</div>;
+  const more = result.articles && result.articles.more || 0;
+  const moreClass = ( more ? 'more-box show' : 'more-box hide');
+  const query = window.location.search;
   const totalCount = result.articles && result.articles.total_cnt || 0;
 
   return (
@@ -15,6 +19,7 @@ const ArticleList = ({
         <span className="result-counts">{totalCount}</span>개
       </div>
       {rows}
+	  <div className={moreClass}><Link to={`/articles${query}`}><span>더보기</span></Link></div>
     </div>
   );
 };

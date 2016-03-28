@@ -478,6 +478,11 @@ body {
 		border-bottom: solid 2px #9fa0a0;
 		padding-bottom: 40px;
 	}
+		.organization-result .header {
+			padding: 0 10px 30px 20px;
+			font-size: 1.2em;
+			font-weight: 700;
+		}
 		.organization-result li {
 			padding: 20px;
 			background-color: #ffffff;
@@ -511,6 +516,11 @@ body {
 			font-size: 0.95em;
 		}
 	.article-result {}
+		.article-result .header {
+			padding: 0 10px 30px 20px;
+			font-size: 1.2em;
+			font-weight: 700;
+		}
 		.article-result li {
 			padding: 20px;
 			background-color: #ffffff;
@@ -723,4 +733,127 @@ body {
 .page-navi-box ul li.next a:after {
 	font-family: "FontAwesome";
 	content: "\f105";
+}
+
+.organ-info-container {
+	background: #fff;
+	width: 600px;
+	margin: 0 auto;
+	padding: 70px 30px 50px 50px;
+	border: solid 3px #5a91e2;
+	font-family: 'Nanum Barun Gothic';
+	font-size: 16px;
+	font-weight: 200;
+	color: #595757;
+	margin-bottom: 40px;
+}
+.organ-info-container button {
+	padding: 0 25px;
+	line-height: 35px;
+	border: 0;
+	border-radius: 30px;
+	margin: 0;
+	outline: none;
+	color: #ffffff;
+	font-family: inherit;
+	font-size: 0.9em;
+	font-weight: 700;
+	cursor: pointer;
+	background-color: #5a91e2;
+}
+.organ-info-container .organ-name {
+	font-size: 1.2em;
+	margin-bottom: 20px;
+}
+.organ-info-container .organ-name span {
+	display: inline-block;
+	margin-right: 10px;
+}
+.organ-info-container .organ-name .higher-level {
+	color: #5a91e2;
+	border-bottom: dotted 2px #5a91e2;
+}
+.organ-info-container .organ-name .lowest-level {
+	font-weight: 700;
+}
+.organ-info-container .agreement {
+	margin-bottom: 30px;
+}
+.organ-info-container .agreement:after {
+	content: '';
+	display: block;
+	clear: both;
+}
+.organ-info-container .agreement button:first-child {
+	float: left;
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+	padding-right: 5px;
+}
+.organ-info-container .agreement button:first-child:after {
+	content: '|';
+	padding-left: 5px;
+}
+.organ-info-container .agreement button:last-child {
+	float: left;
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+	padding-left: 0;
+}
+.organ-info-container .content {
+	margin-bottom: 30px;
+}
+.organ-info-container .content:after {
+	content: '';
+	display: block;
+	clear: both;
+}
+.organ-info-container .content .column.label {
+	width: 150px;
+	float: left;
+	font-size: 0.9em;
+	font-weight: 700;
+	text-align: right;
+	border-right: dotted 2px #5a91e2;
+}
+.organ-info-container .content .row {
+	line-height: 20px;
+	margin-bottom: 20px;
+}
+.organ-info-container .content .row:last-of-type {
+	margin-bottom: 0;
+}
+.organ-info-container .content .column.label .row {
+	padding-right: 20px;
+}
+.organ-info-container .content .column.info {
+	margin-left: 170px;
+}
+.organ-info-container .company-info > .header {
+	font-weight: 700;
+	margin-bottom: 20px;
+}
+.organ-info-container .footer {
+	text-align: center;
+}
+
+.more-box {
+	padding: 15px 0 10px 0;
+	text-align: right;
+}
+.more-box.hide {
+	display: none;
+}
+.more-box a {
+	display: inline-block;
+	border: 1px solid #5a91e2;
+	border-radius: 10px;
+	padding: 10px;
+	background: #fff;
+	color: #4d4d4d;
+	font-weight: bold;
+}
+.more-box a:hover {
+	color: #fff;
+	background: #5a91e2;
 }

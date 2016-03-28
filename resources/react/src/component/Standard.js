@@ -15,20 +15,30 @@ export default class Standard extends Component {
 
     let rows = [];
     for (let key in this.state.fields) {
-      if (standard[key]) {
-        rows.push(<div key={key}>
-          <p><b>{this.state.fields[key].subject}</b></p>
-          <p dangerouslySetInnerHTML={{ __html: standard[key] }} />
+      if (standard[this.state.fields[key].field]) {
+	    const cname = this.state.fields[key].field;
+        rows.push(<div className={cname} key={key}>
+          <h3>{this.state.fields[key].subject}</h3>
+          <p dangerouslySetInnerHTML={{ __html: standard[this.state.fields[key].field] }} />
         </div>);
       }
     }
 
     return (
-      <div className="row">
-        <p>{standard.subject}</p>
-        <p dangerouslySetInnerHTML={{ __html: standard.content }} />
-        {rows}
-      </div>
+      <div className="guide-clause-container">
+	    <div className="whole-document">
+		  <div className="meta-info-wrap">
+		    <div className="meta-info">
+			  <label>단체협약 목차</label>
+			</div>
+		  </div>
+	      <div className="guide-document document">
+            <h2>{standard.subject}</h2>
+            <p classNname="guide-content" dangerouslySetInnerHTML={{ __html: standard.content }} />
+            {rows}
+		  </div>
+        </div>
+	  </div>
     );
   }
 
