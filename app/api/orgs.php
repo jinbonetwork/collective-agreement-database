@@ -40,6 +40,11 @@ class orgs extends \CADB\Controller {
 				if(!$this->organize['f7']) {
 					$this->organize['f7'] = '정보없음';
 				}
+				if(\CADB\Privilege::checkOrganize($this->organize['oid'])) {
+					$this->organize['owner'] = 1;
+				} else {
+					$this->organize['owner'] = 0;
+				}
 				$agreement = \CADB\Agreement::getAgreementsByOid($this->params['oid']);
 				if($agreement && is_array($agreement)) {
 					$this->fields['nid'] = array('subject' => '단체협약','type'=>'int','multiple'=>true);

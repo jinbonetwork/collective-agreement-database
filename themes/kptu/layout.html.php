@@ -23,7 +23,7 @@
 <?php		if(user_logged_in()) {?>
 				<div class="logged-in<?php print(!user_logged_in() ? " hidden" : ""); ?>">
 					<a href="" class="organization-info">내 조직</a>
-					<a href="<?php print url('loing/logout'); ?>" class="logged-out">로그아웃</a>
+					<a href="<?php print url('login/logout'); ?>" class="logged-out">로그아웃</a>
 				</div>
 <?php		} else {?>
 				<div class="logged-out<?php print(user_logged_in() ? " hidden" : ""); ?>">

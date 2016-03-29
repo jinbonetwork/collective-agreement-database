@@ -19,7 +19,8 @@ function Login($loginid, $password) {
 }
 
 function Logout() {
-	\CADB\Auth::logout();
+	unset($_SESSION);
+	session_destroy();
 }
 
 function requireLogin() {
