@@ -591,6 +591,22 @@ body {
 			.whole-document .meta-info .column.info {
 				margin-left: 90px;
 			}
+			.whole-document .meta-info-wrap .article-edit-box {
+				clear:both;
+				margin: 30px 0;
+				text-align: center;
+			}
+			.whole-document .meta-info-wrap .article-edit-box a {
+				border: 1px solid #5a91e2;
+				color: #5a91e2;
+				background: #fff;
+				border-radius: 10px;
+				padding: 10px 15px;
+			}
+			.whole-document .meta-info-wrap .article-edit-box a:hover {
+				background: #5a91e2;
+				color: #fff;
+			}
 		.whole-document .document {
 			padding: 20px;
 			margin-left: 40%;
