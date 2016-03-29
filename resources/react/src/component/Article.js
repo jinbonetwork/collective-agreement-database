@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router';
 
 export default class Article extends Component {
   constructor() {
@@ -10,6 +11,7 @@ export default class Article extends Component {
   }
 
   render() {
+    const editbox = makeEditButton(this.state.article);
     if (!this.state.article.subject) {
       return <div />;
     }
@@ -30,6 +32,7 @@ export default class Article extends Component {
               <div className="row">{this.state.article.f32}년</div>
             </div>
           </div>
+		  {editbox}
         </div>
         <div className="document">
           <h1>{this.state.article.subject}</h1>
@@ -60,5 +63,15 @@ export default class Article extends Component {
         article: data.articles
       });
     });
+  }
+}
+
+function makeEditButton(articles) {
+  console.log(articles);
+  const nid = articles.nid;
+  if(articles.owner) {
+    return <div className="article-edit-box"><a href={`/articles/edit?nid=${nid}`}><span className="edit-button">수정</span></a></div>;
+  } else {
+    return '';
   }
 }

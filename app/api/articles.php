@@ -18,6 +18,11 @@ class articles extends \CADB\Controller {
 
 		if($this->params['nid']) {
 			$this->articles = \CADB\Agreement::getAgreement($this->params['nid'],($this->params['did'] ? $this->params['did'] : 0));
+			if(\CADB\Privilege::checkAgreement($this->articles)) {
+				$this->articles['owner'] = 1;
+			} else {
+				$this->articles['owner'] = 0;
+			}
 			if($this->articles) {
 				$this->result = array(
 					'found'=>true
