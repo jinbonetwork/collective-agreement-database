@@ -19,9 +19,10 @@ export default class Search extends Component {
   }
 
   render() {
+    const cname = (this.state.standards.length > 0) ? 'intermediate-result' : 'intermediate-result full';
     return (
       <div className="search-result">
-        <div className="intermediate-result">
+        <div className={cname}>
           <StandardList key={`guide-clause-list`} standards = {this.state.standards} />
 
           <div className="organ-article-result">

@@ -426,6 +426,8 @@ body {
 		display: block;
 		clear: both;
 	}
+	.intermediate-result {
+	}
 	.example-result {
 		float: left;
 		width: 40%;
@@ -466,6 +468,9 @@ body {
 	.organ-article-result {
 		margin-left: 40%;
 	}
+		.intermediate-result.full .organ-article-result {
+			margin-left: 0;
+		}
 		.organ-article-result div > .header {
 			padding: 30px 10px 30px 20px;
 			font-size: 1.2em;
