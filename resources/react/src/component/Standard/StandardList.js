@@ -22,8 +22,7 @@ function makeItem(item) {
   const { id, subject, content } = item;
 
   const props = {
-    sid: id,
-    subject, content,
+    standard: item,
   };
-  return <StandardItem key={id} {...props} />;
+  return <StandardItem key={`standard-${id}`} {...props} />;
 }

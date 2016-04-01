@@ -33,6 +33,22 @@ class standards extends \CADB\Controller {
 					'error'=>'존재하지 모범단협 조항입니다.'
 				);
 			}
+			$this->indexes = array();
+			if($this->params['mode'] == 'init') {
+				$clauses = \CADB\Guide::getClauses();
+				foreach($clauses as $i => $cl) {
+					if( !$cl['parent'] ) {
+						$cl['nsubs'] = 0;
+						$cl['articles'] = array();
+						$this->indexes[$i] = $cl;
+						$index_map[$cl['id']] = $i;
+					} else {
+						$idx = $index_map[$cl['parent']];
+						$this->indexes[$idx]['articles'][] = $cl;
+						$this->indexes[$idx]['nsubs']++;
+					}
+				}
+			}
 		} else {
 			$taxonomys = \CADB\Guide::getTaxonomy($nid);
 			foreach($this->params as $k => $v) {

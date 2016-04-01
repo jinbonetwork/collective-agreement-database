@@ -92,15 +92,11 @@ export default class SearchBar extends Component {
 
   componentDidMount() {
     const queryStr = window.location.search;
-    console.log('- SearchBar componentDidMount:', queryStr);
 
     // make search bar category options
     const url = '/api';
     axios.get(url)
     .then(({ data }) => {
-      console.log(window.location.pathname, url, data);
-      // TODO: checkLogin
-
       // store label for query option label
       let labels;
 	  let self = this;
@@ -150,28 +146,24 @@ export default class SearchBar extends Component {
   }
 
   handleClickQueryLabel(field, value) {
-    console.log('- handleClickQueryLabel', field, value);
     this.setState({
       query: toggleInQuery(this.state.query, field, value)
     });
   }
 
   handleCheckboxClick(field, value) {
-    console.log('- handleCheckboxClick', field, value);
     this.setState({
       query: toggleInQuery(this.state.query, field, value)
     });
   }
 
   handleSelectSelect(field, value) {
-    console.log('- handleSelectSelect', field, value);
 	this.setState({
       query: changeInQuery(this.state.query, field, value)
 	});
   }
 
   handleChapterClick(field, value, nsubs) {
-    console.log('- handleChapterSelect', field, value, nsubs);
 	if(parseInt(nsubs)) {
       this.setState({
         articles: this.state.chapterArticles[value] || []
@@ -184,7 +176,6 @@ export default class SearchBar extends Component {
   }
 
   handleSelectClick(value) {
-  	console.log(value);
     window.$('ul#'+value).slideToggle();
   }
 
@@ -208,7 +199,6 @@ export default class SearchBar extends Component {
       return;
     }
 
-    console.log('- SearchBar handleSubmit():', searchKeyword, this.state.query);
     this.props.onSearch(searchKeyword, this.state.query);
     window.$('.sub-categories').hide();
   }

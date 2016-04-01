@@ -103,6 +103,20 @@ class Guide extends \CADB\Objects  {
 		return $standard;
 	}
 
+	public static function getClauses() {
+		$dbm = \CADB\DBM::instance();
+
+		$nid = self::$guide['nid'];
+
+		$que = "SELECT id,parent,idx,subject FROM {guide_clause} ORDER BY parent ASC, idx ASC";
+		$_clauses = array();
+		while($row = $dbm->getFetchArray($que)) {
+			$clauses[] = self::fetchGuideClause($row);
+		}
+
+		return $clauses;
+	}
+
 	public static function makeQuery($args) {
 		if(!is_array($args)) {
 			$args = json_decode($args,true);

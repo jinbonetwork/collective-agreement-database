@@ -190,7 +190,31 @@ class Organize extends \CADB\Objects  {
 				$organize[$k] = $v;
 			}
 		}
+		$organize['organizes'] = self::makeMap($organize);
 		return $organize;
+	}
+
+	private static function makeMap($organize) {
+		$org_map = array();
+		$org_map[] = array(
+			'oid' => ($organize['depth'] > 1 ? $organize['p1'] : 0),
+			'name' => $organize['nojo']
+		);
+		for($i=2; $i<($organize['depth']); $i++) {
+			if($organize['p'.$i]) {
+				$org_map[] = array(
+					'oid' => $organize['p'.$i],
+					'name' => $organize['sub'.($i-1)]
+				);
+			}
+		}
+		if($organize['depth'] > 1) {
+			$org_map[] = array(
+				'oid' => 0,
+				'name' => $organize['sub'.($organize['depth']-1)]
+			);
+		}
+		return $org_map;
 	}
 }
 ?>

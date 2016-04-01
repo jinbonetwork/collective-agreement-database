@@ -1,11 +1,16 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
+import StandardIndexes from './Standard/StandardIndexes';
+import { showSearching, hideSearching } from '../util/utils';
+
 export default class Standard extends Component {
   constructor() {
     super();
     this.state = {
+	  path: '',
       fields: [],
+	  indexes: [],
       standard: {},
     };
   }
@@ -28,8 +33,12 @@ export default class Standard extends Component {
       <div className="guide-clause-container">
 	    <div className="whole-document">
 		  <div className="meta-info-wrap">
-		    <div className="meta-info">
+		    <div className="meta-info guide-indexes">
 			  <label>모범단체협약안 목차</label>
+              <StandardIndexes
+                indexes={this.state.indexes}
+                onIndexClick={this.handleIndexClick.bind(this)}
+			  />
 			</div>
 		  </div>
 	      <div className="guide-document document">
@@ -43,25 +52,76 @@ export default class Standard extends Component {
   }
 
   componentWillMount() {
-    console.log('- Standard componentWillMount');
-    this.doSearch();
+    this.doSearch(true);
   }
 
-  doSearch() {
-    const api = '/api/standards';
-    const sid = this.props.params.sid;
-    const url = `${api}/${sid}`;
+  componentDidMount() {
+  	this.doUpdated();
+  }
 
+  componentWillReceiveProps() {
+    this.doSearch(false);
+  }
+
+  componentDidUpdate() {
+  	this.doUpdated();
+  }
+
+  doSearch(init) {
+    const api = '/api/standards';
+    const sid = window.location.pathname.split("/").splice(-1)[0];
+	if(init === true) {
+    	var url = `${api}/${sid}?mode=init`;
+	} else {
+    	var url = `${api}/${sid}`;
+	}
+
+    showSearching();
     axios.get(url)
     .then(({ data }) => {
-      console.log(window.location.pathname, url, data);
-      // TODO: checkLogin
-
-      this.setState({
-        fields: data.fields.standard,
-        standard: data.standard,
-      });
+      hideSearching();
+      if(init == true) {
+        this.setState({
+          fields: data.fields.standard,
+          indexes: data.indexes,
+          standard: data.standard,
+        });
+      } else {
+        this.setState({
+          fields: data.fields.standard,
+          standard: data.standard,
+        });
+      }
     });
+  }
+
+  doUpdated() {
+    const sid = window.location.pathname.split("/").splice(-1)[0];
+	this.state.indexes.forEach((index) => {
+		if(index.id == sid) {
+			window.$('#guide-chapter-'+sid).removeClass('collapsed').siblings().addClass('collapsed');
+		} else {
+			var find=0;
+			index.articles.forEach((article) => {
+				if(article.id == sid) {
+					window.$('#guide-chapter-'+article.parent).addClass('current').removeClass('collapsed');
+					window.$('#guide-article-'+sid).addClass('current');
+					find = 1;
+				} else {
+					window.$('#guide-article-'+article.id).removeClass('current');
+				}
+			});
+			if(!find) {
+				window.$('#guide-chapter-'+index.id).addClass('collapsed');
+			}
+		}
+	});
+  }
+
+  handleIndexClick(id,nsubs) {
+    if(nsubs) {
+      window.$('#guide-chapter-'+id).toggleClass('collapsed').siblings().addClass('collapsed');
+    }
   }
 }
 

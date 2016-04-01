@@ -54,6 +54,3 @@ const ArticleCategory = ({
 };
 
 export default ArticleCategory;
-
-
-

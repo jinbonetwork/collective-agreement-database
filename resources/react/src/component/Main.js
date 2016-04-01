@@ -34,12 +34,12 @@ export default class Main extends Component {
               <i className="fa fa-spinner fa-pulse"></i>
             </div>
           </div>
+		  <div id="overlay-container"></div>
 		</div>
     );
   }
 
   unsetShouldSearch() {
-    // console.log('- Main unsetShouldSearch');
     this.setState({ shouldSearch: false });
   }
 

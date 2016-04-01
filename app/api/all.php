@@ -15,6 +15,7 @@ class all extends \CADB\Controller {
 				$this->fields[$v['table']] = array();
 			$this->fields[$v['table']][] = array('field'=>'f'.$f, 'subject' => $v['subject'],'type'=>$v['type'], 'multiple'=>( $v['multiple'] ? true : false ),'cid'=>$v['cid']);
 		}
+		$this->fields['organize'][] = array( 'field' => 'nid', 'subject' => '단체협약', 'type' => 'int', 'multiple' => true );
 
 		$nid = \CADB\Guide::getCurrent(($this->params['nid'] ? $this->params['nid'] : 1));
 
@@ -31,6 +32,19 @@ class all extends \CADB\Controller {
 		$organize_total_page = (int)( ( $organize_total_cnt - 1 ) / ($this->params['limit'] ? $this->params['limit'] : 10) ) + 1;
 		if($organize_total_cnt) {
 			$this->organize = \CADB\Organize::getList($this->params['q'],1,($this->params['limit'] ? $this->params['limit'] : 10),$args);
+			for($i=0; $i<count($this->organize); $i++) {
+				$this->organize[$i]['nid'] = array();
+				$agreement = \CADB\Agreement::getAgreementsByOid( $this->organize[$i]['oid'], $this->organize[$i]['vid'] );
+				if( $agreement && is_array($agreement) ) {
+					foreach($agreement as $ag) {
+						$this->organize[$i]['nid'][] =  array(
+							'nid'=>$ag['nid'],
+							'did'=>$ag['did'],
+							'subject'=>$ag['subject']
+						);
+					}
+				}
+			}
 			$this->result['orgs'] = array(
 				'total_cnt'=>$organize_total_cnt,
 				'total_page'=>$organize_total_page,
@@ -68,7 +82,7 @@ class all extends \CADB\Controller {
 		if($total_cnt) {
 			$this->articles = \CADB\Agreement::getList($this->params['q'],1,($this->params['limit'] ? $this->params['limit'] : 10),$args);
 			$this->result['articles'] = array(
-				'total_cnt'=>min($total_cnt,@count($this->articles)),
+				'total_cnt'=>$total_cnt,
 				'total_page'=>$total_page,
 				'count'=>@count($this->articles),
 				'more'=>( ( $total_cnt > @count($this->articles) ) ? 1 : 0 )

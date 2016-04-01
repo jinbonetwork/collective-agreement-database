@@ -3,15 +3,18 @@ import axios from 'axios';
 import StandardList from './Standard/StandardList';
 import ArticleList from './Article/ArticleList';
 import OrgList from './Org/OrgList';
+import { showSearching, hideSearching } from '../util/utils';
 
 export default class Search extends Component {
   constructor() {
     super();
     this.state = {
+      fields: {},
       result: {},
       articles: [],
       orgs: [],
       standards: [],
+	  org: {},
     };
   }
 
@@ -19,7 +22,7 @@ export default class Search extends Component {
     return (
       <div className="search-result">
         <div className="intermediate-result">
-          <StandardList standards={this.state.standards} />
+          <StandardList key={`guide-clause-list`} standards = {this.state.standards} />
 
           <div className="organ-article-result">
             <OrgList
@@ -46,17 +49,22 @@ export default class Search extends Component {
     this.doSearch();
   }
 
+  componentDidMount() {
+    if(this.state.standards.length > 0) {
+	}
+  }
+
   doSearch() {
     const api = '/api/all';
     const query = window.location.search;
     const url = `${api}${query}`;
 
+    showSearching();
     axios.get(url)
     .then(({ data }) => {
-      console.log(window.location.pathname, url, data);
-      // TODO: checkLogin
-
+      hideSearching();
       this.setState({
+        fields: data.fields || {},
         result: data.result || {},
         articles: data.articles || [],
         orgs: data.orgs || [],

@@ -24710,39 +24710,39 @@
 
 	var _Main2 = _interopRequireDefault(_Main);
 
-	var _Home = __webpack_require__(241);
+	var _Home = __webpack_require__(242);
 
 	var _Home2 = _interopRequireDefault(_Home);
 
-	var _Search = __webpack_require__(242);
+	var _Search = __webpack_require__(243);
 
 	var _Search2 = _interopRequireDefault(_Search);
 
-	var _Articles = __webpack_require__(249);
+	var _Articles = __webpack_require__(250);
 
 	var _Articles2 = _interopRequireDefault(_Articles);
 
-	var _Article = __webpack_require__(250);
+	var _Article = __webpack_require__(253);
 
 	var _Article2 = _interopRequireDefault(_Article);
 
-	var _Orgs = __webpack_require__(251);
+	var _Orgs = __webpack_require__(254);
 
 	var _Orgs2 = _interopRequireDefault(_Orgs);
 
-	var _Org = __webpack_require__(252);
+	var _Org = __webpack_require__(255);
 
 	var _Org2 = _interopRequireDefault(_Org);
 
-	var _Standard = __webpack_require__(253);
+	var _Standard = __webpack_require__(258);
 
 	var _Standard2 = _interopRequireDefault(_Standard);
 
-	var _Sandbox = __webpack_require__(254);
+	var _Sandbox = __webpack_require__(260);
 
 	var _Sandbox2 = _interopRequireDefault(_Sandbox);
 
-	var _NotFound = __webpack_require__(255);
+	var _NotFound = __webpack_require__(261);
 
 	var _NotFound2 = _interopRequireDefault(_NotFound);
 
@@ -24839,13 +24839,13 @@
 	            { className: 'progress-spinner' },
 	            _react2.default.createElement('i', { className: 'fa fa-spinner fa-pulse' })
 	          )
-	        )
+	        ),
+	        _react2.default.createElement('div', { id: 'overlay-container' })
 	      );
 	    }
 	  }, {
 	    key: 'unsetShouldSearch',
 	    value: function unsetShouldSearch() {
-	      // console.log('- Main unsetShouldSearch');
 	      this.setState({ shouldSearch: false });
 	    }
 	  }, {
@@ -24908,7 +24908,7 @@
 
 	var _OrgCategory2 = _interopRequireDefault(_OrgCategory);
 
-	var _ArticleCategory = __webpack_require__(240);
+	var _ArticleCategory = __webpack_require__(241);
 
 	var _ArticleCategory2 = _interopRequireDefault(_ArticleCategory);
 
@@ -25055,15 +25055,11 @@
 	      var _this3 = this;
 
 	      var queryStr = window.location.search;
-	      console.log('- SearchBar componentDidMount:', queryStr);
 
 	      // make search bar category options
 	      var url = '/api';
 	      _axios2.default.get(url).then(function (_ref2) {
 	        var data = _ref2.data;
-
-	        console.log(window.location.pathname, url, data);
-	        // TODO: checkLogin
 
 	        // store label for query option label
 	        var labels = void 0;
@@ -25121,7 +25117,6 @@
 	  }, {
 	    key: 'handleClickQueryLabel',
 	    value: function handleClickQueryLabel(field, value) {
-	      console.log('- handleClickQueryLabel', field, value);
 	      this.setState({
 	        query: (0, _utils.toggleInQuery)(this.state.query, field, value)
 	      });
@@ -25129,7 +25124,6 @@
 	  }, {
 	    key: 'handleCheckboxClick',
 	    value: function handleCheckboxClick(field, value) {
-	      console.log('- handleCheckboxClick', field, value);
 	      this.setState({
 	        query: (0, _utils.toggleInQuery)(this.state.query, field, value)
 	      });
@@ -25137,7 +25131,6 @@
 	  }, {
 	    key: 'handleSelectSelect',
 	    value: function handleSelectSelect(field, value) {
-	      console.log('- handleSelectSelect', field, value);
 	      this.setState({
 	        query: (0, _utils.changeInQuery)(this.state.query, field, value)
 	      });
@@ -25145,7 +25138,6 @@
 	  }, {
 	    key: 'handleChapterClick',
 	    value: function handleChapterClick(field, value, nsubs) {
-	      console.log('- handleChapterSelect', field, value, nsubs);
 	      if (parseInt(nsubs)) {
 	        this.setState({
 	          articles: this.state.chapterArticles[value] || []
@@ -25159,7 +25151,6 @@
 	  }, {
 	    key: 'handleSelectClick',
 	    value: function handleSelectClick(value) {
-	      console.log(value);
 	      window.$('ul#' + value).slideToggle();
 	    }
 	  }, {
@@ -25185,7 +25176,6 @@
 	        return;
 	      }
 
-	      console.log('- SearchBar handleSubmit():', searchKeyword, this.state.query);
 	      this.props.onSearch(searchKeyword, this.state.query);
 	      window.$('.sub-categories').hide();
 	    }
@@ -26333,6 +26323,8 @@
 	exports.toggleInQuery = toggleInQuery;
 	exports.changeInQuery = changeInQuery;
 	exports.pageList = pageList;
+	exports.showSearching = showSearching;
+	exports.hideSearching = hideSearching;
 	function storeLabels(labels, optBlock) {
 	  var field = optBlock.key;
 	  labels[field] = {};
@@ -26408,6 +26400,23 @@
 	  }
 
 	  return pages;
+	}
+
+	function showSearching() {
+	  jQuery('.is-searching').show();
+	  var winWidth = jQuery(window).width();
+	  var winHeight = jQuery(window).height();
+	  var obj = jQuery('.is-searching .progress-spinner');
+	  var w = parseInt((winWidth - 46) / 2);
+	  var h = parseInt((winHeight - 46) / 2);
+	  obj.css({
+	    'margin-top': h + 'px',
+	    'margin-left': w + 'px'
+	  });
+	}
+
+	function hideSearching() {
+	  jQuery('.is-searching').hide();
 	}
 
 /***/ },
@@ -26493,11 +26502,11 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _SelectOptions = __webpack_require__(256);
+	var _SelectOptions = __webpack_require__(239);
 
 	var _SelectOptions2 = _interopRequireDefault(_SelectOptions);
 
-	var _CheckboxOptions = __webpack_require__(239);
+	var _CheckboxOptions = __webpack_require__(240);
 
 	var _CheckboxOptions2 = _interopRequireDefault(_CheckboxOptions);
 
@@ -26602,6 +26611,96 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	var SelectOptions = function SelectOptions(_ref) {
+	  var query = _ref.query;
+	  var field = _ref.field;
+	  var name = _ref.name;
+	  var options = _ref.options;
+	  var oClick = _ref.oClick;
+	  var onSClick = _ref.onSClick;
+
+	  var sname = field + '-select';
+	  var rows = options.map(function (_ref2) {
+	    var name = _ref2.name;
+	    var value = _ref2.value;
+
+	    var id = field + '-' + value;
+	    var fname = '' + field;
+	    var checked = (0, _utils.inQuery)(query, field, value);
+
+	    return _react2.default.createElement(
+	      'li',
+	      { key: id, className: 'checkbox-wrap' },
+	      _react2.default.createElement('input', { type: 'radio', name: fname, id: id, checked: checked,
+	        onChange: function onChange() {
+	          oClick(field, value);
+	        }
+	      }),
+	      _react2.default.createElement(
+	        'label',
+	        { className: 'checkbox', htmlFor: id },
+	        _react2.default.createElement('i', { className: 'unchecked fa fa-square-o' }),
+	        _react2.default.createElement('i', { className: 'checked fa fa-check-square' })
+	      ),
+	      ' ',
+	      _react2.default.createElement(
+	        'label',
+	        { className: 'label', htmlFor: id },
+	        name
+	      )
+	    );
+	  });
+
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'select-options' },
+	    _react2.default.createElement(
+	      'div',
+	      { className: 'radio-button' },
+	      _react2.default.createElement('input', { type: 'radio', id: sname,
+	        onChange: function onChange() {
+	          onSClick(sname);
+	        }
+	      }),
+	      _react2.default.createElement(
+	        'label',
+	        { htmlFor: sname },
+	        _react2.default.createElement(
+	          'span',
+	          null,
+	          name
+	        ),
+	        _react2.default.createElement('i', { className: 'fa fa-angle-down' })
+	      )
+	    ),
+	    _react2.default.createElement(
+	      'ul',
+	      { id: sname, className: 'selectElement shadow' },
+	      rows
+	    )
+	  );
+	};
+
+	exports.default = SelectOptions;
+
+/***/ },
+/* 240 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _utils = __webpack_require__(236);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 	var CheckboxOptions = function CheckboxOptions(_ref) {
 	  var query = _ref.query;
 	  var field = _ref.field;
@@ -26660,7 +26759,7 @@
 	exports.default = CheckboxOptions;
 
 /***/ },
-/* 240 */
+/* 241 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -26769,7 +26868,7 @@
 	exports.default = ArticleCategory;
 
 /***/ },
-/* 241 */
+/* 242 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -26819,7 +26918,7 @@
 	exports.default = Home;
 
 /***/ },
-/* 242 */
+/* 243 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -26838,17 +26937,19 @@
 
 	var _axios2 = _interopRequireDefault(_axios);
 
-	var _StandardList = __webpack_require__(243);
+	var _StandardList = __webpack_require__(244);
 
 	var _StandardList2 = _interopRequireDefault(_StandardList);
 
-	var _ArticleList = __webpack_require__(245);
+	var _ArticleList = __webpack_require__(246);
 
 	var _ArticleList2 = _interopRequireDefault(_ArticleList);
 
-	var _OrgList = __webpack_require__(247);
+	var _OrgList = __webpack_require__(248);
 
 	var _OrgList2 = _interopRequireDefault(_OrgList);
+
+	var _utils = __webpack_require__(236);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -26867,10 +26968,12 @@
 	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Search).call(this));
 
 	    _this.state = {
+	      fields: {},
 	      result: {},
 	      articles: [],
 	      orgs: [],
-	      standards: []
+	      standards: [],
+	      org: {}
 	    };
 	    return _this;
 	  }
@@ -26884,7 +26987,7 @@
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'intermediate-result' },
-	          _react2.default.createElement(_StandardList2.default, { standards: this.state.standards }),
+	          _react2.default.createElement(_StandardList2.default, { key: 'guide-clause-list', standards: this.state.standards }),
 	          _react2.default.createElement(
 	            'div',
 	            { className: 'organ-article-result' },
@@ -26913,6 +27016,11 @@
 	      this.doSearch();
 	    }
 	  }, {
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      if (this.state.standards.length > 0) {}
+	    }
+	  }, {
 	    key: 'doSearch',
 	    value: function doSearch() {
 	      var _this2 = this;
@@ -26921,13 +27029,13 @@
 	      var query = window.location.search;
 	      var url = '' + api + query;
 
+	      (0, _utils.showSearching)();
 	      _axios2.default.get(url).then(function (_ref) {
 	        var data = _ref.data;
 
-	        console.log(window.location.pathname, url, data);
-	        // TODO: checkLogin
-
+	        (0, _utils.hideSearching)();
 	        _this2.setState({
+	          fields: data.fields || {},
 	          result: data.result || {},
 	          articles: data.articles || [],
 	          orgs: data.orgs || [],
@@ -26944,7 +27052,7 @@
 	exports.default = Search;
 
 /***/ },
-/* 243 */
+/* 244 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -26959,7 +27067,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _StandardItem = __webpack_require__(244);
+	var _StandardItem = __webpack_require__(245);
 
 	var _StandardItem2 = _interopRequireDefault(_StandardItem);
 
@@ -26999,14 +27107,13 @@
 
 
 	  var props = {
-	    sid: id,
-	    subject: subject, content: content
+	    standard: item
 	  };
-	  return _react2.default.createElement(_StandardItem2.default, _extends({ key: id }, props));
+	  return _react2.default.createElement(_StandardItem2.default, _extends({ key: 'standard-' + id }, props));
 	}
 
 /***/ },
-/* 244 */
+/* 245 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -27015,49 +27122,88 @@
 	  value: true
 	});
 
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 	var _react = __webpack_require__(1);
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _reactDom = __webpack_require__(158);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
 	var _reactRouter = __webpack_require__(159);
+
+	var _Standardv = __webpack_require__(263);
+
+	var _Standardv2 = _interopRequireDefault(_Standardv);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var StandardItem = function StandardItem(_ref) {
-	  var sid = _ref.sid;
-	  var subject = _ref.subject;
-	  var content = _ref.content;
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	  return _react2.default.createElement(
-	    'li',
-	    null,
-	    _react2.default.createElement(
-	      'div',
-	      { className: 'header' },
-	      subject
-	    ),
-	    _react2.default.createElement('div', { className: 'content',
-	      dangerouslySetInnerHTML: { __html: content } }),
-	    _react2.default.createElement(
-	      'div',
-	      { className: 'footer' },
-	      _react2.default.createElement(
-	        _reactRouter.Link,
-	        { to: '/standards/' + sid },
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var StandardItem = function (_Component) {
+	  _inherits(StandardItem, _Component);
+
+	  function StandardItem(props) {
+	    _classCallCheck(this, StandardItem);
+
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(StandardItem).call(this, props));
+
+	    _this.state = {
+	      standard: props.standard
+	    };
+	    return _this;
+	  }
+
+	  _createClass(StandardItem, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'li',
+	        null,
 	        _react2.default.createElement(
-	          'button',
-	          { type: 'button', name: 'read-article-comment' },
-	          '조문해설 보기'
+	          'div',
+	          { className: 'header' },
+	          this.state.standard.subject
+	        ),
+	        _react2.default.createElement('div', { className: 'content',
+	          dangerouslySetInnerHTML: { __html: this.state.standard.content } }),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'footer' },
+	          _react2.default.createElement(
+	            'button',
+	            { type: 'button', name: 'read-article-comment', onClick: this.onClickGuideClause.bind(this) },
+	            '조문해설 보기'
+	          )
 	        )
-	      )
-	    )
-	  );
-	};
+	      );
+	    }
+	  }, {
+	    key: 'onClickGuideClause',
+	    value: function onClickGuideClause() {
+	      var props = {
+	        id: this.state.standard.id
+	      };
+	      _reactDom2.default.render(_react2.default.createElement(_Standardv2.default, _extends({ key: 'guide-clause-overlay-' + this.state.standard.id }, props)), document.getElementById('overlay-container'));
+	    }
+	  }]);
+
+	  return StandardItem;
+	}(_react.Component);
 
 	exports.default = StandardItem;
+	;
 
 /***/ },
-/* 245 */
+/* 246 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -27072,7 +27218,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _ArticleItem = __webpack_require__(246);
+	var _ArticleItem = __webpack_require__(247);
 
 	var _ArticleItem2 = _interopRequireDefault(_ArticleItem);
 
@@ -27141,20 +27287,15 @@
 	  var subject = article.subject;
 	  var content = article.content;
 
-	  var cat1 = article.f28 && article.f28[0].name;
-	  var cat2 = article.f28 && article.f28[1].name;
-	  var ndate = article.f31;
-	  var term = article.f32;
 
 	  var props = {
-	    nid: nid, subject: subject, content: content,
-	    cat1: cat1, cat2: cat2, ndate: ndate, term: term
+	    article: article
 	  };
-	  return _react2.default.createElement(_ArticleItem2.default, _extends({ key: nid }, props));
+	  return _react2.default.createElement(_ArticleItem2.default, _extends({ key: 'article-' + nid }, props));
 	}
 
 /***/ },
-/* 246 */
+/* 247 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -27163,92 +27304,149 @@
 	  value: true
 	});
 
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 	var _react = __webpack_require__(1);
 
 	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(158);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	var _ArticleOrg = __webpack_require__(262);
+
+	var _ArticleOrg2 = _interopRequireDefault(_ArticleOrg);
 
 	var _reactRouter = __webpack_require__(159);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var ArticleItem = function ArticleItem(_ref) {
-	  var nid = _ref.nid;
-	  var subject = _ref.subject;
-	  var content = _ref.content;
-	  var cat1 = _ref.cat1;
-	  var cat2 = _ref.cat2;
-	  var ndate = _ref.ndate;
-	  var term = _ref.term;
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	  return _react2.default.createElement(
-	    'li',
-	    { key: nid },
-	    _react2.default.createElement(
-	      'div',
-	      { className: 'header' },
-	      _react2.default.createElement(
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var ArticleItem = function (_Component) {
+	  _inherits(ArticleItem, _Component);
+
+	  function ArticleItem(props) {
+	    _classCallCheck(this, ArticleItem);
+
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ArticleItem).call(this, props));
+
+	    _this.state = {
+	      article: props.article
+	    };
+	    return _this;
+	  }
+
+	  _createClass(ArticleItem, [{
+	    key: 'render',
+	    value: function render() {
+	      var cat1 = this.state.article.f28 && this.state.article.f28[0].name;
+	      var cat2 = this.state.article.f28 && this.state.article.f28[1].name;
+	      var rows = this.state.article.f30 ? this.state.article.f30.map(this.makeOrgMap) : [];
+	      var o_button = rows.length > 0 ? _react2.default.createElement(
+	        'span',
+	        { className: 'view-organize', onClick: this.toggleOrgs.bind(this) },
+	        '교섭 참가 단위'
+	      ) : '';
+	      var items = rows.length > 0 ? _react2.default.createElement(
 	        'div',
-	        { className: 'title' },
+	        { className: 'article-orgsmap collapsed' },
+	        _react2.default.createElement(
+	          'ul',
+	          null,
+	          rows
+	        )
+	      ) : '';
+	      return _react2.default.createElement(
+	        'li',
+	        { key: this.state.nid, className: 'article-item' },
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'organ-name' },
+	          { className: 'header' },
 	          _react2.default.createElement(
-	            _reactRouter.Link,
-	            { to: '/articles/' + nid },
-	            subject
+	            'div',
+	            { className: 'title' },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'organ-name' },
+	              _react2.default.createElement(
+	                _reactRouter.Link,
+	                { to: '/articles/' + this.state.article.nid },
+	                this.state.article.subject
+	              )
+	            ),
+	            o_button
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'info' },
+	            _react2.default.createElement(
+	              'span',
+	              { className: 'bargain-cat-1' },
+	              cat1
+	            ),
+	            ', ',
+	            _react2.default.createElement(
+	              'span',
+	              { className: 'bargain-cat-2' },
+	              cat2
+	            ),
+	            ',  협약체결일_',
+	            _react2.default.createElement(
+	              'span',
+	              { className: 'agree-date' },
+	              this.state.article.f31
+	            ),
+	            ',  유효기간_',
+	            _react2.default.createElement(
+	              'span',
+	              { className: 'validity-term' },
+	              this.state.article.f32
+	            ),
+	            '년'
 	          )
 	        ),
 	        _react2.default.createElement(
-	          _reactRouter.Link,
-	          { to: '/articles/' + nid, className: 'view-whole' },
-	          '전문 보기'
-	        )
-	      ),
-	      _react2.default.createElement(
-	        'div',
-	        { className: 'info' },
-	        _react2.default.createElement(
-	          'span',
-	          { className: 'bargain-cat-1' },
-	          cat1
+	          'div',
+	          { className: 'content' },
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            this.state.article.content
+	          )
 	        ),
-	        ', ',
-	        _react2.default.createElement(
-	          'span',
-	          { className: 'bargain-cat-2' },
-	          cat2
-	        ),
-	        ',  협약체결일_',
-	        _react2.default.createElement(
-	          'span',
-	          { className: 'agree-date' },
-	          ndate
-	        ),
-	        ',  유효기간_',
-	        _react2.default.createElement(
-	          'span',
-	          { className: 'validity-term' },
-	          term
-	        ),
-	        '년'
-	      )
-	    ),
-	    _react2.default.createElement(
-	      'div',
-	      { className: 'content' },
-	      _react2.default.createElement(
-	        'p',
-	        null,
-	        content
-	      )
-	    )
-	  );
-	};
+	        items
+	      );
+	    }
+	  }, {
+	    key: 'toggleOrgs',
+	    value: function toggleOrgs() {
+	      jQuery(_reactDom2.default.findDOMNode(this)).find('.view-organize').toggleClass('activated');
+	      jQuery(_reactDom2.default.findDOMNode(this)).find('.article-orgsmap').toggleClass('collapsed').slideToggle();
+	    }
+	  }, {
+	    key: 'makeOrgMap',
+	    value: function makeOrgMap(oid) {
+	      var props = { org: oid };
+	      return _react2.default.createElement(_ArticleOrg2.default, _extends({ key: oid.oid }, props));
+	    }
+	  }]);
+
+	  return ArticleItem;
+	}(_react.Component);
 
 	exports.default = ArticleItem;
+	;
 
 /***/ },
-/* 247 */
+/* 248 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -27263,7 +27461,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _OrgItem = __webpack_require__(248);
+	var _OrgItem = __webpack_require__(249);
 
 	var _OrgItem2 = _interopRequireDefault(_OrgItem);
 
@@ -27328,73 +27526,17 @@
 
 
 	function makeItem(org) {
-	  // TODO: how to get nid
 	  var oid = org.oid;
 	  var fullname = org.fullname;
 	  var nid = org.nid;
 
 
 	  var props = {
-	    oid: oid, fullname: fullname, nid: nid
+	    org: org
 	  };
-	  return _react2.default.createElement(_OrgItem2.default, _extends({ key: oid }, props));
+	  var id = 'organize-' + oid;
+	  return _react2.default.createElement(_OrgItem2.default, _extends({ key: id }, props));
 	}
-
-/***/ },
-/* 248 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactRouter = __webpack_require__(159);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	// TODO : how to get agreement id
-	var OrgItem = function OrgItem(_ref) {
-	  var oid = _ref.oid;
-	  var fullname = _ref.fullname;
-	  var nid = _ref.nid;
-
-	  return _react2.default.createElement(
-	    'li',
-	    { key: oid },
-	    _react2.default.createElement(
-	      'div',
-	      { className: 'header' },
-	      _react2.default.createElement(
-	        'div',
-	        { className: 'title' },
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'organ-name' },
-	          fullname
-	        ),
-	        _react2.default.createElement(
-	          _reactRouter.Link,
-	          { to: '/orgs/' + oid },
-	          '조직정보 보기'
-	        ),
-	        ' ',
-	        nid ? _react2.default.createElement(
-	          _reactRouter.Link,
-	          { to: '/articles/' + nid },
-	          '전문보기'
-	        ) : ''
-	      )
-	    )
-	  );
-	};
-
-	exports.default = OrgItem;
 
 /***/ },
 /* 249 */
@@ -27406,25 +27548,27 @@
 	  value: true
 	});
 
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	var _react = __webpack_require__(1);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _axios = __webpack_require__(219);
+	var _reactDom = __webpack_require__(158);
 
-	var _axios2 = _interopRequireDefault(_axios);
+	var _reactDom2 = _interopRequireDefault(_reactDom);
 
-	var _utils = __webpack_require__(236);
+	var _Orgv = __webpack_require__(256);
 
-	var _ArticleList = __webpack_require__(245);
+	var _Orgv2 = _interopRequireDefault(_Orgv);
 
-	var _ArticleList2 = _interopRequireDefault(_ArticleList);
+	var _OrgAgreement = __webpack_require__(257);
 
-	var _PageList = __webpack_require__(259);
+	var _OrgAgreement2 = _interopRequireDefault(_OrgAgreement);
 
-	var _PageList2 = _interopRequireDefault(_PageList);
+	var _reactRouter = __webpack_require__(159);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -27434,87 +27578,85 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var Articles = function (_Component) {
-	  _inherits(Articles, _Component);
+	var OrgItem = function (_Component) {
+	  _inherits(OrgItem, _Component);
 
-	  function Articles() {
-	    _classCallCheck(this, Articles);
+	  function OrgItem(props) {
+	    _classCallCheck(this, OrgItem);
 
-	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Articles).call(this));
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(OrgItem).call(this, props));
 
 	    _this.state = {
-	      result: {},
-	      articles: [],
-	      pages: []
+	      org: props.org
 	    };
 	    return _this;
 	  }
 
-	  _createClass(Articles, [{
+	  _createClass(OrgItem, [{
 	    key: 'render',
 	    value: function render() {
+	      var agreement_id = 'agreements-' + this.state.org.oid;
+	      var agreement_props = {
+	        oid: this.state.org.oid,
+	        nid: this.state.org.nid
+	      };
+	      var a_button = this.state.org.nid.length > 0 ? _react2.default.createElement(
+	        'span',
+	        { className: 'organ-agreement', onClick: this.onClickAgreement.bind(this) },
+	        '단체협약 보기'
+	      ) : '';
 	      return _react2.default.createElement(
-	        'div',
-	        { className: 'row' },
+	        'li',
+	        { key: this.state.org.oid, className: 'organize-item' },
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'col-sm-3' },
-	          'Standards'
+	          { className: 'header' },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'title' },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'organ-name' },
+	              this.state.org.fullname
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'organ-summary' },
+	              _react2.default.createElement(
+	                'span',
+	                { className: 'organ-detail', onClick: this.onClickOrganize.bind(this) },
+	                '조직정보 보기'
+	              ),
+	              a_button
+	            )
+	          )
 	        ),
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'col-sm-9' },
-	          _react2.default.createElement(_ArticleList2.default, {
-	            result: this.state.result,
-	            articles: this.state.articles
-	          }),
-	          _react2.default.createElement(_PageList2.default, {
-	            pages: this.state.pages
-	          })
-	        )
+	        _react2.default.createElement(_OrgAgreement2.default, _extends({ key: agreement_id }, agreement_props))
 	      );
 	    }
 	  }, {
-	    key: 'componentWillMount',
-	    value: function componentWillMount() {
-	      console.log('- Articles componentWillMount');
-	      this.doSearch();
+	    key: 'onClickOrganize',
+	    value: function onClickOrganize() {
+	      var type = 'overlay';
+	      var orgv_props = {
+	        org: this.state.org,
+	        type: type
+	      };
+	      _reactDom2.default.render(_react2.default.createElement(_Orgv2.default, _extends({ key: 'organize-overlay-' + this.state.org.oid }, orgv_props)), document.getElementById('overlay-container'));
 	    }
 	  }, {
-	    key: 'componentWillReceiveProps',
-	    value: function componentWillReceiveProps() {
-	      this.doSearch();
-	      window.$('body').animate({ scrollTop: 0 }, '500');
-	    }
-	  }, {
-	    key: 'doSearch',
-	    value: function doSearch() {
-	      var _this2 = this;
-
-	      var api = '/api/articles';
-	      var query = window.location.search;
-	      var url = '' + api + query;
-
-	      _axios2.default.get(url).then(function (_ref) {
-	        var data = _ref.data;
-
-	        console.log(window.location.pathname, url, data);
-	        // TODO: checkLogin
-	        var pages = (0, _utils.pageList)(data.result.articles);
-
-	        _this2.setState({
-	          result: data.result || {},
-	          articles: data.articles || [],
-	          pages: pages || []
-	        });
-	      });
+	    key: 'onClickAgreement',
+	    value: function onClickAgreement() {
+	      jQuery(_reactDom2.default.findDOMNode(this)).find('.organ-agreement').toggleClass('activate');
+	      jQuery(_reactDom2.default.findDOMNode(this)).find('.agreements dl.agreements-items').toggleClass('collapsed').slideToggle();
 	    }
 	  }]);
 
-	  return Articles;
+	  return OrgItem;
 	}(_react.Component);
 
-	exports.default = Articles;
+	exports.default = OrgItem;
+	;
 
 /***/ },
 /* 250 */
@@ -27536,7 +27678,248 @@
 
 	var _axios2 = _interopRequireDefault(_axios);
 
+	var _utils = __webpack_require__(236);
+
+	var _StandardList = __webpack_require__(244);
+
+	var _StandardList2 = _interopRequireDefault(_StandardList);
+
+	var _ArticleList = __webpack_require__(246);
+
+	var _ArticleList2 = _interopRequireDefault(_ArticleList);
+
+	var _PageList = __webpack_require__(251);
+
+	var _PageList2 = _interopRequireDefault(_PageList);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Articles = function (_Component) {
+	  _inherits(Articles, _Component);
+
+	  function Articles() {
+	    _classCallCheck(this, Articles);
+
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Articles).call(this));
+
+	    _this.state = {
+	      result: {},
+	      standards: [],
+	      articles: [],
+	      pages: []
+	    };
+	    return _this;
+	  }
+
+	  _createClass(Articles, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'search-result' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'intermediate-result' },
+	          _react2.default.createElement(_StandardList2.default, { key: 'guide-clause-list', standards: this.state.standards }),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'organ-article-result' },
+	            _react2.default.createElement(_ArticleList2.default, {
+	              result: this.state.result,
+	              articles: this.state.articles
+	            })
+	          ),
+	          _react2.default.createElement(_PageList2.default, {
+	            pages: this.state.pages
+	          })
+	        )
+	      );
+	    }
+	  }, {
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {
+	      this.doSearch(true);
+	    }
+	  }, {
+	    key: 'componentWillReceiveProps',
+	    value: function componentWillReceiveProps() {
+	      this.doSearch(false);
+	      window.$('body').animate({ scrollTop: 0 }, '500');
+	    }
+	  }, {
+	    key: 'doSearch',
+	    value: function doSearch(init) {
+	      var _this2 = this;
+
+	      var api = '/api/articles';
+	      var query = window.location.search;
+	      if (init === true) {
+	        var url = '' + api + query + '&mode=init';
+	      } else {
+	        var url = '' + api + query;
+	      }
+
+	      (0, _utils.showSearching)();
+	      _axios2.default.get(url).then(function (_ref) {
+	        var data = _ref.data;
+
+	        (0, _utils.hideSearching)();
+	        var pages = (0, _utils.pageList)(data.result.articles);
+
+	        if (init === true) {
+	          _this2.setState({
+	            result: data.result || {},
+	            standards: data.standard || [],
+	            articles: data.articles || [],
+	            pages: pages || []
+	          });
+	        } else {
+	          _this2.setState({
+	            result: data.result || {},
+	            articles: data.articles || [],
+	            pages: pages || []
+	          });
+	        }
+	      });
+	    }
+	  }]);
+
+	  return Articles;
+	}(_react.Component);
+
+	exports.default = Articles;
+
+/***/ },
+/* 251 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _PageItem = __webpack_require__(252);
+
+	var _PageItem2 = _interopRequireDefault(_PageItem);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var PageList = function PageList(_ref) {
+		var pages = _ref.pages;
+
+		var items = pages.map(makeItem);
+		var rows = items.length ? _react2.default.createElement(
+			'ul',
+			null,
+			' ',
+			items,
+			' '
+		) : _react2.default.createElement('ul', null);
+
+		return _react2.default.createElement(
+			'div',
+			{ className: 'page-navi-box' },
+			rows
+		);
+	};
+
+	exports.default = PageList;
+
+
+	function makeItem(page) {
+		var type = page.type;
+		var value = page.value;
+
+		var props = {
+			type: type, value: value
+		};
+		return _react2.default.createElement(_PageItem2.default, _extends({ key: value }, props));
+	}
+
+/***/ },
+/* 252 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
 	var _reactRouter = __webpack_require__(159);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var PageItem = function PageItem(_ref) {
+	  var type = _ref.type;
+	  var value = _ref.value;
+
+	  var pclass = '' + type;
+	  var pathname = window.location.pathname;
+	  var query = window.location.search.replace(/&page=[0-9]+/, "");
+	  var uri = '' + pathname + query;
+
+	  return _react2.default.createElement(
+	    'li',
+	    { key: value, className: pclass },
+	    _react2.default.createElement(
+	      _reactRouter.Link,
+	      { to: uri + '&page=' + value },
+	      _react2.default.createElement(
+	        'span',
+	        null,
+	        value
+	      )
+	    )
+	  );
+	};
+
+	exports.default = PageItem;
+
+/***/ },
+/* 253 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _axios = __webpack_require__(219);
+
+	var _axios2 = _interopRequireDefault(_axios);
+
+	var _utils = __webpack_require__(236);
+
+	var _ArticleOrg = __webpack_require__(262);
+
+	var _ArticleOrg2 = _interopRequireDefault(_ArticleOrg);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -27567,6 +27950,21 @@
 	      if (!this.state.article.subject) {
 	        return _react2.default.createElement('div', null);
 	      }
+	      var orgRows = this.state.article.f30 ? this.state.article.f30.map(this.makeOrgMap) : [];
+	      var orgsLabel = orgRows.length > 0 ? _react2.default.createElement(
+	        'div',
+	        { className: 'row' },
+	        '교섭참가단위'
+	      ) : '';
+	      var orgs = orgRows.length > 0 ? _react2.default.createElement(
+	        'div',
+	        { className: 'row' },
+	        _react2.default.createElement(
+	          'ul',
+	          null,
+	          orgRows
+	        )
+	      ) : '';
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'whole-document' },
@@ -27598,7 +27996,8 @@
 	                'div',
 	                { className: 'row' },
 	                '유효기간'
-	              )
+	              ),
+	              orgsLabel
 	            ),
 	            _react2.default.createElement(
 	              'div',
@@ -27623,7 +28022,8 @@
 	                { className: 'row' },
 	                this.state.article.f32,
 	                '년'
-	              )
+	              ),
+	              orgs
 	            )
 	          ),
 	          editbox
@@ -27645,9 +28045,11 @@
 	  }, {
 	    key: 'componentWillMount',
 	    value: function componentWillMount() {
-	      console.log('- Article componentWillMount');
 	      this.doSearch();
 	    }
+	  }, {
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {}
 	  }, {
 	    key: 'doSearch',
 	    value: function doSearch() {
@@ -27657,16 +28059,21 @@
 	      var aid = this.props.params.aid;
 	      var url = api + '/' + aid;
 
+	      (0, _utils.showSearching)();
 	      _axios2.default.get(url).then(function (_ref) {
 	        var data = _ref.data;
 
-	        console.log(window.location.pathname, url, data);
-	        // TODO: checkLogin
-
+	        (0, _utils.hideSearching)();
 	        _this2.setState({
 	          article: data.articles
 	        });
 	      });
+	    }
+	  }, {
+	    key: 'makeOrgMap',
+	    value: function makeOrgMap(oid) {
+	      var props = { org: oid };
+	      return _react2.default.createElement(_ArticleOrg2.default, _extends({ key: oid.oid }, props));
 	    }
 	  }]);
 
@@ -27677,7 +28084,6 @@
 
 
 	function makeEditButton(articles) {
-	  console.log(articles);
 	  var nid = articles.nid;
 	  if (articles.owner) {
 	    return _react2.default.createElement(
@@ -27699,7 +28105,7 @@
 	}
 
 /***/ },
-/* 251 */
+/* 254 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -27720,11 +28126,11 @@
 
 	var _utils = __webpack_require__(236);
 
-	var _OrgList = __webpack_require__(247);
+	var _OrgList = __webpack_require__(248);
 
 	var _OrgList2 = _interopRequireDefault(_OrgList);
 
-	var _PageList = __webpack_require__(259);
+	var _PageList = __webpack_require__(251);
 
 	var _PageList2 = _interopRequireDefault(_PageList);
 
@@ -27770,7 +28176,6 @@
 	  }, {
 	    key: 'componentWillMount',
 	    value: function componentWillMount() {
-	      console.log('- Orgs componentWillMount');
 	      this.doSearch();
 	    }
 	  }, {
@@ -27788,11 +28193,11 @@
 	      var query = window.location.search;
 	      var url = '' + api + query;
 
+	      (0, _utils.showSearching)();
 	      _axios2.default.get(url).then(function (_ref) {
 	        var data = _ref.data;
 
-	        console.log(window.location.pathname, url, data);
-	        // TODO: checkLogin
+	        (0, _utils.hideSearching)();
 	        var pages = (0, _utils.pageList)(data.result.orgs);
 
 	        _this2.setState({
@@ -27810,7 +28215,7 @@
 	exports.default = Orgs;
 
 /***/ },
-/* 252 */
+/* 255 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -27818,6 +28223,8 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -27829,7 +28236,11 @@
 
 	var _axios2 = _interopRequireDefault(_axios);
 
-	var _reactRouter = __webpack_require__(159);
+	var _Orgv = __webpack_require__(256);
+
+	var _Orgv2 = _interopRequireDefault(_Orgv);
+
+	var _utils = __webpack_require__(236);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -27856,240 +28267,21 @@
 	  _createClass(Org, [{
 	    key: 'render',
 	    value: function render() {
-	      return _react2.default.createElement(
-	        'div',
-	        { className: 'organ-info-container' },
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'orgain-info' },
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'header' },
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'organ-name' },
-	              _react2.default.createElement(
-	                'span',
-	                { className: 'lowset-level' },
-	                this.state.org.fullname
-	              )
-	            ),
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'agreement' },
-	              _react2.default.createElement(
-	                'a',
-	                { className: 'agree-view' },
-	                _react2.default.createElement(
-	                  'span',
-	                  null,
-	                  '단체협역 보기'
-	                )
-	              ),
-	              _react2.default.createElement(
-	                'a',
-	                { className: 'agree-download' },
-	                _react2.default.createElement(
-	                  'span',
-	                  null,
-	                  '다운받기'
-	                )
-	              )
-	            )
-	          ),
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'content' },
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'column label' },
-	              _react2.default.createElement(
-	                'div',
-	                { className: 'row' },
-	                '총연합단체'
-	              ),
-	              _react2.default.createElement(
-	                'div',
-	                { className: 'row' },
-	                '산별연맹'
-	              ),
-	              _react2.default.createElement(
-	                'div',
-	                { className: 'row' },
-	                '업종조직'
-	              ),
-	              _react2.default.createElement(
-	                'div',
-	                { className: 'row' },
-	                '지역'
-	              ),
-	              _react2.default.createElement(
-	                'div',
-	                { className: 'row' },
-	                '복수노조'
-	              ),
-	              _react2.default.createElement(
-	                'div',
-	                { className: 'row' },
-	                '과반노조'
-	              ),
-	              _react2.default.createElement(
-	                'div',
-	                { className: 'row' },
-	                '조합원수'
-	              ),
-	              _react2.default.createElement(
-	                'div',
-	                { className: 'row' },
-	                '사업자명(원청)'
-	              ),
-	              _react2.default.createElement(
-	                'div',
-	                { className: 'row' },
-	                '특성'
-	              ),
-	              _react2.default.createElement(
-	                'div',
-	                { className: 'row' },
-	                '고용형태'
-	              ),
-	              _react2.default.createElement(
-	                'div',
-	                { className: 'row' },
-	                '산업/직종'
-	              ),
-	              _react2.default.createElement(
-	                'div',
-	                { className: 'row' },
-	                '부처'
-	              )
-	            ),
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'column info' },
-	              _react2.default.createElement(
-	                'div',
-	                { className: 'row' },
-	                getNames(this.state.org.f1)
-	              ),
-	              _react2.default.createElement(
-	                'div',
-	                { className: 'row' },
-	                getNames(this.state.org.f2)
-	              ),
-	              _react2.default.createElement(
-	                'div',
-	                { className: 'row' },
-	                getNames(this.state.org.f3)
-	              ),
-	              _react2.default.createElement(
-	                'div',
-	                { className: 'row' },
-	                getNames(this.state.org.f4)
-	              ),
-	              _react2.default.createElement(
-	                'div',
-	                { className: 'row' },
-	                getNames(this.state.org.f5)
-	              ),
-	              _react2.default.createElement(
-	                'div',
-	                { className: 'row' },
-	                getNames(this.state.org.f6)
-	              ),
-	              _react2.default.createElement(
-	                'div',
-	                { className: 'row' },
-	                this.state.org.f7
-	              ),
-	              _react2.default.createElement(
-	                'div',
-	                { className: 'row' },
-	                this.state.org.f8
-	              ),
-	              _react2.default.createElement(
-	                'div',
-	                { className: 'row' },
-	                getNames(this.state.org.f10)
-	              ),
-	              _react2.default.createElement(
-	                'div',
-	                { className: 'row' },
-	                getNames(this.state.org.f11)
-	              ),
-	              _react2.default.createElement(
-	                'div',
-	                { className: 'row' },
-	                getNames(this.state.org.f12)
-	              ),
-	              _react2.default.createElement(
-	                'div',
-	                { className: 'row' },
-	                getNames(this.state.org.f13)
-	              )
-	            )
-	          )
-	        ),
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'company-info' },
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'header' },
-	            '사업장 정보'
-	          ),
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'content' },
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'column label' },
-	              _react2.default.createElement(
-	                'div',
-	                { className: 'row' },
-	                '대표자명'
-	              ),
-	              _react2.default.createElement(
-	                'div',
-	                { className: 'row' },
-	                '전화'
-	              ),
-	              _react2.default.createElement(
-	                'div',
-	                { className: 'row' },
-	                '주소'
-	              )
-	            ),
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'column info' },
-	              _react2.default.createElement(
-	                'div',
-	                { className: 'row' },
-	                this.state.org.f14
-	              ),
-	              _react2.default.createElement(
-	                'div',
-	                { className: 'row' },
-	                this.state.org.f15
-	              ),
-	              _react2.default.createElement(
-	                'div',
-	                { className: 'row' },
-	                this.state.org.f16
-	              )
-	            )
-	          )
-	        ),
-	        _react2.default.createElement('div', { className: 'footer' })
-	      );
+	      var type = 'page';
+	      var props = {
+	        org: this.state.org,
+	        type: type
+	      };
+	      return _react2.default.createElement(_Orgv2.default, _extends({ key: this.state.org.oid }, props));
 	    }
 	  }, {
 	    key: 'componentWillMount',
 	    value: function componentWillMount() {
-	      console.log('- Org componentWillMount');
 	      this.doSearch();
 	    }
+	  }, {
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {}
 	  }, {
 	    key: 'doSearch',
 	    value: function doSearch() {
@@ -28099,18 +28291,26 @@
 	      var oid = this.props.params.oid;
 	      var url = api + '/' + oid;
 
+	      (0, _utils.showSearching)();
 	      _axios2.default.get(url).then(function (_ref) {
 	        var data = _ref.data;
 
-	        console.log(window.location.pathname, url, data);
-	        // TODO: checkLogin
-	        console.log(data.orgs);
-
+	        (0, _utils.hideSearching)();
 	        _this2.setState({
 	          org: data.orgs
 	        });
 	      });
 	    }
+	  }, {
+	    key: 'handleOrgClick',
+	    value: function handleOrgClick(oid) {
+	      if (oid) {
+	        window.location = '/orgs/' + oid;
+	      }
+	    }
+	  }, {
+	    key: 'handleOrgClose',
+	    value: function handleOrgClose() {}
 	  }]);
 
 	  return Org;
@@ -28118,39 +28318,548 @@
 
 	exports.default = Org;
 
+/***/ },
+/* 256 */
+/***/ function(module, exports, __webpack_require__) {
 
-	function getNames(arr) {
-	  return arr ? arr.reduce(function (acc, v) {
-	    return acc ? acc + ', ' + v.name : v.name;
-	  }, '') : '-';
-	}
+	'use strict';
 
-	function makeOrgName(orgs) {
-	  var oid = orgs.oid;
-	  var name = orgs.name;
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(158);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	var _axios = __webpack_require__(219);
+
+	var _axios2 = _interopRequireDefault(_axios);
+
+	var _reactRouter = __webpack_require__(159);
+
+	var _OrgAgreement = __webpack_require__(257);
+
+	var _OrgAgreement2 = _interopRequireDefault(_OrgAgreement);
+
+	var _utils = __webpack_require__(236);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Orgv = function (_Component) {
+	  _inherits(Orgv, _Component);
+
+	  function Orgv(props) {
+	    _classCallCheck(this, Orgv);
+
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Orgv).call(this, props));
+
+	    _this.state = {
+	      org: props.org,
+	      type: props.type
+	    };
+	    return _this;
+	  }
+
+	  _createClass(Orgv, [{
+	    key: 'render',
+	    value: function render() {
+	      var _this2 = this;
+
+	      var cname = 'organ-info ' + this.state.type;
+	      var rows = this.state.org.oid ? this.state.org.organizes.map(function (_ref) {
+	        var oid = _ref.oid;
+	        var name = _ref.name;
+
+	        var cname = oid ? 'higher-level' : 'lowset-level';
+	        return _react2.default.createElement(
+	          'span',
+	          { key: oid, className: cname, onClick: function onClick() {
+	              return _this2.onOrgClick(oid);
+	            } },
+	          name
+	        );
+	      }) : '';
+	      var closeButton = this.state.type == 'overlay' ? _react2.default.createElement('i', { className: 'close fa fa-close', onClick: this.onOrgClose.bind(this) }) : '';
+	      var back = this.state.type == 'overlay' ? _react2.default.createElement('div', { className: 'organ-background', onClick: this.onOrgClose.bind(this) }) : '';
+	      var agreement_id = 'agreements-' + this.state.org.oid;
+	      var agreement_props = {
+	        oid: this.state.org.oid,
+	        nid: this.state.org.nid
+	      };
+
+	      if (this.state.org.oid) {
+	        return _react2.default.createElement(
+	          'div',
+	          { key: agreement_id, id: agreement_id, className: cname },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'organ-info-container' },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'organ-info-box' },
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'organ-info' },
+	                _react2.default.createElement(
+	                  'div',
+	                  { className: 'header' },
+	                  _react2.default.createElement(
+	                    'div',
+	                    { className: 'organ-name' },
+	                    rows
+	                  ),
+	                  _react2.default.createElement(_OrgAgreement2.default, _extends({ key: agreement_id }, agreement_props))
+	                ),
+	                _react2.default.createElement(
+	                  'div',
+	                  { className: 'content' },
+	                  _react2.default.createElement(
+	                    'div',
+	                    { className: 'column label' },
+	                    _react2.default.createElement(
+	                      'div',
+	                      { className: 'row' },
+	                      '총연합단체'
+	                    ),
+	                    _react2.default.createElement(
+	                      'div',
+	                      { className: 'row' },
+	                      '산별연맹'
+	                    ),
+	                    _react2.default.createElement(
+	                      'div',
+	                      { className: 'row' },
+	                      '업종조직'
+	                    ),
+	                    _react2.default.createElement(
+	                      'div',
+	                      { className: 'row' },
+	                      '지역'
+	                    ),
+	                    _react2.default.createElement(
+	                      'div',
+	                      { className: 'row' },
+	                      '복수노조'
+	                    ),
+	                    _react2.default.createElement(
+	                      'div',
+	                      { className: 'row' },
+	                      '과반노조'
+	                    ),
+	                    _react2.default.createElement(
+	                      'div',
+	                      { className: 'row' },
+	                      '조합원수'
+	                    ),
+	                    _react2.default.createElement(
+	                      'div',
+	                      { className: 'row' },
+	                      '사업자명(원청)'
+	                    ),
+	                    _react2.default.createElement(
+	                      'div',
+	                      { className: 'row' },
+	                      '사업자명(하청)'
+	                    ),
+	                    _react2.default.createElement(
+	                      'div',
+	                      { className: 'row' },
+	                      '특성'
+	                    ),
+	                    _react2.default.createElement(
+	                      'div',
+	                      { className: 'row' },
+	                      '고용형태'
+	                    ),
+	                    _react2.default.createElement(
+	                      'div',
+	                      { className: 'row' },
+	                      '산업/직종'
+	                    ),
+	                    _react2.default.createElement(
+	                      'div',
+	                      { className: 'row' },
+	                      '부처'
+	                    )
+	                  ),
+	                  _react2.default.createElement(
+	                    'div',
+	                    { className: 'column info' },
+	                    _react2.default.createElement(
+	                      'div',
+	                      { className: 'row' },
+	                      this.getNames(this.state.org.f1)
+	                    ),
+	                    _react2.default.createElement(
+	                      'div',
+	                      { className: 'row' },
+	                      this.getNames(this.state.org.f2)
+	                    ),
+	                    _react2.default.createElement(
+	                      'div',
+	                      { className: 'row' },
+	                      this.getNames(this.state.org.f3)
+	                    ),
+	                    _react2.default.createElement(
+	                      'div',
+	                      { className: 'row' },
+	                      this.getNames(this.state.org.f4)
+	                    ),
+	                    _react2.default.createElement(
+	                      'div',
+	                      { className: 'row' },
+	                      this.getNames(this.state.org.f5)
+	                    ),
+	                    _react2.default.createElement(
+	                      'div',
+	                      { className: 'row' },
+	                      this.getNames(this.state.org.f6)
+	                    ),
+	                    _react2.default.createElement(
+	                      'div',
+	                      { className: 'row' },
+	                      this.state.org.f7
+	                    ),
+	                    _react2.default.createElement(
+	                      'div',
+	                      { className: 'row' },
+	                      this.state.org.f8
+	                    ),
+	                    _react2.default.createElement(
+	                      'div',
+	                      { className: 'row' },
+	                      this.state.org.f9
+	                    ),
+	                    _react2.default.createElement(
+	                      'div',
+	                      { className: 'row' },
+	                      this.getNames(this.state.org.f10)
+	                    ),
+	                    _react2.default.createElement(
+	                      'div',
+	                      { className: 'row' },
+	                      this.getNames(this.state.org.f11)
+	                    ),
+	                    _react2.default.createElement(
+	                      'div',
+	                      { className: 'row' },
+	                      this.getNames(this.state.org.f12)
+	                    ),
+	                    _react2.default.createElement(
+	                      'div',
+	                      { className: 'row' },
+	                      this.getNames(this.state.org.f13)
+	                    )
+	                  )
+	                )
+	              ),
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'company-info' },
+	                _react2.default.createElement(
+	                  'div',
+	                  { className: 'header' },
+	                  '사업장 정보'
+	                ),
+	                _react2.default.createElement(
+	                  'div',
+	                  { className: 'content' },
+	                  _react2.default.createElement(
+	                    'div',
+	                    { className: 'column label' },
+	                    _react2.default.createElement(
+	                      'div',
+	                      { className: 'row' },
+	                      '대표자명'
+	                    ),
+	                    _react2.default.createElement(
+	                      'div',
+	                      { className: 'row' },
+	                      '전화'
+	                    ),
+	                    _react2.default.createElement(
+	                      'div',
+	                      { className: 'row' },
+	                      '주소'
+	                    )
+	                  ),
+	                  _react2.default.createElement(
+	                    'div',
+	                    { className: 'column info' },
+	                    _react2.default.createElement(
+	                      'div',
+	                      { className: 'row' },
+	                      this.state.org.f14
+	                    ),
+	                    _react2.default.createElement(
+	                      'div',
+	                      { className: 'row' },
+	                      this.state.org.f15
+	                    ),
+	                    _react2.default.createElement(
+	                      'div',
+	                      { className: 'row' },
+	                      this.state.org.f16
+	                    )
+	                  )
+	                )
+	              ),
+	              _react2.default.createElement('div', { className: 'footer' }),
+	              closeButton
+	            )
+	          ),
+	          back
+	        );
+	      } else {
+	        return _react2.default.createElement('div', { className: 'hidden' });
+	      }
+	    }
+	  }, {
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      var self = this;
+	      jQuery(window).bind('resize.orgv', function (e) {
+	        self.handleResize();
+	      });
+	      if (this.state.type == 'overlay') {
+	        this.overlayResize();
+	      }
+	      var b = jQuery(_reactDom2.default.findDOMNode(this)).find('.organ-background');
+	      if (b.length > 0) {
+	        jQuery(window).bind('keydown.orgv', function (event) {
+	          var code = event.charCode || event.keyCode;
+	          if (code == 27) {
+	            self.onOrgClose();
+	          }
+	        });
+	      }
+	    }
+	  }, {
+	    key: 'componentDidUpdate',
+	    value: function componentDidUpdate() {
+	      this.overlayResize();
+	    }
+	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      jQuery(window).unbind('resize.orgv');
+	      jQuery(window).unbind('keydown.orgv');
+	    }
+	  }, {
+	    key: 'handleResize',
+	    value: function handleResize() {
+	      this.overlayResize();
+	    }
+	  }, {
+	    key: 'overlayResize',
+	    value: function overlayResize() {
+	      if (this.state.type == 'overlay') {
+	        var winWidth = window.innerWidth;
+	        var winHeight = window.innerHeight;
+	        var obj = jQuery(_reactDom2.default.findDOMNode(this)).find('.organ-info-container');
+	        var w = Math.min(600, parseInt(winWidth * 0.9));
+	        var max_h = parseInt(winHeight * 0.9);
+	        obj.css({
+	          'width': w + 'px',
+	          'max-height': max_h + 'px',
+	          'left': parseInt((winWidth - w) / 2) + 'px',
+	          'top': parseInt((winHeight - max_h) / 2) + 'px'
+	        });
+	      }
+	    }
+	  }, {
+	    key: 'onOrgClick',
+	    value: function onOrgClick(oid) {
+	      if (this.state.type == 'overlay') {
+	        this.doSearch(oid);
+	      } else {
+	        if (oid) {
+	          window.location = '/orgs/' + oid;
+	        }
+	      }
+	    }
+	  }, {
+	    key: 'onOrgClose',
+	    value: function onOrgClose() {
+	      _reactDom2.default.unmountComponentAtNode(document.getElementById('overlay-container'));
+	    }
+	  }, {
+	    key: 'doSearch',
+	    value: function doSearch(oid) {
+	      var _this3 = this;
+
+	      var api = '/api/orgs';
+	      var url = api + '/' + oid;
+
+	      howSearching();
+	      _axios2.default.get(url).then(function (_ref2) {
+	        var data = _ref2.data;
+
+	        (0, _utils.hideSearching)();
+	        _this3.setState({
+	          org: data.orgs
+	        });
+	      });
+	    }
+	  }, {
+	    key: 'getNames',
+	    value: function getNames(arr) {
+	      return arr ? arr.reduce(function (acc, v) {
+	        return acc ? acc + ', ' + v.name : v.name;
+	      }, '') : '-';
+	    }
+	  }]);
+
+	  return Orgv;
+	}(_react.Component);
+
+	exports.default = Orgv;
+
+/***/ },
+/* 257 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRouter = __webpack_require__(159);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var OrgAgreement = function (_Component) {
+	  _inherits(OrgAgreement, _Component);
+
+	  function OrgAgreement(props) {
+	    _classCallCheck(this, OrgAgreement);
+
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(OrgAgreement).call(this, props));
+
+	    _this.state = {
+	      oid: props.oid,
+	      nid: props.nid,
+	      click: false
+	    };
+	    return _this;
+	  }
+
+	  _createClass(OrgAgreement, [{
+	    key: 'render',
+	    value: function render() {
+	      var agreement_id = 'agreements-' + this.state.oid;
+	      var cName = this.state.click ? "" : "collapsed";
+	      var items = Array.isArray(this.state.nid) ? this.state.nid.map(makeItem) : [];
+	      if (items.length > 0) {
+	        return _react2.default.createElement(
+	          'div',
+	          { key: 'organize-agreement-' + this.state.oid + '-' + agreement_id, className: 'agreements' },
+	          _react2.default.createElement(
+	            'dl',
+	            { className: 'agreements-items ' + cName },
+	            _react2.default.createElement(
+	              'dt',
+	              { onClick: this.handleAgreementClick.bind(this) },
+	              _react2.default.createElement(
+	                'span',
+	                null,
+	                '단체협약보기'
+	              )
+	            ),
+	            _react2.default.createElement(
+	              'dd',
+	              null,
+	              _react2.default.createElement(
+	                'ul',
+	                null,
+	                items
+	              )
+	            )
+	          )
+	        );
+	      } else {
+	        return _react2.default.createElement('div', { className: 'hidden' });
+	      }
+	    }
+	  }, {
+	    key: 'handleAgreementClick',
+	    value: function handleAgreementClick() {
+	      this.setState({
+	        click: !this.state.click
+	      });
+	    }
+	  }]);
+
+	  return OrgAgreement;
+	}(_react.Component);
+
+	exports.default = OrgAgreement;
 
 
-	  if (oid) {
-	    return _react2.default.createElement(
+	function makeItem(nids) {
+	  var nid = nids.nid;
+	  var did = nids.did;
+	  var subject = nids.subject;
+
+
+	  return _react2.default.createElement(
+	    'li',
+	    { key: 'organize-agreement-' + nid, className: 'agreement' },
+	    _react2.default.createElement(
 	      _reactRouter.Link,
-	      { to: '/orgs/' + oid },
+	      { to: '/articles/' + nid, className: 'agree-view' },
 	      _react2.default.createElement(
 	        'span',
-	        { className: 'higher-level' },
-	        name
+	        null,
+	        subject
 	      )
-	    );
-	  } else {
-	    return _react2.default.createElement(
-	      'span',
-	      { className: 'lowset-level' },
-	      name
-	    );
-	  }
+	    ),
+	    _react2.default.createElement(
+	      'div',
+	      { className: 'download' },
+	      _react2.default.createElement(
+	        'a',
+	        { href: '/articles/pdf?nid=' + nid, className: 'pdf-download' },
+	        _react2.default.createElement(
+	          'span',
+	          null,
+	          '다운받기'
+	        )
+	      )
+	    )
+	  );
 	}
 
 /***/ },
-/* 253 */
+/* 258 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28169,6 +28878,12 @@
 
 	var _axios2 = _interopRequireDefault(_axios);
 
+	var _StandardIndexes = __webpack_require__(259);
+
+	var _StandardIndexes2 = _interopRequireDefault(_StandardIndexes);
+
+	var _utils = __webpack_require__(236);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -28186,7 +28901,9 @@
 	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Standard).call(this));
 
 	    _this.state = {
+	      path: '',
 	      fields: [],
+	      indexes: [],
 	      standard: {}
 	    };
 	    return _this;
@@ -28225,12 +28942,16 @@
 	            { className: 'meta-info-wrap' },
 	            _react2.default.createElement(
 	              'div',
-	              { className: 'meta-info' },
+	              { className: 'meta-info guide-indexes' },
 	              _react2.default.createElement(
 	                'label',
 	                null,
 	                '모범단체협약안 목차'
-	              )
+	              ),
+	              _react2.default.createElement(_StandardIndexes2.default, {
+	                indexes: this.state.indexes,
+	                onIndexClick: this.handleIndexClick.bind(this)
+	              })
 	            )
 	          ),
 	          _react2.default.createElement(
@@ -28250,29 +28971,85 @@
 	  }, {
 	    key: 'componentWillMount',
 	    value: function componentWillMount() {
-	      console.log('- Standard componentWillMount');
-	      this.doSearch();
+	      this.doSearch(true);
+	    }
+	  }, {
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      this.doUpdated();
+	    }
+	  }, {
+	    key: 'componentWillReceiveProps',
+	    value: function componentWillReceiveProps() {
+	      this.doSearch(false);
+	    }
+	  }, {
+	    key: 'componentDidUpdate',
+	    value: function componentDidUpdate() {
+	      this.doUpdated();
 	    }
 	  }, {
 	    key: 'doSearch',
-	    value: function doSearch() {
+	    value: function doSearch(init) {
 	      var _this2 = this;
 
 	      var api = '/api/standards';
-	      var sid = this.props.params.sid;
-	      var url = api + '/' + sid;
+	      var sid = window.location.pathname.split("/").splice(-1)[0];
+	      if (init === true) {
+	        var url = api + '/' + sid + '?mode=init';
+	      } else {
+	        var url = api + '/' + sid;
+	      }
 
+	      (0, _utils.showSearching)();
 	      _axios2.default.get(url).then(function (_ref) {
 	        var data = _ref.data;
 
-	        console.log(window.location.pathname, url, data);
-	        // TODO: checkLogin
-
-	        _this2.setState({
-	          fields: data.fields.standard,
-	          standard: data.standard
-	        });
+	        (0, _utils.hideSearching)();
+	        if (init == true) {
+	          _this2.setState({
+	            fields: data.fields.standard,
+	            indexes: data.indexes,
+	            standard: data.standard
+	          });
+	        } else {
+	          _this2.setState({
+	            fields: data.fields.standard,
+	            standard: data.standard
+	          });
+	        }
 	      });
+	    }
+	  }, {
+	    key: 'doUpdated',
+	    value: function doUpdated() {
+	      var sid = window.location.pathname.split("/").splice(-1)[0];
+	      this.state.indexes.forEach(function (index) {
+	        if (index.id == sid) {
+	          window.$('#guide-chapter-' + sid).removeClass('collapsed').siblings().addClass('collapsed');
+	        } else {
+	          var find = 0;
+	          index.articles.forEach(function (article) {
+	            if (article.id == sid) {
+	              window.$('#guide-chapter-' + article.parent).addClass('current').removeClass('collapsed');
+	              window.$('#guide-article-' + sid).addClass('current');
+	              find = 1;
+	            } else {
+	              window.$('#guide-article-' + article.id).removeClass('current');
+	            }
+	          });
+	          if (!find) {
+	            window.$('#guide-chapter-' + index.id).addClass('collapsed');
+	          }
+	        }
+	      });
+	    }
+	  }, {
+	    key: 'handleIndexClick',
+	    value: function handleIndexClick(id, nsubs) {
+	      if (nsubs) {
+	        window.$('#guide-chapter-' + id).toggleClass('collapsed').siblings().addClass('collapsed');
+	      }
 	    }
 	  }]);
 
@@ -28289,7 +29066,115 @@
 	}
 
 /***/ },
-/* 254 */
+/* 259 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRouter = __webpack_require__(159);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var StandardIndexes = function StandardIndexes(_ref) {
+	  var indexes = _ref.indexes;
+	  var onIndexClick = _ref.onIndexClick;
+
+	  var indexRows = indexes.map(function (_ref2) {
+	    var id = _ref2.id;
+	    var subject = _ref2.subject;
+	    var nsubs = _ref2.nsubs;
+	    var articles = _ref2.articles;
+
+	    var did = 'guide-chapter-' + id;
+	    var k = 'guide-chapter-title-' + id;
+	    var items = articles.map(makeItem);
+	    var rows = items.length ? _react2.default.createElement(
+	      'dd',
+	      { className: 'chapter-articles' },
+	      ' ',
+	      items,
+	      ' '
+	    ) : '';
+
+	    if (nsubs) {
+	      return _react2.default.createElement(
+	        'dl',
+	        { id: did, key: did, className: 'collapsed' },
+	        _react2.default.createElement(
+	          'dt',
+	          { key: k, className: 'chapter-title', onClick: function onClick() {
+	              return onIndexClick(id, nsubs);
+	            } },
+	          _react2.default.createElement(
+	            'span',
+	            null,
+	            subject
+	          )
+	        ),
+	        rows
+	      );
+	    } else {
+	      return _react2.default.createElement(
+	        'dl',
+	        { id: did, key: did, className: 'collapsed' },
+	        _react2.default.createElement(
+	          'dt',
+	          { key: k, className: 'chapter-title' },
+	          _react2.default.createElement(
+	            _reactRouter.Link,
+	            { to: '/standards/' + id },
+	            _react2.default.createElement(
+	              'span',
+	              null,
+	              subject
+	            )
+	          )
+	        )
+	      );
+	    }
+	  });
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'guideIndexes' },
+	    indexRows
+	  );
+	};
+
+	exports.default = StandardIndexes;
+
+
+	function makeItem(article) {
+	  var id = article.id;
+	  var subject = article.subject;
+
+	  var k = 'guide-article-' + id;
+	  var sid = window.location.pathname.split("/").splice(-1)[0];
+
+	  return _react2.default.createElement(
+	    'article',
+	    { key: k, id: k, className: 'article' },
+	    _react2.default.createElement(
+	      _reactRouter.Link,
+	      { to: '/standards/' + id },
+	      _react2.default.createElement(
+	        'span',
+	        null,
+	        subject
+	      )
+	    )
+	  );
+	}
+
+/***/ },
+/* 260 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28420,8 +29305,6 @@
 	      _axios2.default.get(url).then(function (_ref) {
 	        var data = _ref.data;
 
-	        console.log(window.location.pathname, url, data);
-	        // TODO: checkLogin
 	        _this3.parseArticles(data[0].items[0]);
 
 	        traverseItem(data[1]);
@@ -28463,7 +29346,6 @@
 	    value: function handleArticleClick(e) {
 	      var value = e.target.value;
 	      var checked = e.target.checked;
-	      console.log('- handleArticleClick', value, checked);
 	    }
 	  }]);
 
@@ -28474,19 +29356,15 @@
 
 
 	function traverseItem(item) {
-	  console.log(item.type, item.title);
-
 	  if (item.items) {
 	    item.items.forEach(traverseItem);
 	  } else if (item.options) {
-	    item.options.forEach(function (option) {
-	      console.log(option);
-	    });
+	    item.options.forEach(function (option) {});
 	  }
 	}
 
 /***/ },
-/* 255 */
+/* 261 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28535,7 +29413,7 @@
 	exports.default = NotFound;
 
 /***/ },
-/* 256 */
+/* 262 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28544,144 +29422,92 @@
 	  value: true
 	});
 
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 	var _react = __webpack_require__(1);
 
 	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(158);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	var _axios = __webpack_require__(219);
+
+	var _axios2 = _interopRequireDefault(_axios);
+
+	var _Orgv = __webpack_require__(256);
+
+	var _Orgv2 = _interopRequireDefault(_Orgv);
 
 	var _utils = __webpack_require__(236);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var SelectOptions = function SelectOptions(_ref) {
-	  var query = _ref.query;
-	  var field = _ref.field;
-	  var name = _ref.name;
-	  var options = _ref.options;
-	  var oClick = _ref.oClick;
-	  var onSClick = _ref.onSClick;
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	  var sname = field + '-select';
-	  var rows = options.map(function (_ref2) {
-	    var name = _ref2.name;
-	    var value = _ref2.value;
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-	    var id = field + '-' + value;
-	    var fname = '' + field;
-	    var checked = (0, _utils.inQuery)(query, field, value);
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	    return _react2.default.createElement(
-	      'li',
-	      { key: id, className: 'checkbox-wrap' },
-	      _react2.default.createElement('input', { type: 'radio', name: fname, id: id, checked: checked,
-	        onChange: function onChange() {
-	          oClick(field, value);
-	        }
-	      }),
-	      _react2.default.createElement(
-	        'label',
-	        { className: 'checkbox', htmlFor: id },
-	        _react2.default.createElement('i', { className: 'unchecked fa fa-square-o' }),
-	        _react2.default.createElement('i', { className: 'checked fa fa-check-square' })
-	      ),
-	      ' ',
-	      _react2.default.createElement(
-	        'label',
-	        { className: 'label', htmlFor: id },
-	        name
-	      )
-	    );
-	  });
+	var ArticleOrg = function (_Component) {
+	  _inherits(ArticleOrg, _Component);
 
-	  return _react2.default.createElement(
-	    'div',
-	    { className: 'select-options' },
-	    _react2.default.createElement(
-	      'div',
-	      { className: 'radio-button' },
-	      _react2.default.createElement('input', { type: 'radio', id: sname,
-	        onChange: function onChange() {
-	          onSClick(sname);
-	        }
-	      }),
-	      _react2.default.createElement(
-	        'label',
-	        { htmlFor: sname },
+	  function ArticleOrg(props) {
+	    _classCallCheck(this, ArticleOrg);
+
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ArticleOrg).call(this, props));
+
+	    _this.state = {
+	      org: props.org
+	    };
+	    return _this;
+	  }
+
+	  _createClass(ArticleOrg, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'li',
+	        { key: 'article-organize-' + this.state.org.oid, onClick: this.onOrgClick.bind(this), className: 'org-item' },
 	        _react2.default.createElement(
 	          'span',
 	          null,
-	          name
-	        ),
-	        _react2.default.createElement('i', { className: 'fa fa-angle-down' })
-	      )
-	    ),
-	    _react2.default.createElement(
-	      'ul',
-	      { id: sname, className: 'selectElement shadow' },
-	      rows
-	    )
-	  );
-	};
+	          this.state.org.name
+	        )
+	      );
+	    }
+	  }, {
+	    key: 'onOrgClick',
+	    value: function onOrgClick() {
+	      var api = '/api/orgs';
+	      var url = api + '/' + this.state.org.oid;
 
-	exports.default = SelectOptions;
+	      (0, _utils.showSearching)();
+	      _axios2.default.get(url).then(function (_ref) {
+	        var data = _ref.data;
 
-/***/ },
-/* 257 */,
-/* 258 */,
-/* 259 */
-/***/ function(module, exports, __webpack_require__) {
+	        (0, _utils.hideSearching)();
+	        var type = 'overlay';
+	        var orgv_props = {
+	          org: data.orgs,
+	          type: type
+	        };
+	        _reactDom2.default.render(_react2.default.createElement(_Orgv2.default, _extends({ key: 'orgv-' + data.orgs.oid }, orgv_props)), document.getElementById('overlay-container'));
+	      });
+	    }
+	  }]);
 
-	'use strict';
+	  return ArticleOrg;
+	}(_react.Component);
 
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _PageItem = __webpack_require__(260);
-
-	var _PageItem2 = _interopRequireDefault(_PageItem);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var PageList = function PageList(_ref) {
-		var pages = _ref.pages;
-
-		var items = pages.map(makeItem);
-		var rows = items.length ? _react2.default.createElement(
-			'ul',
-			null,
-			' ',
-			items,
-			' '
-		) : _react2.default.createElement('ul', null);
-
-		return _react2.default.createElement(
-			'div',
-			{ className: 'page-navi-box' },
-			rows
-		);
-	};
-
-	exports.default = PageList;
-
-
-	function makeItem(page) {
-		var type = page.type;
-		var value = page.value;
-
-		var props = {
-			type: type, value: value
-		};
-		return _react2.default.createElement(_PageItem2.default, _extends({ key: value }, props));
-	}
+	exports.default = ArticleOrg;
+	;
 
 /***/ },
-/* 260 */
+/* 263 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28690,39 +29516,207 @@
 	  value: true
 	});
 
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 	var _react = __webpack_require__(1);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactRouter = __webpack_require__(159);
+	var _reactDom = __webpack_require__(158);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	var _axios = __webpack_require__(219);
+
+	var _axios2 = _interopRequireDefault(_axios);
+
+	var _utils = __webpack_require__(236);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var PageItem = function PageItem(_ref) {
-	  var type = _ref.type;
-	  var value = _ref.value;
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	  var pclass = '' + type;
-	  var pathname = window.location.pathname;
-	  var query = window.location.search.replace(/&page=[0-9]+/, "");
-	  var uri = '' + pathname + query;
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-	  return _react2.default.createElement(
-	    'li',
-	    { key: value, className: pclass },
-	    _react2.default.createElement(
-	      _reactRouter.Link,
-	      { to: uri + '&page=' + value },
-	      _react2.default.createElement(
-	        'span',
-	        null,
-	        value
-	      )
-	    )
-	  );
-	};
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	exports.default = PageItem;
+	var Standardv = function (_Component) {
+	  _inherits(Standardv, _Component);
+
+	  function Standardv(props) {
+	    _classCallCheck(this, Standardv);
+
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Standardv).call(this, props));
+
+	    _this.state = {
+	      id: props.id,
+	      fields: [],
+	      standard: {}
+	    };
+	    return _this;
+	  }
+
+	  _createClass(Standardv, [{
+	    key: 'render',
+	    value: function render() {
+	      var standard = this.state.standard;
+
+	      var rows = [];
+	      for (var key in this.state.fields) {
+	        if (standard[this.state.fields[key].field]) {
+	          var cname = this.state.fields[key].field;
+	          rows.push(_react2.default.createElement(
+	            'div',
+	            { className: cname, key: key },
+	            _react2.default.createElement(
+	              'h3',
+	              null,
+	              this.state.fields[key].subject
+	            ),
+	            _react2.default.createElement('p', { dangerouslySetInnerHTML: { __html: standard[this.state.fields[key].field] } })
+	          ));
+	        }
+	      }
+
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'guide-clause-info overlay' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'guide-clause-container' },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'guide-clause-info-box' },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'whole-document' },
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'guide-document' },
+	                _react2.default.createElement(
+	                  'h2',
+	                  null,
+	                  standard.subject
+	                ),
+	                _react2.default.createElement('p', { classNname: 'guide-content', dangerouslySetInnerHTML: { __html: standard.content } }),
+	                rows,
+	                _react2.default.createElement(
+	                  'div',
+	                  { className: 'guide-box-button' },
+	                  _react2.default.createElement(
+	                    'button',
+	                    { onClick: this.onStandardClose.bind(this) },
+	                    '닫기'
+	                  ),
+	                  _react2.default.createElement(
+	                    'button',
+	                    { onClick: this.onStandardGo.bind(this) },
+	                    '모범단협 전체보기'
+	                  )
+	                )
+	              )
+	            ),
+	            _react2.default.createElement('i', { className: 'close fa fa-close', onClick: this.onStandardClose.bind(this) })
+	          )
+	        ),
+	        _react2.default.createElement('div', { className: 'guide-background', onClick: this.onStandardClose.bind(this) })
+	      );
+	    }
+	  }, {
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {
+	      this.doSearch();
+	    }
+	  }, {
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      var self = this;
+	      jQuery(window).bind('resize.standardv', function (e) {
+	        self.handleResize();
+	      });
+	      this.overlayResize();
+
+	      var b = jQuery(_reactDom2.default.findDOMNode(this)).find('.guide-background');
+	      if (b.length > 0) {
+	        jQuery(window).bind('keydown.standardv', function (event) {
+	          var code = event.charCode || event.keyCode;
+	          if (code == 27) {
+	            self.onStandardClose();
+	          }
+	        });
+	      }
+	    }
+	  }, {
+	    key: 'componentDidUpdate',
+	    value: function componentDidUpdate() {
+	      this.overlayResize();
+	    }
+	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      jQuery(window).unbind('resize.standardv');
+	      jQuery(window).unbind('keydown.standardv');
+	    }
+	  }, {
+	    key: 'handleResize',
+	    value: function handleResize() {
+	      this.overlayResize();
+	    }
+	  }, {
+	    key: 'overlayResize',
+	    value: function overlayResize() {
+	      var winWidth = window.innerWidth;
+	      var winHeight = window.innerHeight;
+	      var obj = jQuery(_reactDom2.default.findDOMNode(this)).find('.guide-clause-container');
+	      var w = Math.min(600, parseInt(winWidth * 0.9));
+	      var max_h = parseInt(winHeight * 0.9);
+	      obj.css({
+	        'width': w + 'px',
+	        'max-height': max_h + 'px',
+	        'left': parseInt((winWidth - w) / 2) + 'px'
+	      });
+	      var n_h = obj.height();
+	      n_h = Math.min(n_h, max_h);
+	      obj.css({
+	        'top': parseInt((winHeight - n_h) / 2) + 'px'
+	      });
+	    }
+	  }, {
+	    key: 'onStandardClose',
+	    value: function onStandardClose() {
+	      _reactDom2.default.unmountComponentAtNode(document.getElementById('overlay-container'));
+	    }
+	  }, {
+	    key: 'onStandardGo',
+	    value: function onStandardGo() {
+	      window.location = '/standards/' + this.state.id;
+	    }
+	  }, {
+	    key: 'doSearch',
+	    value: function doSearch() {
+	      var _this2 = this;
+
+	      var api = '/api/standards';
+	      var sid = this.state.id;
+	      var url = api + '/' + sid;
+
+	      (0, _utils.showSearching)();
+	      _axios2.default.get(url).then(function (_ref) {
+	        var data = _ref.data;
+
+	        (0, _utils.hideSearching)();
+	        _this2.setState({
+	          fields: data.fields.standard,
+	          standard: data.standard
+	        });
+	      });
+	    }
+	  }]);
+
+	  return Standardv;
+	}(_react.Component);
+
+	exports.default = Standardv;
 
 /***/ }
 /******/ ]);

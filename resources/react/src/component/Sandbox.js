@@ -68,8 +68,6 @@ export default class Articles extends Component {
 
     axios.get(url)
     .then(({ data }) => {
-      console.log(window.location.pathname, url, data);
-      // TODO: checkLogin
       this.parseArticles(data[0].items[0]);
 
       traverseItem(data[1]);
@@ -108,18 +106,14 @@ export default class Articles extends Component {
   handleArticleClick(e) {
     const value = e.target.value;
     const checked = e.target.checked;
-    console.log('- handleArticleClick', value, checked);
   }
 }
 
 function traverseItem(item) {
-  console.log(item.type, item.title);
-
   if (item.items) {
     item.items.forEach(traverseItem);
   } else if (item.options) {
     item.options.forEach((option) => {
-      console.log(option);
     });
   }
 }

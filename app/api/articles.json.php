@@ -1,9 +1,8 @@
 <?php
 $data = array(
-	'fields'=>array(
-		'article'=>$fields
-	),
+	'fields'=>$fields,
 	'result'=>$result,
+	'standard'=>$standard,
 	'articles'=>$articles
 );
 echo json_encode($data);

@@ -28,14 +28,9 @@ export default ArticleList;
 
 function makeItem(article) {
   const { nid, subject, content } = article;
-  const cat1 = article.f28 && article.f28[0].name;
-  const cat2 = article.f28 && article.f28[1].name;
-  const ndate = article.f31;
-  const term = article.f32;
 
   const props = {
-    nid, subject, content,
-    cat1, cat2, ndate, term,
+    article:  article,
   };
-  return <ArticleItem key={nid} {...props} />;
+  return <ArticleItem key={`article-${nid}`} {...props} />;
 }

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
-import { pageList } from '../util/utils';
+import { pageList, showSearching, hideSearching } from '../util/utils';
 
 import OrgList from './Org/OrgList';
 import PageList from './Page/PageList';
@@ -31,7 +31,6 @@ export default class Orgs extends Component {
   }
 
   componentWillMount() {
-    console.log('- Orgs componentWillMount');
     this.doSearch();
   }
 
@@ -45,10 +44,10 @@ export default class Orgs extends Component {
     const query = window.location.search;
     const url = `${api}${query}`;
 
+    showSearching();
     axios.get(url)
     .then(({ data }) => {
-      console.log(window.location.pathname, url, data);
-      // TODO: checkLogin
+      hideSearching();
 	  const pages = pageList(data.result.orgs);
 
       this.setState({

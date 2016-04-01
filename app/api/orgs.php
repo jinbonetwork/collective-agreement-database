@@ -17,26 +17,6 @@ class orgs extends \CADB\Controller {
 		if($this->params['oid']) {
 			$this->organize = \CADB\Organize::getOrganizeByOid($this->params['oid']);
 			if($this->organize) {
-				$org_map = array();
-				$org_map[] = array(
-					'oid' => ($this->organize['depth'] > 1 ? $this->organize['oid'] : 0),
-					'name' => $this->organize['nojo']
-				);
-				for($i=2; $i<($this->organize['depth']); $i++) {
-					if($this->organize['p'.$i]) {
-						$org_map[] = array(
-							'oid' => $this->oraganize['p'.$i],
-							'name' => $this->organize['sub'.($i-1)]
-						);
-					}
-				}
-				if($this->organize['depth'] > 1) {
-					$org_map[] = array(
-						'oid' => 0,
-						'name' => $this->organize['sub'.($this->organize['depth']-1)]
-					);
-				}
-				$this->organize['organizes'] = $org_map;
 				if(!$this->organize['f7']) {
 					$this->organize['f7'] = '정보없음';
 				}
@@ -46,9 +26,9 @@ class orgs extends \CADB\Controller {
 					$this->organize['owner'] = 0;
 				}
 				$agreement = \CADB\Agreement::getAgreementsByOid($this->params['oid']);
+				$this->fields['nid'] = array('subject' => '단체협약','type'=>'int','multiple'=>true);
+				$this->organize['nid'] = array();
 				if($agreement && is_array($agreement)) {
-					$this->fields['nid'] = array('subject' => '단체협약','type'=>'int','multiple'=>true);
-					$this->organize['nid'] = array();
 					foreach($agreement as $ag) {
 						$this->organize['nid'][] =  array(
 							'nid'=>$ag['nid'],
@@ -76,8 +56,22 @@ class orgs extends \CADB\Controller {
 			if(!$this->params['page']) $this->params['page'] = 1;
 			$total_cnt = \CADB\Organize::totalCnt($this->params['q'],$args);
 			$total_page = (int)( ( $total_cnt - 1 ) / ($this->params['limit'] ? $this->params['limit'] : 20) ) + 1;
+			$this->fields['nid'] = array('subject' => '단체협약','type'=>'int','multiple'=>true);
 			if($total_cnt && $this->params['page'] <= $total_page) {
 				$this->organize = \CADB\Organize::getList($this->params['q'],$this->params['page'],($this->params['limit'] ? $this->params['limit'] : 20),$args);
+				for($i=0; $i<count($this->organize); $i++) {
+					$this->organize[$i]['nid'] = array();
+					$agreement = \CADB\Agreement::getAgreementsByOid( $this->organize[$i]['oid'], $this->organize[$i]['vid'] );
+					if($agreement && is_array($agreement)) {
+						foreach($agreement as $ag) {
+							$this->organize[$i]['nid'][] =  array(
+								'nid'=>$ag['nid'],
+								'did'=>$ag['did'],
+								'subject'=>$ag['subject']
+							);
+						}
+					}
+				}
 				$this->result = array(
 					'orgs'=> array(
 						'total_cnt'=>$total_cnt,

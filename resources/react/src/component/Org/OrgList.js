@@ -27,11 +27,11 @@ const OrgList = ({
 export default OrgList;
 
 function makeItem(org) {
-  // TODO: how to get nid
   const { oid, fullname, nid } = org;
 
   const props = {
-    oid, fullname, nid
+    org: org,
   };
-  return <OrgItem key={oid} {...props} />;
+  const id = `organize-${oid}`;
+  return <OrgItem key={id} {...props} />;
 }
