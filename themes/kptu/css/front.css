@@ -778,6 +778,36 @@ body {
 			font-size: 1.5em;
 			margin-bottom: 40px;
 		}
+		.whole-document .document p {
+			margin-bottom: 15px;
+		}
+		.whole-document .document sup {
+			display: inline-block;
+			position: absolute;
+			transform: translateX(-100%);
+			-webkit-transform: translateX(-100%);
+			-moz-transform: translateX(-100%);
+			-ms-transform: translateX(-100%);
+			-o-transform: translateX(-100%);
+			padding-right: 20px;
+		}
+		.whole-document .document sup span {
+			display: block;
+			background: #5a91e2;
+			color: #fff;
+			padding: 8px 8px 8px 10px;
+			border-top-left-radius: 10px;
+			border-bottom-left-radius: 10px;
+			cursor: pointer;
+		}
+		.whole-document .document sup span:hover {
+			color: #ebeef2;
+		}
+		.whole-document .document sup span:before {
+			font-family: "FontAwesome";
+			content: "\f097";
+			padding-right: 5px;
+		}
 .inner-container .is-searching {
 	position: absolute;
 	z-index: 9999999999;
@@ -936,6 +966,19 @@ body {
 	top: 25%;
 	margin: 0;
 	overflow-y: auto;
+}
+.overlay .guide-clause-container::-webkit-scrollbar,
+.overlay .organ-info-container::-webkit-scrollbar {
+	width: 6px;
+}
+.overlay .guide-clause-container::-webkit-scrollbar-track,
+.overlay .organ-info-container::-webkit-scrollbar-track {
+	background-color: #ebeef2;
+}
+.overlay .guide-clause-container::-webkit-scrollbar-thumb,
+.overlay .organ-info-container::-webkit-scrollbar-thumb {
+	background-color: #5a91e2;
+	border-radius: 3px;
 }
 .overlay .guide-clause-container {
 	width: 600px;

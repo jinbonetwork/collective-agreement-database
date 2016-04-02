@@ -103,6 +103,19 @@ class Guide extends \CADB\Objects  {
 		return $standard;
 	}
 
+	public static function getClauseByTaxonomy($tid) {
+		$dbm = \CADB\DBM::instance();
+
+		$nid = self::$guide['nid'];
+
+		$que = "SELECT c.* FROM {taxonomy_term_relative} AS r LEFT JOIN {guide_clause} AS c ON (r.`table` = 'guide_clause' AND r.`rid` = c.`nid` AND r.`fid` = c.`id`) WHERE r.`tid` = ".$tid." AND r.`table` = 'guide_clause'";
+
+		$row = $dbm->getFetchArray($que);
+		$standard = self::fetchGuideClause($row);
+
+		return $standard;
+	}
+
 	public static function getClauses() {
 		$dbm = \CADB\DBM::instance();
 

@@ -17,12 +17,16 @@ class standards extends \CADB\Controller {
 
 		$fields = \CADB\Guide::getFieldInfo(1);
 		$nid = \CADB\Guide::getCurrent(($this->params['nid'] ? $this->params['nid'] : 1));
-		if($this->params['id']) {
+		if($this->params['id'] || $this->params['tid']) {
 			$this->fields = array();
 			foreach($fields as $f => $v) {
 				$this->fields[] = array('field' => 'f'.$f, 'subject' => $v['subject'],'type'=>$v['type'],'multiple'=>( $v['multiple'] ? true : false ),'cid'=>$v['cid']);
 			}
-			$this->standard = \CADB\Guide::getClause($this->params['id']);
+			if($this->params['id']) {
+				$this->standard = \CADB\Guide::getClause($this->params['id']);
+			} else if($this->params['tid']) {
+				$this->standard = \CADB\Guide::getClauseByTaxonomy($this->params['tid']);
+			}
 			if($this->standard) {
 				$this->result = array(
 					'found'=>true

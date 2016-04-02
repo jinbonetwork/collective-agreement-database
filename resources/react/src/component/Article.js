@@ -4,6 +4,7 @@ import axios from 'axios';
 
 import { showSearching, hideSearching } from '../util/utils';
 import ArticleOrg from './Article/ArticleOrg';
+import Standardv from './Standard/Standardv';
 
 export default class Article extends Component {
   constructor() {
@@ -57,6 +58,32 @@ export default class Article extends Component {
   }
 
   componentDidMount() {
+    this.bindGuideClause();
+  }
+
+  componentDidUpdate() {
+    this.bindGuideClause();
+  }
+
+  componentWillUnmount() {
+    jQuery(ReactDOM.findDOMNode(this)).find('sup span').unbind('click.standardv');
+  }
+
+  bindGuideClause() {
+    var self = this;
+    jQuery(ReactDOM.findDOMNode(this)).find('sup span').bind('click.standardv',function(e) {
+      var $this = jQuery(this);
+      var id = parseInt( $this.attr('id').replace(/cadb\-taxo\-term\-/gi,"") );
+      self.onClickGuideClause(id);
+    });
+  }
+
+  onClickGuideClause(id) {
+    const props = {
+      id : 0,
+      tid: id,
+    }
+	ReactDOM.render(<Standardv key={`guide-clause-overlay-${id}`} {...props} />,document.getElementById('overlay-container'));
   }
 
   doSearch() {

@@ -27246,7 +27246,8 @@
 	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Standardv).call(this, props));
 
 	    _this.state = {
-	      id: props.id,
+	      id: props.id ? props.id : 0,
+	      tid: props.tid ? props.tid : 0,
 	      fields: [],
 	      standard: {}
 	    };
@@ -27395,18 +27396,26 @@
 
 	      var api = '/api/standards';
 	      var sid = this.state.id;
-	      var url = api + '/' + sid;
+	      var tid = this.state.tid;
 
-	      (0, _utils.showSearching)();
-	      _axios2.default.get(url).then(function (_ref) {
-	        var data = _ref.data;
+	      if (sid) {
+	        var url = api + '/' + sid;
+	      } else if (tid) {
+	        var url = api + '/?tid=' + tid;
+	      }
 
-	        (0, _utils.hideSearching)();
-	        _this2.setState({
-	          fields: data.fields.standard,
-	          standard: data.standard
+	      if (url) {
+	        (0, _utils.showSearching)();
+	        _axios2.default.get(url).then(function (_ref) {
+	          var data = _ref.data;
+
+	          (0, _utils.hideSearching)();
+	          _this2.setState({
+	            fields: data.fields.standard,
+	            standard: data.standard
+	          });
 	        });
-	      });
+	      }
 	    }
 	  }]);
 
@@ -28773,6 +28782,10 @@
 
 	var _ArticleOrg2 = _interopRequireDefault(_ArticleOrg);
 
+	var _Standardv = __webpack_require__(246);
+
+	var _Standardv2 = _interopRequireDefault(_Standardv);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -28901,7 +28914,38 @@
 	    }
 	  }, {
 	    key: 'componentDidMount',
-	    value: function componentDidMount() {}
+	    value: function componentDidMount() {
+	      this.bindGuideClause();
+	    }
+	  }, {
+	    key: 'componentDidUpdate',
+	    value: function componentDidUpdate() {
+	      this.bindGuideClause();
+	    }
+	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      jQuery(_reactDom2.default.findDOMNode(this)).find('sup span').unbind('click.standardv');
+	    }
+	  }, {
+	    key: 'bindGuideClause',
+	    value: function bindGuideClause() {
+	      var self = this;
+	      jQuery(_reactDom2.default.findDOMNode(this)).find('sup span').bind('click.standardv', function (e) {
+	        var $this = jQuery(this);
+	        var id = parseInt($this.attr('id').replace(/cadb\-taxo\-term\-/gi, ""));
+	        self.onClickGuideClause(id);
+	      });
+	    }
+	  }, {
+	    key: 'onClickGuideClause',
+	    value: function onClickGuideClause(id) {
+	      var props = {
+	        id: 0,
+	        tid: id
+	      };
+	      _reactDom2.default.render(_react2.default.createElement(_Standardv2.default, _extends({ key: 'guide-clause-overlay-' + id }, props)), document.getElementById('overlay-container'));
+	    }
 	  }, {
 	    key: 'doSearch',
 	    value: function doSearch() {

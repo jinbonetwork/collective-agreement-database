@@ -8,7 +8,8 @@ export default class Standardv extends Component{
   constructor(props) {
     super(props);
     this.state = {
-      id: props.id,
+      id: (props.id ? props.id : 0),
+      tid: (props.tid ? props.tid : 0),
 	  fields: [],
       standard: {},
     };
@@ -115,16 +116,24 @@ export default class Standardv extends Component{
   doSearch() {
     const api = '/api/standards';
     const sid = this.state.id;
-    var url = `${api}/${sid}`;
+	const tid = this.state.tid;
+	
+    if(sid) {
+      var url = `${api}/${sid}`;
+    } else if(tid) {
+      var url = `${api}/?tid=${tid}`;
+    }
 
-    showSearching();
-    axios.get(url)
-    .then(({ data }) => {
-      hideSearching();
-      this.setState({
-        fields: data.fields.standard,
-        standard: data.standard,
+    if(url) {
+      showSearching();
+      axios.get(url)
+      .then(({ data }) => {
+        hideSearching();
+        this.setState({
+          fields: data.fields.standard,
+          standard: data.standard,
+        });
       });
-	});
+    }
   }
 }
