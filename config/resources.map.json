@@ -140,7 +140,7 @@
 		"css": [
 			"resources/css/app-article-edit.css"
 		],
-		"priority":"0",
+		"priority":"100000",
 		"deps":["jquery","modernizr","medium-editor"]
 	}
 }

@@ -34,12 +34,12 @@ class articles extends \CADB\Controller {
 			if(!$this->articles) {
 				\CADB\RespondJson::ResultPage( array( -3, '존재하지 않는 단협입니다.' ) );
 			}
-			$ret = \CADB\DBM\Agreement::modify($this->fields,$this->articles,$this->params);
+			$ret = \CADB\Agreement\DBM::modify($this->fields,$this->articles,$this->params);
 			if($ret < 0) {
 				\CADB\RespondJson::ResultPage( array( -4, '데이터베이스를 수정하는 도중 장애가 발생했습니다.' ) );
 			}
 		} else {
-			$ret = \CADB\DBM\Agreement::insert($this->fields,$_POST);
+			$ret = \CADB\Agreement\DBM::insert($this->fields,$_POST);
 			if($ret < 0) {
 				\CADB\RespondJson::ResultPage( array( -4, '데이터베이스에 입력하는 도중 장애가 발생했습니다.' ) );
 			}

@@ -17,8 +17,104 @@ ul {
 	padding: 0;
 	margin: 0;
 }
+.app input[type=text], .app button {
+	width: 100%;
+	height: 100%;
+	line-height: inherit;
+	border: 0;
+	padding: 0;
+	margin: 0;
+	outline: none;
+	color: inherit;
+	font-family: inherit;
+	font-size: inherit;
+}
+.app button {
+	border-radius: 30px;
+	cursor: pointer;
+}
+.app .checkbox-wrap {
+	position: relative;
+}
+.app .checkbox-wrap input[type="radio"],
+.app .checkbox-wrap input[type="checkbox"] {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: -1000;
+}
+.app .checkbox-wrap input[type="radio"] ~ label.checkbox,
+.app .checkbox-wrap input[type="checkbox"] ~ label.checkbox {
+	position: relative;
+	cursor: pointer;
+}
+.app .checkbox-wrap input[type="radio"] ~ label.label,
+.app .checkbox-wrap input[type="checkbox"] ~ label.label {
+	cursor: pointer;
+}
+.app .checkbox-wrap input[type="radio"] ~ label.checkbox > i,
+.app .checkbox-wrap input[type="checkbox"] ~ label.checkbox > i {
+	vertical-align: bottom;
+}
+.app .checkbox-wrap input[type="radio"] ~ label.checkbox > .checked,
+.app .checkbox-wrap input[type="checkbox"] ~ label.checkbox > .checked {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+}
+.app .checkbox-wrap input[type="radio"] ~ label.checkbox > .checked,
+.app .checkbox-wrap input[type="checkbox"] ~ label.checkbox > .checked {
+	color: transparent;
+}
+.app .checkbox-wrap input[type="radio"]:checked ~ label.checkbox > .checked,
+	.checkbox-wrap input[type="checkbox"]:checked ~ label.checkbox > .checked {
+	color: inherit;
+}
+.app .checkbox-wrap input[type="radio"]:checked ~ label.checkbox > .unchecked,
+.app .checkbox-wrap input[type="checkbox"]:checked ~ label.checkbox > .unchecked {
+	color: transparent;
+}
 .hidden {
 	display: none;
+}
+.app .box {
+	height: 56px;
+	line-height: 56px;
+	background-color: #ffffff;
+}
+.app .box > div {
+	float: left;
+	height: 100%;
+}
+.app .box:after {
+	content: '';
+	display: block;
+	clear: both;
+}
+.app .shadow {
+	box-shadow: 0px 10px 10px #dee0e0;
+}
+.app .radio-button {
+	position: relative;
+}
+.app .radio-button input[type="radio"] {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: -1000;
+}
+.app .radio-button label {
+	display: block;
+	width: 100%;
+	height: 100%;
+	cursor: pointer;
+}
+.app .underline {
+	background-color: transparent;
+	text-decoration: none;
+	border-bottom: 1px solid #5a91e2;
+	box-shadow: 0 -6px 0 #5a91e2 inset;
+	color: inherit;
 }
 
 /* 스크롤바 ****/

@@ -1,7 +1,7 @@
 <?php
-namespace CADB\DBM;
+namespace CADB\Agreement;
 
-class Agreement extends \CADB\Objects  {
+class DBM extends \CADB\Objects  {
 	private static $fields;
 
 	public static function instance() {

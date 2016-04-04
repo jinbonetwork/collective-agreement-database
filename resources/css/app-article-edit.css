@@ -526,12 +526,12 @@ fieldset.fields-group.content .editor.content sup button.t-delete {
 p.insertGuidePos {
 	position: relative;
 }
-.addGuideItem {
+button.addGuideItem {
 	position: absolute;
 	z-index: 333;
 	display: inline-block;
-	height: 20px;
-	width: 20px;
+	height: 20px !important;
+	width: 20px !important;
 	color: #5a91e2;
 	background: none;
 	opacity: 0;
@@ -539,7 +539,7 @@ p.insertGuidePos {
 	top: 0;
 	outline: none;
 }
-.addGuideItem:hover {
+button.addGuideItem:hover {
 	opacity: 1;
 }
 .addGuideItem i {
