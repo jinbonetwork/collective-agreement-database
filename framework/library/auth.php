@@ -1,4 +1,6 @@
 <?php
+namespace CADB\Lib;
+
 function Login($loginid, $password) {
 	$context = \CADB\Model\Context::instance();
 	$result = \CADB\Auth::authenticate($loginid,$password);
@@ -27,7 +29,7 @@ function requireLogin() {
 	$context = \CADB\Model\Context::instance();
 	$service = $context->getProperty('service.*');
 	$requestURI = ($_SERVER['HTTPS'] == 'on' ? "https://" : "http://").$service['domain'].$_SERVER['REQUEST_URI'];
-	RedirectURL('login',array('ssl'=>true,'query'=>array('requestURI'=>$requestURI)));
+	\CADB\Lib\RedirectURL('login',array('ssl'=>true,'query'=>array('requestURI'=>$requestURI)));
 }
 
 function doesHaveMembership() {
@@ -44,6 +46,6 @@ function requireMembership() {
 	if($__Acl->getIdentity($domain) !== null) {
 		return true;
 	}
-	requireLogin();
+	\CADB\Lib\requireLogin();
 }
 ?>

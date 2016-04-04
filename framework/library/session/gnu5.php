@@ -1,4 +1,6 @@
 <?php
+namespace CADB\Lib\session;
+
 function init_session() {
 	$context = \CADB\Model\Context::instance();
 
@@ -24,7 +26,7 @@ function init_session() {
 	@session_start();
 
 	if (isset($_REQUEST['PHPSESSID']) && $_REQUEST['PHPSESSID'] != session_id()) {
-		RedirectUrl('login/logout');
+		\CADB\Lib\RedirectUrl('login/logout');
 	}
 }
 ?>

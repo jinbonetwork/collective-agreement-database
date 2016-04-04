@@ -44,7 +44,7 @@ final class URIHandler extends \CADB\Objects {
 				$part = (($qpos = strpos($part, '?')) !== false) ? substr($part, 0, $qpos) : $part;
 				if(file_exists($part)) {
 					require_once CADB_LIB_PATH.'/file.php';
-					dumpWithEtag($part);
+					\CADB\Lib\dumpWithEtag($part);
 					exit;
 				} else {
 					header("HTTP/1.0 404 Not Found");exit;

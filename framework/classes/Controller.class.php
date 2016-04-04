@@ -149,12 +149,7 @@ abstract class Controller {
 				 * @brief themes에 있는 기본 css와 script 들을 가장 먼저 포함한다.
 				 **/
 				if($this->layout != "admin") {
-					if(file_exists(CADB_PATH."/themes/".$this->themes."/config.php")) {
-						require_once CADB_PATH."/themes/".$this->themes."/config.php";
-					}
-					$this->dirCssJsHtml("themes/".$this->themes,1000);
-					$this->dirCssJsHtml("themes/".$this->themes."/css",1000);
-					$this->dirCssJsHtml("themes/".$this->themes."/script",1000);
+					$this->initTheme();
 				} else {
 					$this->dirCssJsHtml("themes/_administrator",1000);
 					$this->dirCssJsHtml("themes/_administrator/css",1000);
@@ -204,6 +199,18 @@ abstract class Controller {
 					print $html;
 				}
 			}
+		}
+	}
+
+	public function initTheme() {
+		if( !$this->themeCssLoad ) {
+			if(file_exists(CADB_PATH."/themes/".$this->themes."/config.php")) {
+				require_once CADB_PATH."/themes/".$this->themes."/config.php";
+			}
+			$this->dirCssJsHtml("themes/".$this->themes,1000);
+			$this->dirCssJsHtml("themes/".$this->themes."/css",1000);
+			$this->dirCssJsHtml("themes/".$this->themes."/script",1000);
+			$this->themeCssLoad = true;
 		}
 	}
 

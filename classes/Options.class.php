@@ -28,7 +28,7 @@ class Options extends \CADB\Objects  {
 	}
 
 	private static function fetchOption($value) {
-		if(is_serialized($value)) {
+		if(\CADB\Lib\is_serialized($value)) {
 			return unserialize($value);
 		} else if(is_numeric($value)) {
 			return $v;

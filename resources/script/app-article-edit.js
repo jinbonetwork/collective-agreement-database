@@ -1,5 +1,4 @@
 var maxGuideIndex = 0;
-var maxPageIndex = 0;
 
 (function ($) {
 	Array.prototype.insert = function(index) {
@@ -38,6 +37,7 @@ var maxPageIndex = 0;
 
 		this.transitionEnd = transEndEventNames[ Modernizr.prefixed('transition') ];
 		this.mode = '';
+		this.maxPageIndex = 0;
 
 		self.loading();
 
@@ -327,6 +327,11 @@ var maxPageIndex = 0;
 
 			var self = this;
 
+			var initPTagButton = jQuery('<button type="button" class="init-sup-button">책갈피 재설정</button>');
+			initPTagButton.click(function(e) {
+				self.initPTag();
+			});
+			this.Root.find('fieldset.fields-title legend').append(initPTagButton);
 			this.content.find('sup').each(function() {
 				var obj = jQuery(this);
 				if(obj.find('span').length < 1) {
@@ -374,19 +379,21 @@ var maxPageIndex = 0;
 		initPTag: function() {
 			var self = this;
 			jQuery('.editor.content>p').each(function() {
-				maxPageIndex++;
-				jQuery(this).addClass('insertGuidePos').attr('data-index',maxPageIndex);
-				var pos = jQuery(this).offset();
-				var addItem = jQuery('<button type="button" class="addGuideItem" data-index="'+maxPageIndex+'"><i class="fa fa-plus-circle"></i></button>');
-				jQuery(this).prepend(addItem);
-				addItem.css({
-					'left' : '-35px',
-					'top' : 0
-				});
-				addItem.click(function(e) {
-					e.preventDefault();
-					self.addGuide( jQuery(this).attr('data-index') );
-				});
+			    if( !jQuery(this).hasClass('insertGuidePos') ) {
+					self.maxPageIndex++;
+					jQuery(this).addClass('insertGuidePos').attr('data-index',self.maxPageIndex);
+					var pos = jQuery(this).offset();
+					var addItem = jQuery('<button type="button" class="addGuideItem" data-index="'+self.maxPageIndex+'"><i class="fa fa-plus-circle"></i></button>');
+					jQuery(this).prepend(addItem);
+					addItem.css({
+						'left' : '-35px',
+						'top' : 0
+					});
+					addItem.click(function(e) {
+						e.preventDefault();
+						self.addGuide( jQuery(this).attr('data-index') );
+					});
+				}
 			});
 		},
 

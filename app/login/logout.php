@@ -1,7 +1,7 @@
 <?php
 namespace CADB\App\login;
 
-importLibrary('auth');
+\CADB\Lib\importLibrary('auth');
 
 $IV = array(
 	'GET' => array(
@@ -18,9 +18,9 @@ class logout extends \CADB\Controller {
 		logout();
 
 		if($_GET['requestURI']) {
-			RedirectURL(rawurldecode($_GET['requestURI']));
+			\CADB\Lib\RedirectURL(rawurldecode($_GET['requestURI']));
 		} else {
-			RedirectURL(base_uri());
+			\CADB\Lib\RedirectURL(base_uri());
 		}
 	}
 }

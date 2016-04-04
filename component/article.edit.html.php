@@ -1,5 +1,5 @@
 <?php
-	importResource('app-article-edit');
+	\CADB\Lib\importResource('app-article-edit');
 ?>
 	<form id="article-edit-form">
 		<input type="hidden" name="nid" value="<?php print $articles['nid']; ?>" />
@@ -60,7 +60,9 @@
 					<label class="field-label" for="subject">단협제목</label>
 					<input type="text" id="subject" name="subject" value="<?php print $articles['subject']; ?>" />
 				</fieldset>
-				<fieldset id="edit-agreement" class="editor content"><?php print $articles['content']; ?></fieldset>
+				<fieldset id="edit-agreement">
+					<div class="editor content"><?php print $articles['content']; ?></div>
+				</fieldset>
 			</div>
 		</fieldset>
 	</form>

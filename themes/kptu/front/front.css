@@ -808,6 +808,14 @@ body {
 			content: "\f097";
 			padding-right: 5px;
 		}
+		.whole-document .document table {
+			width: 100%;
+		}
+		.whole-document .document table th,
+		.whole-document .document table td {
+			border: 1px solid #ccc;
+		}
+
 .inner-container .is-searching {
 	position: absolute;
 	z-index: 9999999999;

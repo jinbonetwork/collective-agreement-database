@@ -1,4 +1,6 @@
 <?php
+namespace CADB\Lib;
+
 function Error($msg,$errorcode=505) {
 	if($_GET['output'] == "xml" || $_POST['output'] == "xml") {
 		\CADB\Respond::ResultPage(array(1,$msg));
@@ -29,15 +31,16 @@ function url($path,$opt=null) {
 		}
 	}
 
-	$url .= (!preg_match("/:\/\//i",$path) ? base_uri() : "").($path == base_uri() ? "" : $path);
+	$url .= (!preg_match("/:\/\//i",$path) ? \CADB\Lib\base_uri() : "").($path == \CADB\Lib\base_uri() ? "" : $path);
 	if($opt['query'])
 		$url .= "?".(is_array($opt['query']) ? http_build_query($opt['query']) : $opt['query']);
 	if(substr($url,0,2) == "//") $url = substr($url,1);
+	$url = preg_replace("/\/\/$/i","/",$url);
 	return $url;
 }
 
 function RedirectURL($path,$opt=null) {
-	header("Location: ".url($path,$opt));
+	header("Location: ".\CADB\Lib\url($path,$opt));
 	exit;
 }
 
@@ -46,11 +49,11 @@ function login_url() {
 		$requestURI = $_GET['requestURI'];
 	else
 		$requestURI = ($_SERVER['HTTPS'] == 'on' ? "https://" : "http://").$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
-	return url('login',array('ssl'=>true,'query'=>array('requestURI'=>$requestURI)));
+	return \CADB\Lib\url('login',array('ssl'=>true,'query'=>array('requestURI'=>$requestURI)));
 }
 
 function logout_url() {
-	return url('login/logout',array('query'=>array('requestURI'=>($_GET['requestURI'] ? $_GET['requestURI'] : $_SERVER['REQUEST_URI']))));
+	return \CADB\Lib\url('login/logout',array('query'=>array('requestURI'=>($_GET['requestURI'] ? $_GET['requestURI'] : $_SERVER['REQUEST_URI']))));
 }
 
 function load_view() {
@@ -70,8 +73,7 @@ function user_logged_in() {
 }
 
 function isMaster() {
-	global $user;
-	if($user['degree'] == BITWISE_ADMINISTRATOR) return 1;
+	if($_SESSION['user']['glevel'] == BITWISE_ADMINISTRATOR) return 1;
 	else return 0;
 }
 

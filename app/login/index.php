@@ -1,7 +1,7 @@
 <?php
 namespace CADB\App\login;
 
-importLibrary('auth');
+\CADB\Lib\importLibrary('auth');
 
 class index extends \CADB\Controller {
 
@@ -12,9 +12,9 @@ class index extends \CADB\Controller {
 			$redirect_uri .= "?requestURI=".rawurldecode($this->params['request_URI']);
 
 		if($this->params['output'] != "json" && $this->params['output'] != "xml") {
-			importResource('app-login',true);
+			\CADB\Lib\importResource('app-login',true);
 		}
-		if(doesHaveMembership()) {
+		if(\CADB\Lib\doesHaveMembership()) {
 			if($this->params['output'] == "xml") {
 				Respond::ResultPage(array(2,"이미 로그인하셨습니다"));
 			} else if($this->params['output'] == "json") {

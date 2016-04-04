@@ -1,4 +1,5 @@
 <?php
+namespace CADB\Lib;
 /**
  * @brief import required Library Package or Class
  **/
@@ -28,19 +29,19 @@ function importLibrary($name) {
 	global $__requireLibrary;
 	$library = "library.".$name;
 	if(!in_array($library,$__requireLibrary)) {
-		import($library);
+		\CADB\Lib\import($library);
 		array_push($__requireLibrary,$library);
 	}
 }
 
 function importModel($name) {
 	global $__requireLibrary;
-	importLibrary("model.".$name);
+	\CADB\Lib\importLibrary("model.".$name);
 }
 
 function importView($name) {
 	global $__requireLibrary;
-	importLibrary("view.".$name);
+	\CADB\Lib\importLibrary("view.".$name);
 }
 
 function importResource($key,$compress=false) {

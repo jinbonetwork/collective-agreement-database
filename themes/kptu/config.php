@@ -1,5 +1,5 @@
 <?php
-importResource("jquery");
-importResource("NanumBarunGothic");
-importResource("Font-Awesome");
+\CADB\Lib\importResource("jquery");
+\CADB\Lib\importResource("NanumBarunGothic");
+\CADB\Lib\importResource("Font-Awesome");
 ?>

@@ -63,10 +63,10 @@ try {
 		switch($context->getProperty('session.type')) {
 			case 'gnu5':
 			default:
-				importLibrary('session.gnu5');
+				\CADB\Lib\importLibrary('session.gnu5');
 				break;
 		}
-		init_session();
+		\CADB\Lib\session\init_session();
 	}
 
 	/*

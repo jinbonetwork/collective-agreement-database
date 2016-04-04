@@ -31,8 +31,8 @@ class Acl extends \CADB\Objects {
 
 	public function check() {
 		if($this->role < BITWISE_ANONYMOUS && !$_SESSION['user']['uid']) {
-			importLibrary('auth');
-			requireMembership();
+			\CADB\Lib\importLibrary('auth');
+			\CADB\Lib\requireMembership();
 		}
 /*		if($_SESSION['user']['uid'] && $this->role < $_SESSION['user']['glevel']) {
 			Error('접근 권한이 없습니다');

@@ -1,7 +1,7 @@
 <div id="login-container" class="<?php print $params['output']; ?>">
 	<div class="wrap">
 		<h2>로그인</h2>
-		<form id="login-form" class="ui-form" name="login" action="<?php print url("gnu5/bbs/login_check.php"); ?>" method="POST" onsubmit="return check_login(this);">
+		<form id="login-form" class="ui-form" name="login" action="<?php print \CADB\Lib\url("gnu5/bbs/login_check.php"); ?>" method="POST" onsubmit="return check_login(this);">
 			<input type="hidden" name="url" value="<?php print ($params['requestURI'] ? $params['requestURI'] : "/"); ?>" />
 			<fieldset class="ui-form-items login cadb">
 				<div class="ui-form-item user-id">

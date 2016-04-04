@@ -1,4 +1,5 @@
 <?php
+namespace CADB\Lib;
 /// Copyright (c) 2004-2010, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
@@ -15,7 +16,7 @@ function getFileExtension($path) {
 
 function getMIMEType($ext, $filename = null) {
 	if ($filename) {
-		return getMIMEType(getFileExtension($filename));
+		return \CADB\Lib\getMIMEType(\CADB\Lib\getFileExtension($filename));
 	} else {
 		switch (strtolower($ext)) {
 			// Image
@@ -160,8 +161,8 @@ function dumpWithEtag($path) {
 	$lastmodified = gmdate("D, j M Y H:i:s ", $fs['mtime']) . "GMT";
 	$length = $fs['size'];
 
-	if( !headerEtag($etag,$length,$lastmodified) ) {
-		header('Content-type: '.getMIMEType(null,$path)); 
+	if( !\CADB\Lib\headerEtag($etag,$length,$lastmodified) ) {
+		header('Content-type: '.\CADB\Lib\getMIMEType(null,$path)); 
 		$f =  fopen($path,"r");
 		if( !$f ) {
 			header("HTTP/1.0 404 Not found");
@@ -188,7 +189,7 @@ function copyRecusive($source, $target, $chkPrint = false) {
 	}
 	$d = dir($source);
 	while ($entry = $d->read()) {
-		copyRecusive("$source/$entry", "$target/$entry", $chkPrint);
+		\CADB\Lib\copyRecusive("$source/$entry", "$target/$entry", $chkPrint);
 	}
 	$d->close();
 }
@@ -198,7 +199,7 @@ function deltree($dir) {
 	while ($f = $d->read()) {
 		if ($f != "." && $f != "..") {
 			if (is_dir($dir . $f)) {
-				deltree($dir . $f . "/");
+				\CADB\Lib\deltree($dir . $f . "/");
 				rmdir($dir . $f);
 			}
 			if (is_file($dir . $f))

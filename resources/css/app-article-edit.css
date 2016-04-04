@@ -152,6 +152,15 @@ fieldset.fields-title legend {
 fieldset.fields-title legend span {
 	padding: 0 20px;
 }
+fieldset.fields-title legend button {
+	display: inline-block;
+	float: right;
+	width: auto;
+	height: auto;
+	padding: 0 10px;
+	background: #5a91e2;
+	color: #fff;
+}
 
 fieldset.fields-group.meta {
 	float: left;
