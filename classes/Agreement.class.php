@@ -2,11 +2,16 @@
 namespace CADB;
 
 class Agreement extends \CADB\Objects  {
+	private static $mode;
 	private static $fields;
 	private static $summary_method;
 
 	public static function instance() {
 		return self::_instance(__CLASS__);
+	}
+
+	public static function setMode($mode) {
+		self::$mode = $mode;
 	}
 
 	public static function getFieldInfo($active=1) {
@@ -114,25 +119,31 @@ class Agreement extends \CADB\Objects  {
 			switch($type) {
 				case 1:
 					$options = self::makeArgsQuery($args,1);
-					$que = "SELECT ".$result." FROM {agreement_organize} AS r LEFT JOIN {agreement} AS a ON (r.nid = a.nid) WHERE ".($options ? "r.oid IN (".$options.") AND " : "").($q ? "match(a.subject,a.content) against('".$q."' IN NATURAL LANGUAGE MODE) AND " : "")."a.current = '1'";
+//					$que = "SELECT ".$result." FROM {agreement_organize} AS r LEFT JOIN {agreement} AS a ON (r.nid = a.nid) WHERE ".($options ? "r.oid IN (".$options.") AND " : "").($q ? "match(a.subject,a.content) against('".$q."' IN NATURAL LANGUAGE MODE) AND " : "")."a.current = '1'";
+					$que = "SELECT ".$result." FROM {agreement_organize} AS r LEFT JOIN {agreement} AS a ON (r.nid = a.nid) WHERE ".($options ? "r.oid IN (".$options.") AND " : "").($q ? "match(a.subject,a.content) against('".$q."' IN BOOLEAN MODE) AND " : "")."a.current = '1'";
 					break;
 				case 2:
 					$options = self::makeArgsQuery($args,2);
-					$que = "SELECT ".$result." FROM {taxonomy_term_relative} AS t LEFT JOIN {agreement} AS a ON (t.`table` = 'agreement' AND t.rid = a.nid) WHERE ".$options.($options ? " AND " : "").($q ? "match(a.subject,a.content) against('".$q."' IN NATURAL LANGUAGE MODE) AND " : "")."a.current = '1'";
+//					$que = "SELECT ".$result." FROM {taxonomy_term_relative} AS t LEFT JOIN {agreement} AS a ON (t.`table` = 'agreement' AND t.rid = a.nid) WHERE ".$options.($options ? " AND " : "").($q ? "match(a.subject,a.content) against('".$q."' IN NATURAL LANGUAGE MODE) AND " : "")."a.current = '1'";
+					$que = "SELECT ".$result." FROM {taxonomy_term_relative} AS t LEFT JOIN {agreement} AS a ON (t.`table` = 'agreement' AND t.rid = a.nid) WHERE ".$options.($options ? " AND " : "").($q ? "match(a.subject,a.content) against('".$q."' IN BOOLEAN MODE) AND " : "")."a.current = '1'";
 					break;
 				case 3:
 					$sub_options = self::makeArgsQuery($args,1);
 					$options = self::makeArgsQuery($args,2);
-					$que = "SELECT ".$result." FROM {taxonomy_term_relative} AS t LEFT JOIN {agreement_organize} AS r ON (t.`table` = 'agreement' AND t.rid = r.nid) LEFT JOIN {agreement} AS a ON t.rid = a.nid WHERE ".$options.($options ? " AND " : "").($q ? "match(a.subject,a.content) against('".$q."' IN NATURAL LANGUAGE MODE) AND " : "").($sub_options ? "r.oid IN (".$sub_options.") AND " : "")."a.current = '1'";
+//					$que = "SELECT ".$result." FROM {taxonomy_term_relative} AS t LEFT JOIN {agreement_organize} AS r ON (t.`table` = 'agreement' AND t.rid = r.nid) LEFT JOIN {agreement} AS a ON t.rid = a.nid WHERE ".$options.($options ? " AND " : "").($q ? "match(a.subject,a.content) against('".$q."' IN NATURAL LANGUAGE MODE) AND " : "").($sub_options ? "r.oid IN (".$sub_options.") AND " : "")."a.current = '1'";
+					$que = "SELECT ".$result." FROM {taxonomy_term_relative} AS t LEFT JOIN {agreement_organize} AS r ON (t.`table` = 'agreement' AND t.rid = r.nid) LEFT JOIN {agreement} AS a ON t.rid = a.nid WHERE ".$options.($options ? " AND " : "").($q ? "match(a.subject,a.content) against('".$q."' IN BOOLEAN MODE) AND " : "").($sub_options ? "r.oid IN (".$sub_options.") AND " : "")."a.current = '1'";
 					break;
 				default:
 					break;
 			}
 		} else {
 			if($q) {
-				$que = "SELECT ".$result." FROM {agreement} AS a LEFT JOIN {agreement_organize} AS r ON a.nid = r.nid LEFT JOIN {organize} AS o ON r.oid = o.oid WHERE match(a.subject,a.content) against('".$q."' IN NATURAL LANGUAGE MODE) AND a.current = '1'";
-//			} else {
-//				$que = "SELECT ".$result." FROM {agreement} AS a LEFT JOIN {agreement_organize} AS r ON a.nid = r.nid LEFT JOIN {organize} AS o ON r.oid = o.oid WHERE a.current = '1'";
+//				$que = "SELECT ".$result." FROM {agreement} AS a LEFT JOIN {agreement_organize} AS r ON a.nid = r.nid LEFT JOIN {organize} AS o ON r.oid = o.oid WHERE match(a.subject,a.content) against('".$q."' IN NATURAL LANGUAGE MODE) AND a.current = '1'";
+				$que = "SELECT ".$result." FROM {agreement} AS a LEFT JOIN {agreement_organize} AS r ON a.nid = r.nid LEFT JOIN {organize} AS o ON r.oid = o.oid WHERE match(a.subject,a.content) against('".$q."' IN BOOLEAN MODE) AND a.current = '1'";
+			} else {
+				if(self::$mode == 'admin') {
+					$que = "SELECT ".$result." FROM {agreement} AS a LEFT JOIN {agreement_organize} AS r ON a.nid = r.nid LEFT JOIN {organize} AS o ON r.oid = o.oid WHERE a.current = '1'";
+				}
 			}
 		}
 

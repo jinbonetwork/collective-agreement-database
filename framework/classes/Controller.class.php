@@ -122,7 +122,7 @@ abstract class Controller {
 					}
 				}
 				if(@count($this->babel)) {
-					importResource('babel');
+					\CADB\Lib\importResource('babel');
 					foreach($this->babel as $script) {
 						\CADB\View\Resource::addScript($script,0,array('compress'=>true,'type'=>'babel'));
 					}
@@ -148,12 +148,9 @@ abstract class Controller {
 				/**
 				 * @brief themes에 있는 기본 css와 script 들을 가장 먼저 포함한다.
 				 **/
-				if($this->layout != "admin") {
-					$this->initTheme();
-				} else {
-					$this->dirCssJsHtml("themes/_administrator",1000);
-					$this->dirCssJsHtml("themes/_administrator/css",1000);
-					$this->dirCssJsHtml("themes/_administrator/script",1000);
+				$this->initTheme();
+				if($this->layout == "admin") {
+					\CADB\Lib\importResource('app-admin');
 				}
 				if(($html_file = $this->appPath())) {
 					$this->themeCssJs($html_file);
@@ -181,11 +178,13 @@ abstract class Controller {
 				echo $content;
 			} else {
 				/**
-				 * @brief include library file required in themes
+				 * @brief make admin theme
 				 **/
-				if(file_exists(CADB_PATH."/themes/".$this->themes."/function.php")) {
-					$theme_path = CADB_URI."themes/".$this->themes;
-					require_once CADB_PATH."/themes/".$this->themes."/function.php";
+				if($this->layout == 'admin' && file_exists(CADB_APP_PATH."/admin/layout.html.php")) {
+					ob_start();
+					include CADB_APP_PATH."/admin/layout.html.php";
+					$content = ob_get_contents();
+					ob_end_clean();
 				}
 
 				/**
@@ -299,18 +298,8 @@ abstract class Controller {
 	}
 
 	private function LayoutFile() {
-		$extends = "layout";
-
-		if($this->layout == "admin") {
-			$layout_file = CADB_PATH."/themes/_administrator/".$extends.".html.php";
-			if(file_exists($layout_file)) return $layout_file;
-		} else {
-			if($extends == "layout" && $this->layout)
-				 $layout_file = CADB_PATH."/themes/".$this->themes."/".$this->layout.".html.php";
-			else
-				$layout_file = CADB_PATH."/themes/".$this->themes."/".$extends.".html.php";
-			if(file_exists($layout_file)) return $layout_file;
-		}
+		$layout_file = CADB_PATH."/themes/".$this->themes."/layout.html.php";
+		if(file_exists($layout_file)) return $layout_file;
 		return null;
 	}
 

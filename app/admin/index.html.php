@@ -1,1 +1,3 @@
-		<h2>관리화면</h2>
+	<div class="admin-index">
+		초기화면.
+	</div>

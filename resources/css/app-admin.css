@@ -1,0 +1,127 @@
+.app-admin {
+	background: #fff;
+}
+.app-admin .inner-container {
+	width: 100% !important;
+	max-width: 100% !important;
+	margin-left: 0 !important;
+	margin-right: 0 !important;
+	padding-bottom: 60px;
+}
+.app-admin .inner-container .top_menu {
+	background: #333;
+	padding: 10px;
+	color: #fff;
+	*zoom: 1;
+}
+.app-admin .inner-container .top_menu:after {
+	display: block;
+	content: ' ';
+	clear: both;
+}
+.app-admin .inner-container .top_menu h2 {
+	float: left;
+	margin: 0;
+	padding: 0;
+	font-size: 16px;
+}
+.app-admin .inner-container .top_menu ul.admin-menu {
+	display: inline-block;
+	float: right;
+}
+.app-admin .inner-container .top_menu ul.admin-menu li {
+	display: inline-block;
+	padding: 0 4px;
+	font-size: 0.85em;
+	border-right: 1px dotted #fff;
+}
+.app-admin .inner-container .top_menu ul.admin-menu li:last-child {
+	border-right: 0;
+}
+.app-admin .inner-container .top_menu ul.admin-menu li a {
+	padding: 4px;
+}
+.app-admin .inner-container .administrator-content {
+	max-width: 924px;
+	width: 80%;
+	margin-left: 10%;
+	margin-right: 10%;
+}
+
+/* articles list */
+.app-admin ul.articles-list {
+}
+.app-admin ul.articles-list li.article-item {
+	padding: 10px 10px;
+	border-bottom: 1px dotted #ccc;
+}
+.app-admin ul.articles-list li.article-item > div {
+	position: relative;
+	padding-right: 120px;
+}
+.app-admin ul.articles-list li.article-item > div .buttons {
+	position: absolute;
+	top: 0;
+	right: 0;
+}
+.app-admin ul.articles-list li.article-item > div .buttons a {
+	display: inline-block;
+	padding: 3px 5px;
+	border-radius: 10px;
+	color: #fff;
+	font-size: 0.85em;
+	margin-left: 10px;
+}
+.app-admin ul.articles-list li.article-item > div .buttons a:hover {
+	color: #ebeef2;
+	box-shadow: 0px 2px 2px #dee0e0;
+}
+.app-admin ul.articles-list li.article-item > div .buttons a.modify {
+	background: #5a91e2;
+}
+.app-admin ul.articles-list li.article-item > div .buttons a.delete {
+	background: #f00;
+}
+
+.app-admin .page-nav-wrapper {
+	padding-top: 25px;
+	padding-bottom: 15px;
+	text-align: center;
+}
+.app-admin .page-nav-wrapper ul {
+	display: inline-block;
+}
+.app-admin .page-nav-wrapper ul > li {
+	display: inline-block;
+	padding: 4px 6px;
+	margin: 0 2px;
+	border: 1px solid #ccc;
+	font-size: 0.85em;
+}
+.app-admin .page-nav-wrapper ul > li.p_page {
+}
+.app-admin .page-nav-wrapper ul > li.page {
+}
+.app-admin .page-nav-wrapper ul > li.page.current {
+	font-weight: bold;
+	background: #5a91e2;
+	color: #fff;
+}
+.app-admin .page-nav-wrapper ul > li.n_page {
+}
+.app-admin .article-button {
+	text-align: right;
+	padding: 4px 10px;
+}
+.app-admin .article-button a.add {
+	padding: 5px 8px;
+	border-radius: 15px;
+	color: #fff;
+	font-size: 0.85em;
+	line-height: 1.5em;
+	background: #5a91e2;
+}
+.app-admin .article-button a.add:hover {
+	color: #ebeef2;
+	box-shadow: 0px 2px 2px #dee0e0;
+}

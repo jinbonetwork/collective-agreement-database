@@ -142,5 +142,18 @@
 		],
 		"priority":"100000",
 		"deps":["jquery","modernizr","medium-editor"]
+	},
+	"app-admin": {
+		"js": [
+			{
+				"uri": "resources/script/app-admin.js",
+				"position": "footer"
+			}
+		],
+		"css": [
+			"resources/css/app-admin.css"
+		],
+		"priority":"0",
+		"deps":["jquery","modernizr"]
 	}
 }
