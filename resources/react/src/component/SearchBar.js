@@ -170,6 +170,7 @@ export default class SearchBar extends Component {
       });
 	} else {
 	  this.setState({
+	    articles: [],
         query: toggleInQuery(this.state.query, field, value)
       });
 	}

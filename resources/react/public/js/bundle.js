@@ -25144,6 +25144,7 @@
 	        });
 	      } else {
 	        this.setState({
+	          articles: [],
 	          query: (0, _utils.toggleInQuery)(this.state.query, field, value)
 	        });
 	      }
