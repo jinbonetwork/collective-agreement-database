@@ -509,6 +509,29 @@ body {
 			line-height: 1.3em;
 			padding: 0 30px;
 		}
+		.organization-result li .organ-company {
+			padding: 5px 30px 0 30px;
+		}
+		.organization-result li .organ-company > div {
+			display: inline-block;
+			padding-right: 15px;
+		}
+		.organization-result li .organ-company > div span.contract-label {
+			display: inline-block;
+			padding: 3px 8px;
+			border-radius: 10px;
+			background: #ebeef2;
+		}
+		.organization-result li .organ-company > div.mainContract span.contract-label:before {
+			font-family: "FontAwesome";
+			content: "\f1ad";
+			padding-right: 5px;
+		}
+		.organization-result li .organ-company > div.subContract span.contract-label:before {
+			font-family: "FontAwesome";
+			content: "\f0f7";
+			padding-right: 5px;
+		}
 		.organization-result li .organ-summary {
 			padding: 0 20px 0 20px;
 			height: 45px;

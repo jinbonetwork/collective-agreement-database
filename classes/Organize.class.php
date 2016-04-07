@@ -84,6 +84,9 @@ class Organize extends \CADB\Objects  {
 				} else {
 					$que = "SELECT ".$result." FROM {taxonomy_term_relative} AS t LEFT JOIN {organize} AS o ON t.rid = o.oid WHERE ".$options." AND o.current = '1' AND o.active = '1'";
 				}
+			} else if($q) {
+//				$que = "SELECT ".$result." FROM {organize} AS o WHERE match(o.`fullname`,o.`f8`,o.`f9`) against('".$q."' IN NATURAL LANGUAGE MODE) AND o.current = '1' AND o.active = '1'";
+				$que = "SELECT ".$result." FROM {organize} AS o WHERE match(o.`fullname`,o.`f8`,o.`f9`) against('".$q."' IN BOOLEAN MODE) AND o.current = '1' AND o.active = '1'";
 			}
 		} else if($q) {
 //			$que = "SELECT ".$result." FROM {organize} AS o WHERE match(o.`fullname`,o.`f8`,o.`f9`) against('".$q."' IN NATURAL LANGUAGE MODE) AND o.current = '1' AND o.active = '1'";

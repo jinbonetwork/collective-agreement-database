@@ -14,6 +14,9 @@ export default class OrgItem extends Component{
   }
 
   render() {
+    const f8 = this.state.org.f8 ? <div className="mainContract"><span className="contract-label">사업장(원청)</span> {this.state.org.f8}</div> : '';
+    const f9 = this.state.org.f9 ? <div className="subContract"><span className="contract-label">사업장(하청)</span> {this.state.org.f9}</div> : '';
+	const company = (f8 || f9) ? <div className="organ-company">{f8}{f9}</div> : '';
 	const agreement_id = `agreements-${this.state.org.oid}`;
     const agreement_props = {
 	  oid: this.state.org.oid,
@@ -25,6 +28,7 @@ export default class OrgItem extends Component{
         <div className="header">
           <div className="title">
             <div className="organ-name">{this.state.org.fullname}</div>
+			{company}
             <div className="organ-summary">
 			  <span className="organ-detail" onClick={this.onClickOrganize.bind(this)}>조직정보 보기</span>
 			  {a_button}

@@ -28451,6 +28451,34 @@
 	  _createClass(OrgItem, [{
 	    key: 'render',
 	    value: function render() {
+	      var f8 = this.state.org.f8 ? _react2.default.createElement(
+	        'div',
+	        { className: 'mainContract' },
+	        _react2.default.createElement(
+	          'span',
+	          { className: 'contract-label' },
+	          '사업장(원청)'
+	        ),
+	        ' ',
+	        this.state.org.f8
+	      ) : '';
+	      var f9 = this.state.org.f9 ? _react2.default.createElement(
+	        'div',
+	        { className: 'subContract' },
+	        _react2.default.createElement(
+	          'span',
+	          { className: 'contract-label' },
+	          '사업장(하청)'
+	        ),
+	        ' ',
+	        this.state.org.f9
+	      ) : '';
+	      var company = f8 || f9 ? _react2.default.createElement(
+	        'div',
+	        { className: 'organ-company' },
+	        f8,
+	        f9
+	      ) : '';
 	      var agreement_id = 'agreements-' + this.state.org.oid;
 	      var agreement_props = {
 	        oid: this.state.org.oid,
@@ -28475,6 +28503,7 @@
 	              { className: 'organ-name' },
 	              this.state.org.fullname
 	            ),
+	            company,
 	            _react2.default.createElement(
 	              'div',
 	              { className: 'organ-summary' },

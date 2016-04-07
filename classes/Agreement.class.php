@@ -169,9 +169,9 @@ class Agreement extends \CADB\Objects  {
 				}
 			} else if($t == 'a' && self::$fields['taxonomy'][$key]) {
 				$agreement_type = true;
-				if(!self::$summary_method) {
+//				if(!self::$summary_method) {
 					self::$summary_method = array('type'=>'taxonomy','value'=>$v);
-				}
+//				}
 			}
 		}
 		if($organize_type) $type += 1;
