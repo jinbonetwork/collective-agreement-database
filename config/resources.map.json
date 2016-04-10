@@ -103,12 +103,17 @@
 	"medium-editor": {
 		"js": [
 			{
-				"uri": "contribute/medium-editor.min.js",
+				"uri": "contribute/medium-editor/dist/js/medium-editor.min.js",
+				"position": "footer"
+			},
+			{
+				"uri": "contribute/medium-editor-tables/dist/js/medium-editor-tables.min.js",
 				"position": "footer"
 			}
 		],
 		"css": [
 			"contribute/medium-editor/dist/css/medium-editor.min.css",
+			"contribute/medium-editor-tables/dist/css/medium-editor-tables.min.css",
 			"contribute/medium-editor/dist/css/themes/bootstrap.min.css"
 		],
 		"priority":"-9"

@@ -1,6 +1,13 @@
 		<h3>단협 목록</h3>
-		<div class="article-button">
-			<a class="add" href="<?php print \CADB\Lib\url("admin/articles/add"); ?>">단협추가</a>
+		<div class="article-list-header">
+			<form class="article-search" action="<?php print \CADB\Lib\url("admin/articles"); ?>" method="get" onsubmit="return check_agreement_search(this);">
+				<label for="agreement_q">단협검색</label>
+				<input type="text" id="agreement_q" name="q" value="<?php print $params['q']; ?>" />
+				<button type="submit">찾기</button>
+			</form>
+			<div class="article-button">
+				<a class="add" href="<?php print \CADB\Lib\url("admin/articles/add"); ?>">단협추가</a>
+			</div>
 		</div>
 		<ul class="articles-list">
 <?php	foreach($articles as $article) {?>

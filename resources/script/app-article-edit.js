@@ -47,6 +47,7 @@ var maxGuideIndex = 0;
 		self.initGuideTaxonomy();
 		self.initForm();
 		self.keyhandle();
+		self.addGuideBackground();
 
 		self.removeLoading();
 	}
@@ -362,17 +363,23 @@ var maxGuideIndex = 0;
 			self.initPTag();
 
 			var editor = new MediumEditor('.editor',{
-				buttons: [
-					"bold"
-					, "italic"
-					, "underline"
-					, "anchor"
-					, "header1"
-					, "header2"
-					, "header3"
-					, "header4"
-					, "quote"
-				],
+				buttonLabels: 'fontawesome',
+				toolbar: {
+					buttons: [
+						"bold"
+						, "italic"
+						, "underline"
+						, "anchor"
+						, "h2"
+						, "h3"
+						, "h4"
+						, "quote"
+						, "table"
+					]
+				},
+				extensions: {
+					table: new MediumEditorTable()
+				}
 			});
 		},
 
@@ -527,12 +534,14 @@ var maxGuideIndex = 0;
 		openGuide: function() {
 			this.mode = 'guide-taxonomy'
 			this.guideTaxonomy.removeClass('collapsed');
+			this.guideBackground.show();
 		},
 
 		closeGuide: function() {
 			this.mode = '';
 			this.guideTaxonomy.addClass('collapsed');
 			this.guideTaxonomyTarget = 0;
+			this.guideBackground.hide();
 		},
 
 		toggleGuideSubCategory: function(element) {
@@ -807,6 +816,15 @@ var maxGuideIndex = 0;
 			jQuery('.saving .is-loading').css({
 				'left' : parseInt( ( jQuery(window).width() - 100 ) / 2 ),
 				'top' : parseInt( ( jQuery(window).height() - 100 ) / 2 )
+			});
+		},
+
+		addGuideBackground: function() {
+			var self = this;
+			this.guideBackground = jQuery('<div class="guide-select-background"></div>');
+			jQuery('.inner-container').append(this.guideBackground);
+			this.guideBackground.bind('click',function(e) {
+				self.closeGuide();
 			});
 		},
 

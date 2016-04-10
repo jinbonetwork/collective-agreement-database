@@ -62,6 +62,7 @@ class Guide extends \CADB\Objects  {
 		$tids = array();
 		while($row = $dbm->getFetchArray($que)) {
 			if(!$tids[$row['tid']]) {
+				$terms[$cid][$row['tid']]['term_name'] = $terms[$cid][$row['tid']]['name'];
 				$terms[$cid][$row['tid']]['name'] = stripslashes($row['subject']);
 				$tids[$row['tid']] = 1;
 			}

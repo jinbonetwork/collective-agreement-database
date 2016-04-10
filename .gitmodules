@@ -25,3 +25,6 @@
 [submodule "contribute/medium-editor"]
 	path = contribute/medium-editor
 	url = https://github.com/yabwe/medium-editor.git
+[submodule "contribute/medium-editor-tables"]
+	path = contribute/medium-editor-tables
+	url = https://github.com/yabwe/medium-editor-tables.git
