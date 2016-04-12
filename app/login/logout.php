@@ -15,12 +15,12 @@ $IV = array(
 class logout extends \CADB\Controller {
 
 	public function process() {
-		logout();
+		\CADB\Lib\logout();
 
 		if($_GET['requestURI']) {
 			\CADB\Lib\RedirectURL(rawurldecode($_GET['requestURI']));
 		} else {
-			\CADB\Lib\RedirectURL(base_uri());
+			\CADB\Lib\RedirectURL(\CADB\Lib\base_uri());
 		}
 	}
 }
