@@ -386,12 +386,13 @@ var maxGuideIndex = 0;
 		initPTag: function() {
 			var self = this;
 			jQuery('.editor.content>p').each(function() {
-			    if( !jQuery(this).hasClass('insertGuidePos') ) {
+				var $this = jQuery(this);
+			    if( !$this.hasClass('insertGuidePos') || $this.find('button.addGuideItem').length < 1 ) {
 					self.maxPageIndex++;
-					jQuery(this).addClass('insertGuidePos').attr('data-index',self.maxPageIndex);
-					var pos = jQuery(this).offset();
+					$this.addClass('insertGuidePos').attr('data-index',self.maxPageIndex);
+					var pos = $this.offset();
 					var addItem = jQuery('<button type="button" class="addGuideItem" data-index="'+self.maxPageIndex+'"><i class="fa fa-plus-circle"></i></button>');
-					jQuery(this).prepend(addItem);
+					$this.prepend(addItem);
 					addItem.css({
 						'left' : '-35px',
 						'top' : 0
@@ -529,11 +530,13 @@ var maxGuideIndex = 0;
 					self.selectGuideTaxonomy(jQuery(this));
 				});
 			});
+			this.bindGuideSearch();
 		},
 
 		openGuide: function() {
 			this.mode = 'guide-taxonomy'
 			this.guideTaxonomy.removeClass('collapsed');
+			this.guideSearch.focus();
 			this.guideBackground.show();
 		},
 
@@ -542,6 +545,51 @@ var maxGuideIndex = 0;
 			this.guideTaxonomy.addClass('collapsed');
 			this.guideTaxonomyTarget = 0;
 			this.guideBackground.hide();
+		},
+
+		bindGuideSearch: function() {
+			var self = this;
+			this.guideSearch = this.guideTaxonomy.find('#guide-search input#guide-search');
+			this.guideSearch.bind('keydown',function(event) {
+				var code = event.charCode || event.keyCode;
+				if(code == 13) {
+					self.searchGuide(true);
+				}
+			});
+			this.guideTaxonomy.find('#guide-search button').click(function(e) {
+				self.searchGuide(true);
+			});
+
+			this.guideSearch.bind('keyup',function(event) {
+				self.searchGuide(false);
+			});
+		},
+
+		searchGuide: function(opt) {
+			var self = this;
+			if(!this.guideSearch.val() || !this.guideSearch.val().trim()) {
+				if(opt) {
+					this.guideSearch.addClass('focus').focus().attr('placeholder','검색할 조항을 입력하세요');
+				}
+				return;
+			}
+			this.guideSearch.removeClass('focus');
+
+			var val = this.guideSearch.val().trim();
+			var c = this.guideTaxonomy.find('#guide-search-sub-item');
+			c.empty();
+			jQuery('label.guide-item-label[data-name^='+val+']').each(function() {
+				var $this = jQuery(this);
+				var child = jQuery('<li class="guide-sub-item"><div class="guide-item-box"><label class="guide-sub-item-label" data-tid="'+$this.attr('data-tid')+'" data-vid="'+$this.attr('data-vid')+'" data-name="'+$this.attr('data-name')+'">'+$this.text()+'</label></div></li>');
+				c.append(child);
+				child.find('label').click(function(e) {
+					self.selectGuideTaxonomy(jQuery(this));
+				});
+			});
+			this.guideTaxonomy.find('.guide-sub-items').css({ 'z-index' : 99997 }).removeClass('slideTo');
+			this.guideSearch.parents('li.guide-chapter').siblings().removeClass('extended');
+			this.guideSearch.parents('li.guide-chapter').addClass('extended');
+			c.css( {'z-index': 99998} ).addClass('slideTo');
 		},
 
 		toggleGuideSubCategory: function(element) {
@@ -679,6 +727,16 @@ var maxGuideIndex = 0;
 							self.abortDialog(message,0);
 							break;
 						case 0:
+							var nid = parseInt(message);
+							if(!self.Root.find('input[name="nid"]').val()) {
+								self.Root.find('input[name="nid"]').val(nid);
+								self.Root.find('input[name="did"]').val(nid);
+								if (window.history.replaceState) {
+									window.history.pushState(null, '단체협약:'+self.Root.find('input#subject').val(), window.location.href.replace(/add/,'edit')+'?nid='+nid);
+								}
+							} else {
+								self.Root.find('input[name="nid"]').val(nid);
+							}
 							break;
 						default:
 							self.abortDialog(message,error);

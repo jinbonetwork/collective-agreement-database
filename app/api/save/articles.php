@@ -39,11 +39,12 @@ class articles extends \CADB\Controller {
 				\CADB\RespondJson::ResultPage( array( -4, '데이터베이스를 수정하는 도중 장애가 발생했습니다.' ) );
 			}
 		} else {
-			$ret = \CADB\Agreement\DBM::insert($this->fields,$_POST);
+			$ret = \CADB\Agreement\DBM::insert($this->fields,$this->params);
 			if($ret < 0) {
-				\CADB\RespondJson::ResultPage( array( -4, '데이터베이스에 입력하는 도중 장애가 발생했습니다.' ) );
+				\CADB\RespondJson::ResultPage( array( -4, \CADB\Agreement\DBM::errorMsg() ? \CADB\Agreement\DBM::errorMsg() : '데이터베이스에 입력하는 도중 장애가 발생했습니다.' ) );
 			}
 		}
+		$this->nid = $ret;
 	}
 }
 ?>

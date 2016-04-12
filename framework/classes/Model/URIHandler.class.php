@@ -83,6 +83,9 @@ final class URIHandler extends \CADB\Objects {
 							if(is_numeric($uri['fragment'][2])) $_GET['nid'] = $uri['fragment'][2];
 							$pathPart = CADB_APP_PATH."api/articles";
 							break;
+						case 'taxonomy':
+							$pathPart = CADB_APP_PATH."api/taxonomy";
+							break;
 						case 'all':
 							$pathPart = CADB_APP_PATH."api/all";
 							break;

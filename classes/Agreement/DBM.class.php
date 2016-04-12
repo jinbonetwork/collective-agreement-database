@@ -3,6 +3,7 @@ namespace CADB\Agreement;
 
 class DBM extends \CADB\Objects  {
 	private static $fields;
+	public static $errmsg;
 
 	public static function instance() {
 		return self::_instance(__CLASS__);
@@ -27,8 +28,8 @@ class DBM extends \CADB\Objects  {
 						$array2 .= ', $'."args['".$k."']";
 						switch(self::$fields[$key]['type']) {
 							case 'int':
-								break;
 								$array1 .= 'd';
+								break;
 							default:
 								$array1 .= 's';
 								break;
@@ -90,26 +91,41 @@ class DBM extends \CADB\Objects  {
 		$eval_str = '$'."q_args = ".$array1.$array2.";";
 		eval($eval_str);
 
-		$dbm->execute($que,$q_args);
+		if( $dbm->execute($que,$q_args) < 1) {
+			self::setErrorMsg($que." 가 DB에 반영되지 않았습니다.");
+			return -1;
+		}
 
 		$insert_nid = $dbm->getLastInsertId();
 
 		if($revision != true) {
 			$que = "UPDATE {agreement} SET did = ? WHERE nid = ?";
-			$dbm->execute($que,array("dd",$insert_nid,$insert_nid));
+			if( $dbm->execute($que,array("dd",$insert_nid,$insert_nid)) < 1) {
+				self::setErrorMsg($que." 가 DB에 반영되지 않았습니다.");
+				return -1;
+			}
 		}
 
-		self::reBuildTaxonomy($insert_nid, ( $revision ? $args['did'] : $insert_nid ), $taxonomy_map);
-		self::reBuildOrganize($insert_nid, ( $revision ? $args['did'] : $insert_nid ), $organize_map,null);
+		if( self::reBuildTaxonomy($insert_nid, ( $revision ? $args['did'] : $insert_nid ), $taxonomy_map) < 0 ) {
+			return -1;
+		}
+		if( self::reBuildOrganize($insert_nid, ( $revision ? $args['did'] : $insert_nid ), $organize_map,null) < 0 ) {
+			return -1;
+		}
 
 		if($revision) {
 			$que = "UPDATE {agreement} SET `current` = ? WHERE did = ? AND nid != ?";
-			$dbm->execute( $que, array("ddd",0,$args['did'],$insert_nid) );
+			if( $dbm->execute( $que, array("ddd",0,$args['did'],$insert_nid) ) < 1) {
+				self::setErrorMsg( $que." 가 DB에 반영되지 않았습니다." );
+				return -1;
+			}
 		}
 
 		$guide_cids = \CADB\Guide::getTaxonomy();
 		foreach($guide_cids as $cid) {
-			self::reBuildGuideTaxonomy($cid,$insert_nid,$args['guide']);
+			if( self::reBuildGuideTaxonomy($cid, $insert_nid, $args['guide']) < 0 ) {
+				return -1;
+			}
 		}
 
 		return $insert_nid;
@@ -232,8 +248,8 @@ class DBM extends \CADB\Objects  {
 		eval($eval_str);
 
 		$dbm->execute($que,$q_args);
-		self::reBuildTaxonomy($articles['nid'],$articles['did'],$taxonomy_map);
-		self::reBuildOrganize($articles['nid'],$articles['did'],$organize_map,$old_orgs);
+		self::reBuildTaxonomy($articles['nid'], $articles['did'], $taxonomy_map);
+		self::reBuildOrganize($articles['nid'], $articles['did'], $organize_map, $old_orgs);
 
 		$guide_cids = \CADB\Guide::getTaxonomy();
 		foreach($guide_cids as $cid) {
@@ -243,7 +259,7 @@ class DBM extends \CADB\Objects  {
 		return $args['nid'];
 	}
 
-	public static function reBuildTaxonomy($nid,$did,$taxonomy_map) {
+	public static function reBuildTaxonomy($nid, $did, $taxonomy_map) {
 		$dbm = \CADB\DBM::instance();
 
 		if( is_array($taxonomy_map) ) {
@@ -254,8 +270,11 @@ class DBM extends \CADB\Objects  {
 							case "add":
 								if( is_array($taxonomies) ) {
 									foreach( $taxonomies as $tid => $term ) {
-										$que = "INSERT INTO {taxonomy_term_relative} (`tid`, `table`, `rid`, `fid`) VALUES (?, ?, ?, ?)";
-										$dbm->execute( $que, array("dsdd",$tid,'agreement',$nid,$term['fid']) );
+										$que = "INSERT INTO {taxonomy_term_relative} (`tid`, `table`, `rid`, `fid`) VALUES (?,?,?,?)";
+										if( $dbm->execute( $que, array("dsdd",$tid,'agreement',$nid,$term['fid']) ) < 1 ) {
+											self::setErrorMsg( $que." 가 DB에 반영되지 않았습니다." );
+											return -1;
+										}
 									}
 								}
 								break;
@@ -263,33 +282,44 @@ class DBM extends \CADB\Objects  {
 								if( is_array($taxonomies) ) {
 									foreach( $taxonomies as $tid => $term ) {
 										$que = "DELETE FROM {taxonomy_term_relative} WHERE `tid` = ? AND `table` = ? AND `rid` = ?";
-										$dbm->execute($que,array("dsd",$tid,'agreement',$nid));
+										if( $dbm->execute( $que, array("dsd",$tid,'agreement',$nid) ) < 1 ) {
+											self::setErrorMsg( $que." 가 DB에 반영되지 않았습니다." );
+											return -1;
+										}
 									}
 								}
 								break;
 							default:
-								braek;
+								break;
 						}
 					}
 				}
 			}
 		}
+
+		return 0;
 	}
 
-	public static function reBuildOrganize($nid,$did,$organize_map,$old_map) {
+	public static function reBuildOrganize($nid, $did, $organize_map, $old_map) {
 		$dbm = \CADB\DBM::instance();
 
 		if( is_array($organize_map) ) {
 			foreach($organize_map as $oid => $org) {
 				$que = "INSERT INTO {agreement_organize} (`nid`, `did`, `oid`, `vid`, `owner`) VALUES (?,?,?,?,?)";
-				$dbm->execute($que,array("ddddd",$nid,$did,$oid,($org['vid'] ? $org['vid'] : $oid),$org['owner']));
+				if( $dbm->execute( $que, array("ddddd",$nid,$did,$oid,($org['vid'] ? $org['vid'] : $oid),$org['owner']) ) < 1) {
+					self::setErrorMsg( $que." 가 DB에 반영되지 않았습니다." );
+					return -1;
+				}
 			}
 		}
 		if( is_array($old_map) ) {
 			foreach( $old_map as $oid => $org ) {
 				if(!$org['matched']) {
 					$que = "DELETE FROM {agreement_organize} WHERE `nid` = ? AND `did` = ? AND `oid` = ? AND `vid` = ?";
-					$dbm->execute($que,array("dddd",$nid,$did,$oid,($org['vid'] ? $org['vid'] : $oid)));
+					if( $dbm->execute( $que, array("dddd",$nid,$did,$oid,($org['vid'] ? $org['vid'] : $oid) ) ) < 1 ) {
+						self::setErrorMsg( $que." 가 DB에 반영되지 않았습니다." );
+						return -1;
+					}
 				} else if($org['change_owner'] || $org['change_vid']) {
 					$qc = 0;
 					$que = "UPDATE {agreement_organize} SET ";
@@ -311,16 +341,21 @@ class DBM extends \CADB\Objects  {
 					eval($eval_str);
 					$que .= " WHERE `nid` = ? AND `did` = ? AND `oid` = ? AND `vid` = ?";
 
-					$dbm->execute($que,$q_args);
+					if( $dbm->execute($que,$q_args) < 1 ) {
+						self::setErrorMsg( $que." 가 DB에 반영되지 않았습니다." );
+						return -1;
+					}
 				}
 			}
 		}
+
+		return 0;
 	}
 
-	public static function reBuildGuideTaxonomy($cid,$nid,$guides) {
+	public static function reBuildGuideTaxonomy($cid, $nid, $guides) {
 		$dbm = \CADB\DBM::instance();
 
-		$que = "SELECT * FROM {taxonomy_term_relative} WHERE `table` = 'agreement' AND `rid` = ".$nid." ORDER BY fid";
+		$que = "SELECT r.* FROM {taxonomy_term_relative} AS r LEFT JOIN {taxonomy_terms} AS t ON r.tid = t.tid WHERE t.cid = ".$cid." AND r.`table` = 'agreement' AND r.`rid` = ".$nid." ORDER BY r.fid";
 		while( $row = $dbm->getFetchArray($que) ) {
 			$preTaxonomy[$row['fid']][$row['tid']] = $row;
 		}
@@ -333,7 +368,10 @@ class DBM extends \CADB\Objects  {
 							$preTaxonomy[$fid][$item['tid']]['matched'] = 1;
 						} else {
 							$que = "INSERT INTO {taxonomy_term_relative} (`tid`,`table`,`rid`,`fid`) VALUES (?,?,?,?)";
-							$dbm->execute($que,array("dsdd",$item['tid'],'agreement',$nid,$fid));
+							if( $dbm->execute( $que, array("dsdd",$item['tid'],'agreement',$nid,$fid) ) < 1) {
+								self::setErrorMsg( $que." 가 DB에 반영되지 않았습니다." );
+								return -1;
+							}
 						}
 					}
 				}
@@ -346,11 +384,24 @@ class DBM extends \CADB\Objects  {
 					foreach($data as $tid => $terms) {
 						if(!$terms['matched']) {
 							$que = "DELETE FROM {taxonomy_term_relative} WHERE `tid` = ? AND `table` = ? AND `rid` = ? AND `fid` = ?";
-							$dbm->execute($que,array("dsdd",$tid,'agreement',$nid,$fid));
+							if( $dbm->execute( $que, array("dsdd",$tid,'agreement',$nid,$fid) ) < 1 ) {
+								self::setErrorMsg( $que." 가 DB에 반영되지 않았습니다." );
+								return -1;
+							}
 						}
 					}
 				}
 			}
 		}
+
+		return 0;
+	}
+
+	public static function setErrorMsg($errmsg) {
+		self::$errmsg = $errmsg;
+	}
+
+	public static function errorMsg() {
+		return self::$errmsg;
 	}
 }

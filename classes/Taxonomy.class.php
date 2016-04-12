@@ -30,6 +30,16 @@ class Taxonomy extends \CADB\Objects  {
 		return $taxonomy_terms;
 	}
 
+	public static function search($cids,$q) {
+		$dbm = \CADB\DBM::instance();
+		if(!is_array($cids)) $cids = array($cids);
+		$que = "SELECT * FROM {taxonomy_terms} WHERE cid IN (".implode(",",$cids).") AND name like '%".$q."%' AND current = '1' AND active = '1' ORDER BY cid ASC, parent ASC, idx ASC";
+		while($row = $dbm->getFetchArray($que)) {
+			$taxonomy_terms[$row['cid']][$row['tid']] = self::fetchTaxonomy($row);
+		}
+		return $taxonomy_terms;
+	}
+
 	public static function makeTree($taxonomy_terms) {
 		$tree = array();
 		foreach($taxonomy_terms as $t => $terms) {

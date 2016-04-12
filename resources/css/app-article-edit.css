@@ -32,6 +32,37 @@ fieldset.fields-guide-group {
 	float: left;
 	width: 40%;
 }
+fieldset.fields-guide-group li#guide-search .guide-item-box {
+	padding-top: 15px;
+	padding-left: 15px;
+	line-height: 1.5em;
+}
+fieldset.fields-guide-group input#guide-search {
+	width: 70%;
+	height: auto;
+	line-height: 20px;
+	padding: 5px;
+	margin-right: 10px;
+	border: 1px solid #5a91e2;
+	border-radius: 12px;
+}
+fieldset.fields-guide-group input#guide-search.focus {
+	border: 1px solid #f00;
+}
+fieldset.fields-guide-group li#guide-search button {
+	display: inline-block;
+	padding: 5px 10px 5px 6px;
+	width: auto;
+	height: auto;
+	color: #fff;
+	font-weight: normal;
+	background: #5a91e2;
+}
+fieldset.fields-guide-group li#guide-search button:before {
+	font-family: "FontAwesome";
+	content: "\f00e";
+	margin-right: 5px;
+}
 fieldset.fields-guide-group .radio-button {
 	height: 100%;
 	margin-right: 15px;
