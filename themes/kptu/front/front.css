@@ -281,6 +281,9 @@ body {
 			min-width: 170px;
 			/* script: 영역이 div.general-keyword의 오른쪽 끝까지 차도록 width를 조정한다. */
 		}
+		.general-keyword .keyword-input input[type="text"] {
+			line-height: 16px;
+		}
 	.categorized-keyword {}
 		.search-button {
 			float: right;

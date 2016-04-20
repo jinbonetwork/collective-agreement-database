@@ -2,10 +2,15 @@
 namespace CADB;
 
 class Organize extends \CADB\Objects  {
+	private static $mode;
 	private static $fields;
 
 	public static function instance() {
 		return self::_instance(__CLASS__);
+	}
+
+	public static function setMode($mode) {
+		self::$mode = $mode;
 	}
 
 	public static function getFieldInfo($active=1) {
@@ -34,7 +39,11 @@ class Organize extends \CADB\Objects  {
 
 		$que = self::makeQuery($q,$args,'o.*');
 		if($que) {
-			$que .= " ORDER BY o.depth ASC, o.oid ASC LIMIT ".(($page-1)*$limit).",".$limit;
+			if(self::$mode == 'admin') {
+				$que .= " ORDER BY o.p1 ASC, o.p2 ASC, o.p3 ASC, o.p4 ASC LIMIT ".(($page-1)*$limit).",".$limit;
+			} else {
+				$que .= " ORDER BY o.depth ASC, o.oid ASC LIMIT ".(($page-1)*$limit).",".$limit;
+			}
 
 			$organize = array();
 			while($row = $dbm->getFetchArray($que)) {
@@ -91,6 +100,8 @@ class Organize extends \CADB\Objects  {
 		} else if($q) {
 //			$que = "SELECT ".$result." FROM {organize} AS o WHERE match(o.`fullname`,o.`f8`,o.`f9`) against('".$q."' IN NATURAL LANGUAGE MODE) AND o.current = '1' AND o.active = '1'";
 			$que = "SELECT ".$result." FROM {organize} AS o WHERE match(o.`fullname`,o.`f8`,o.`f9`) against('".$q."' IN BOOLEAN MODE) AND o.current = '1' AND o.active = '1'";
+		} else if(self::$mode == 'admin') {
+			$que = "SELECT ".$result." FROM {organize} AS o WHERE o.current = '1' AND o.active = '1'";
 		}
 
 		return $que;

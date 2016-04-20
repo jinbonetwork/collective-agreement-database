@@ -99,12 +99,12 @@ class UTF8 {
 	}
 
 	static function bring($str, $encoding = null) {
-		$context = Model_Context::instance();
+		$context = \CADB\Model\Context::instance();
 		return @iconv((isset($encoding) ? $encoding : $context->getProperty('service.encoding')), 'UTF-8', $str);
 	}
 
 	static function convert($str, $encoding = null) {
-		$context = Model_Context::instance();
+		$context = \CADB\Model\Context::instance();
 		return @iconv('UTF-8', (isset($encoding) ? $encoding : $context->getProperty('service.encoding')), $str);
 	}
 
@@ -151,7 +151,7 @@ class UTF8 {
 	}
 
 	static function lessenAsEncoding($str, $length = 255, $tail = '...') {
-		$context = Model_Context::getInstance();
+		$context = \CADB\Model\Context::getInstance();
 		if($context->getProperty('database.utf8') != true)
 			return UTF8::lessen($str, $length, $tail);
 		else
