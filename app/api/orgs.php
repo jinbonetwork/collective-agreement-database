@@ -59,11 +59,11 @@ class orgs extends \CADB\Controller {
 			}
 
 			if(!$this->params['page']) $this->params['page'] = 1;
-			$total_cnt = \CADB\Organize::totalCnt($this->params['q'],$args,$depth);
+			$total_cnt = \CADB\Organize::totalCnt($this->params['q'],$args);
 			$total_page = (int)( ( $total_cnt - 1 ) / ($this->params['limit'] ? $this->params['limit'] : 20) ) + 1;
 			$this->fields['nid'] = array('subject' => '단체협약','type'=>'int','multiple'=>true);
 			if($total_cnt && $this->params['page'] <= $total_page) {
-				$this->organize = \CADB\Organize::getList($this->params['q'],$this->params['page'],($this->params['limit'] ? $this->params['limit'] : 20),$args,$depth);
+				$this->organize = \CADB\Organize::getList($this->params['q'],$this->params['page'],($this->params['limit'] ? $this->params['limit'] : 20),$args);
 				for($i=0; $i<count($this->organize); $i++) {
 					$this->organize[$i]['nid'] = array();
 					$agreement = \CADB\Agreement::getAgreementsByOid( $this->organize[$i]['oid'], $this->organize[$i]['vid'] );

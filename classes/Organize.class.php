@@ -19,25 +19,25 @@ class Organize extends \CADB\Objects  {
 		return self::$fields;
 	}
 
-	public static function totalCnt($q,$args=null,$depth=null) {
+	public static function totalCnt($q,$args=null) {
 		$dbm = \CADB\DBM::instance();
 
 		if(!self::$fields) self::getFieldInfo();
 
-		$que = self::makeQuery($q,$args,$depth,'count(*) AS cnt');
+		$que = self::makeQuery($q,$args,'count(*) AS cnt');
 		if($que) {
 			$row = $dbm->getFetchArray($que);
 		}
 		return ($row['cnt'] ? $row['cnt'] : 0);
 	}
 
-	public static function getList($q,$page=1,$limit=20,$args=null,$depth=null) {
+	public static function getList($q,$page=1,$limit=20,$args=null) {
 		if(!$page) $page = 1;
 		$dbm = \CADB\DBM::instance();
 
 		if(!self::$fields) self::getFieldInfo();
 
-		$que = self::makeQuery($q,$args,$depth,'o.*');
+		$que = self::makeQuery($q,$args,'o.*');
 		if($que) {
 			if(self::$mode == 'admin') {
 				$que .= " ORDER BY o.p1 ASC, o.p2 ASC, o.p3 ASC, o.p4 ASC LIMIT ".(($page-1)*$limit).",".$limit;
@@ -83,23 +83,15 @@ class Organize extends \CADB\Objects  {
 		return $organize;
 	}
 
-	public static function makeQuery($q,$args=null,$depth=null,$result) {
-		if($args || $depth) {
-			$options = self::makeQueryOptions($args,$depth);
+	public static function makeQuery($q,$args=null,$result) {
+		if($args) {
+			$options = self::makeQueryOptions($args);
 			if($options) {
 				if($q) {
-					if($args) {
-	//					$que = "SELECT ".$result." FROM {taxonomy_term_relative} AS t LEFT JOIN {organize} AS o ON t.rid = o.oid WHERE ".$options." AND match(o.fullname,o.f8,o.f9) against('".$q."' IN NATURAL LANGUAGE MODE) AND o.current = '1' AND o.active = '1'";
-						$que = "SELECT ".$result." FROM {taxonomy_term_relative} AS t LEFT JOIN {organize} AS o ON t.rid = o.oid WHERE ".$options." AND match(o.fullname,o.f8,o.f9) against('".$q."' IN BOOLEAN MODE) AND o.current = '1' AND o.active = '1'";
-					} else {
-						$que = "SELECT ".$result." FROM {organize} AS o WHERE ".$options." AND match(o.fullname,o.f8,o.f9) against('".$q."' IN BOOLEAN MODE) AND o.current = '1' AND o.active = '1'";
-					}
+//					$que = "SELECT ".$result." FROM {taxonomy_term_relative} AS t LEFT JOIN {organize} AS o ON t.rid = o.oid WHERE ".$options." AND match(o.fullname,o.f8,o.f9) against('".$q."' IN NATURAL LANGUAGE MODE) AND o.current = '1' AND o.active = '1'";
+					$que = "SELECT ".$result." FROM {taxonomy_term_relative} AS t LEFT JOIN {organize} AS o ON t.rid = o.oid WHERE ".$options." AND match(o.fullname,o.f8,o.f9) against('".$q."' IN BOOLEAN MODE) AND o.current = '1' AND o.active = '1'";
 				} else {
-					if($args) {
-						$que = "SELECT ".$result." FROM {taxonomy_term_relative} AS t LEFT JOIN {organize} AS o ON t.rid = o.oid WHERE ".$options." AND o.current = '1' AND o.active = '1'";
-					} else {
-						$que = "SELECT ".$result." FROM {organize} AS o WHERE ".$options." AND o.current = '1' AND o.active = '1'";
-					}
+					$que = "SELECT ".$result." FROM {taxonomy_term_relative} AS t LEFT JOIN {organize} AS o ON t.rid = o.oid WHERE ".$options." AND o.current = '1' AND o.active = '1'";
 				}
 			} else if($q) {
 //				$que = "SELECT ".$result." FROM {organize} AS o WHERE match(o.`fullname`,o.`f8`,o.`f9`) against('".$q."' IN NATURAL LANGUAGE MODE) AND o.current = '1' AND o.active = '1'";
@@ -135,61 +127,44 @@ class Organize extends \CADB\Objects  {
 		return $organize;
 	}
 
-	private static function makeQueryOptions($args,$depth) {
+	private static function makeQueryOptions($args) {
 		if(!is_array($args)) {
 			$args = @json_decode($args,true);
 		}
 		$c=0;
 		$sub_query_cnt = 0;
 		$sub_query = '';
-		if(is_array($args)) {
-			foreach($args as $k => $v) {
-				$t = substr($k,0,1);
-				if($t == 'a') continue;
-				$key = (int)substr($k,1);
-				if(self::$fields[$key]) {
-					switch(self::$fields[$key]['type']) {
-						case 'taxonomy':
-							if(!is_array($v)) $v = array($v);
-							if($sub_query_cnt)
-								$sub_query .= " AND t.rid IN ( SELECT t.rid FROM {taxonomy_term_relative} AS t WHERE t.tid IN (".implode(",",$v).") AND t.`table` = 'organize'";
-							else
-								$sub_query .= " t.tid IN (".implode(",",$v).") AND t.`table` = 'organize'";
-							$sub_query_cnt++;
-							$c++;
-							break;
-						case 'int':
-							if(self::$fields[$key]['iscolumn']) {
-								if(is_array($v)) {
-									$extra_que .= ($c++ ? " AND " : "")."o.f".$key." >= ".$v[0];
-									if($v[1]) $extra_que .=" AND o.f".$key." <= ".$v[1];
-								} else {
-									$extra_que .= ($c++ ? " AND " : "")."o.f".$key." >= ".$v;
-								}
+		foreach($args as $k => $v) {
+			$t = substr($k,0,1);
+			if($t == 'a') continue;
+			$key = (int)substr($k,1);
+			if(self::$fields[$key]) {
+				switch(self::$fields[$key]['type']) {
+					case 'taxonomy':
+						if(!is_array($v)) $v = array($v);
+						if($sub_query_cnt)
+							$sub_query .= " AND t.rid IN ( SELECT t.rid FROM {taxonomy_term_relative} AS t WHERE t.tid IN (".implode(",",$v).") AND t.`table` = 'organize'";
+						else
+							$sub_query .= " t.tid IN (".implode(",",$v).") AND t.`table` = 'organize'";
+						$sub_query_cnt++;
+						$c++;
+						break;
+					case 'int':
+						if(self::$fields[$key]['iscolumn']) {
+							if(is_array($v)) {
+								$extra_que .= ($c++ ? " AND " : "")."o.f".$key." >= ".$v[0];
+								if($v[1]) $extra_que .=" AND o.f".$key." <= ".$v[1];
+							} else {
+								$extra_que .= ($c++ ? " AND " : "")."o.f".$key." >= ".$v;
 							}
-							break;
-						default:
-							if(self::$fields[$key]['iscolumn']) {
-								$extra_que .= ($c++ ? " AND " : "")."o.f".$key." LIKE '%".$v."%'";
-							}
-							break;
-					}
+						}
+						break;
+					default:
+						if(self::$fields[$key]['iscolumn']) {
+							$extra_que .= ($c++ ? " AND " : "")."o.f".$key." LIKE '%".$v."%'";
+						}
+						break;
 				}
-			}
-		}
-	
-		if($depth && is_array($depth)) {
-			$_depth = 0;
-			for($p=1; $p<=4; $p++) {
-				if($depth['p'.$p]) {
-					$extra_que .= ($c++ ? " AND " : "")."o.p".$p." = ".$depth['p'.$p];
-					$_depth  = $p+1;
-				}
-			}
-			if($_depth) {
-				$extra_que .= ($c++ ? " AND " : "")."o.depth = ".$_depth;
-			} else if($depth['p0']) {
-				$extra_que .= ($c++ ? " AND " : "")."o.depth = 1";
 			}
 		}
 
