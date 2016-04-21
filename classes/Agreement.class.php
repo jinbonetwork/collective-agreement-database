@@ -52,7 +52,7 @@ class Agreement extends \CADB\Objects  {
 
 		self::getFieldInfo();
 
-		$que = self::makeQuery($q,$args,"count(*) AS cnt");
+		$que = self::makeQuery($q,$args,"count(distinct(a.nid)) AS cnt");
 		if($que) {
 			$row = $dbm->getFetchArray($que);
 		}
@@ -65,10 +65,10 @@ class Agreement extends \CADB\Objects  {
 
 		self::getFieldInfo();
 
-		$que = self::makeQuery($q,$args,"a.*");
+		$que = self::makeQuery($q,$args,"a.*".($q ? ", match(a.subject,a.content) against('".$q."' IN NATURAL LANGUAGE MODE) AS score" : ""));
 		if($que) {
 //			$que .= " GROUP BY a.nid ORDER BY r.nid ASC LIMIT ".(($page-1)*$limit).",".$limit;
-			$que .= " GROUP BY a.nid LIMIT ".(($page-1)*$limit).",".$limit;
+			$que .= " GROUP BY a.nid ".($q ? "ORDER BY score DESC " : "")."LIMIT ".(($page-1)*$limit).",".$limit;
 			$articles = array();
 			while($row = $dbm->getFetchArray($que)) {
 				$articles[] = self::fetchAgreement($row,true);
