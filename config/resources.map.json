@@ -148,6 +148,19 @@
 		"priority":"100000",
 		"deps":["jquery","modernizr","medium-editor"]
 	},
+	"app-org-edit": {
+		"js": [
+			{
+				"uri": "resources/script/app-org-edit.js",
+				"position": "footer"
+			}
+		],
+		"css": [
+			"resources/css/app-org-edit.css"
+		],
+		"priority":"100000",
+		"deps":["jquery","modernizr"]
+	},
 	"app-admin": {
 		"js": [
 			{

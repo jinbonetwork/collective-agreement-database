@@ -1,0 +1,146 @@
+form#org-edit-form {
+	background: #fff;
+	margin: 0 auto;
+	border: solid 3px #5a91e2;
+	font-family: 'Nanum Barun Gothic';
+	font-size: 16px;
+	font-weight: 200;
+	color: #595757;
+	padding: 70px 30px 50px 50px;
+	margin-bottom: 60px;
+}
+form#org-edit-form .fields-wrapper {
+	position: relative;
+	z-index: 1;
+}
+form#org-edit-form .fields-wrapper .label-divider {
+	position: absolute;
+	z-index: 10;
+	left: 150px;
+	top: 0;
+	width: 0;
+	height: 100%;
+	border-right: dotted 2px #5a91e2;;
+}
+form#org-edit-form fieldset {
+	border:0;
+	padding: 0;
+	margin: 0;
+}
+form#org-edit-form fieldset.fields-org {
+	position: relative;
+	padding: 8px 8px 8px 170px;
+}
+form#org-edit-form fieldset.fields-org label.field {
+	position: absolute;
+	z-index: 2;
+	left: 20px;
+	top: 8px;
+	width: 110px;
+	text-align: right;
+	font-weight: 700;
+}
+form#org-edit-form fieldset.org-name input[type="text"] {
+	width: 300px;
+	border: 1px solid #5a91e2;
+	line-height: 30px;
+	padding: 0 5px;
+}
+form#org-edit-form fieldset button {
+	width: auto;
+	height: auto;
+}
+form#org-edit-form fieldset.fields-org button {
+	padding: 5px 10px;
+	border-radius: 15px;
+}
+fieldset.fields-org .taxonomy-field label.select-box {
+	display: block;
+	position: relative;
+	z-index: 3;
+	padding-right: 20px;
+}
+fieldset.fields-org .taxonomy-field label.select-box:after {
+	position: absolute;
+	z-index: 4;
+	font-family: "FontAwesome";
+	font-size: 2.0em;
+	content: "\f106";
+	right: 0;
+	bottom: 3px;
+	width: 20px;
+	cursor: pointer;
+}
+fieldset.fields-org .taxonomy-field.collapsed label.select-box:after {
+	content: "\f107";
+}
+fieldset.fields-org .taxonomy-list li.taxonomy {
+	display: inline-block;
+	padding: 5px 8px;
+	margin: 0 3px 3px 0;
+	border-radius: 5px;
+	background: #ebeef2;
+}
+fieldset.fields-org .taxonomy-items {
+	background: #fff;
+	max-height: 400px;
+	overflow-y: auto;
+	transition: max-height 0.6s;
+	-webkit-transition: max-height 0.6s;
+	-moz-transition: max-height 0.6s;
+	-ms-transition: max-height 0.6s;
+}
+fieldset.fields-org .taxonomy-field.collapsed .taxonomy-items {
+	max-height: 0;
+}
+fieldset.fields-org .taxonomy-items .taxonomy-item {
+	padding: 10px;
+}
+fieldset.fields-org .taxonomy-items.single .taxonomy-item {
+	cursor: pointer;
+	border-bottom: 1px solid #ccc;
+}
+fieldset.fields-org .taxonomy-items .taxonomy-item:last-child {
+	border-bottom: 0;
+}
+fieldset.fields-org .taxonomy-items.multiple .taxonomy-item {
+	display: inline-block;
+	width: 48%;
+}
+fieldset.fields-org .taxonomy-items .taxonomy-item.selected {
+	background: #5a91e2;
+	color: #fff;
+}
+fieldset.fields-org .taxonomy-items .taxonomy-item.sub-1 {
+	padding-left: 20px;
+}
+form#org-edit-form fieldset.org-field input[type="number"] {
+	width: 100px;
+	text-align: right;
+	border: 1px solid #5a91e2;
+	padding: 0 5px;
+	line-height: 30px;
+}
+form#org-edit-form fieldset.org-field input[type="text"] {
+	width: 300px;
+	border: 1px solid #5a91e2;
+	padding: 0 5px;
+	line-height: 30px;
+}
+form#org-edit-form fieldset.org-field input[name="f16"] {
+	width: 100%;
+}
+form#org-edit-form fieldset.buttons {
+	margin-top: 15px;
+	text-align: center;
+}
+form#org-edit-form fieldset.buttons button {
+	background-color: #5a91e2;
+	color: #ffffff;
+	font-weight: 700;
+	border-radius: 10px;
+	width: auto;
+	height: auto;
+	padding: 10px;
+	cursor: pointer;
+}

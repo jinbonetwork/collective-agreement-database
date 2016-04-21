@@ -199,3 +199,12 @@
 .app-admin .orgs-list td.delete {
 	border-right: 0;
 }
+
+/* edit organize */
+.app-admin .organ-info .header {
+	padding-top: 20px;
+}
+.app-admin .organ-info .header .organ-name {
+	font-size: 1.4em;
+	font-weight: 700;
+}

@@ -17,6 +17,10 @@ class articles extends \CADB\Controller {
 			}
 		}
 
+		if($this->params['q'] && !mb_detect_encoding($this->params['q'],'UTF-8',true)) {
+			$this->params['q'] = mb_convert_encoding($this->params['q'],'utf-8','euckr');
+		}
+
 		if($this->params['nid']) {
 			$this->articles = \CADB\Agreement::getAgreement($this->params['nid'],($this->params['did'] ? $this->params['did'] : 0));
 			if(\CADB\Privilege::checkAgreement($this->articles)) {

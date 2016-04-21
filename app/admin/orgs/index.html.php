@@ -44,10 +44,10 @@
 					<td class="f7"><?php print $org['f8']; ?></td>
 					<td class="f8"><?php print $org['f9']; ?></td>
 					<td class="modify">
-						<a href="<?php print \CADB\Lib\url("admin/orgs/edit").$queryString."nid=".$article['nid']; ?>">수정</a>
+						<a href="<?php print \CADB\Lib\url("admin/orgs/edit").$queryString."oid=".$org['oid']; ?>">수정</a>
 					</td>
 					<td class="delete">
-						<a href="<?php print \CADB\Lib\url("admin/orgs/delete").$queryString."nid=".$article['nid']; ?>">삭제</a>
+						<a href="<?php print \CADB\Lib\url("admin/orgs/delete").$queryString."nid=".$org['oid']; ?>">삭제</a>
 					</td>
 				</tr>
 <?php		}

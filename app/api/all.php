@@ -24,7 +24,7 @@ class all extends \CADB\Controller {
 				$args[$k] = $v;
 			}
 		}
-		if(!mb_detect_encoding($this->params['q'],'UTF-8',true)) {
+		if($this->params['q'] && !mb_detect_encoding($this->params['q'],'UTF-8',true)) {
 			$this->params['q'] = mb_convert_encoding($this->params['q'],'utf-8','euckr');
 		}
 

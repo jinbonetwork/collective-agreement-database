@@ -16,6 +16,9 @@ class standards extends \CADB\Controller {
 		$context = \CADB\Model\Context::instance();
 
 		$fields = \CADB\Guide::getFieldInfo(1);
+		if($this->params['q'] && !mb_detect_encoding($this->params['q'],'UTF-8',true)) {
+			$this->params['q'] = mb_convert_encoding($this->params['q'],'utf-8','euckr');
+		}
 		$nid = \CADB\Guide::getCurrent(($this->params['nid'] ? $this->params['nid'] : 1));
 		if($this->params['id'] || $this->params['tid']) {
 			$this->fields = array();

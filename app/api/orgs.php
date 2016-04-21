@@ -13,6 +13,9 @@ class orgs extends \CADB\Controller {
 		foreach($fields as $f => $v) {
 			$this->fields[] = array('field' => 'f'.$f, 'subject' => $v['subject'],'type'=>$v['type'],'multiple'=>( $v['multiple'] ? true : false ),'cid'=>$v['cid']);
 		}
+		if($this->params['q'] && !mb_detect_encoding($this->params['q'],'UTF-8',true)) {
+			$this->params['q'] = mb_convert_encoding($this->params['q'],'utf-8','euckr');
+		}
 
 		if($this->params['oid']) {
 			$this->organize = \CADB\Organize::getOrganizeByOid($this->params['oid']);
@@ -48,17 +51,19 @@ class orgs extends \CADB\Controller {
 			}
 		} else {
 			foreach($this->params as $k => $v) {
-				if(preg_match("/^o[0-9]+$/i",$k)) {
+				if(preg_match("/^p[0-9]+$/i",$k)) {
+					$depth[$k] = $v;
+				} else if(preg_match("/^o[0-9]+$/i",$k)) {
 					$args[$k] = $v;
 				}
 			}
 
 			if(!$this->params['page']) $this->params['page'] = 1;
-			$total_cnt = \CADB\Organize::totalCnt($this->params['q'],$args);
+			$total_cnt = \CADB\Organize::totalCnt($this->params['q'],$args,$depth);
 			$total_page = (int)( ( $total_cnt - 1 ) / ($this->params['limit'] ? $this->params['limit'] : 20) ) + 1;
 			$this->fields['nid'] = array('subject' => '단체협약','type'=>'int','multiple'=>true);
 			if($total_cnt && $this->params['page'] <= $total_page) {
-				$this->organize = \CADB\Organize::getList($this->params['q'],$this->params['page'],($this->params['limit'] ? $this->params['limit'] : 20),$args);
+				$this->organize = \CADB\Organize::getList($this->params['q'],$this->params['page'],($this->params['limit'] ? $this->params['limit'] : 20),$args,$depth);
 				for($i=0; $i<count($this->organize); $i++) {
 					$this->organize[$i]['nid'] = array();
 					$agreement = \CADB\Agreement::getAgreementsByOid( $this->organize[$i]['oid'], $this->organize[$i]['vid'] );
