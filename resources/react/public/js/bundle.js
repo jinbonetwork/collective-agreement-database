@@ -27259,6 +27259,11 @@
 	    key: 'render',
 	    value: function render() {
 	      var standard = this.state.standard;
+	      var subject = this.state.standard.subject ? this.state.standard.subject : _react2.default.createElement(
+	        'div',
+	        { className: 'center' },
+	        '모범단협 없음'
+	      );
 
 	      var rows = [];
 	      for (var key in this.state.fields) {
@@ -27295,7 +27300,7 @@
 	                _react2.default.createElement(
 	                  'h2',
 	                  null,
-	                  standard.subject
+	                  subject
 	                ),
 	                _react2.default.createElement('p', { classNname: 'guide-content', dangerouslySetInnerHTML: { __html: standard.content } }),
 	                rows,

@@ -17,6 +17,7 @@ export default class Standardv extends Component{
 
   render() {
     const standard = this.state.standard;
+	const subject = (this.state.standard.subject ? this.state.standard.subject : <div className="center">모범단협 없음</div>);
 
     let rows = [];
     for (let key in this.state.fields) {
@@ -35,7 +36,7 @@ export default class Standardv extends Component{
           <div className="guide-clause-info-box">
             <div className="whole-document">
               <div className="guide-document">
-                <h2>{standard.subject}</h2>
+                <h2>{subject}</h2>
                 <p classNname="guide-content" dangerouslySetInnerHTML={{ __html: standard.content }} />
                 {rows}
 				<div className="guide-box-button">

@@ -1039,6 +1039,9 @@ body {
 	position: relative;
 	padding: 70px 30px 50px 50px;
 }
+.guide-clause-container .guide-clause-info-box h2 .center {
+	text-align: center;
+}
 .guide-clause-container .guide-box-button,
 .organ-info-container .org-box-button {
 	text-align: center;
