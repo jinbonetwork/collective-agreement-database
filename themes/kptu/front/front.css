@@ -126,11 +126,14 @@ button {
 	height: 100%;
 	cursor: pointer;
 }
+.keyword {
+	color: #5a91e2;
+}
 .underline {
 	background-color: transparent;
 	text-decoration: none;
 	border-bottom: 1px solid #5a91e2;
-	box-shadow: 0 -6px 0 #5a91e2 inset;
+	box-shadow: 0 -1px 0 #5a91e2 inset;
 	color: inherit;
 }
 

@@ -27644,11 +27644,7 @@
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'content' },
-	          _react2.default.createElement(
-	            'p',
-	            null,
-	            this.state.article.content
-	          )
+	          _react2.default.createElement('p', { dangerouslySetInnerHTML: { __html: this.state.article.content } })
 	        ),
 	        items
 	      );

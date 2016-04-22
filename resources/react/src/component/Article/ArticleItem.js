@@ -33,7 +33,7 @@ export default class ArticleItem extends Component{
           </div>
         </div>
         <div className="content">
-          <p>{this.state.article.content}</p>
+          <p dangerouslySetInnerHTML={{ __html: this.state.article.content }} />
         </div>
 		{items}
       </li>

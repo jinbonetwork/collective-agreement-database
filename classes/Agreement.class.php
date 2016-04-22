@@ -247,11 +247,11 @@ class Agreement extends \CADB\Objects  {
 					if(is_array($matched)) {
 						foreach($matched as $m) {
 							if($m) {
-//								$v = str_replace($m,'<span class="keyword">'.$m.'</span>',$v);
+								$v = str_replace($m,'<span class="keyword">'.$m.'</span>',$v);
 							}
 						}
 					} else if($matched) {
-//						$v = str_replace($matched,'<span class="keyword">'.$matched.'</span>',$v);
+						$v = str_replace($matched,'<span class="keyword">'.$matched.'</span>',$v);
 					}
 				}
 				$article[$k] = $v;
