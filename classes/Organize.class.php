@@ -4,6 +4,7 @@ namespace CADB;
 class Organize extends \CADB\Objects  {
 	private static $mode;
 	private static $fields;
+	private static $keyword;
 
 	public static function instance() {
 		return self::_instance(__CLASS__);
@@ -37,6 +38,9 @@ class Organize extends \CADB\Objects  {
 
 		if(!self::$fields) self::getFieldInfo();
 
+		if($q) {
+			self::$keyword = $q;
+		}
 		$que = self::makeQuery($q,$args,'o.*');
 		if($que) {
 			if(self::$mode == 'admin') {
@@ -185,7 +189,18 @@ class Organize extends \CADB\Objects  {
 		foreach($row as $k => $v) {
 			if(in_array($k,  array('current','active','from','to','created'))) continue;
 			if(is_string($v)) {
-				$organize[$k] = stripslashes($v);
+				$v = stripslashes($v);
+				if( self::$keyword &&
+					($k == 'fullname' ||
+						(substr($k,0,1) == 'f' && self::$fields[(int)substr($k,1)]['indextype'] == 'fulltext' )
+					)
+				) {
+					$p = mb_stripos($v, self::$keyword, 0, 'utf-8');
+					if($p) {
+						$v = str_replace(self::$keyword, '<span class="keyword">'.self::$keyword.'</span>',$v);
+					}
+				}
+				$organize[$k] = $v;
 			} else if(is_array($v)) {
 				foreach($v as $k2 => $v2) {
 					if(is_string($v2))

@@ -22,7 +22,7 @@ export default class ArticleItem extends Component{
       <li key={this.state.nid} className="article-item">
         <div className="header">
           <div className="title">
-            <div className="organ-name"><Link to={`/articles/${this.state.article.nid}`}>{this.state.article.subject}</Link></div>
+            <div className="organ-name"><Link to={`/articles/${this.state.article.nid}`} dangerouslySetInnerHTML={{ __html: this.state.article.subject }} /></div>
 			{o_button}
           </div>
           <div className="info">

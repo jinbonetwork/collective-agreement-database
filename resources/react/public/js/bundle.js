@@ -27604,11 +27604,7 @@
 	            _react2.default.createElement(
 	              'div',
 	              { className: 'organ-name' },
-	              _react2.default.createElement(
-	                _reactRouter.Link,
-	                { to: '/articles/' + this.state.article.nid },
-	                this.state.article.subject
-	              )
+	              _react2.default.createElement(_reactRouter.Link, { to: '/articles/' + this.state.article.nid, dangerouslySetInnerHTML: { __html: this.state.article.subject } })
 	            ),
 	            o_button
 	          ),
@@ -28462,7 +28458,7 @@
 	          '사업장(원청)'
 	        ),
 	        ' ',
-	        this.state.org.f8
+	        _react2.default.createElement('span', { dangerouslySetInnerHTML: { __html: this.state.org.f8 } })
 	      ) : '';
 	      var f9 = this.state.org.f9 ? _react2.default.createElement(
 	        'div',
@@ -28473,7 +28469,7 @@
 	          '사업장(하청)'
 	        ),
 	        ' ',
-	        this.state.org.f9
+	        _react2.default.createElement('span', { dangerouslySetInnerHTML: { __html: this.state.org.f9 } })
 	      ) : '';
 	      var company = f8 || f9 ? _react2.default.createElement(
 	        'div',
@@ -28500,11 +28496,7 @@
 	          _react2.default.createElement(
 	            'div',
 	            { className: 'title' },
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'organ-name' },
-	              this.state.org.fullname
-	            ),
+	            _react2.default.createElement('div', { className: 'organ-name', dangerouslySetInnerHTML: { __html: this.state.org.fullname } }),
 	            company,
 	            _react2.default.createElement(
 	              'div',

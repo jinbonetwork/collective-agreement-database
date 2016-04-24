@@ -14,8 +14,8 @@ export default class OrgItem extends Component{
   }
 
   render() {
-    const f8 = this.state.org.f8 ? <div className="mainContract"><span className="contract-label">사업장(원청)</span> {this.state.org.f8}</div> : '';
-    const f9 = this.state.org.f9 ? <div className="subContract"><span className="contract-label">사업장(하청)</span> {this.state.org.f9}</div> : '';
+    const f8 = this.state.org.f8 ? <div className="mainContract"><span className="contract-label">사업장(원청)</span> <span dangerouslySetInnerHTML={{ __html: this.state.org.f8 }} /></div> : '';
+    const f9 = this.state.org.f9 ? <div className="subContract"><span className="contract-label">사업장(하청)</span> <span dangerouslySetInnerHTML={{ __html: this.state.org.f9}} /></div> : '';
 	const company = (f8 || f9) ? <div className="organ-company">{f8}{f9}</div> : '';
 	const agreement_id = `agreements-${this.state.org.oid}`;
     const agreement_props = {
@@ -27,7 +27,7 @@ export default class OrgItem extends Component{
       <li key={this.state.org.oid} className="organize-item">
         <div className="header">
           <div className="title">
-            <div className="organ-name">{this.state.org.fullname}</div>
+            <div className="organ-name" dangerouslySetInnerHTML={{ __html: this.state.org.fullname }} />
 			{company}
             <div className="organ-summary">
 			  <span className="organ-detail" onClick={this.onClickOrganize.bind(this)}>조직정보 보기</span>
