@@ -129,6 +129,11 @@ button {
 .cadb-keyword {
 	color: #5a91e2;
 }
+.cadb-keyword.cadb-taxonomy:before {
+	font-family: "FontAwesome";
+	content: "\f097";
+	padding-right: 5px;
+}
 .underline {
 	background-color: transparent;
 	text-decoration: none;

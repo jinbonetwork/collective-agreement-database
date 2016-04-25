@@ -28,3 +28,6 @@
 [submodule "contribute/medium-editor-tables"]
 	path = contribute/medium-editor-tables
 	url = https://github.com/yabwe/medium-editor-tables.git
+[submodule "contribute/jquery.scrollTo"]
+	path = contribute/jquery.scrollTo
+	url = https://github.com/flesler/jquery.scrollTo.git

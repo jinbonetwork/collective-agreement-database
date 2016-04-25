@@ -86,7 +86,7 @@ class Agreement extends \CADB\Objects  {
 		}
 		if( $args && is_array($args) ) {
 			foreach($args as $k => $v) {
-				if(substr($k,0,1) == 'a' && self::$fields['taxonomy'][$k]) {
+				if(substr($k,0,1) == 'a' && self::$fields['taxonomy'][(int)substr($k,1)]) {
 					self::$summary_method = array('type'=>'taxonomy','value'=>$v);
 				}
 			}
@@ -230,45 +230,45 @@ class Agreement extends \CADB\Objects  {
 			if(in_array($k,  array('current','created'))) continue;
 			if(is_string($v)) {
 				$v = stripslashes($v);
-				if($summary && $k == 'content') {
-					$p = 0;
-					switch(self::$summary_method['type']) {
-						case 'string':
-							$p = mb_stripos($v,self::$summary_method['value'],0,'utf-8');
-							break;
-						case 'taxonomy':
-							if(!is_array(self::$summary_method['value'])) {
-								$match = '<span id="cadb-taxo-term-'.self::$summary_method['value'].'">';
-								$p = mb_stripos($v,$match,0,'utf-8');
-							} else {
-								foreach(self::$summary_method['value'] as $sv) {
-									$match = '<span id="cadb-taxo-term-'.$sv.'">';
+				if($k == 'subject') {
+					if(self::$summary_method['type'] == 'string')
+						$v = self::matchKeywordContent($v,self::$summary_method['value']);
+				} else if($k == 'content') {
+					if($summary) {
+						$p = 0;
+						switch(self::$summary_method['type']) {
+							case 'string':
+								$p = mb_stripos($v,self::$summary_method['value'],0,'utf-8');
+								break;
+							case 'taxonomy':
+								if(!is_array(self::$summary_method['value'])) {
+									$match = '<span id="cadb-taxo-term-'.self::$summary_method['value'].'">';
 									$p = mb_stripos($v,$match,0,'utf-8');
-									if($p) break;
+								} else {
+									foreach(self::$summary_method['value'] as $sv) {
+										$match = '<span id="cadb-taxo-term-'.$sv.'">';
+										$p = mb_stripos($v,$match,0,'utf-8');
+										if($p) break;
+									}
 								}
-							}
-							break;
-						default:
-							break;
-					}
-					$v = mb_substr(strip_tags(mb_substr($v,$p,500,'utf-8')),0,128,'utf-8');
-				}
-				if(self::$summary_method &&
-					(
-						( self::$summary_method['type'] == 'string' && $k == 'subject' ) ||
-						$k == 'content'
-					)
-				) {
-					$matched = self::$summary_method['value'];
-					if(is_array($matched)) {
-						foreach($matched as $m) {
-							if($m) {
-								$v = str_replace($m,'<span class="cadb-keyword">'.$m.'</span>',$v);
-							}
+								if($p) {
+									$p2 = mb_stripos($v,'</span>',$p,'utf-8');
+									if($p2) {
+										$p2 = $p2 + 7;
+										$pre_taxonomy = mb_substr($v,$p,($p2-$p),'utf-8');
+										$p = $p2;
+									}
+								}
+								break;
+							default:
+								break;
 						}
-					} else if($matched) {
-						$v = str_replace($matched,'<span class="cadb-keyword">'.$matched.'</span>',$v);
+						$v = $pre_taxonomy.mb_substr(strip_tags(mb_substr($v,$p,500,'utf-8')),0,128,'utf-8');
 					}
+					if(self::$summary_method['type'] == 'string')
+						$v = self::matchKeywordContent($v,self::$summary_method['value']);
+					else if(self::$summary_method['type'] == 'taxonomy')
+						$v = self::matchTaxonomyContent($v,self::$summary_method['value']);
 				}
 				$article[$k] = $v;
 			} else if(is_array($v)) {
@@ -292,6 +292,32 @@ class Agreement extends \CADB\Objects  {
 			}
 		}
 		return $article;
+	}
+
+	private static function matchKeywordContent($v,$matched) {
+		if(is_array($matched)) {
+			foreach($matched as $m) {
+				if($m) {
+					$v = str_replace($m,'<span class="cadb-keyword">'.$m.'</span>',$v);
+				}
+			}
+		} else if($matched) {
+			$v = str_replace($matched,'<span class="cadb-keyword">'.$matched.'</span>',$v);
+		}
+		return $v;
+	}
+
+	private static function matchTaxonomyContent($v,$matched) {
+		if(!is_array($matched)) {
+			$match = '<span id="cadb-taxo-term-'.$matched.'">';
+			$v = str_replace($match,'<span id="cadb-taxo-term-'.$matched.'" class="cadb-taxonomy cadb-keyword">',$v);
+		} else {
+			foreach($matched as $sv) {
+				$match = '<span id="cadb-taxo-term-'.$sv.'">';
+				$v = str_replace($match,'<span id="cadb-taxo-term-'.$sv.'" class="cadb-taxonomy cadb-keyword">',$v);
+			}
+		}
+		return $v;
 	}
 }
 ?>

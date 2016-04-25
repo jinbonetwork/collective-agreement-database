@@ -26358,8 +26358,6 @@
 	    query[field].splice(query[field].indexOf(value), 1);
 	  }
 
-	  console.log('- toggleInQuery', query);
-
 	  return query;
 	}
 
@@ -26371,8 +26369,6 @@
 	    query[field].splice(query[field].indexOf(value), 1);
 	  }
 	  query[field].push(value);
-
-	  console.log('- changeInQuery', query);
 
 	  return query;
 	}
@@ -28464,7 +28460,7 @@
 	      var $this = jQuery(_reactDom2.default.findDOMNode(this));
 	      var k = $this.find('.cadb-keyword:first');
 	      if (k.length > 0) {
-	        var p = k.parents('p, h1');
+	        var p = k.parents('p, h1, sup');
 	        if (p.length > 0) {
 	          $this.find('.article-info-container').scrollTo(p, 500, { offset: -50 });
 	        }

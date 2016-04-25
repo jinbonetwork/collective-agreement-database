@@ -32,8 +32,6 @@ export function toggleInQuery(query, field, value) {
     query[field].splice(query[field].indexOf(value), 1);
   }
 
-  console.log('- toggleInQuery', query);
-
   return query;
 }
 
@@ -45,8 +43,6 @@ export function changeInQuery(query, field, value) {
     query[field].splice(query[field].indexOf(value), 1);
   }
   query[field].push(value);
-
-  console.log('- changeInQuery', query);
 
   return query;
 }

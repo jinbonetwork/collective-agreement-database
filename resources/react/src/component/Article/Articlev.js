@@ -84,7 +84,7 @@ export default class Articlev extends Component {
     var $this = jQuery(ReactDOM.findDOMNode(this));
     var k = $this.find('.cadb-keyword:first');
     if(k.length > 0) {
-      var p = k.parents('p, h1');
+      var p = k.parents('p, h1, sup');
       if(p.length > 0) {
         $this.find('.article-info-container').scrollTo(p,500,{offset: -50});
       }
