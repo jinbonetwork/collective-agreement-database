@@ -24718,31 +24718,31 @@
 
 	var _Search2 = _interopRequireDefault(_Search);
 
-	var _Articles = __webpack_require__(254);
+	var _Articles = __webpack_require__(255);
 
 	var _Articles2 = _interopRequireDefault(_Articles);
 
-	var _Article = __webpack_require__(257);
+	var _Article = __webpack_require__(258);
 
 	var _Article2 = _interopRequireDefault(_Article);
 
-	var _Orgs = __webpack_require__(258);
+	var _Orgs = __webpack_require__(259);
 
 	var _Orgs2 = _interopRequireDefault(_Orgs);
 
-	var _Org = __webpack_require__(259);
+	var _Org = __webpack_require__(260);
 
 	var _Org2 = _interopRequireDefault(_Org);
 
-	var _Standard = __webpack_require__(260);
+	var _Standard = __webpack_require__(261);
 
 	var _Standard2 = _interopRequireDefault(_Standard);
 
-	var _Sandbox = __webpack_require__(262);
+	var _Sandbox = __webpack_require__(263);
 
 	var _Sandbox2 = _interopRequireDefault(_Sandbox);
 
-	var _NotFound = __webpack_require__(263);
+	var _NotFound = __webpack_require__(264);
 
 	var _NotFound2 = _interopRequireDefault(_NotFound);
 
@@ -26403,10 +26403,11 @@
 	  return pages;
 	}
 
-	function showSearching() {
+	function showSearching(classOpt) {
 	  jQuery('.is-searching').show();
 	  var winWidth = jQuery(window).width();
 	  var winHeight = jQuery(window).height();
+	  jQuery('.is-searching').addClass(classOpt);
 	  var obj = jQuery('.is-searching .progress-spinner');
 	  var w = parseInt((winWidth - 46) / 2);
 	  var h = parseInt((winHeight - 46) / 2);
@@ -26417,7 +26418,7 @@
 	}
 
 	function hideSearching() {
-	  jQuery('.is-searching').hide();
+	  jQuery('.is-searching').removeClass('gray').removeClass('white').hide();
 	}
 
 /***/ },
@@ -26946,7 +26947,7 @@
 
 	var _ArticleList2 = _interopRequireDefault(_ArticleList);
 
-	var _OrgList = __webpack_require__(252);
+	var _OrgList = __webpack_require__(253);
 
 	var _OrgList2 = _interopRequireDefault(_OrgList);
 
@@ -27031,7 +27032,7 @@
 	      var query = window.location.search;
 	      var url = '' + api + query;
 
-	      (0, _utils.showSearching)();
+	      (0, _utils.showSearching)('gray');
 	      _axios2.default.get(url).then(function (_ref) {
 	        var data = _ref.data;
 
@@ -27411,7 +27412,7 @@
 	      }
 
 	      if (url) {
-	        (0, _utils.showSearching)();
+	        (0, _utils.showSearching)('white');
 	        _axios2.default.get(url).then(function (_ref) {
 	          var data = _ref.data;
 
@@ -27544,9 +27545,19 @@
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
+	var _axios = __webpack_require__(219);
+
+	var _axios2 = _interopRequireDefault(_axios);
+
+	var _utils = __webpack_require__(236);
+
 	var _ArticleOrg = __webpack_require__(249);
 
 	var _ArticleOrg2 = _interopRequireDefault(_ArticleOrg);
+
+	var _Articlev = __webpack_require__(252);
+
+	var _Articlev2 = _interopRequireDefault(_Articlev);
 
 	var _reactRouter = __webpack_require__(159);
 
@@ -27640,10 +27651,29 @@
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'content' },
-	          _react2.default.createElement('p', { dangerouslySetInnerHTML: { __html: this.state.article.content } })
+	          _react2.default.createElement('p', { dangerouslySetInnerHTML: { __html: this.state.article.content }, onClick: this.onClickArticle.bind(this) })
 	        ),
 	        items
 	      );
+	    }
+	  }, {
+	    key: 'onClickArticle',
+	    value: function onClickArticle() {
+	      var self = this;
+	      var api = '/api/articles';
+	      var query = window.location.search;
+	      var url = api + '/' + this.state.article.nid + query;
+
+	      (0, _utils.showSearching)('white');
+	      _axios2.default.get(url).then(function (_ref) {
+	        var data = _ref.data;
+
+	        (0, _utils.hideSearching)();
+	        var articlev_props = {
+	          article: data.articles
+	        };
+	        _reactDom2.default.render(_react2.default.createElement(_Articlev2.default, _extends({ key: 'article-overlay-' + data.articles.nid }, articlev_props)), document.getElementById('overlay-container'));
+	      });
 	    }
 	  }, {
 	    key: 'toggleOrgs',
@@ -27738,7 +27768,7 @@
 	      var api = '/api/orgs';
 	      var url = api + '/' + this.state.org.oid;
 
-	      (0, _utils.showSearching)();
+	      (0, _utils.showSearching)('white');
 	      _axios2.default.get(url).then(function (_ref) {
 	        var data = _ref.data;
 
@@ -28309,13 +28339,166 @@
 	  value: true
 	});
 
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(158);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	var _axios = __webpack_require__(219);
+
+	var _axios2 = _interopRequireDefault(_axios);
+
+	var _reactRouter = __webpack_require__(159);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Articlev = function (_Component) {
+	  _inherits(Articlev, _Component);
+
+	  function Articlev(props) {
+	    _classCallCheck(this, Articlev);
+
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Articlev).call(this, props));
+
+	    _this.state = {
+	      article: props.article
+	    };
+	    return _this;
+	  }
+
+	  _createClass(Articlev, [{
+	    key: 'render',
+	    value: function render() {
+	      if (this.state.article.nid) {
+	        return _react2.default.createElement(
+	          'div',
+	          { key: 'article-overlay-' + this.state.article.nid, className: 'overlay' },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'article-info-container' },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'article-info-box' },
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'document' },
+	                _react2.default.createElement('h1', { dangerouslySetInnerHTML: { __html: this.state.article.subject } }),
+	                _react2.default.createElement('div', {
+	                  dangerouslySetInnerHTML: { __html: this.state.article.content }
+	                })
+	              ),
+	              _react2.default.createElement('i', { className: 'close fa fa-close', onClick: this.onArticleClose.bind(this) })
+	            )
+	          ),
+	          _react2.default.createElement('div', { className: 'article-background', onClick: this.onArticleClose.bind(this) })
+	        );
+	      } else {
+	        return _react2.default.createElement('div', { className: 'hidden' });
+	      }
+	    }
+	  }, {
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      var self = this;
+	      jQuery(window).bind('resize.articlev', function (e) {
+	        self.handleResize();
+	      });
+	      this.overlayResize();
+	      var b = jQuery(_reactDom2.default.findDOMNode(this)).find('.article-background');
+	      if (b.length > 0) {
+	        jQuery(window).bind('keydown.article', function (event) {
+	          var code = event.charCode || event.keyCode;
+	          if (code == 27) {
+	            self.onArticleClose();
+	          }
+	        });
+	      }
+	      this.scrollToKeyword();
+	    }
+	  }, {
+	    key: 'componentDidUpdate',
+	    value: function componentDidUpdate() {
+	      this.overlayResize();
+	      this.scrollToKeyword();
+	    }
+	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      jQuery(window).unbind('resize.article');
+	      jQuery(window).unbind('keydown.article');
+	    }
+	  }, {
+	    key: 'handleResize',
+	    value: function handleResize() {
+	      this.overlayResize();
+	    }
+	  }, {
+	    key: 'overlayResize',
+	    value: function overlayResize() {
+	      var winWidth = window.innerWidth;
+	      var winHeight = window.innerHeight;
+	      var obj = jQuery(_reactDom2.default.findDOMNode(this)).find('.article-info-container');
+	      var w = Math.min(600, parseInt(winWidth * 0.9));
+	      var max_h = parseInt(winHeight * 0.9);
+	      obj.css({
+	        'width': w + 'px',
+	        'max-height': max_h + 'px',
+	        'left': parseInt((winWidth - w) / 2) + 'px',
+	        'top': parseInt((winHeight - max_h) / 2) + 'px'
+	      });
+	    }
+	  }, {
+	    key: 'scrollToKeyword',
+	    value: function scrollToKeyword() {
+	      var $this = jQuery(_reactDom2.default.findDOMNode(this));
+	      var k = $this.find('.cadb-keyword:first');
+	      if (k.length > 0) {
+	        var p = k.parents('p, h1');
+	        if (p.length > 0) {
+	          $this.find('.article-info-container').scrollTo(p, 500, { offset: -50 });
+	        }
+	      }
+	    }
+	  }, {
+	    key: 'onArticleClose',
+	    value: function onArticleClose() {
+	      _reactDom2.default.unmountComponentAtNode(document.getElementById('overlay-container'));
+	    }
+	  }]);
+
+	  return Articlev;
+	}(_react.Component);
+
+	exports.default = Articlev;
+
+/***/ },
+/* 253 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 	var _react = __webpack_require__(1);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _OrgItem = __webpack_require__(253);
+	var _OrgItem = __webpack_require__(254);
 
 	var _OrgItem2 = _interopRequireDefault(_OrgItem);
 
@@ -28393,7 +28576,7 @@
 	}
 
 /***/ },
-/* 253 */
+/* 254 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28538,7 +28721,7 @@
 	;
 
 /***/ },
-/* 254 */
+/* 255 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28567,7 +28750,7 @@
 
 	var _ArticleList2 = _interopRequireDefault(_ArticleList);
 
-	var _PageList = __webpack_require__(255);
+	var _PageList = __webpack_require__(256);
 
 	var _PageList2 = _interopRequireDefault(_PageList);
 
@@ -28645,7 +28828,7 @@
 	        var url = '' + api + query;
 	      }
 
-	      (0, _utils.showSearching)();
+	      (0, _utils.showSearching)('gray');
 	      _axios2.default.get(url).then(function (_ref) {
 	        var data = _ref.data;
 
@@ -28676,7 +28859,7 @@
 	exports.default = Articles;
 
 /***/ },
-/* 255 */
+/* 256 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28691,7 +28874,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _PageItem = __webpack_require__(256);
+	var _PageItem = __webpack_require__(257);
 
 	var _PageItem2 = _interopRequireDefault(_PageItem);
 
@@ -28730,7 +28913,7 @@
 	}
 
 /***/ },
-/* 256 */
+/* 257 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28774,7 +28957,7 @@
 	exports.default = PageItem;
 
 /***/ },
-/* 257 */
+/* 258 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28978,7 +29161,7 @@
 	      var aid = this.props.params.aid;
 	      var url = api + '/' + aid;
 
-	      (0, _utils.showSearching)();
+	      (0, _utils.showSearching)('white');
 	      _axios2.default.get(url).then(function (_ref) {
 	        var data = _ref.data;
 
@@ -29024,7 +29207,7 @@
 	}
 
 /***/ },
-/* 258 */
+/* 259 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29045,11 +29228,11 @@
 
 	var _utils = __webpack_require__(236);
 
-	var _OrgList = __webpack_require__(252);
+	var _OrgList = __webpack_require__(253);
 
 	var _OrgList2 = _interopRequireDefault(_OrgList);
 
-	var _PageList = __webpack_require__(255);
+	var _PageList = __webpack_require__(256);
 
 	var _PageList2 = _interopRequireDefault(_PageList);
 
@@ -29112,7 +29295,7 @@
 	      var query = window.location.search;
 	      var url = '' + api + query;
 
-	      (0, _utils.showSearching)();
+	      (0, _utils.showSearching)('gray');
 	      _axios2.default.get(url).then(function (_ref) {
 	        var data = _ref.data;
 
@@ -29134,7 +29317,7 @@
 	exports.default = Orgs;
 
 /***/ },
-/* 259 */
+/* 260 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29210,7 +29393,7 @@
 	      var oid = this.props.params.oid;
 	      var url = api + '/' + oid;
 
-	      (0, _utils.showSearching)();
+	      (0, _utils.showSearching)('white');
 	      _axios2.default.get(url).then(function (_ref) {
 	        var data = _ref.data;
 
@@ -29238,7 +29421,7 @@
 	exports.default = Org;
 
 /***/ },
-/* 260 */
+/* 261 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29257,7 +29440,7 @@
 
 	var _axios2 = _interopRequireDefault(_axios);
 
-	var _StandardIndexes = __webpack_require__(261);
+	var _StandardIndexes = __webpack_require__(262);
 
 	var _StandardIndexes2 = _interopRequireDefault(_StandardIndexes);
 
@@ -29380,7 +29563,7 @@
 	        var url = api + '/' + sid;
 	      }
 
-	      (0, _utils.showSearching)();
+	      (0, _utils.showSearching)('gray');
 	      _axios2.default.get(url).then(function (_ref) {
 	        var data = _ref.data;
 
@@ -29445,7 +29628,7 @@
 	}
 
 /***/ },
-/* 261 */
+/* 262 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29553,7 +29736,7 @@
 	}
 
 /***/ },
-/* 262 */
+/* 263 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29743,7 +29926,7 @@
 	}
 
 /***/ },
-/* 263 */
+/* 264 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';

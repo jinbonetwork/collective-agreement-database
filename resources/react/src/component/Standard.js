@@ -76,7 +76,7 @@ export default class Standard extends Component {
     	var url = `${api}/${sid}`;
 	}
 
-    showSearching();
+    showSearching('gray');
     axios.get(url)
     .then(({ data }) => {
       hideSearching();

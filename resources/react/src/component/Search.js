@@ -60,7 +60,7 @@ export default class Search extends Component {
     const query = window.location.search;
     const url = `${api}${query}`;
 
-    showSearching();
+    showSearching('gray');
     axios.get(url)
     .then(({ data }) => {
       hideSearching();

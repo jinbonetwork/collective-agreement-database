@@ -126,7 +126,7 @@ button {
 	height: 100%;
 	cursor: pointer;
 }
-.keyword {
+.cadb-keyword {
 	color: #5a91e2;
 }
 .underline {
@@ -710,6 +710,9 @@ body {
 			display: none;
 			background: #5a91e2;
 		}
+		.article-result li.article-item .content > p {
+			cursor: pointer;
+		}
 		.article-result li .article-orgsmap ul {
 			margin: 0;
 			padding: 70px 25px 25px 25px;
@@ -802,14 +805,20 @@ body {
 			margin-left: 40%;
 			background-color: #ffffff;
 		}
+		.article-info-box .document {
+			margin-left: 80px;
+		}
+		.article-info-box .document h1,
 		.whole-document .document h1 {
 			margin: 0;
 			font-size: 1.5em;
 			margin-bottom: 40px;
 		}
+		.article-info-box .document p,
 		.whole-document .document p {
 			margin-bottom: 15px;
 		}
+		.article-info-box .document sup,
 		.whole-document .document sup {
 			display: inline-block;
 			position: absolute;
@@ -820,6 +829,10 @@ body {
 			-o-transform: translateX(-100%);
 			padding-right: 20px;
 		}
+		.article-info-box .document sup {
+			max-width: 120px;
+		}
+		.article-info-box .document sup span,
 		.whole-document .document sup span {
 			display: block;
 			background: #5a91e2;
@@ -829,17 +842,22 @@ body {
 			border-bottom-left-radius: 10px;
 			cursor: pointer;
 		}
+		.article-info-box .document sup span:hover,
 		.whole-document .document sup span:hover {
 			color: #ebeef2;
 		}
+		.article-info-box .document sup span:before,
 		.whole-document .document sup span:before {
 			font-family: "FontAwesome";
 			content: "\f097";
 			padding-right: 5px;
 		}
+		.article-info-box .document table,
 		.whole-document .document table {
 			width: 100%;
 		}
+		.article-info-box .document table th,
+		.article-info-box .document table td,
 		.whole-document .document table th,
 		.whole-document .document table td {
 			border: 1px solid #ccc;
@@ -853,7 +871,12 @@ body {
 	width: 100%;
 	height: 100%;
 	background-color: #000000;
+}
+.inner-container .is-searching.gray {
 	opacity: 0.5;
+}
+.inner-container .is-searching.white {
+	opacity: 0;
 }
 	.inner-container .is-searching .progress-spinner {
 		margin: 750px 0 0 50%;
@@ -984,7 +1007,8 @@ body {
 .overlay-click {
   cursor: pointer;
 }
-.organ-info-container {
+.organ-info-container,
+.article-info-container {
 	background: #fff;
 	width: 600px;
 	margin: 0 auto;
@@ -996,7 +1020,8 @@ body {
 	margin-bottom: 60px;
 }
 .overlay .guide-clause-container,
-.overlay .organ-info-container {
+.overlay .organ-info-container,
+.overlay .article-info-container {
 	position: fixed;
 	z-index: 999999;
 	left: 25%;
@@ -1005,15 +1030,18 @@ body {
 	overflow-y: auto;
 }
 .overlay .guide-clause-container::-webkit-scrollbar,
-.overlay .organ-info-container::-webkit-scrollbar {
+.overlay .organ-info-container::-webkit-scrollbar,
+.overlay .article-info-container::-webkit-scrollbar {
 	width: 6px;
 }
 .overlay .guide-clause-container::-webkit-scrollbar-track,
-.overlay .organ-info-container::-webkit-scrollbar-track {
+.overlay .organ-info-container::-webkit-scrollbar-track,
+.overlay .article-info-container::-webkit-scrollbar-track {
 	background-color: #ebeef2;
 }
 .overlay .guide-clause-container::-webkit-scrollbar-thumb,
-.overlay .organ-info-container::-webkit-scrollbar-thumb {
+.overlay .organ-info-container::-webkit-scrollbar-thumb,
+.overlay .article-info-container::-webkit-scrollbar-thumb {
 	background-color: #5a91e2;
 	border-radius: 3px;
 }
@@ -1027,7 +1055,8 @@ body {
 	background: #fff;
 }
 .overlay .guide-background,
-.overlay .organ-background {
+.overlay .organ-background,
+.overlay .article-background {
 	position: fixed;
 	z-index: 999998;
 	left: 0;
@@ -1038,9 +1067,13 @@ body {
 	opacity: 0.7;
 }
 .guide-clause-container .guide-clause-info-box,
-.organ-info-container .organ-info-box {
+.organ-info-container .organ-info-box,
+.article-info-container .article-info-box {
 	position: relative;
 	padding: 70px 30px 50px 50px;
+}
+.article-info-container .article-info-box {
+	background: #fff;
 }
 .guide-clause-container .guide-clause-info-box h2 .center {
 	text-align: center;
@@ -1182,7 +1215,8 @@ body {
 	text-align: center;
 }
 .guide-clause-container i,
-.organ-info-container i {
+.organ-info-container i,
+.article-info-container i {
 	position: absolute;
 	right: 15px;
 	top: 15px;

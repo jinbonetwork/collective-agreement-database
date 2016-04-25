@@ -118,6 +118,16 @@
 		],
 		"priority":"-9"
 	},
+	"jquery-scrollTo": {
+		"js": [
+			{
+				"uri": "contribute/jquery.scrollTo/jquery.scrollTo.min.js",
+				"position": "footer"
+			}
+		],
+		"priority": "-9",
+		"deps": ["jquery"]
+	},
 	"ckeditor": {
 		"js": [ "http://cdn.ckeditor.com/4.5.7/standard/ckeditor.js" ],
 		"priority":"-9"

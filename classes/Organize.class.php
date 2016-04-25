@@ -197,7 +197,7 @@ class Organize extends \CADB\Objects  {
 				) {
 					$p = mb_stripos($v, self::$keyword, 0, 'utf-8');
 					if($p) {
-						$v = str_replace(self::$keyword, '<span class="keyword">'.self::$keyword.'</span>',$v);
+						$v = str_replace(self::$keyword, '<span class="cadb-keyword">'.self::$keyword.'</span>',$v);
 					}
 				}
 				$organize[$k] = $v;

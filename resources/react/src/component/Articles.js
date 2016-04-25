@@ -56,7 +56,7 @@ export default class Articles extends Component {
       var url = `${api}${query}`;
     }
 
-    showSearching();
+    showSearching('gray');
     axios.get(url)
     .then(({ data }) => {
       hideSearching();

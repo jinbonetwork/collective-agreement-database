@@ -21,8 +21,13 @@ class articles extends \CADB\Controller {
 			$this->params['q'] = mb_convert_encoding($this->params['q'],'utf-8','euckr');
 		}
 
+		foreach($this->params as $k => $v) {
+			if(preg_match("/^[ao]{1}[0-9]+$/i",$k)) {
+				$args[$k] = $v;
+			}
+		}
 		if($this->params['nid']) {
-			$this->articles = \CADB\Agreement::getAgreement($this->params['nid'],($this->params['did'] ? $this->params['did'] : 0));
+			$this->articles = \CADB\Agreement::getAgreement( $this->params['nid'], ($this->params['did'] ? $this->params['did'] : 0), $this->params['q'], $args );
 			if(\CADB\Privilege::checkAgreement($this->articles)) {
 				$this->articles['owner'] = 1;
 			} else {
@@ -39,12 +44,6 @@ class articles extends \CADB\Controller {
 				);
 			}
 		} else {
-			foreach($this->params as $k => $v) {
-				if(preg_match("/^[ao]{1}[0-9]+$/i",$k)) {
-					$args[$k] = $v;
-				}
-			}
-
 			if(!$this->params['page']) $this->params['page'] = 1;
 
 			$this->standard = array();

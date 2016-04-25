@@ -91,7 +91,7 @@ export default class Article extends Component {
     const aid = this.props.params.aid;
     const url = `${api}/${aid}`;
 
-    showSearching();
+    showSearching('white');
     axios.get(url)
     .then(({ data }) => {
       hideSearching();

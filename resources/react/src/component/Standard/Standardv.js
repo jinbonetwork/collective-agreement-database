@@ -126,7 +126,7 @@ export default class Standardv extends Component{
     }
 
     if(url) {
-      showSearching();
+      showSearching('white');
       axios.get(url)
       .then(({ data }) => {
         hideSearching();

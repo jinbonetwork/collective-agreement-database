@@ -30,7 +30,7 @@ class articles extends \CADB\Controller {
 		}
 
 		if($this->params['nid']) {
-			$this->articles = \CADB\Agreement::getAgreement( $this->params['nid'],$this->params['did'] );
+			$this->articles = \CADB\Agreement::getAgreement( $this->params['nid'], $this->params['did'] );
 			if(!$this->articles) {
 				\CADB\RespondJson::ResultPage( array( -3, '존재하지 않는 단협입니다.' ) );
 			}

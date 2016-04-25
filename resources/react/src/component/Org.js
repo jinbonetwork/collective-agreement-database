@@ -35,7 +35,7 @@ export default class Org extends Component {
     const oid = this.props.params.oid;
     const url = `${api}/${oid}`;
 
-    showSearching();
+    showSearching('white');
     axios.get(url)
     .then(({ data }) => {
       hideSearching();

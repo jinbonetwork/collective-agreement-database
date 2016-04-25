@@ -23,7 +23,7 @@ export default class ArticleOrg extends Component{
     const api = '/api/orgs';
     const url = `${api}/${this.state.org.oid}`;
 
-    showSearching();
+    showSearching('white');
     axios.get(url)
     .then(({ data }) => {
       hideSearching();

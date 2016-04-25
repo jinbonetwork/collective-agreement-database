@@ -78,8 +78,19 @@ class Agreement extends \CADB\Objects  {
 		return $articles;
 	}
 
-	public static function getAgreement($nid,$did=0,$current=1) {
+	public static function getAgreement($nid,$did=0,$q='',$args=null,$current=1) {
 		$dbm = \CADB\DBM::instance();
+
+		if($q) {
+			self::$summary_method = array('type' => "string", 'value'=>$q);
+		}
+		if( $args && is_array($args) ) {
+			foreach($args as $k => $v) {
+				if(substr($k,0,1) == 'a' && self::$fields['taxonomy'][$k]) {
+					self::$summary_method = array('type'=>'taxonomy','value'=>$v);
+				}
+			}
+		}
 
 		if($did) {
 			$que = "SELECT * FROM {agreement} AS a LEFT JOIN {agreement_organize} AS r ON (a.nid = r.nid AND a.did = r.did) WHERE a.`nid` = ".$nid." AND a.`did` = ".$did;
@@ -242,16 +253,21 @@ class Agreement extends \CADB\Objects  {
 					}
 					$v = mb_substr(strip_tags(mb_substr($v,$p,500,'utf-8')),0,128,'utf-8');
 				}
-				if($summary && ($k == 'subject' || $k == 'content')) {
+				if(self::$summary_method &&
+					(
+						( self::$summary_method['type'] == 'string' && $k == 'subject' ) ||
+						$k == 'content'
+					)
+				) {
 					$matched = self::$summary_method['value'];
 					if(is_array($matched)) {
 						foreach($matched as $m) {
 							if($m) {
-								$v = str_replace($m,'<span class="keyword">'.$m.'</span>',$v);
+								$v = str_replace($m,'<span class="cadb-keyword">'.$m.'</span>',$v);
 							}
 						}
 					} else if($matched) {
-						$v = str_replace($matched,'<span class="keyword">'.$matched.'</span>',$v);
+						$v = str_replace($matched,'<span class="cadb-keyword">'.$matched.'</span>',$v);
 					}
 				}
 				$article[$k] = $v;

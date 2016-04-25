@@ -73,10 +73,11 @@ export function pageList(result) {
 	return pages;
 }
 
-export function showSearching() {
+export function showSearching(classOpt) {
 	jQuery('.is-searching').show();
 	var winWidth = jQuery(window).width();
 	var winHeight = jQuery(window).height();
+	jQuery('.is-searching').addClass(classOpt);
 	var obj = jQuery('.is-searching .progress-spinner');
 	var w = parseInt( ( winWidth - 46 ) / 2 );
 	var h = parseInt( ( winHeight - 46 ) / 2 );
@@ -87,5 +88,5 @@ export function showSearching() {
 }
 
 export function hideSearching() {
-	jQuery('.is-searching').hide();
+	jQuery('.is-searching').removeClass('gray').removeClass('white').hide();
 }

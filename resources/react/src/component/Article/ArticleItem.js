@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import axios from 'axios';
+
+import { showSearching, hideSearching } from '../../util/utils';
 import ArticleOrg from './ArticleOrg';
+import Articlev from './Articlev';
 
 import { Link } from 'react-router';
 
@@ -15,15 +19,15 @@ export default class ArticleItem extends Component{
   render() {
     const cat1 = this.state.article.f28 && this.state.article.f28[0].name;
     const cat2 = this.state.article.f28 && this.state.article.f28[1].name;
-	const rows = (this.state.article.f30 ? this.state.article.f30.map(this.makeOrgMap) : []);
-	const o_button = (rows.length > 0 ? <span className="view-organize" onClick={this.toggleOrgs.bind(this)}>교섭 참가 단위</span> : '');
-	const items = (rows.length > 0 ? <div className="article-orgsmap collapsed"><ul>{rows}</ul></div> : '');
-	return (
+    const rows = (this.state.article.f30 ? this.state.article.f30.map(this.makeOrgMap) : []);
+    const o_button = (rows.length > 0 ? <span className="view-organize" onClick={this.toggleOrgs.bind(this)}>교섭 참가 단위</span> : '');
+    const items = (rows.length > 0 ? <div className="article-orgsmap collapsed"><ul>{rows}</ul></div> : '');
+    return (
       <li key={this.state.nid} className="article-item">
         <div className="header">
           <div className="title">
             <div className="organ-name"><Link to={`/articles/${this.state.article.nid}`} dangerouslySetInnerHTML={{ __html: this.state.article.subject }} /></div>
-			{o_button}
+            {o_button}
           </div>
           <div className="info">
             <span className="bargain-cat-1">{cat1}</span>,&nbsp;
@@ -33,11 +37,28 @@ export default class ArticleItem extends Component{
           </div>
         </div>
         <div className="content">
-          <p dangerouslySetInnerHTML={{ __html: this.state.article.content }} />
+          <p dangerouslySetInnerHTML={{ __html: this.state.article.content }} onClick={this.onClickArticle.bind(this)} />
         </div>
-		{items}
+        {items}
       </li>
     );
+  }
+
+  onClickArticle() {
+    var self = this;
+    const api = '/api/articles';
+    const query = window.location.search;
+    const url = `${api}/${this.state.article.nid}${query}`;
+
+    showSearching('white');
+    axios.get(url)
+    .then(({ data }) => {
+      hideSearching();
+      const articlev_props = {
+        article: data.articles
+      };
+      ReactDOM.render(<Articlev key={`article-overlay-${data.articles.nid}`} {...articlev_props} />,document.getElementById('overlay-container'));
+    });
   }
 
   toggleOrgs() {
