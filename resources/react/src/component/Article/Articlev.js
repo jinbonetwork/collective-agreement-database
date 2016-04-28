@@ -17,14 +17,16 @@ export default class Articlev extends Component {
         <div key={`article-overlay-${this.state.article.nid}`} className="overlay">
           <div className="article-info-container">
             <div className="article-info-box">
-              <div className="document">
-                <h1 dangerouslySetInnerHTML={{ __html: this.state.article.subject }} />
-                <div
-                  dangerouslySetInnerHTML={{ __html: this.state.article.content }}
-                />
+              <div className="article-info-box-wrapper">
+                <div className="document">
+                  <h1 dangerouslySetInnerHTML={{ __html: this.state.article.subject }} />
+                  <div
+                    dangerouslySetInnerHTML={{ __html: this.state.article.content }}
+                  />
+                </div>
               </div>
-              <i className="close fa fa-close" onClick={this.onArticleClose.bind(this)}></i>
             </div>
+            <i className="close fa fa-close" onClick={this.onArticleClose.bind(this)}></i>
           </div>
           <div className="article-background" onClick={this.onArticleClose.bind(this)}></div>
         </div>
@@ -74,7 +76,7 @@ export default class Articlev extends Component {
     var max_h = parseInt( winHeight * 0.9 );
     obj.css({
       'width' : w+'px',
-      'max-height' : max_h+'px',
+      'height' : max_h+'px',
       'left' : parseInt( ( winWidth - w ) / 2 )+'px',
       'top' : parseInt( ( winHeight - max_h ) / 2)+'px'
     });
@@ -86,7 +88,7 @@ export default class Articlev extends Component {
     if(k.length > 0) {
       var p = k.parents('p, h1, sup');
       if(p.length > 0) {
-        $this.find('.article-info-container').scrollTo(p,500,{offset: -50});
+        $this.find('.article-info-container .article-info-box').scrollTo(p,500,{offset: -50});
       }
     }
   }

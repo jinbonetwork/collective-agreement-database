@@ -34,19 +34,21 @@ export default class Standardv extends Component{
       <div className="guide-clause-info overlay">
         <div className="guide-clause-container">
           <div className="guide-clause-info-box">
-            <div className="whole-document">
-              <div className="guide-document">
-                <h2>{subject}</h2>
-                <p classNname="guide-content" dangerouslySetInnerHTML={{ __html: standard.content }} />
-                {rows}
-				<div className="guide-box-button">
-                  <button onClick={this.onStandardClose.bind(this)}>닫기</button>
-                  <button onClick={this.onStandardGo.bind(this)}>모범단협 전체보기</button>
-				</div>
+            <div className="guide-clause-info-box-wrapper">
+              <div className="whole-document">
+                <div className="guide-document">
+                  <h2>{subject}</h2>
+                  <p classNname="guide-content" dangerouslySetInnerHTML={{ __html: standard.content }} />
+                  {rows}
+                  <div className="guide-box-button">
+                    <button onClick={this.onStandardClose.bind(this)}>닫기</button>
+                    <button onClick={this.onStandardGo.bind(this)}>모범단협 전체보기</button>
+                  </div>
+                </div>
               </div>
             </div>
-			<i className="close fa fa-close" onClick={this.onStandardClose.bind(this)}></i>
           </div>
+          <i className="close fa fa-close" onClick={this.onStandardClose.bind(this)}></i>
         </div>
 		<div className="guide-background" onClick={this.onStandardClose.bind(this)}></div>
       </div>
@@ -96,7 +98,7 @@ export default class Standardv extends Component{
     var max_h = parseInt( winHeight * 0.9 );
     obj.css({
       'width' : w+'px',
-      'max-height' : max_h+'px',
+      'height' : max_h+'px',
       'left' : parseInt( ( winWidth - w ) / 2 )+'px'
     });
     var n_h = obj.height();

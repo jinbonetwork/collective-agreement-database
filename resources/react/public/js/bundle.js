@@ -27290,35 +27290,39 @@
 	            { className: 'guide-clause-info-box' },
 	            _react2.default.createElement(
 	              'div',
-	              { className: 'whole-document' },
+	              { className: 'guide-clause-info-box-wrapper' },
 	              _react2.default.createElement(
 	                'div',
-	                { className: 'guide-document' },
-	                _react2.default.createElement(
-	                  'h2',
-	                  null,
-	                  subject
-	                ),
-	                _react2.default.createElement('p', { classNname: 'guide-content', dangerouslySetInnerHTML: { __html: standard.content } }),
-	                rows,
+	                { className: 'whole-document' },
 	                _react2.default.createElement(
 	                  'div',
-	                  { className: 'guide-box-button' },
+	                  { className: 'guide-document' },
 	                  _react2.default.createElement(
-	                    'button',
-	                    { onClick: this.onStandardClose.bind(this) },
-	                    '닫기'
+	                    'h2',
+	                    null,
+	                    subject
 	                  ),
+	                  _react2.default.createElement('p', { classNname: 'guide-content', dangerouslySetInnerHTML: { __html: standard.content } }),
+	                  rows,
 	                  _react2.default.createElement(
-	                    'button',
-	                    { onClick: this.onStandardGo.bind(this) },
-	                    '모범단협 전체보기'
+	                    'div',
+	                    { className: 'guide-box-button' },
+	                    _react2.default.createElement(
+	                      'button',
+	                      { onClick: this.onStandardClose.bind(this) },
+	                      '닫기'
+	                    ),
+	                    _react2.default.createElement(
+	                      'button',
+	                      { onClick: this.onStandardGo.bind(this) },
+	                      '모범단협 전체보기'
+	                    )
 	                  )
 	                )
 	              )
-	            ),
-	            _react2.default.createElement('i', { className: 'close fa fa-close', onClick: this.onStandardClose.bind(this) })
-	          )
+	            )
+	          ),
+	          _react2.default.createElement('i', { className: 'close fa fa-close', onClick: this.onStandardClose.bind(this) })
 	        ),
 	        _react2.default.createElement('div', { className: 'guide-background', onClick: this.onStandardClose.bind(this) })
 	      );
@@ -27373,7 +27377,7 @@
 	      var max_h = parseInt(winHeight * 0.9);
 	      obj.css({
 	        'width': w + 'px',
-	        'max-height': max_h + 'px',
+	        'height': max_h + 'px',
 	        'left': parseInt((winWidth - w) / 2) + 'px'
 	      });
 	      var n_h = obj.height();
@@ -27881,214 +27885,218 @@
 	              { className: 'organ-info-box' },
 	              _react2.default.createElement(
 	                'div',
-	                { className: 'organ-info' },
+	                { className: 'organ-info-box-wrapper' },
 	                _react2.default.createElement(
 	                  'div',
-	                  { className: 'header' },
+	                  { className: 'organ-info' },
 	                  _react2.default.createElement(
 	                    'div',
-	                    { className: 'organ-name' },
-	                    rows
+	                    { className: 'header' },
+	                    _react2.default.createElement(
+	                      'div',
+	                      { className: 'organ-name' },
+	                      rows
+	                    ),
+	                    _react2.default.createElement(_OrgAgreement2.default, _extends({ key: agreement_id }, agreement_props))
 	                  ),
-	                  _react2.default.createElement(_OrgAgreement2.default, _extends({ key: agreement_id }, agreement_props))
+	                  _react2.default.createElement(
+	                    'div',
+	                    { className: 'content' },
+	                    _react2.default.createElement(
+	                      'div',
+	                      { className: 'column label' },
+	                      _react2.default.createElement(
+	                        'div',
+	                        { className: 'row' },
+	                        '총연합단체'
+	                      ),
+	                      _react2.default.createElement(
+	                        'div',
+	                        { className: 'row' },
+	                        '산별연맹'
+	                      ),
+	                      _react2.default.createElement(
+	                        'div',
+	                        { className: 'row' },
+	                        '업종조직'
+	                      ),
+	                      _react2.default.createElement(
+	                        'div',
+	                        { className: 'row' },
+	                        '지역'
+	                      ),
+	                      _react2.default.createElement(
+	                        'div',
+	                        { className: 'row' },
+	                        '복수노조'
+	                      ),
+	                      _react2.default.createElement(
+	                        'div',
+	                        { className: 'row' },
+	                        '과반노조'
+	                      ),
+	                      _react2.default.createElement(
+	                        'div',
+	                        { className: 'row' },
+	                        '조합원수'
+	                      ),
+	                      _react2.default.createElement(
+	                        'div',
+	                        { className: 'row' },
+	                        '사업자명(원청)'
+	                      ),
+	                      _react2.default.createElement(
+	                        'div',
+	                        { className: 'row' },
+	                        '사업자명(하청)'
+	                      ),
+	                      _react2.default.createElement(
+	                        'div',
+	                        { className: 'row' },
+	                        '특성'
+	                      ),
+	                      _react2.default.createElement(
+	                        'div',
+	                        { className: 'row' },
+	                        '고용형태'
+	                      ),
+	                      _react2.default.createElement(
+	                        'div',
+	                        { className: 'row' },
+	                        '산업/직종'
+	                      ),
+	                      _react2.default.createElement(
+	                        'div',
+	                        { className: 'row' },
+	                        '부처'
+	                      )
+	                    ),
+	                    _react2.default.createElement(
+	                      'div',
+	                      { className: 'column info' },
+	                      _react2.default.createElement(
+	                        'div',
+	                        { className: 'row' },
+	                        this.getNames(this.state.org.f1)
+	                      ),
+	                      _react2.default.createElement(
+	                        'div',
+	                        { className: 'row' },
+	                        this.getNames(this.state.org.f2)
+	                      ),
+	                      _react2.default.createElement(
+	                        'div',
+	                        { className: 'row' },
+	                        this.getNames(this.state.org.f3)
+	                      ),
+	                      _react2.default.createElement(
+	                        'div',
+	                        { className: 'row' },
+	                        this.getNames(this.state.org.f4)
+	                      ),
+	                      _react2.default.createElement(
+	                        'div',
+	                        { className: 'row' },
+	                        this.getNames(this.state.org.f5)
+	                      ),
+	                      _react2.default.createElement(
+	                        'div',
+	                        { className: 'row' },
+	                        this.getNames(this.state.org.f6)
+	                      ),
+	                      _react2.default.createElement(
+	                        'div',
+	                        { className: 'row' },
+	                        this.state.org.f7
+	                      ),
+	                      _react2.default.createElement(
+	                        'div',
+	                        { className: 'row' },
+	                        this.state.org.f8
+	                      ),
+	                      _react2.default.createElement(
+	                        'div',
+	                        { className: 'row' },
+	                        this.state.org.f9
+	                      ),
+	                      _react2.default.createElement(
+	                        'div',
+	                        { className: 'row' },
+	                        this.getNames(this.state.org.f10)
+	                      ),
+	                      _react2.default.createElement(
+	                        'div',
+	                        { className: 'row' },
+	                        this.getNames(this.state.org.f11)
+	                      ),
+	                      _react2.default.createElement(
+	                        'div',
+	                        { className: 'row' },
+	                        this.getNames(this.state.org.f12)
+	                      ),
+	                      _react2.default.createElement(
+	                        'div',
+	                        { className: 'row' },
+	                        this.getNames(this.state.org.f13)
+	                      )
+	                    )
+	                  )
 	                ),
 	                _react2.default.createElement(
 	                  'div',
-	                  { className: 'content' },
+	                  { className: 'company-info' },
 	                  _react2.default.createElement(
 	                    'div',
-	                    { className: 'column label' },
-	                    _react2.default.createElement(
-	                      'div',
-	                      { className: 'row' },
-	                      '총연합단체'
-	                    ),
-	                    _react2.default.createElement(
-	                      'div',
-	                      { className: 'row' },
-	                      '산별연맹'
-	                    ),
-	                    _react2.default.createElement(
-	                      'div',
-	                      { className: 'row' },
-	                      '업종조직'
-	                    ),
-	                    _react2.default.createElement(
-	                      'div',
-	                      { className: 'row' },
-	                      '지역'
-	                    ),
-	                    _react2.default.createElement(
-	                      'div',
-	                      { className: 'row' },
-	                      '복수노조'
-	                    ),
-	                    _react2.default.createElement(
-	                      'div',
-	                      { className: 'row' },
-	                      '과반노조'
-	                    ),
-	                    _react2.default.createElement(
-	                      'div',
-	                      { className: 'row' },
-	                      '조합원수'
-	                    ),
-	                    _react2.default.createElement(
-	                      'div',
-	                      { className: 'row' },
-	                      '사업자명(원청)'
-	                    ),
-	                    _react2.default.createElement(
-	                      'div',
-	                      { className: 'row' },
-	                      '사업자명(하청)'
-	                    ),
-	                    _react2.default.createElement(
-	                      'div',
-	                      { className: 'row' },
-	                      '특성'
-	                    ),
-	                    _react2.default.createElement(
-	                      'div',
-	                      { className: 'row' },
-	                      '고용형태'
-	                    ),
-	                    _react2.default.createElement(
-	                      'div',
-	                      { className: 'row' },
-	                      '산업/직종'
-	                    ),
-	                    _react2.default.createElement(
-	                      'div',
-	                      { className: 'row' },
-	                      '부처'
-	                    )
+	                    { className: 'header' },
+	                    '사업장 정보'
 	                  ),
 	                  _react2.default.createElement(
 	                    'div',
-	                    { className: 'column info' },
+	                    { className: 'content' },
 	                    _react2.default.createElement(
 	                      'div',
-	                      { className: 'row' },
-	                      this.getNames(this.state.org.f1)
+	                      { className: 'column label' },
+	                      _react2.default.createElement(
+	                        'div',
+	                        { className: 'row' },
+	                        '대표자명'
+	                      ),
+	                      _react2.default.createElement(
+	                        'div',
+	                        { className: 'row' },
+	                        '전화'
+	                      ),
+	                      _react2.default.createElement(
+	                        'div',
+	                        { className: 'row' },
+	                        '주소'
+	                      )
 	                    ),
 	                    _react2.default.createElement(
 	                      'div',
-	                      { className: 'row' },
-	                      this.getNames(this.state.org.f2)
-	                    ),
-	                    _react2.default.createElement(
-	                      'div',
-	                      { className: 'row' },
-	                      this.getNames(this.state.org.f3)
-	                    ),
-	                    _react2.default.createElement(
-	                      'div',
-	                      { className: 'row' },
-	                      this.getNames(this.state.org.f4)
-	                    ),
-	                    _react2.default.createElement(
-	                      'div',
-	                      { className: 'row' },
-	                      this.getNames(this.state.org.f5)
-	                    ),
-	                    _react2.default.createElement(
-	                      'div',
-	                      { className: 'row' },
-	                      this.getNames(this.state.org.f6)
-	                    ),
-	                    _react2.default.createElement(
-	                      'div',
-	                      { className: 'row' },
-	                      this.state.org.f7
-	                    ),
-	                    _react2.default.createElement(
-	                      'div',
-	                      { className: 'row' },
-	                      this.state.org.f8
-	                    ),
-	                    _react2.default.createElement(
-	                      'div',
-	                      { className: 'row' },
-	                      this.state.org.f9
-	                    ),
-	                    _react2.default.createElement(
-	                      'div',
-	                      { className: 'row' },
-	                      this.getNames(this.state.org.f10)
-	                    ),
-	                    _react2.default.createElement(
-	                      'div',
-	                      { className: 'row' },
-	                      this.getNames(this.state.org.f11)
-	                    ),
-	                    _react2.default.createElement(
-	                      'div',
-	                      { className: 'row' },
-	                      this.getNames(this.state.org.f12)
-	                    ),
-	                    _react2.default.createElement(
-	                      'div',
-	                      { className: 'row' },
-	                      this.getNames(this.state.org.f13)
+	                      { className: 'column info' },
+	                      _react2.default.createElement(
+	                        'div',
+	                        { className: 'row' },
+	                        this.state.org.f14
+	                      ),
+	                      _react2.default.createElement(
+	                        'div',
+	                        { className: 'row' },
+	                        this.state.org.f15
+	                      ),
+	                      _react2.default.createElement(
+	                        'div',
+	                        { className: 'row' },
+	                        this.state.org.f16
+	                      )
 	                    )
 	                  )
-	                )
-	              ),
-	              _react2.default.createElement(
-	                'div',
-	                { className: 'company-info' },
-	                _react2.default.createElement(
-	                  'div',
-	                  { className: 'header' },
-	                  '사업장 정보'
 	                ),
-	                _react2.default.createElement(
-	                  'div',
-	                  { className: 'content' },
-	                  _react2.default.createElement(
-	                    'div',
-	                    { className: 'column label' },
-	                    _react2.default.createElement(
-	                      'div',
-	                      { className: 'row' },
-	                      '대표자명'
-	                    ),
-	                    _react2.default.createElement(
-	                      'div',
-	                      { className: 'row' },
-	                      '전화'
-	                    ),
-	                    _react2.default.createElement(
-	                      'div',
-	                      { className: 'row' },
-	                      '주소'
-	                    )
-	                  ),
-	                  _react2.default.createElement(
-	                    'div',
-	                    { className: 'column info' },
-	                    _react2.default.createElement(
-	                      'div',
-	                      { className: 'row' },
-	                      this.state.org.f14
-	                    ),
-	                    _react2.default.createElement(
-	                      'div',
-	                      { className: 'row' },
-	                      this.state.org.f15
-	                    ),
-	                    _react2.default.createElement(
-	                      'div',
-	                      { className: 'row' },
-	                      this.state.org.f16
-	                    )
-	                  )
-	                )
-	              ),
-	              _react2.default.createElement('div', { className: 'footer' }),
-	              closeButton
-	            )
+	                _react2.default.createElement('div', { className: 'footer' })
+	              )
+	            ),
+	            closeButton
 	          ),
 	          back
 	        );
@@ -28143,7 +28151,7 @@
 	        var max_h = parseInt(winHeight * 0.9);
 	        obj.css({
 	          'width': w + 'px',
-	          'max-height': max_h + 'px',
+	          'height': max_h + 'px',
 	          'left': parseInt((winWidth - w) / 2) + 'px',
 	          'top': parseInt((winHeight - max_h) / 2) + 'px'
 	        });
@@ -28388,14 +28396,18 @@
 	              { className: 'article-info-box' },
 	              _react2.default.createElement(
 	                'div',
-	                { className: 'document' },
-	                _react2.default.createElement('h1', { dangerouslySetInnerHTML: { __html: this.state.article.subject } }),
-	                _react2.default.createElement('div', {
-	                  dangerouslySetInnerHTML: { __html: this.state.article.content }
-	                })
-	              ),
-	              _react2.default.createElement('i', { className: 'close fa fa-close', onClick: this.onArticleClose.bind(this) })
-	            )
+	                { className: 'article-info-box-wrapper' },
+	                _react2.default.createElement(
+	                  'div',
+	                  { className: 'document' },
+	                  _react2.default.createElement('h1', { dangerouslySetInnerHTML: { __html: this.state.article.subject } }),
+	                  _react2.default.createElement('div', {
+	                    dangerouslySetInnerHTML: { __html: this.state.article.content }
+	                  })
+	                )
+	              )
+	            ),
+	            _react2.default.createElement('i', { className: 'close fa fa-close', onClick: this.onArticleClose.bind(this) })
 	          ),
 	          _react2.default.createElement('div', { className: 'article-background', onClick: this.onArticleClose.bind(this) })
 	        );
@@ -28449,7 +28461,7 @@
 	      var max_h = parseInt(winHeight * 0.9);
 	      obj.css({
 	        'width': w + 'px',
-	        'max-height': max_h + 'px',
+	        'height': max_h + 'px',
 	        'left': parseInt((winWidth - w) / 2) + 'px',
 	        'top': parseInt((winHeight - max_h) / 2) + 'px'
 	      });
@@ -28462,7 +28474,7 @@
 	      if (k.length > 0) {
 	        var p = k.parents('p, h1, sup');
 	        if (p.length > 0) {
-	          $this.find('.article-info-container').scrollTo(p, 500, { offset: -50 });
+	          $this.find('.article-info-container .article-info-box').scrollTo(p, 500, { offset: -50 });
 	        }
 	      }
 	    }

@@ -858,13 +858,16 @@ body {
 			padding-right: 5px;
 		}
 		.article-info-box .document table,
-		.whole-document .document table {
+		.whole-document .document table,
+		.whole-document .guide-document table {
 			width: 100%;
 		}
 		.article-info-box .document table th,
 		.article-info-box .document table td,
 		.whole-document .document table th,
-		.whole-document .document table td {
+		.whole-document .document table td,
+		.whole-document .guide-document table th,
+		.whole-document .guide-document table td {
 			border: 1px solid #ccc;
 		}
 
@@ -1032,23 +1035,6 @@ body {
 	left: 25%;
 	top: 25%;
 	margin: 0;
-	overflow-y: auto;
-}
-.overlay .guide-clause-container::-webkit-scrollbar,
-.overlay .organ-info-container::-webkit-scrollbar,
-.overlay .article-info-container::-webkit-scrollbar {
-	width: 6px;
-}
-.overlay .guide-clause-container::-webkit-scrollbar-track,
-.overlay .organ-info-container::-webkit-scrollbar-track,
-.overlay .article-info-container::-webkit-scrollbar-track {
-	background-color: #ebeef2;
-}
-.overlay .guide-clause-container::-webkit-scrollbar-thumb,
-.overlay .organ-info-container::-webkit-scrollbar-thumb,
-.overlay .article-info-container::-webkit-scrollbar-thumb {
-	background-color: #5a91e2;
-	border-radius: 3px;
 }
 .overlay .guide-clause-container {
 	width: 600px;
@@ -1075,10 +1061,33 @@ body {
 .organ-info-container .organ-info-box,
 .article-info-container .article-info-box {
 	position: relative;
-	padding: 70px 30px 50px 50px;
+	width: 100%;
+	height: 100%;
+	overflow-y: auto;
 }
 .article-info-container .article-info-box {
 	background: #fff;
+}
+.guide-clause-container .guide-clause-info-box::-webkit-scrollbar,
+.organ-info-container .organ-info-box::-webkit-scrollbar,
+.article-info-container .article-info-box::-webkit-scrollbar {
+	width: 6px;
+}
+.guide-clause-container .guide-clause-info-box::-webkit-scrollbar-track,
+.organ-info-container .organ-info-box::-webkit-scrollbar-track,
+.article-info-container .article-info-box::-webkit-scrollbar-track {
+	background-color: #ebeef2;
+}
+.guide-clause-container .guide-clause-info-box::-webkit-scrollbar-thumb,
+.organ-info-container .organ-info-box::-webkit-scrollbar-thumb,
+.article-info-container .article-info-box::-webkit-scrollbar-thumb {
+	background-color: #5a91e2;
+	border-radius: 3px;
+}
+.guide-clause-container .guide-clause-info-box .guide-clause-info-box-wrapper,
+.organ-info-container .organ-info-box .organ-info-box-wrapper,
+.article-info-container .article-info-box .article-info-box-wrapper {
+	padding: 70px 30px 50px 50px;
 }
 .guide-clause-container .guide-clause-info-box h2 .center {
 	text-align: center;
@@ -1223,11 +1232,23 @@ body {
 .organ-info-container i,
 .article-info-container i {
 	position: absolute;
-	right: 15px;
-	top: 15px;
+	right: -13px;
+	top: -16px;
 	font-size: 16px;
 	color: #5a91e2;
+	background: #fff;
 	cursor: pointer;
+	padding: 5px 6px 5px 5px;
+	border: 2px solid #5a91e2;
+	border-radius: 15px;
+	box-shadow: 2px -2px 2px #dee0e0;
+	transition: color 0.6s, background-color 0.6s;
+}
+.guide-clause-container i:hover,
+.organ-info-container i:hover,
+.article-info-container i:hover {
+	background: #5a91e2;
+	color: #fff;
 }
 
 .more-box {
