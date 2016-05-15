@@ -141,6 +141,7 @@ fieldset.fields-org .taxonomy-field label.select-box {
 	position: relative;
 	z-index: 3;
 	padding-right: 20px;
+	cursor: pointer;
 }
 fieldset.fields-org .taxonomy-field label.select-box:after {
 	position: absolute;

@@ -71,7 +71,7 @@ class DBM extends \CADB\Objects  {
 								foreach($v as $t) {
 									$custom[$key][$t['tid']] = array(
 										'cid' => $t['cid'],
-										'vid' => ($t['vid'] ? $t['vid'] : $['tid']),
+										'vid' => ($t['vid'] ? $t['vid'] : $t['tid']),
 										'name' => $t['name']
 									);
 									$taxonomy_map[$cid]['add'][$t['tid']] = array(
