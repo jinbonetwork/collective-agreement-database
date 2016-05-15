@@ -220,11 +220,11 @@ var maxGuideIndex = 0;
 				method: 'GET',
 				success: function(json) {
 					wrapper.empty();
-					var result = jQuery('<div class="search-result">총 '+json.result.total_cnt+' 건을 검색했습니다.</div>');
+					var result = jQuery('<div class="search-result">총 '+json.result.orgs.total_cnt+' 건을 검색했습니다.</div>');
 					wrapper.append(result);
 					if(json.orgs.length > 0) {
 						for(var i=0; i<json.orgs.length; i++) {
-							var item = jQuery('<article data-oid="' + json.orgs[i].oid + '" data-vid="' + json.orgs[i].vid + '" data-name="' + json.orgs[i].fullname + '">' + json.orgs[i].fullname + '</article>');
+							var item = jQuery('<article data-oid="' + json.orgs[i].oid + '" data-vid="' + json.orgs[i].vid + '" data-name="' + jQuery('<span>'+json.orgs[i].fullname+'</span>').text() + '">' + jQuery('<span>'+json.orgs[i].fullname+'</span>').text() + '</article>');
 							wrapper.append(item);
 						}
 					}
@@ -295,6 +295,9 @@ var maxGuideIndex = 0;
 				self.bindChangeOwner(item);
 				var a = org.find('li.add');
 				item.insertBefore(a);
+				if(!self.Root.find('input#subject').val()) {
+					self.Root.find('input#subject').val(name+' 단체협약');
+				}
 			}
 			this.closeSearchOrganizeBox();
 		},
@@ -656,6 +659,9 @@ var maxGuideIndex = 0;
 				e.preventDefault();
 				self.save();
 			});
+			this.Root.find('button.article-fork').bind('click',function(e) {
+				self.fork();
+			});
 			this.Root.find('button.article-delete').bind('click',function(e) {
 				self.deletes();
 			});
@@ -734,6 +740,10 @@ var maxGuideIndex = 0;
 								if (window.history.replaceState) {
 									window.history.pushState(null, '단체협약:'+self.Root.find('input#subject').val(), window.location.href.replace(/add/,'edit')+'?nid='+nid);
 								}
+								self.Root.find('.buttons button[type="submit"]').text('수정하기');
+								self.Root.find('.buttons button.article-fork').addClass('show');
+								self.Root.find('.buttons button.article-delete').addClass('show');
+								self.Root.find('fieldset.fields-title legend span').text('단체협약 수정하기');
 							} else {
 								self.Root.find('input[name="nid"]').val(nid);
 							}
@@ -834,6 +844,114 @@ var maxGuideIndex = 0;
 			return q;
 		},
 
+		deletes: function() {
+			var self = this;
+			var url = "/api/save/articles";
+
+			var params = 'nid='+this.Root.find('input[name="nid"]').val()+'&mode=delete';
+
+			jQuery.ajax({
+				url: url,
+				data: params,
+				dataType: 'json',
+				method: 'POST',
+				beforeSend: function() {
+					self.loading();
+				},
+				success: function(json) {
+					self.removeLoading();
+					var error = parseInt(json.error);
+					var message = json.message;
+					if(!error) {
+						var h = window.location.href;
+						if(h.match(/admin\/articles/)) {
+							var _q = window.location.search.substr(1).split("&");
+							var q = "";
+							var c = 0;
+							for(var i=0; i<_q.length; i++) {
+								var _qp = _q[i].split("=");
+								if(typeof(_qp[0]) == 'undefined' || _qp[0] == 'nid') continue;
+								q += (c++ ? "&" : "")+_q[i];
+							}
+							window.location.href = '/admin/articles/'+(q ? "?"+q : '');
+						} else {
+							self.goList();
+						}
+					} else {
+						self.abortDialog(message,0);
+					}
+				},
+				error( jqXHR, textStatus, errorThrown ) {
+					self.removeLoading();
+					self.abortDialog(jqXHR.responseText,0);
+				}
+			});
+		},
+
+		fork: function() {
+			var self = this;
+			var url = "/api/save/articles";
+
+			var params = 'nid='+this.Root.find('input[name="nid"]').val();
+			params += '&did='+this.Root.find('input[name="did"]').val();
+			params += '&mode=fork';
+
+			jQuery.ajax({
+				url: url,
+				data: params,
+				dataType: 'json',
+				method: 'POST',
+				beforeSend: function() {
+					self.loading();
+				},
+				success: function(json) {
+					self.removeLoading();
+					var error = parseInt(json.error);
+					var message = json.message;
+					if(!error) {
+						var nid = parseInt(message);
+						var _h = window.location.href.split("?");
+						var h = _h[0];
+						var _q = window.location.search.substr(1).split("&");
+						var q = "";
+						var c = 0;
+						for(var i=0; i<_q.length; i++) {
+							var _qp = _q[i].split("=");
+							if(typeof(_qp[0]) == 'undefined') continue;
+							if(_qp[0] == 'nid') 
+								q += (c++ ? "&" : "")+'nid='+nid;
+							else
+								q += (c++ ? "&" : "")+_q[i];
+						}
+						window.location.href = h+(q ? "?"+q : '');
+					} else {
+						self.abortDialog(message,0);
+					}
+				},
+				error( jqXHR, textStatus, errorThrown ) {
+					self.removeLoading();
+					self.abortDialog(jqXHR.responseText,0);
+				}
+			});
+		},
+
+		goList: function() {
+			var h = window.location.href;
+			if(h.match(/admin\/articles/)) {
+				var _q = window.location.search.substr(1).split("&");
+				var q = "";
+				var c = 0;
+				for(var i=0; i<_q.length; i++) {
+					var _qp = _q[i].split("=");
+					if(typeof(_qp[0]) == 'undefined' || _qp[0] == 'nid') continue;
+					q += (c++ ? "&" : "")+_q[i];
+				}
+				window.location.href = '/admin/articles/'+(q ? "?"+q : '');
+			} else {
+				history.back();
+			}
+		},
+
 		abortDialog: function(message,fid) {
 			var self = this;
 			this.focus_id = fid;
@@ -884,6 +1002,7 @@ var maxGuideIndex = 0;
 			this.guideBackground.bind('click',function(e) {
 				self.closeGuide();
 			});
+			self.closeGuide();
 		},
 
 		removeLoading: function() {

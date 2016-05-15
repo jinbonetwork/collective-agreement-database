@@ -30,6 +30,7 @@ export default class Orgv extends Component{
       oid : this.state.org.oid,
       nid : this.state.org.nid,
     };
+	const edit = ( this.state.org.owner ? <button onClick={this.onOrgEdit.bind(this)}>단체수정</button> : '' );
 
     if(this.state.org.oid) {
       return (
@@ -68,8 +69,8 @@ export default class Orgv extends Component{
                       <div className="row">{this.getNames(this.state.org.f5)}</div>
                       <div className="row">{this.getNames(this.state.org.f6)}</div>
                       <div className="row">{this.state.org.f7}</div>
-                      <div className="row">{this.state.org.f8}</div>
-                      <div className="row">{this.state.org.f9}</div>
+                      <div className="row" dangerouslySetInnerHTML={{ __html: this.state.org.f8 }} />
+                      <div className="row" dangerouslySetInnerHTML={{ __html: this.state.org.f9 }} />
                       <div className="row">{this.getNames(this.state.org.f10)}</div>
                       <div className="row">{this.getNames(this.state.org.f11)}</div>
                       <div className="row">{this.getNames(this.state.org.f12)}</div>
@@ -93,6 +94,7 @@ export default class Orgv extends Component{
                   </div>
                 </div>
                 <div className="footer">
+					{edit}
                 </div>
               </div>
 			</div>
@@ -162,6 +164,10 @@ export default class Orgv extends Component{
         window.location = `/orgs/${oid}`;
       }
     }
+  }
+
+  onOrgEdit() {
+  	window.location = '/orgs/edit?oid='+this.state.org.oid;
   }
 
   onOrgClose() {

@@ -40,6 +40,48 @@ form#org-edit-form fieldset.fields-org label.field {
 	text-align: right;
 	font-weight: 700;
 }
+form#org-edit-form fieldset.org-name div.org-name-form {
+	position: relative;
+	width: 382px;
+	padding-right: 82px;
+}
+form#org-edit-form fieldset.org-name div.org-name-form .org-input-form {
+	max-height: 0;
+	transition: max-height 0.6s;
+	-webkit-transition: max-height 0.6s;
+	-moz-transition: max-height 0.6s;
+	-ms-transition: max-height 0.6s;
+	-o-transition: max-height 0.6s;
+	overflow: hidden;
+}
+form#org-edit-form fieldset.org-name div.org-name-form.collapsed .org-input-form {
+	max-height: 29px;
+}
+form#org-edit-form fieldset.org-name div.org-name-form .org-search-form {
+	max-height: 200px;
+	overflow-y: auto;
+	transition: max-height 0.6s;
+	-webkit-transition: max-height 0.6s;
+	-moz-transition: max-height 0.6s;
+	-ms-transition: max-height 0.6s;
+	-o-transition: max-height 0.6s;
+	border: 1px solid #5a91e2;
+}
+form#org-edit-form fieldset.org-name div.org-name-form.collapsed .org-search-form {
+	max-height: 0;
+	overflow: hidden;
+	border: 0;
+}
+form#org-edit-form fieldset.org-name div.org-name-form .org-search-form ul {
+}
+form#org-edit-form fieldset.org-name div.org-name-form .org-search-form ul li {
+	padding: 8px 15px;
+	border-bottom: 1px dotted #ccc;
+	cursor: pointer;
+}
+form#org-edit-form fieldset.org-name div.org-name-form .org-search-form ul li:hover {
+	background: #ebeef2;
+}
 form#org-edit-form fieldset.org-name input[type="text"] {
 	width: 300px;
 	border: 1px solid #5a91e2;
@@ -53,6 +95,47 @@ form#org-edit-form fieldset button {
 form#org-edit-form fieldset.fields-org button {
 	padding: 5px 10px;
 	border-radius: 15px;
+}
+form#org-edit-form fieldset div.org-name-form input[type="text"] {
+	padding: 4px 2px;
+}
+form#org-edit-form fieldset div.org-name-form button {
+	position: absolute;
+	z-index: 6;
+	right: 0;
+	top: 0;
+	font-size: 0.85em;
+	padding: 5px 10px 6px 10px;
+	background: #fff;
+	border-radius: 0;
+	border: 1px solid #5a91e2;
+	transition: color 0.4s, background-color 0.4s;
+	-webkit-transition: color 0.4s, background-color 0.4s;
+	-moz-transition: color 0.4s, background-color 0.4s;
+	-ms-transition: color 0.4s, background-color 0.4s;
+	-o-transition: color 0.4s, background-color 0.4s;
+}
+form#org-edit-form fieldset div.org-name-form button:hover {
+	color: #fff;
+	background: #5a91e2;
+}
+form#org-edit-form fieldset div.org-name-form button:before {
+	font-family: "FontAwesome";
+	content: "\f107";
+	content: "\f106";
+	margin-right: 5px;
+}
+form#org-edit-form fieldset div.org-name-form.collapsed button:before {
+	content: "\f107";
+}
+form#org-edit-form fieldset div.org-name-form button.loading:before {
+	-o-animation: fa-spin 2s infinite linear;
+	-ms-animation: fa-spin 2s infinite linear;
+	-moz-animation: fa-spin 2s infinite linear;
+	-webkit-animation: fa-spin 2s infinite linear;
+	animation: fa-spin 2s infinite linear;
+	font-family: "FontAwesome";
+	content: "\f1ce";
 }
 fieldset.fields-org .taxonomy-field label.select-box {
 	display: block;
@@ -143,4 +226,62 @@ form#org-edit-form fieldset.buttons button {
 	height: auto;
 	padding: 10px;
 	cursor: pointer;
+}
+form#org-edit-form fieldset.buttons button.delete {
+	display: none;
+}
+form#org-edit-form fieldset.buttons button.delete.show {
+	display: inline-block;
+}
+
+.saving {
+}
+.saving .saving-background{
+	position: fixed;
+	z-index: 88888888;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background: #333;
+	opacity: 0.6;
+}
+.saving .is-loading {
+	position: fixed;
+	z-index: 88888889;
+	left: 50%;
+	top: 50%;
+	color: #fff;
+	width: 100px;
+	height: 100px;
+	font-size: 100px;
+	font-weight: 100px;
+}
+
+/* 경고창 */
+.alert-dialog {
+	position: fixed;
+	z-index: 9999999;
+	left: 25%;
+	top: 25%;
+	background: #f00;
+	color: #fff;
+	border-radius: 10px;
+	width: auto;
+	box-shadow: 0px 5px 5px #dee0e0;
+}
+.alert-dialog .alert-dialog-inner {
+	padding: 20px;
+}
+.alert-dialog .close {
+	position: absolute;
+	z-index: 99999999;
+	right: -10px;
+	top: -10px;
+	width: 20px;
+	border-radius: 10px;
+	color: #fff;
+	cursor: pointer;
+	background: #f00;
+	text-align: center;
 }

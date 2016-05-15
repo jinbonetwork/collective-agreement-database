@@ -8,6 +8,7 @@ class index extends \CADB\Controller {
 		$this->layout = 'admin';
 
 		$context = \CADB\Model\Context::instance();
+		\CADB\Lib\RedirectURL('/admin/orgs');
 	}
 }
 ?>

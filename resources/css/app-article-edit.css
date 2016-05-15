@@ -348,6 +348,14 @@ fieldset.fields-group.meta .buttons button {
 	padding: 10px;
 	cursor: pointer;
 }
+fieldset.fields-group.meta .buttons button.article-fork,
+fieldset.fields-group.meta .buttons button.article-delete {
+	display: none;
+}
+fieldset.fields-group.meta .buttons button.article-fork.show,
+fieldset.fields-group.meta .buttons button.article-delete.show {
+	display: inline-block;
+}
 fieldset.fields-group.content {
 	float: left;
 	width: 60%;

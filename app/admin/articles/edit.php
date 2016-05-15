@@ -7,8 +7,10 @@ class edit extends \CADB\Controller {
 	public function process() {
 		$context = \CADB\Model\Context::instance();
 
+		$this->layout = 'admin';
+
 		if(!$this->params['nid']) {
-			Error('단체협약서 번호를 입력하세요.');
+			\CADB\Lib\Error('단체협약서 번호를 입력하세요.');
 		}
 
 		if(!$this->themes) $this->themes = $context->getProperty('service.themes');
@@ -16,10 +18,10 @@ class edit extends \CADB\Controller {
 		$this->fields = \CADB\Agreement::getFieldInfo(1);
 		$this->articles = \CADB\Agreement::getAgreement($this->params['nid'],($this->params['did'] ? $this->params['did'] : 0));
 		if(!$this->articles) {
-			Error('존재하지 않는 단체협약입니다.');
+			\CADB\Lib\Error('존재하지 않는 단체협약입니다.');
 		}
 		if(\CADB\Privilege::checkAgreement($this->articles) == false) {
-			Error('접근 권한이 없습니다.');
+			\CADB\Lib\Error('접근 권한이 없습니다.');
 		}
 
 		$g_cids = \CADB\Guide::getTaxonomy();

@@ -259,6 +259,112 @@ class DBM extends \CADB\Objects  {
 		return $args['nid'];
 	}
 
+	public static function delete($fields,$nid) {
+		$dbm = \CADB\DBM::instance();
+
+		self::$fields = $fields;
+
+		$que = "DELETE FROM {agreement} WHERE nid = ?";
+		$dbm->execute($que,array("d",$nid));
+
+		$que = "DELETE FROM {agreement_organize} WHERE nid = ?";
+		$dbm->execute($que,array("d",$nid));
+
+		$que = "DELETE FROM {taxonomy_term_relative} WHERE `table` = ? AND `rid` = ?";
+		$dbm->execute($que,array("sd",'agreement',$nid));
+
+		return 0;
+	}
+
+	public static function fork($fields,$nid,$did) {
+		$dbm = \CADB\DBM::instance();
+
+		self::$fields = $fields;
+
+		$que = "SELECT * FROM {agreement} WHERE nid = ".$nid." AND did = ".$did;
+		$articles = $dbm->getFetchArray($que);
+
+		if(!$articles) return -1;
+
+		$que = "INSERT INTO {agreement} (";
+		$que2 = ") VALUES (";
+		$array1 = 'array("';
+		$array2 = "";
+
+		$c = 0;
+		foreach($articles as $k => $v) {
+			if($k == 'nid' || $k == 'did' ) continue;
+			if($k == 'created') continue;
+			$que .= ($c ? ", " : "")."`".$k."`";
+			$que2 .= ($c ? ", " : "")."?";
+			if(is_numeric($v)) {
+				$array1 .= 'd';
+			} else {
+				$articles[$k] = stripslashes($v);
+				$array1 .= 's';
+			}
+			$array2 .= ($c ? ", " : "").'$'.'articles['.$k.']';
+			$c++;
+		}
+
+		$que .= ", `created`";
+		$que2 .= ", ?)";
+		$que = $que.$que2;
+
+		$array1 .= 'd",';
+		$array2 .= ", time())";
+		$eval_str = '$'."q_args = ".$array1.$array2.";";
+		eval($eval_str);
+
+		if( $dbm->execute($que,$q_args) < 1) {
+			self::setErrorMsg($que." 가 DB에 반영되지 않았습니다.");
+			return -1;
+		}
+
+		$insert_nid = $dbm->getLastInsertId();
+
+		$que = "UPDATE {agreement} SET did = ? WHERE nid = ?";
+		if( $dbm->execute($que,array("dd",$insert_nid,$insert_nid)) < 1) {
+			self::setErrorMsg($que." 가 DB에 반영되지 않았습니다.");
+			return -1;
+		}
+
+		$que = "UPDATE {agreement} SET `current` = ? WHERE nid = ? AND did = ?";
+		$dbm->execute($que,array("ddd",0,$nid,$did));
+
+		$article_orgs = array();
+		$que = "SELECT * FROM {agreement_organize} WHERE nid = ".$nid." AND did = ".$did;
+		while($row = $dbm->getFetchArray($que)) {
+			$article_orgs[] = $row;
+		}
+		if(is_array($article_orgs)) {
+			foreach($article_orgs as $orgs) {
+				$que = "INSERT INTO {agreement_organize} (`nid`,`did`,`oid`,`vid`,`owner`) VALUES (?,?,?,?,?)";
+				if( $dbm->execute($que,array("ddddd",$insert_nid,$insert_nid,$orgs['oid'],$orgs['vid'],$orgs['owner'])) < 1) {
+					self::setErrorMsg($que." 가 DB에 반영되지 않았습니다.");
+					return -1;
+				}
+			}
+		}
+
+		$taxonomy_terms = array();
+		$que = "SELECT * FROM {taxonomy_term_relative} WHERE `table` = 'agreement' AND rid = ".$nid;
+		while($row = $dbm->getFetchArray($que)) {
+			$taxonomy_terms[] = $row;
+		}
+		if(is_array($taxonomy_terms)) {
+			foreach($taxonomy_terms as $terms) {
+				$que = "INSERT INTO {taxonomy_term_relative} (`tid`,`table`,`rid`,`fid`) VALUES (?,?,?,?)";
+				if( $dbm->execute($que,array("dsdd",$terms['tid'],'agreement',$insert_nid,$terms['fid'])) < 1) {
+					self::setErrorMsg($que." 가 DB에 반영되지 않았습니다.");
+					return -1;
+				}
+			}
+		}
+
+		return $insert_nid;
+	}
+
 	public static function reBuildTaxonomy($nid, $did, $taxonomy_map) {
 		$dbm = \CADB\DBM::instance();
 
@@ -397,6 +503,40 @@ class DBM extends \CADB\Objects  {
 		return 0;
 	}
 
+	private static function copy($table,$args,$nid=0) {
+		$dbm = \CADB\DBM::instance();
+
+		$que = "INSERT INTO {".$table."} (";
+		$que2 = ") VALUES (";
+		$array1 = 'array("';
+		$array2 = "";
+
+		$c = 0;
+		foreach($args as $k => $v) {
+			if($k == 'nid' || $k == 'rid' || $k == 'did' ) {
+				if($nid) {
+					$que .= ($c ? ", " : "")."`".$k."`";
+					$que2 .= ($c ? ", " : "")."?";
+					if(is_numeric($v)) {
+						$array1 .= 'd';
+					} else {
+						$array1 .= 's';
+					}
+					$array2 .= ($c ? ", " : "").'$'.'nid';
+				}
+			} else {
+				$que .= ($c ? ", " : "")."`".$k."`";
+				$que2 .= ($c ? ", " : "")."?";
+				if(is_numeric($v)) {
+					$array1 .= 'd';
+				} else {
+					$array1 .= 's';
+				}
+				$array2 .= ($c ? ", " : "").'$'.'args['.$k.']';
+			}
+		}
+	}
+
 	public static function setErrorMsg($errmsg) {
 		self::$errmsg = $errmsg;
 	}
@@ -405,3 +545,4 @@ class DBM extends \CADB\Objects  {
 		return self::$errmsg;
 	}
 }
+?>

@@ -27872,6 +27872,11 @@
 	        oid: this.state.org.oid,
 	        nid: this.state.org.nid
 	      };
+	      var edit = this.state.org.owner ? _react2.default.createElement(
+	        'button',
+	        { onClick: this.onOrgEdit.bind(this) },
+	        '단체수정'
+	      ) : '';
 
 	      if (this.state.org.oid) {
 	        return _react2.default.createElement(
@@ -28009,16 +28014,8 @@
 	                        { className: 'row' },
 	                        this.state.org.f7
 	                      ),
-	                      _react2.default.createElement(
-	                        'div',
-	                        { className: 'row' },
-	                        this.state.org.f8
-	                      ),
-	                      _react2.default.createElement(
-	                        'div',
-	                        { className: 'row' },
-	                        this.state.org.f9
-	                      ),
+	                      _react2.default.createElement('div', { className: 'row', dangerouslySetInnerHTML: { __html: this.state.org.f8 } }),
+	                      _react2.default.createElement('div', { className: 'row', dangerouslySetInnerHTML: { __html: this.state.org.f9 } }),
 	                      _react2.default.createElement(
 	                        'div',
 	                        { className: 'row' },
@@ -28093,7 +28090,11 @@
 	                    )
 	                  )
 	                ),
-	                _react2.default.createElement('div', { className: 'footer' })
+	                _react2.default.createElement(
+	                  'div',
+	                  { className: 'footer' },
+	                  edit
+	                )
 	              )
 	            ),
 	            closeButton
@@ -28167,6 +28168,11 @@
 	          window.location = '/orgs/' + oid;
 	        }
 	      }
+	    }
+	  }, {
+	    key: 'onOrgEdit',
+	    value: function onOrgEdit() {
+	      window.location = '/orgs/edit?oid=' + this.state.org.oid;
 	    }
 	  }, {
 	    key: 'onOrgClose',

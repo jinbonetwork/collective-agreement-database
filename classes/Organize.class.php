@@ -25,7 +25,11 @@ class Organize extends \CADB\Objects  {
 
 		if(!self::$fields) self::getFieldInfo();
 
-		$que = self::makeQuery($q,$args,'count(*) AS cnt');
+		if(self::$mode == 'depth') {
+			$que = self::makeDepthQuery($q,$args,'count(*) AS cnt');
+		} else {
+			$que = self::makeQuery($q,$args,'count(*) AS cnt');
+		}
 		if($que) {
 			$row = $dbm->getFetchArray($que);
 		}
@@ -41,10 +45,16 @@ class Organize extends \CADB\Objects  {
 		if($q) {
 			self::$keyword = $q;
 		}
-		$que = self::makeQuery($q,$args,'o.*');
+		if(self::$mode == 'depth') {
+			$que = self::makeDepthQuery($q,$args,'o.*');
+		} else {
+			$que = self::makeQuery($q,$args,'o.*');
+		}
 		if($que) {
 			if(self::$mode == 'admin') {
 				$que .= " ORDER BY o.p1 ASC, o.p2 ASC, o.p3 ASC, o.p4 ASC LIMIT ".(($page-1)*$limit).",".$limit;
+			} else if(self::$mode == 'depth') {
+				$que .= " ORDER BY o.depth ASC, o.oid ASC";
 			} else {
 				$que .= " ORDER BY o.depth ASC, o.oid ASC LIMIT ".(($page-1)*$limit).",".$limit;
 			}
@@ -106,6 +116,25 @@ class Organize extends \CADB\Objects  {
 			$que = "SELECT ".$result." FROM {organize} AS o WHERE match(o.`fullname`,o.`f8`,o.`f9`) against('".$q."' IN BOOLEAN MODE) AND o.current = '1' AND o.active = '1'";
 		} else if(self::$mode == 'admin') {
 			$que = "SELECT ".$result." FROM {organize} AS o WHERE o.current = '1' AND o.active = '1'";
+		}
+
+		return $que;
+	}
+
+	public static function makeDepthQuery($q,$args=null,$result) {
+		if($args) {
+			$options = self::makeQueryDepthOptions($args);
+			if($options) {
+				$que = "SELECT ".$result." FROM {organize} AS o WHERE ".$options;
+				if($q) {
+					$que .= " AND match(o.fullname,o.f8,o.f9) against('".$q."' IN BOOLEAN MODE)";
+				}
+				$que .= " AND o.current = '1' AND o.active = '1'";
+			} else if($q) {
+				$que = "SELECT ".$result." FROM {organize} AS o WHERE match(o.fullname,o.f8,o.f9) against('".$q."' IN BOOLEAN MODE) AND o.current = '1' AND o.active = '1'";
+			}
+		} else if($q) {
+			$que = "SELECT ".$result." FROM {organize} AS o WHERE match(o.fullname,o.f8,o.f9) against('".$q."' IN BOOLEAN MODE) AND o.current = '1' AND o.active = '1'";
 		}
 
 		return $que;
@@ -178,6 +207,33 @@ class Organize extends \CADB\Objects  {
 		}
 		if($extra_que) {
 			$que .= $extra_que;
+		}
+
+		return $que;
+	}
+
+	private static function makeQueryDepthOptions($args) {
+		if(!is_array($args)) {
+			$args = @json_decode($args,true);
+		}
+		$c=0;
+		$query = '';
+		foreach($args as $k => $v) {
+			$t = substr($k,0,1);
+			if($t != 'p') continue;
+			if(!is_numeric($v)) continue;
+			if($k == 'pdepth') $depth = $v;
+			else $_args[$k] = $v;
+		}
+		if($_args) {
+			ksort($_args);
+			foreach($_args as $k => $v) {
+				$que .= ($c++ ? " AND " : "")."o.".$k."=".$v;
+				$key = (int)substr($k,1);
+			}
+		}
+		if($depth) {
+			$que .= ($c++ ? " AND " : "")."o.depth=".$depth;
 		}
 
 		return $que;

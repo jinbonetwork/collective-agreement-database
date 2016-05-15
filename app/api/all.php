@@ -15,6 +15,7 @@ class all extends \CADB\Controller {
 				$this->fields[$v['table']] = array();
 			$this->fields[$v['table']][] = array('field'=>'f'.$f, 'subject' => $v['subject'],'type'=>$v['type'], 'multiple'=>( $v['multiple'] ? true : false ),'cid'=>$v['cid']);
 		}
+		$this->fields['owner'][] = array( 'field' => 'owner', 'subject' => '운영자', 'type' => 'int', 'multiple' => false );
 		$this->fields['organize'][] = array( 'field' => 'nid', 'subject' => '단체협약', 'type' => 'int', 'multiple' => true );
 
 		$nid = \CADB\Guide::getCurrent(($this->params['nid'] ? $this->params['nid'] : 1));
@@ -36,6 +37,11 @@ class all extends \CADB\Controller {
 		if($organize_total_cnt) {
 			$this->organize = \CADB\Organize::getList($this->params['q'],1,($this->params['limit'] ? $this->params['limit'] : 10),$args);
 			for($i=0; $i<count($this->organize); $i++) {
+				if(\CADB\Privilege::checkOrganize($this->organize[$i]['oid'])) {
+					$this->organize[$i]['owner'] = 1;
+				} else {
+					$this->organize[$i]['owner'] = 0;
+				}
 				$this->organize[$i]['nid'] = array();
 				$agreement = \CADB\Agreement::getAgreementsByOid( $this->organize[$i]['oid'], $this->organize[$i]['vid'] );
 				if( $agreement && is_array($agreement) ) {

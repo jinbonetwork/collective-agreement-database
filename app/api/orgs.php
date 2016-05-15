@@ -23,6 +23,7 @@ class orgs extends \CADB\Controller {
 				if(!$this->organize['f7']) {
 					$this->organize['f7'] = '정보없음';
 				}
+				$this->fields['owner'] = array('subject' => '운영자','type'=>'int','multiple'=>false);
 				if(\CADB\Privilege::checkOrganize($this->organize['oid'])) {
 					$this->organize['owner'] = 1;
 				} else {
@@ -51,20 +52,29 @@ class orgs extends \CADB\Controller {
 			}
 		} else {
 			foreach($this->params as $k => $v) {
-				if(preg_match("/^p[0-9]+$/i",$k)) {
-					$depth[$k] = $v;
+				if(preg_match("/^p[0-9]+$/i",$k) || $k == 'pdepth') {
+					$this->search_mode = 'depth';
+					$args[$k] = $v;
 				} else if(preg_match("/^o[0-9]+$/i",$k)) {
+					$this->search_mode = 'args';
 					$args[$k] = $v;
 				}
 			}
 
 			if(!$this->params['page']) $this->params['page'] = 1;
+			\CADB\Organize::setMode($this->search_mode);
 			$total_cnt = \CADB\Organize::totalCnt($this->params['q'],$args);
 			$total_page = (int)( ( $total_cnt - 1 ) / ($this->params['limit'] ? $this->params['limit'] : 20) ) + 1;
+			$this->fields['owner'] = array('subject' => '운영자','type'=>'int','multiple'=>false);
 			$this->fields['nid'] = array('subject' => '단체협약','type'=>'int','multiple'=>true);
 			if($total_cnt && $this->params['page'] <= $total_page) {
 				$this->organize = \CADB\Organize::getList($this->params['q'],$this->params['page'],($this->params['limit'] ? $this->params['limit'] : 20),$args);
 				for($i=0; $i<count($this->organize); $i++) {
+					if(\CADB\Privilege::checkOrganize($this->organize[$i]['oid'])) {
+						$this->organize[$i]['owner'] = 1;
+					} else {
+						$this->organize[$i]['owner'] = 0;
+					}
 					$this->organize[$i]['nid'] = array();
 					$agreement = \CADB\Agreement::getAgreementsByOid( $this->organize[$i]['oid'], $this->organize[$i]['vid'] );
 					if($agreement && is_array($agreement)) {

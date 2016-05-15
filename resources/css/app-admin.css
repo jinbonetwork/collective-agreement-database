@@ -6,9 +6,13 @@
 	max-width: 100% !important;
 	margin-left: 0 !important;
 	margin-right: 0 !important;
-	padding-bottom: 60px;
+	padding-top: 85px !important;
+	padding-bottom: 80px;
 }
 .app-admin .inner-container .top_menu {
+	position: fixed;
+	z-index: 100000;
+	width: 100%;
 	background: #333;
 	padding: 10px;
 	color: #fff;
@@ -44,8 +48,15 @@
 .app-admin .inner-container .administrator-content {
 	max-width: 924px;
 	width: 80%;
+	padding-top: 40px;
 	margin-left: 10%;
 	margin-right: 10%;
+}
+.app-admin .inner-container .administrator-content.fullscreen {
+	width: 90%;
+	margin-left: 5%;
+	margin-right: 5%;
+	max-width: 100% !important;
 }
 
 /* articles list */
@@ -110,6 +121,8 @@
 	top: 0;
 	right: 0;
 }
+.app-admin table.orgs-list .modify a,
+.app-admin table.orgs-list .delete a,
 .app-admin ul.articles-list li.article-item > div .buttons a {
 	display: inline-block;
 	padding: 3px 5px;
@@ -118,13 +131,22 @@
 	font-size: 0.85em;
 	margin-left: 10px;
 }
+.app-admin table.orgs-list .modify a,
+.app-admin table.orgs-list .delete a {
+	padding: 2px 4px;
+	margin: 0;
+}
+.app-admin table.orgs-list .modify a:hover,
+.app-admin table.orgs-list .delete a:hover,
 .app-admin ul.articles-list li.article-item > div .buttons a:hover {
 	color: #ebeef2;
 	box-shadow: 0px 2px 2px #dee0e0;
 }
+.app-admin table.orgs-list .modify a,
 .app-admin ul.articles-list li.article-item > div .buttons a.modify {
 	background: #5a91e2;
 }
+.app-admin table.orgs-list .delete a,
 .app-admin ul.articles-list li.article-item > div .buttons a.delete {
 	background: #f00;
 }
@@ -178,6 +200,7 @@
 	border-bottom: 1px solid #5a91e2;
 	border-right: 1px solid #ccc;
 	box-shadow: 0px 2px 0 #dee0e0;
+	white-space: nowrap;
 }
 .app-admin .orgs-list th.delete {
 	border-right: 0;
@@ -207,4 +230,17 @@
 .app-admin .organ-info .header .organ-name {
 	font-size: 1.4em;
 	font-weight: 700;
+}
+
+/* edit articles */
+.app-admin .administrator-content form#article-edit-form {
+	padding-top: 90px;
+}
+.app-admin .administrator-content fieldset.form-header {
+	top: 125px;
+	background: #fff;
+	box-shadow: 0px 2px 2px #dee0e0;
+}
+.app-admin .administrator-content fieldset.fields-group.content {
+	box-shadow: 0px 2px 2px #5a91e2;
 }

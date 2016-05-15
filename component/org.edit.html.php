@@ -6,54 +6,96 @@
 			<input type="hidden" name="vid" value="<?php print $organize['vid']; ?>" />
 			<div class="fields-wrapper">
 				<fieldset class="fields-org org-name">
-					<input type="hidden" name="p1" id="p1" value="<?php print $organize['p1']; ?>" />
+					<input type="hidden" name="p1" id="p1" class="org-parent" value="<?php print $organize['p1']; ?>" />
 					<label class="field" for="nojo">노조명</label>
 <?php			if($level <= 1) {?>
-					<input type="text" name="nojo" id="nojo" value="<?php print $organize['nojo']; ?>" />
-					<button type="button" data-for="nojo" data-depth="1">선택하기</button>
+					<div class="org-name-form collapsed">
+						<div class="org-input-form">
+							<input type="text" name="nojo" id="nojo" class="org-name" data-depth="1" value="<?php print $organize['nojo']; ?>" />
+						</div>
+						<div class="org-search-form">
+							<ul data-target="p1">
+							</ul>
+						</div>
+						<button type="button" data-for="nojo" data-depth="1" class="search-orgs">선택하기</button>
+					</div>
 <?php			} else {?>
-					<input type="hidden" name="nojo" id="nojo" value="<?php print $organize['nojo']; ?>" />
+					<input type="hidden" name="nojo" id="nojo" class="org-name" value="<?php print $organize['nojo']; ?>" />
 <?php				print $organize['nojo']; ?>
 <?php			}?>
 				</fieldset>
 				<fieldset class="fields-org org-name">
-					<input type="hidden" name="p2" id="p2" value="<?php print $organize['p2']; ?>" />
+					<input type="hidden" name="p2" id="p2" class="org-parent" value="<?php print $organize['p2']; ?>" />
 					<label class="field" for="sub1">본부명</label>
 <?php			if($level <= 2) {?>
-					<input type="text" name="sub1" id="sub1" value="<?php print $organize['sub1']; ?>" />
-					<button type="button" data-for="sub1" data-depth="2">선택하기</button>
+					<div class="org-name-form collapsed">
+						<div class="org-input-form">
+							<input type="text" name="sub1" id="sub1" class="org-name" data-depth="2" value="<?php print $organize['sub1']; ?>" />
+						</div>
+						<div class="org-search-form">
+							<ul data-target="p2">
+							</ul>
+						</div>
+						<button type="button" data-for="sub1" data-depth="2" class="search-orgs">선택하기</button>
+					</div>
 <?php			} else {?>
-					<input type="hidden" name="sub1" id="sub1" value="<?php print $organize['sub1']; ?>" />
+					<input type="hidden" name="sub1" id="sub1" class="org-name" value="<?php print $organize['sub1']; ?>" />
 <?php				print $organize['sub1'];
 				}?>
 				</fieldset>
 				<fieldset class="fields-org org-name">
-					<input type="hidden" name="p3" id="p3" value="<?php print $organize['p3']; ?>" />
+					<input type="hidden" name="p3" id="p3" class="org-parent" value="<?php print $organize['p3']; ?>" />
 					<label class="field" for="sub2">지부명</label>
 <?php			if($level <= 3) {?>
-					<input type="text" name="sub2" id="sub2" value="<?php print $organize['sub2']; ?>" />
-					<button type="button" data-for="sub2" data-depth="3">선택하기</button>
+					<div class="org-name-form collapsed">
+						<div class="fields-input-form">
+							<input type="text" name="sub2" id="sub2" class="org-name" data-depth=3" value="<?php print $organize['sub2']; ?>" />
+						</div>
+						<div class="org-search-form">
+							<ul data-target="p3">
+							</ul>
+						</div>
+						<button type="button" data-for="sub2" data-depth="3" class="search-orgs">선택하기</button>
+					</div>
 <?php			} else {?>
-					<input type="hidden" name="sub2" id="sub2" value="<?php print $organize['sub2']; ?>" />
+					<input type="hidden" name="sub2" id="sub2" class="org-name" value="<?php print $organize['sub2']; ?>" />
 <?php				print $organize['sub2'];
 				}?>
 				</fieldset>
 				<fieldset class="fields-org org-name">
-					<input type="hidden" name="p4" id="p4" value="<?php print $organize['p4']; ?>" />
+					<input type="hidden" name="p4" id="p4" class="org-parent" value="<?php print $organize['p4']; ?>" />
 					<label class="field" for="sub2">지회명</label>
 <?php			if($level <= 4) {?>
-					<input type="text" name="sub3" id="sub3" value="<?php print $organize['sub3']; ?>" />
+					<div class="org-name-form collapsed">
+						<div class="fields-input-form">
+							<input type="text" name="sub3" id="sub3" class="org-name" data-depth=4" value="<?php print $organize['sub3']; ?>" />
+						</div>
+						<div class="org-search-form">
+							<ul data-target="p4">
+							</ul>
+						</div>
+						<button type="button" data-for="sub3" data-depth="4" class="search-orgs">선택하기</button>
+					</div>
 <?php			} else {?>
-					<input type="hidden" name="sub3" id="sub3" value="<?php print $organize['sub3']; ?>" />
+					<input type="hidden" name="sub3" id="sub3" class="org-name" value="<?php print $organize['sub3']; ?>" />
 <?php				print $organize['sub3'];
 				}?>
 				</fieldset>
 				<fieldset class="fields-org org-name">
 					<label class="field" for="sub2">분회명</label>
 <?php			if($level <= 5) {?>
-					<input type="text" name="sub4" id="sub4" value="<?php print $organize['sub4']; ?>" />
+					<div class="org-name-form collapsed">
+						<div class="fields-input-form">
+							<input type="text" name="sub4" id="sub4" class="org-name" data-depth="5" value="<?php print $organize['sub4']; ?>" />
+						</div>
+						<div class="org-search-form">
+							<ul data-target="">
+							</ul>
+						</div>
+						<button type="button" data-for="sub4" data-depth="5" class="search-orgs">선택하기</button>
+					</div>
 <?php			} else {?>
-					<input type="hidden" name="sub4" id="sub4" value="<?php print $organize['sub4']; ?>" />
+					<input type="hidden" name="sub4" id="sub4" class="org-name" value="<?php print $organize['sub4']; ?>" />
 <?php				print $organize['sub4'];
 				}?>
 				</fieldset>
@@ -84,8 +126,8 @@
 				<div class="label-divider"></div>
 			</div>
 			<fieldset class="buttons">
-				<button type="button" name="modify">수정하기</button>
-				<button type="button" name="delete">삭제하기</button>
-				<button type="button" name="back">뒤로</button>
+				<button type="button" class="modify"><?php print ($organize['oid'] ? '수정하기' : '추가하기'); ?></button>
+				<button type="button" class="delete<?php print ($organize['oid'] ? ' show' : ''); ?>">삭제하기</button>
+				<button type="button" class="back">뒤로</button>
 			</fieldset>
 		</form>

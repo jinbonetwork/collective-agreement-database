@@ -1,16 +1,17 @@
-		<h3>조직 목록</h3>
-		<div class="orgs-list-header">
-			<form class="orgs-search" action="<?php print \CADB\Lib\url("admin/orgs"); ?>" method="get" onsubmit="return check_orgs_search(this);">
-				<label for="orgs_q">조직검색</label>
-				<input type="text" id="orgs_q" name="q" value="<?php print $params['q']; ?>" />
+		<h3>회원 목록</h3>
+		<div class="member-list-header">
+			<form class="member-search" action="<?php print \CADB\Lib\url("admin/member"); ?>" method="get" onsubmit="return check_member_search(this);">
+				<label for="member_q">회원검색</label>
+				<input type="text" id="member_q" name="q" value="<?php print $params['q']; ?>" />
 				<button type="submit">찾기</button>
 			</form>
 			<div class="article-button">
-				<a class="add" href="<?php print \CADB\Lib\url("admin/orgs/add"); ?>">조직추가</a>
+				<a class="add" href="<?php print \CADB\Lib\url("admin/member/add"); ?>">회원추가</a>
 			</div>
 		</div>
-		<table class="orgs-list" border="0" cellspacing="0" cellpadding="0" width="100%">
+		<table class="member-list" border="0" cellspacing="0" cellpadding="0" width="100%">
 			<thead>
+				<col class="mb_id" />
 				<col class="nojo" />
 				<col class="sub1" />
 				<col class="sub2" />
@@ -23,6 +24,7 @@
 			</thead>
 			<tbody>
 				<tr>
+					<th class="nojo">아이디</th>
 					<th class="nojo">노조</th>
 					<th class="sub1">본부</th>
 					<th class="sub2">지부</th>
@@ -33,21 +35,22 @@
 					<th class="modify">수정</th>
 					<th class="delete">삭제</th>
 				</tr>
-<?php	if( is_array($orgs) ) {
-			foreach($orgs as $org) {?>
+<?php	if( is_array($members) ) {
+			foreach($members as $member) {?>
 				<tr>
-					<td class="nojo"><?php print $org['nojo']; ?></td>
-					<td class="sub1"><?php print $org['sub1']; ?></td>
-					<td class="sub2"><?php print $org['sub2']; ?></td>
-					<td class="sub3"><?php print $org['sub3']; ?></td>
-					<td class="sub4"><?php print $org['sub4']; ?></td>
-					<td class="f7"><?php print $org['f8']; ?></td>
-					<td class="f8"><?php print $org['f9']; ?></td>
+					<td class="nojo"><?php print $member['mb_id']; ?></td>
+					<td class="nojo"><?php print $member['nojo']; ?></td>
+					<td class="sub1"><?php print $member['sub1']; ?></td>
+					<td class="sub2"><?php print $member['sub2']; ?></td>
+					<td class="sub3"><?php print $member['sub3']; ?></td>
+					<td class="sub4"><?php print $member['sub4']; ?></td>
+					<td class="f7"><?php print $member['f8']; ?></td>
+					<td class="f8"><?php print $member['f9']; ?></td>
 					<td class="modify">
-						<a href="<?php print \CADB\Lib\url("admin/orgs/edit").$queryString."oid=".$org['oid']; ?>">수정</a>
+						<a href="<?php print \CADB\Lib\url("admin/member/edit").$queryString."oid=".$org['oid']; ?>">수정</a>
 					</td>
 					<td class="delete">
-						<a href="<?php print \CADB\Lib\url("admin/orgs/delete").$queryString."oid=".$org['oid']; ?>">삭제</a>
+						<a href="<?php print \CADB\Lib\url("admin/member/delete").$queryString."nid=".$org['oid']; ?>">삭제</a>
 					</td>
 				</tr>
 <?php		}
@@ -72,5 +75,5 @@
 			</ul>
 		</div>
 		<div class="article-button">
-			<a class="add" href="<?php print \CADB\Lib\url("admin/orgs/add"); ?>">조직추가</a>
+			<a class="add" href="<?php print \CADB\Lib\url("admin/member/add"); ?>">회원추가</a>
 		</div>
