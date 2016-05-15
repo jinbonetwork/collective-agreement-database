@@ -72,12 +72,19 @@
 	content: ' ';
 	display: block;
 }
+.app-admin .member-list-header form.member-search,
 .app-admin .orgs-list-header form.orgs-search,
 .app-admin .article-list-header form.article-search {
 	float: left;
 	padding-left: 10px;
 	padding-bottom: 5px;
 }
+.app-admin .member-list-header form.member-search select {
+	display: inline-block;
+	border: 1px solid #5a91e2;
+	border-radius: 14px;
+}
+.app-admin .member-list-header form.member-search input[type="text"],
 .app-admin .orgs-list-header form.orgs-search input[type="text"],
 .app-admin .article-list-header form.article-search input[type="text"] {
 	display: inline-block;
@@ -87,6 +94,7 @@
 	line-height: 28px;
 	border-radius: 14px;
 }
+.app-admin .member-list-header form.member-search button[type="submit"],
 .app-admin .orgs-list-header form.orgs-search button[type="submit"],
 .app-admin .article-list-header form.article-search button[type="submit"] {
 	display: inline-block;
@@ -97,6 +105,7 @@
 	font-weight: normal;
 	font-size: 0.85em;
 }
+.app-admin .member-list-header form.member-search button[type="submit"]:before,
 .app-admin .orgs-list-header form.orgs-search button[type="submit"]:before,
 .app-admin .article-list-header form.article-search button[type="submit"]:before {
 	font-family: "FontAwesome";
@@ -123,6 +132,8 @@
 }
 .app-admin table.orgs-list .modify a,
 .app-admin table.orgs-list .delete a,
+.app-admin table.member-list .modify a,
+.app-admin table.member-list .delete a,
 .app-admin ul.articles-list li.article-item > div .buttons a {
 	display: inline-block;
 	padding: 3px 5px;
@@ -131,6 +142,8 @@
 	font-size: 0.85em;
 	margin-left: 10px;
 }
+.app-admin table.member-list .modify a,
+.app-admin table.member-list .delete a,
 .app-admin table.orgs-list .modify a,
 .app-admin table.orgs-list .delete a {
 	padding: 2px 4px;
@@ -138,14 +151,18 @@
 }
 .app-admin table.orgs-list .modify a:hover,
 .app-admin table.orgs-list .delete a:hover,
+.app-admin table.member-list .modify a:hover,
+.app-admin table.member-list .delete a:hover,
 .app-admin ul.articles-list li.article-item > div .buttons a:hover {
 	color: #ebeef2;
 	box-shadow: 0px 2px 2px #dee0e0;
 }
+.app-admin table.member-list .modify a,
 .app-admin table.orgs-list .modify a,
 .app-admin ul.articles-list li.article-item > div .buttons a.modify {
 	background: #5a91e2;
 }
+.app-admin table.member-list .delete a,
 .app-admin table.orgs-list .delete a,
 .app-admin ul.articles-list li.article-item > div .buttons a.delete {
 	background: #f00;
@@ -194,6 +211,7 @@
 	box-shadow: 0px 2px 2px #dee0e0;
 }
 
+.app-admin .member-list th,
 .app-admin .orgs-list th {
 	line-height: 1.3em;
 	padding: 5px 8px;
@@ -202,9 +220,11 @@
 	box-shadow: 0px 2px 0 #dee0e0;
 	white-space: nowrap;
 }
+.app-admin .member-list th.delete,
 .app-admin .orgs-list th.delete {
 	border-right: 0;
 }
+.app-admin .member-list td,
 .app-admin .orgs-list td {
 	line-height: 1.5em;
 	border-bottom: 1px dotted #ccc;
@@ -214,19 +234,24 @@
 .app-admin .orgs-list td.nojo {
 	white-space: nowrap;
 }
+.app-admin .member-list td.modify,
+.app-admin .member-list td.delete,
 .app-admin .orgs-list td.modify,
 .app-admin .orgs-list td.delete {
 	text-align: center;
 	white-space: nowrap;
 }
+.app-admin .member-list td.delete,
 .app-admin .orgs-list td.delete {
 	border-right: 0;
 }
 
 /* edit organize */
+.app-admin .member-info .header,
 .app-admin .organ-info .header {
 	padding-top: 20px;
 }
+.app-admin .member-info .header .member-name,
 .app-admin .organ-info .header .organ-name {
 	font-size: 1.4em;
 	font-weight: 700;
@@ -243,4 +268,95 @@
 }
 .app-admin .administrator-content fieldset.fields-group.content {
 	box-shadow: 0px 2px 2px #5a91e2;
+}
+
+form#member-edit-form fieldset.fields-member input[type="text"] {
+	width: 300px;
+	border: 1px solid #5a91e2;
+	line-height: 30px;
+	padding: 0 5px;
+}
+form#member-edit-form fieldset.fields-member input[type="password"] {
+	width: 300px;
+	border: 1px solid #5a91e2;
+	padding: 3px 5px;
+}
+form#member-edit-form fieldset.fields-member select {
+	border: 1px solid #5a91e2;
+	padding: 0 5px;
+}
+form#member-edit-form fieldset.fields-member.collapsed {
+	display: none;
+}
+
+form#member-edit-form fieldset.buttons {
+	padding-top: 20px;
+	text-align: center;
+}
+form#member-edit-form fieldset.buttons button {
+	background-color: #5a91e2;
+	color: #ffffff;
+	font-weight: 700;
+	border-radius: 10px;
+	width: auto;
+	height: auto;
+	padding: 10px;
+	cursor: pointer;
+}
+form#member-edit-form fieldset.buttons button.delete {
+	display: none;
+}
+form#member-edit-form fieldset.buttons button.delete.show {
+	display: inline-block;
+}
+.saving {
+}
+.saving .saving-background{
+	position: fixed;
+	z-index: 88888888;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background: #333;
+	opacity: 0.6;
+}
+.saving .is-loading {
+	position: fixed;
+	z-index: 88888889;
+	left: 50%;
+	top: 50%;
+	color: #fff;
+	width: 100px;
+	height: 100px;
+	font-size: 100px;
+	font-weight: 100px;
+}
+
+/* 경고창 */
+.alert-dialog {
+	position: fixed;
+	z-index: 9999999;
+	left: 25%;
+	top: 25%;
+	background: #f00;
+	color: #fff;
+	border-radius: 10px;
+	width: auto;
+	box-shadow: 0px 5px 5px #dee0e0;
+}
+.alert-dialog .alert-dialog-inner {
+	padding: 20px;
+}
+.alert-dialog .close {
+	position: absolute;
+	z-index: 99999999;
+	right: -10px;
+	top: -10px;
+	width: 20px;
+	border-radius: 10px;
+	color: #fff;
+	cursor: pointer;
+	background: #f00;
+	text-align: center;
 }

@@ -6,6 +6,7 @@ $Acl = 'administrator';
 class add extends \CADB\Controller {
 	public function process() {
 		$context = \CADB\Model\Context::instance();
+		$this->layout = 'admin';
 
 		if(!$this->themes) $this->themes = $context->getProperty('service.themes');
 

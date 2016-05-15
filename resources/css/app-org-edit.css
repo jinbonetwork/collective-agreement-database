@@ -20,7 +20,7 @@ form#org-edit-form .fields-wrapper .label-divider {
 	top: 0;
 	width: 0;
 	height: 100%;
-	border-right: dotted 2px #5a91e2;;
+	border-right: dotted 2px #5a91e2;
 }
 form#org-edit-form fieldset {
 	border:0;

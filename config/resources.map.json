@@ -171,6 +171,19 @@
 		"priority":"100000",
 		"deps":["jquery","modernizr"]
 	},
+	"app-member-gnu5-edit": {
+		"js": [
+			{
+				"uri": "resources/script/app-member-gnu5-edit.js",
+				"position": "footer"
+			}
+		],
+		"css": [
+			"resources/css/app-member-gnu5-edit.css"
+		],
+		"priority":"100000",
+		"deps":["jquery","modernizr"]
+	},
 	"app-admin": {
 		"js": [
 			{

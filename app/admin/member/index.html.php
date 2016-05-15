@@ -2,7 +2,12 @@
 		<div class="member-list-header">
 			<form class="member-search" action="<?php print \CADB\Lib\url("admin/member"); ?>" method="get" onsubmit="return check_member_search(this);">
 				<label for="member_q">회원검색</label>
-				<input type="text" id="member_q" name="q" value="<?php print $params['q']; ?>" />
+				<select name="s_mode">
+					<option value="mb_id"<?php print($params['s_mode'] == 'mb_id' ? ' selected': ''); ?>>아이디</option>
+					<option value="mb_name"<?php print($params['s_mode'] == 'mb_name' ? ' selected': ''); ?>>이름</option>
+					<option value="mb_nick"<?php print($params['s_mode'] == 'mb_nick' ? ' selected': ''); ?>>닉네임</option>
+				</select>
+				<input type="text" id="member_q" name="s_arg" value="<?php print $params['s_arg']; ?>" />
 				<button type="submit">찾기</button>
 			</form>
 			<div class="article-button">
@@ -12,45 +17,47 @@
 		<table class="member-list" border="0" cellspacing="0" cellpadding="0" width="100%">
 			<thead>
 				<col class="mb_id" />
-				<col class="nojo" />
-				<col class="sub1" />
-				<col class="sub2" />
-				<col class="sub3" />
-				<col class="sub4" />
-				<col class="f9" />
-				<col class="f9" />
+				<col class="mb_name" />
+				<col class="mb_nick" />
+				<col class="mb_level" />
+				<col class="mb_email" />
+				<col class="roles" />
 				<col class="modify" />
 				<col class="delete" />
 			</thead>
 			<tbody>
 				<tr>
-					<th class="nojo">아이디</th>
-					<th class="nojo">노조</th>
-					<th class="sub1">본부</th>
-					<th class="sub2">지부</th>
-					<th class="sub3">지회</th>
-					<th class="sub4">분회</th>
-					<th class="f8">원청</th>
-					<th class="f9">하청</th>
+					<th class="mb_id">아이디</th>
+					<th class="mb_name">이름</th>
+					<th class="mb_nick">닉네임</th>
+					<th class="mb_level">레벨</th>
+					<th class="mb_email">이메일</th>
+					<th class="roles">담당조직</th>
 					<th class="modify">수정</th>
 					<th class="delete">삭제</th>
 				</tr>
 <?php	if( is_array($members) ) {
-			foreach($members as $member) {?>
+			foreach($members as $mb_id => $member) {?>
 				<tr>
 					<td class="nojo"><?php print $member['mb_id']; ?></td>
-					<td class="nojo"><?php print $member['nojo']; ?></td>
-					<td class="sub1"><?php print $member['sub1']; ?></td>
-					<td class="sub2"><?php print $member['sub2']; ?></td>
-					<td class="sub3"><?php print $member['sub3']; ?></td>
-					<td class="sub4"><?php print $member['sub4']; ?></td>
-					<td class="f7"><?php print $member['f8']; ?></td>
-					<td class="f8"><?php print $member['f9']; ?></td>
+					<td class="mb_name"><?php print $member['mb_name']; ?></td>
+					<td class="mb_nick"><?php print $member['mb_nick']; ?></td>
+					<td class="mb_level"><?php print $member['level_name']; ?></td>
+					<td class="mb_email"><?php print $member['mb_email']; ?></td>
+					<td class="roles">
+<?php 				if($member['roles'] && count($member['roles']) > 0) {?>
+						<ul class="role">
+<?php					foreach($member['roles'] as $oid => $role) {?>
+							<li><?php print $role['fullname']; ?></li>
+<?php					}?>
+						</ul>
+<?php				}?>
+					</td>
 					<td class="modify">
-						<a href="<?php print \CADB\Lib\url("admin/member/edit").$queryString."oid=".$org['oid']; ?>">수정</a>
+						<a href="<?php print \CADB\Lib\url("admin/member/edit").$queryString."mb_no=".$member['mb_no']; ?>">수정</a>
 					</td>
 					<td class="delete">
-						<a href="<?php print \CADB\Lib\url("admin/member/delete").$queryString."nid=".$org['oid']; ?>">삭제</a>
+						<a href="<?php print \CADB\Lib\url("admin/member/delete").$queryString."mb_no=".$member['mb_no']."&output=redirect"; ?>">삭제</a>
 					</td>
 				</tr>
 <?php		}

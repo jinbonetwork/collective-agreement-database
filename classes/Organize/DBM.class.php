@@ -351,7 +351,7 @@ class DBM extends \CADB\Objects  {
 									foreach( $taxonomies as $tid => $term ) {
 										$que = "INSERT INTO {taxonomy_term_relative} (`tid`, `table`, `rid`, `fid`) VALUES (?,?,?,?)";
 										if( $dbm->execute( $que, array("dsdd",$tid,'organize',$oid,$term['fid']) ) < 1 ) {
-											self::setErrorMsg( $que." 가 DB에 반영되지 >않았습니다." );
+											self::setErrorMsg( $que." 가 DB에 반영되지 않았습니다." );
 											return -1;
 										}
 									}
@@ -362,7 +362,7 @@ class DBM extends \CADB\Objects  {
 									foreach( $taxonomies as $tid => $term ) {
 										$que = "DELETE FROM {taxonomy_term_relative} WHERE `tid` = ? AND `table` = ? AND `rid` = ?";
 										if( $dbm->execute( $que, array("dsd",$tid,'organize',$oid) ) < 1 ) {
-											self::setErrorMsg( $que." 가 DB에 반영되지 >않았습니다." );
+											self::setErrorMsg( $que." 가 DB에 반영되지 않았습니다." );
 											return -1;
 										}
 									}
