@@ -113,7 +113,7 @@
 									self.showOrgBox( data, (depth-1) );
 								}
 							},
-							error( jqXHR, textStatus, errorThrown ) {
+							error: function( jqXHR, textStatus, errorThrown ) {
 								orgs.f.find('button').removeClass('loading');
 								self.abortDialog(jqXHR.responseText,0);
 							}
@@ -427,7 +427,7 @@
 							break;
 					}
 				},
-				error( jqXHR, textStatus, errorThrown ) {
+				error: function( jqXHR, textStatus, errorThrown ) {
 					self.removeLoading();
 					self.abortDialog(jqXHR.responseText,0);
 				}
@@ -530,7 +530,7 @@
 						self.abortDialog(message,0);
 					}
 				},
-				error( jqXHR, textStatus, errorThrown ) {
+				error: function( jqXHR, textStatus, errorThrown ) {
 					self.removeLoading();
 					self.abortDialog(jqXHR.responseText,0);
 				}
@@ -580,7 +580,7 @@
 			}
 		},
 
-		closeDialog() {
+		closeDialog: function() {
 			this.dialog.hide();
 			if(this.focus_id) {
 				jQuery('.cadb-field[data-fid="'+this.focus_id+'"]').focus();

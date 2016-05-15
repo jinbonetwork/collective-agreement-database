@@ -241,13 +241,13 @@ var maxGuideIndex = 0;
 						self.getOrganizeList( q, jQuery(this).attr('data-page') );
 					});
 				},
-				error( jqXHR, textStatus, errorThrown ) {
+				error: function( jqXHR, textStatus, errorThrown ) {
 					self.abortDialog(jqXHR.responseText,0);
 				}
 			});
 		},
 
-		makeOrganizeListNav(q,total_page,page) {
+		makeOrganizeListNav: function(q,total_page,page) {
 			var page_num = 10;
 			var s_page = ( parseInt( ( page - 1 ) / page_num ) * page_num ) + 1;
 			var e_page = Math.min( total_page, ( s_page + page_num - 1 ) );
@@ -753,7 +753,7 @@ var maxGuideIndex = 0;
 							break;
 					}
 				},
-				error( jqXHR, textStatus, errorThrown ) {
+				error: function( jqXHR, textStatus, errorThrown ) {
 					self.removeLoading();
 					self.abortDialog(jqXHR.responseText,0);
 				}
@@ -881,7 +881,7 @@ var maxGuideIndex = 0;
 						self.abortDialog(message,0);
 					}
 				},
-				error( jqXHR, textStatus, errorThrown ) {
+				error: function( jqXHR, textStatus, errorThrown ) {
 					self.removeLoading();
 					self.abortDialog(jqXHR.responseText,0);
 				}
@@ -928,7 +928,7 @@ var maxGuideIndex = 0;
 						self.abortDialog(message,0);
 					}
 				},
-				error( jqXHR, textStatus, errorThrown ) {
+				error: function( jqXHR, textStatus, errorThrown ) {
 					self.removeLoading();
 					self.abortDialog(jqXHR.responseText,0);
 				}
@@ -978,7 +978,7 @@ var maxGuideIndex = 0;
 			}
 		},
 
-		closeDialog() {
+		closeDialog: function() {
 			this.dialog.hide();
 			if(this.focus_id) {
 				jQuery('.cadb-field[data-fid="'+this.focus_id+'"]').focus();
