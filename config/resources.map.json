@@ -184,6 +184,19 @@
 		"priority":"100000",
 		"deps":["jquery","modernizr"]
 	},
+	"app-field-edit": {
+		"js": [
+			{
+				"uri": "resources/script/app-field-edit.js",
+				"position": "footer"
+			}
+		],
+		"css": [
+			"resources/css/app-field-edit.css"
+		],
+		"priority":"100000",
+		"deps":["jquery","modernizr"]
+	},
 	"app-admin": {
 		"js": [
 			{

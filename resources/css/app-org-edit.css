@@ -121,7 +121,6 @@ form#org-edit-form fieldset div.org-name-form button:hover {
 }
 form#org-edit-form fieldset div.org-name-form button:before {
 	font-family: "FontAwesome";
-	content: "\f107";
 	content: "\f106";
 	margin-right: 5px;
 }

@@ -198,6 +198,7 @@
 	text-align: right;
 	padding: 4px 10px;
 }
+.app-admin .article-button a.fields,
 .app-admin .article-button a.add {
 	padding: 5px 8px;
 	border-radius: 15px;
@@ -206,6 +207,7 @@
 	line-height: 1.5em;
 	background: #5a91e2;
 }
+.app-admin .article-button a.fields:hover,
 .app-admin .article-button a.add:hover {
 	color: #ebeef2;
 	box-shadow: 0px 2px 2px #dee0e0;
