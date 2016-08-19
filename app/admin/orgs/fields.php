@@ -10,6 +10,7 @@ class fields extends \CADB\Controller {
 		$context = \CADB\Model\Context::instance();
 		$this->layout = 'admin';
 
+		$this->taxonomy = \CADB\Taxonomy\DBM::getTaxonomyList();
 		$this->fields = \CADB\Organize::getFieldInfo(0);
 	}
 }

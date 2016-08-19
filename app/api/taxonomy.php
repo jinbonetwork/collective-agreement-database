@@ -22,6 +22,21 @@ class taxonomy extends \CADB\Controller {
 				'q' => $this->params['q'],
 				'total_cnt'=>@count($this->taxonomy)
 			);
+		} else if($this->params['cid']) {
+			$this->taxonomy = \CADB\Taxonomy::getTaxonomyTerms($this->params['cid']);
+			if($this->params['type'] == 1) {
+				$taxonomy = array();
+				foreach($this->taxonomy as $c => $taxonomies) {
+					foreach($taxonomies as $t => $taxo) {
+						$taxonomy[] = $taxo;
+					}
+				}
+				$this->taxonomy = $taxonomy;
+			}
+			$this->result = array(
+				'cid' => $this->params['cid'],
+				'total_cnt'=>@count($this->taxonomy)
+			);
 		} else {
 			$this->result = array(
 				'error' => '잘못된 검색입니다'

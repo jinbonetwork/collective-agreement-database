@@ -132,6 +132,16 @@
 		"js": [ "http://cdn.ckeditor.com/4.5.7/standard/ckeditor.js" ],
 		"priority":"-9"
 	},
+	"jquery-sortable": {
+		"js": [
+			{
+				"uri": "contribute/jquery-sortable/jquery-sortable.js",
+				"position": "footer"
+			}
+		],
+		"priority":"0",
+		"deps":["jquery"]
+	},
 	"app-login": {
 		"js": [
 			{
@@ -195,7 +205,7 @@
 			"resources/css/app-field-edit.css"
 		],
 		"priority":"100000",
-		"deps":["jquery","modernizr"]
+		"deps":["jquery","modernizr","jquery-sortable"]
 	},
 	"app-admin": {
 		"js": [

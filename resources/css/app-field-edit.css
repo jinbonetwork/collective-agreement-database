@@ -1,25 +1,490 @@
-.app-admin .field-wrapper {
+body.dragging, body.dragging * {
+	cursor: move !important;
+}
+
+.dragged {
+	position: absolute;
+	opacity: 0.5;
+	z-index: 2000;
+}
+
+.app-admin .field-form-edit {
 	position : relative;
 	z-index: 2;
+	*zoom: 1;
 }
-.app-admin .field-wrapper .field-list {
+.app-admin .field-form-edit:after {
+	clear: both;
+	content: ' ';
+	display: block;
+}
+.app-admin .field-form-edit .field-list-wrap {
+	position: relative;
+}
+.app-admin .field-form-edit .field-list-wrap i.sortable {
+	position: absolute;
+	z-index: 1111111;
+	left: -5px;
+	top: 10px;
+	border-radius: 15px;
+	border: 1px solid #ccc;
+	padding: 5px;
+	background: #fff;
+	cursor: pointer;
+	color: #ccc;
+}
+
+.app-admin .field-form-edit .field-list {
 	border-radius: 10px;
-	padding: 20px;
+	padding: 20px 0 0 0;
+	border: 1px solid #efefef;
 	box-shadow: 0px 5px 5px #dee0e0;
 	display: inline-block;
+	list-style: none;
 }
-.app-admin .field-wrapper .field-list li.field {
+.app-admin .field-form-edit .field-list li.field {
+	padding: 0;
+}
+.app-admin .field-form-edit .field-list li.placeholder {
 	position: relative;
-	padding: 8px 0 8px 0;
-	border-bottom: 1px dotted #dee0e0;
+	height: 1px;
+	background: #333;
 }
-.app-admin .field-wrapper .field-list li.field:last-child {
-	border-bottom: 0;
+.app-admin .field-form-edit .field-list li.placeholder:before {
+	position: absolute;
+	z-index: 99999999;
+	width: 0;
+	height: 0;
+	border-style: solid;
+	border-width: 4px 0 4px 8px;
+	border-color: transparent transparent transparent #333333;
+	left: -8px;
+	top: 0;
 }
-.app-admin .field-wrapper .field-list li.field:after {
+.app-admin .field-form-edit .field-list li.field .inner {
+	position: relative;
+	padding: 0 30px;
+	cursor: pointer;
+}
+.app-admin .field-form-edit .field-list li.field .inner label {
+	display: inline-block;
+	cursor: pointer;
+}
+.app-admin .field-form-edit .field-list li.field:hover {
+	color: #000;
+}
+.app-admin .field-form-edit .field-list li.field .inner:after {
+	position: absolute;
+	right: 20px;
+	top: 0;
 	font-family: "FontAwesome";
 	content: "\f105";
 	margin-left: 10px;
-	float: right;
 	cursor: pointer;
+}
+.app-admin .field-form-edit .field-list li.field .inner.extended:after {
+	content: "\f104";
+}
+.app-admin .field-form-edit .field-list li.field .field-console {
+	margin: 0;
+	padding: 10px 20px;
+}
+.app-admin .field-form-edit .field-list li.field .field-console button.field-add {
+	position: relative;
+	display: block;
+	width: 100%;
+	height: 1px;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	background-color: #ccc;
+	text-indent: -10000px;
+}
+.app-admin .field-form-edit .field-list li.field:last-child .field-console button.field-add {
+	background-color: transparent;
+}
+.app-admin .field-form-edit .field-list li.field .field-console button.field-add:before,
+.app-admin .field-form-edit .field-list li.field .field-console button.field-add:after {
+	position: absolute;
+	top: 50%;
+	right: -4px;
+	display: none;
+}
+.app-admin .field-form-edit .field-list li.field .field-console button.field-add:before {
+	width: 30px;
+	height: 30px;
+	line-height: 30px;
+	text-align: center;
+	margin: -15px 0 0 -36px;
+	text-indent: 0;
+	border-radius: 3px;
+	background-color: #EEEEEE;
+	font-size: 16px;
+	font-family: 'FontAwesome';
+	content: '\F055';
+	color: #FFFFFF;
+}
+.app-admin .field-form-edit .field-list li.field .field-console button.field-add:after {
+	content: '';
+	width: 0;
+	height: 0;
+	margin: -6px 0 0 -6px;
+	border-color: transparent #EEEEEE;
+	border-style: solid;
+	border-width: 6px 0 6px 6px
+}
+.app-admin .field-form-edit .field-list li.field .field-console:hover,
+.app-admin .field-form-edit .field-list li.field .field-console.extended {
+	padding: 5px 0 5px 10px;
+}
+.app-admin .field-form-edit .field-list li.field .field-console:hover button.field-add,
+.app-admin .field-form-edit .field-list li.field .field-console.extended button.field-add {
+	background-color: #EEEEEE;
+	height: 11px;
+}
+.app-admin .field-form-edit .field-list li.field .field-console:hover button.field-add:before,
+.app-admin .field-form-edit .field-list li.field .field-console.extended button.field-add:before,
+.app-admin .field-form-edit .field-list li.field .field-console:hover button.field-add:after,
+.app-admin .field-form-edit .field-list li.field .field-console.extended button.field-add:after {
+	display: block;
+}
+.app-admin .field-form-edit .field-list li.field .field-console button.field-add:hover {
+	background-color: #CCCCCC;
+	cursor: pointer;
+}
+.app-admin .field-form-edit .field-list li.field .field-console button.field-add:hover:before {
+	background-color: #333333;
+}
+.app-admin .field-form-edit .field-list li.field .field-console button.field-add:hover:after {
+	border-color: transparent #333333;
+}
+.app-admin .field-form-edit .field-form-item {
+	position: absolute;
+	z-index: 10;
+	left: 180px;
+	top: 0;
+	overflow: hidden;
+}
+.app-admin .field-form-edit .field-form-item.collapsed {
+	z-index: 3;
+}
+.app-admin .field-form-edit .field-form-item .field-form {
+	position: relative;
+	border: 1px solid #999;
+	border-radius: 10px;
+	margin: 8px 10px 10px 10px;
+	padding: 20px;
+	background: #fff;
+	box-shadow: 5px 5px 5px #dee0e0;
+	font-size: 0.85em;
+	transition: transform 0.6s;
+	-webkit-transition: -webkit-transform 0.6s;
+	-moz-transition: -moz-transform 0.6s;
+	-ms-transition: -ms-transform 0.6s;
+	-o-transition: -o-transform 0.6s;
+}
+.app-admin .field-form-edit .field-form-item .field-form i.fa-close {
+	position: absolute;
+	z-index: 15;
+	right: -8px;
+	top: -8px;
+	background: #999;
+	color: #fff;
+	padding: 3px 5px;
+	border-radius: 12px;
+	cursor: pointer
+}
+.app-admin .field-form-edit .field-form-item .field-form i.fa-close:hover {
+	background: #000;
+}
+.app-admin .field-form-edit .field-form-item .field-form legend {
+	position: absolute;
+	z-index: 20;
+	left: -10px;
+	top: 10px;
+	content: ' ';
+	width: 10px;
+	height: 30px;
+	background: #fff;
+	border-left: 1px solid #999;
+	border-top: 1px solid #999;
+	border-bottom: 1px solid #999;
+	border-top-left-radius: 5px;
+	border-bottom-left-radius: 5px;
+}
+.app-admin .field-form-edit .field-form-item.collapsed .field-form {
+	transform: translateX(-110%);
+	-webkit-transform: translateX(-110%);
+	-moz-transform: translateX(-110%);
+	-ms-transform: translateX(-110%);
+	-o-transform: translateX(-110%);
+}
+.app-admin .field-form-edit .field-form-item .field-form fieldset.field-item {
+	border: 0;
+	position: relative;
+	z-index: 13;
+	padding: 0 12px 0 130px;
+	margin: 5px;
+	vertical-align: top;
+}
+.app-admin .field-form-edit .field-form-item .field-form fieldset.field-item label.field-title {
+	position: absolute;
+	z-index: 14;
+	left: 0;
+	top: 0;
+	padding: 8px 12px;
+	background: #333;
+	color: #fff;
+	width: 110px;
+	border-radius: 10px;
+}
+.app-admin .field-form-edit .field-form-item .field-form fieldset.field-item div.field-item-content {
+	padding: 8px 0;
+}
+.app-admin .field-form-edit .field-form-item .field-form fieldset.field-item .modify-form {
+	display: none;
+}
+.app-admin .field-form-edit .field-form-item .field-form.modify fieldset.field-item .new-form {
+	display: none;
+}
+.app-admin .field-form-edit .field-form-item .field-form.modify fieldset.field-item .modify-form {
+	display: block;
+}
+.app-admin .field-form-edit .field-form-item .field-form fieldset.taxonomy {
+	display: none;
+}
+.app-admin .field-form-edit .field-form-item .field-form fieldset.indextype {
+	display: none;
+}
+.app-admin .field-form-edit .field-form-item .field-form.taxonomy fieldset.taxonomy {
+	display: block;
+}
+.app-admin .field-form-edit .field-form-item .field-form.iscolumn fieldset.indextype {
+	display: block;
+}
+.app-admin .field-form-edit .field-form-item .field-form fieldset.taxonomy button {
+	display: inline-block;
+	width: auto;
+	height: auto;
+	background: #fff;
+	border: 1px solid #666;
+	font-weight: 0.85em;
+}
+.app-admin .field-form-edit .field-form-item .field-form fieldset.taxonomy button.taxonomy-terms {
+	float: right;
+	padding: 4px 6px;
+}
+.app-admin .field-form-edit .field-form-item .field-form fieldset.taxonomy button.taxonomy-add {
+	text-align: center;
+	padding: 4px 15px;
+}
+.app-admin .field-form-edit .field-form-item .field-form fieldset.taxonomy .new-taxonomy-container {
+	max-height: 0;
+	overflow: hidden;
+}
+.app-admin .field-form-edit .field-form-item .field-form fieldset.taxonomy .new-taxonomy-container input.text {
+	width: 73%;
+	display: inline-block;
+	line-height: 1.5em;
+	padding: 5px;
+	border: 1px solid #ccc;
+}
+.app-admin .field-form-edit .field-form-item .field-form fieldset.taxonomy .new-taxonomy-container button.taxonomy-add-submit,
+.app-admin .field-form-edit .field-form-item .field-form fieldset.taxonomy .new-taxonomy-container button.taxonomy-add-cancel {
+	display: inline-block;
+	border-radius: 3px;
+	padding: 5px;
+}
+.app-admin .field-form-edit .field-form-item .field-form fieldset input#subject {
+	width: 250px;
+	border: 1px solid #999;
+	padding: 5px;
+	margin: 0 0 8px 0;
+	border-radius: 10px;
+}
+.app-admin .field-form-edit .field-form-item .field-form fieldset.field-button {
+	text-align: center;
+	border: 0;
+}
+.app-admin .field-form-edit .field-form-item .field-form fieldset.field-button button {
+	background: #666;
+	border-radius: 10px;
+	padding: 8px 10px;
+	color: #fff;
+	display: inline-block;
+	width: auto;
+	height: auto;
+	margin: 0 4px;
+}
+.app-admin .field-form-edit .field-form-item .field-form fieldset.field-button button:hover {
+	background: #000;
+}
+
+.app-admin .field-form-edit .taxonomy-terms-container {
+	position: absolute;
+	z-index: 15;
+	left: 180px;
+	top: 0;
+	overflow: hidden;
+}
+.app-admin .field-form-edit .taxonomy-terms-container.collapsed {
+	z-index: 3;
+}
+.app-admin .field-form-edit .taxonomy-terms-container .taxonomy-terms-list {
+	position: relative;
+	border: 1px solid #999;
+	border-radius: 10px;
+	margin: 8px 10px 10px 10px;
+	padding: 0;
+	background: #fff;
+	box-shadow: 5px 5px 5px #dee0e0;
+	font-size: 0.85em;
+	transition: transform 0.6s;
+	-webkit-transition: -webkit-transform 0.6s;
+	-moz-transition: -moz-transform 0.6s;
+	-ms-transition: -ms-transform 0.6s;
+	-o-transition: -o-transform 0.6s;
+}
+.app-admin .field-form-edit .taxonomy-terms-container.collapsed .taxonomy-terms-list {
+	transform: translateX(-110%);
+	-webkit-transform: translateX(-110%);
+	-moz-transform: translateX(-110%);
+	-ms-transform: translateX(-110%);
+	-o-transform: translateX(-110%);
+}
+.app-admin .field-form-edit .taxonomy-terms-container .taxonomy-terms-list i.fa-close {
+	position: absolute;
+	z-index: 15;
+	right: -8px;
+	top: -8px;
+	background: #999;
+	color: #fff;
+	padding: 3px 5px;
+	border-radius: 12px;
+	cursor: pointer
+}
+.app-admin .field-form-edit .field-form-item .field-form i.fa-close:hover {
+	background: #000;
+}
+.app-admin .field-form-edit .taxonomy-terms-container .taxonomy-terms-list .taxonomy-terms-wrapper {
+	padding: 20px;
+	display: block;
+	overflow-y: auto;
+}
+.app-admin .field-form-edit .taxonomy-terms-container .taxonomy-terms-list ol {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+.app-admin .field-form-edit .taxonomy-terms-container .taxonomy-terms-list ol li .inner {
+	white-space: nowrap;
+}
+.app-admin .field-form-edit .taxonomy-terms-container .taxonomy-terms-list ol li label {
+	display: inline-block;
+	white-space: nowrap;
+	padding: 3px 5px 3px 0;
+}
+.app-admin .field-form-edit .taxonomy-terms-container .taxonomy-terms-list ol li.new-taxonomy label {
+	width: 80%;
+}
+.app-admin .field-form-edit .taxonomy-terms-container .taxonomy-terms-list ol li i {
+	margin: 0 2px;
+	cursor: pointer;
+	color: #ccc;
+}
+.app-admin .field-form-edit .taxonomy-terms-container .taxonomy-terms-list ol li i.active,
+.app-admin .field-form-edit .taxonomy-terms-container .taxonomy-terms-list ol li i:hover {
+	color: #595757;
+}
+.app-admin .field-form-edit .taxonomy-terms-container .taxonomy-terms-list ol li .terms-console {
+	margin: 0;
+	padding: 10px 0;
+}
+.app-admin .field-form-edit .taxonomy-terms-container .taxonomy-terms-list ol li .terms-console button.terms-add {
+	position: relative;
+	display: block;
+	width: 100%;
+	height: 1px;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	background-color: #ccc;
+	text-indent: -10000px;
+}
+.app-admin .field-form-edit .taxonomy-terms-container .taxonomy-terms-list ol li:last-child .terms-console button.terms-add {
+	background-color: transparent;
+}
+.app-admin .field-form-edit .taxonomy-terms-container .taxonomy-terms-list ol li .terms-console button.terms-add:before,
+.app-admin .field-form-edit .taxonomy-terms-container .taxonomy-terms-list ol li .terms-console button.terms-add:after {
+	position: absolute;
+	top: 50%;
+	right: -4px;
+	display: none;
+}
+.app-admin .field-form-edit .taxonomy-terms-container .taxonomy-terms-list ol li .terms-console button.terms-add:before {
+	width: 30px;
+	height: 30px;
+	line-height: 30px;
+	text-align: center;
+	margin: -15px 0 0 -36px;
+	text-indent: 0;
+	border-radius: 3px;
+	background-color: #EEEEEE;
+	font-size: 16px;
+	font-family: 'FontAwesome';
+	content: '\F055';
+	color: #FFFFFF;
+}
+.app-admin .field-form-edit .taxonomy-terms-container .taxonomy-terms-list ol li .terms-console button.terms-add:after {
+	content: '';
+	width: 0;
+	height: 0;
+	margin: -6px 0 0 -6px;
+	border-color: transparent #EEEEEE;
+	border-style: solid;
+	border-width: 6px 0 6px 6px
+}
+.app-admin .field-form-edit .taxonomy-terms-container .taxonomy-terms-list ol li .terms-console:hover,
+.app-admin .field-form-edit .taxonomy-terms-container .taxonomy-terms-list ol li .terms-console.extended {
+	padding: 5px 0 5px 0;
+}
+.app-admin .field-form-edit .taxonomy-terms-container .taxonomy-terms-list ol li .terms-console:hover button.terms-add,
+.app-admin .field-form-edit .taxonomy-terms-container .taxonomy-terms-list ol li .terms-console.extended button.terms-add {
+	background-color: #EEEEEE;
+	height: 11px;
+}
+.app-admin .field-form-edit .taxonomy-terms-container .taxonomy-terms-list ol li .terms-console:hover button.terms-add:before,
+.app-admin .field-form-edit .taxonomy-terms-container .taxonomy-terms-list ol li .terms-console.extended button.terms-add:before,
+.app-admin .field-form-edit .taxonomy-terms-container .taxonomy-terms-list ol li .terms-console:hover button.terms-add:after,
+.app-admin .field-form-edit .taxonomy-terms-container .taxonomy-terms-list ol li .terms-console.extended button.terms-add:after {
+	display: block;
+}
+.app-admin .field-form-edit .taxonomy-terms-container .taxonomy-terms-list ol li .terms-console button.terms-add:hover {
+	background-color: #CCCCCC;
+	cursor: pointer;
+}
+.app-admin .field-form-edit .taxonomy-terms-container .taxonomy-terms-list ol li .terms-console button.terms-add:hover:before {
+	background-color: #333333;
+}
+.app-admin .field-form-edit .taxonomy-terms-container .taxonomy-terms-list ol li.terms-console button.terms-add:hover:after {
+	border-color: transparent #333333;
+}
+.app-admin .field-form-edit .taxonomy-terms-container fieldset.field-button {
+	border: 0;
+	margin: 0;
+	padding: 0;
+	text-align: center;
+}
+.app-admin .field-form-edit .taxonomy-terms-container fieldset.field-button button {
+	background: #666;
+	border-radius: 10px;
+	padding: 8px 10px;
+	color: #fff;
+	display: inline-block;
+	width: auto;
+	height: auto;
+	margin: 0 4px;
+}
+.app-admin .field-form-edit .taxonomy-terms-container fieldset.field-button button:hover {
+	background: #000;
 }
