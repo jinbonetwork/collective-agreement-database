@@ -6,6 +6,7 @@
 					<button type="submit">찾기</button>
 				</form>
 				<div class="article-button">
+					<a class="fields" href="<?php print \CADB\Lib\url("admin/articles/fields"); ?>">필드관리</a>
 					<a class="add" href="<?php print \CADB\Lib\url("admin/articles/add"); ?>">단협추가</a>
 				</div>
 			</div>

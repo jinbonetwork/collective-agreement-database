@@ -166,13 +166,14 @@
 					if(mode == 'add') {
 						t += $this.position().top;
 					}
-					if( ( t + self.form_height ) > $parent.outerHeight() ) {
-						t = $parent.outerHeight() - self.form_height;
+					var maxHeight = (jQuery(window).height() - $parent.offset().top - 60 );
+					if( ( t + self.form_height ) > maxHeight ) {
+						t = maxHeight - self.form_height;
 						self.cform.find('legend').css({
-							'top': ( self.form_height - ( $parent.outerHeight() - $element.position().top ) - 10 )+'px'
+							'top': ( self.form_height - ( maxHeight - $element.position().top ) - 10 )+'px'
 						});
 					}
-					var l = $li.position().left + $element.width() + 30;
+					var l = $li.position().left + $element.width() + 20;
 					var idx = $element.attr('data-index');
 					self.cform.attr('id',$id);
 					if(mode == 'modify') {

@@ -9,6 +9,12 @@ class DBM extends \CADB\Objects  {
 		return self::_instance(__CLASS__);
 	}
 
+	public static function getFieldInfo($active=1) {
+		if(!self::$fields)
+			self::$fields = \CADB\Fields::getFields('agreement',$active);
+		return self::$fields;
+	}
+
 	public static function insert($fields,$args,$revision = false) {
 		$dbm = \CADB\DBM::instance();
 
