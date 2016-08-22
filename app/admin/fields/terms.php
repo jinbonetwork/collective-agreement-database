@@ -61,14 +61,14 @@ class terms extends \CADB\Controller {
 	}
 
 	private function add() {
-		$this->tid = \CADB\Taxonomy\DBM::insert($this->params);
+		$this->tid = \CADB\Taxonomy\DBM::insertTerm($this->params);
 		$this->params['tid'] = $this->tid;
 		$this->terms = \CADB\Taxonomy\DBM::getTaxonomyTerms($this->tid);
 		\CADB\RespondJson::PrintResult( array( 'error' => $this->tid, 'message' => $this->terms) );
 	}
 
 	private function modify() {
-		$this->tid = \CADB\Taxonomy\DBM::modify($this->terms,$this->params);
+		$this->tid = \CADB\Taxonomy\DBM::modifyTerm($this->terms,$this->params);
 		if($this->tid) {
 			$this->terms = \CADB\Taxonomy\DBM::getTaxonomyTerms($this->tid);
 			\CADB\RespondJson::PrintResult( array( 'error' => $this->tid, 'message' => $this->terms) );
@@ -76,7 +76,7 @@ class terms extends \CADB\Controller {
 	}
 
 	private function delete() {
-		\CADB\Taxonomy\DBM::delete($this->terms);
+		\CADB\Taxonomy\DBM::deleteTerm($this->terms);
 		$this->tid = $this->params['tid'];
 		\CADB\RespondJson::ResultPage( array( $this->tid, '삭제되었습니다.') );
 	}

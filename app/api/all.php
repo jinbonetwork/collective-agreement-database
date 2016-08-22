@@ -37,7 +37,7 @@ class all extends \CADB\Controller {
 		if($organize_total_cnt) {
 			$this->organize = \CADB\Organize::getList($this->params['q'],1,($this->params['limit'] ? $this->params['limit'] : 10),$args);
 			for($i=0; $i<count($this->organize); $i++) {
-				if(\CADB\Privilege::checkOrganize($this->organize[$i]['oid'])) {
+				if(\CADB\Privilege::checkOrganizes($this->organize[$i])) {
 					$this->organize[$i]['owner'] = 1;
 				} else {
 					$this->organize[$i]['owner'] = 0;

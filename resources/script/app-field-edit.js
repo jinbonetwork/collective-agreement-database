@@ -262,6 +262,9 @@
 					$this.addClass('extended');
 				}
 			});
+
+			this.bindAddTaxonomy(f.find('.new-taxonomy-wrapper'));
+
 			f.find('.field-form button.delete').click(function(e) {
 				e.preventDefault();
 				self.deletes(f.attr('data-fid'));
@@ -609,6 +612,87 @@
 			}
 		},
 
+		bindAddTaxonomy: function(element) {
+			var self = this;
+			element.find('button.taxonomy-add').click(function(e) {
+				self.showAddTaxonomyForm(element);
+			});
+
+			element.find('.new-taxonomy-container button.taxonomy-add-submit').click(function(e) {
+				self.addTaxonomy(jQuery(this).parent());
+			});
+
+			element.find('.new-taxonomy-container button.taxonomy-add-cancel').click(function(e) {
+				self.hideAddTaxonomyForm(element);
+			});
+		},
+
+		showAddTaxonomyForm: function(element) {
+			var self = this;
+			element.find('.new_taxonomy-button').css({'max-height': 0});
+			var tip = element.find('.new-taxonomy-container');
+			tip.css({ 'max-height' : '30px' });
+			tip.bind(self.transitionEnd, function(e) {
+				jQuery(this).find('input.text').focus();
+				jQuery(this).unbind(self.transitionEnd);
+			});
+		},
+
+		hideAddTaxonomyForm: function(element) {
+			var tip = element.find('.new-taxonomy-container');
+			tip.find('input.text').val('');
+			tip.css({'max-height': 0});
+			element.find('.new_taxonomy-button').css({'max-height': '30px'});
+		},
+
+		addTaxonomy: function(form) {
+			var self = this;
+
+			var ip = form.find('input.text');
+			var subject = ip.val();
+			if(!subject) {
+				this.alertMessage(ip,'분류이름을 입력하세요');
+				return;
+			} else {
+				this.removeAlert(ip);
+			}
+			var url = '/admin/fields/taxonomy';
+			var params = 'mode=add&subject=' + subject;
+
+			jQuery.ajax({
+				url: url,
+				data: params,
+				dataType: 'json',
+				method: 'POST',
+				beforeSend: function() {
+					self.loading();
+				},
+				success: function(json) {
+					self.removeLoading();
+					var error = parseInt(json.error);
+					var message = json.message;
+					if(error < 0) {
+						if(error == -2) {
+							self.alertMessage(ip,message);
+						} else {
+							self.abortDialog(message,0);
+							self.removeAlert(ip);
+						}
+					} else {
+						self.removeAlert(ip);
+						var select = self.cform.find('fieldset.field-item.taxonomy select#cid');
+						var options = jQuery('<option value="' + message.cid + '">' + message.subject + '</option>');
+						options.appendTo(select);
+						self.hideAddTaxonomyForm(self.cform.find('.new-taxonomy-wrapper'));
+					}
+				},
+				error: function( jqXHR, textStatus, errorThrown ) {
+					self.removeLoading();
+					self.abortDialog(jqXHR.responseText,0);
+				}
+			});
+		},
+
 		showTaxonomyTerms: function(fid,cid) {
 			var self = this;
 			var f = this.tform.clone();
@@ -746,6 +830,12 @@
 			var mbutton = element.find('i.modify');
 
 			var name = label.text();
+			if(!name) {
+				this.alertMessage(label, '분류항목이름을 입력하세요');
+				return;
+			} else {
+				this.removeAlert(label);
+			}
 			var url = '/admin/fields/terms';
 			var params = "mode=add&cid=" + element.attr('data-cid') + "&parent=" + element.attr('data-parent') + "&idx=" + element.attr('data-idx') + "&name=" + name;
 			console.log(params);
@@ -763,11 +853,13 @@
 					self.removeLoading();
 					if(error <= 0) {
 						if(error == -3) {
-							self.abortDialog(message,0);
+							self.alertMessage(label, message);
 						} else {
 							self.abortDialog(message,0);
+							self.removeAlert(label);
 						}
 					} else {
+						self.removeAlert(label);
 						label.attr('contenteditable',false);
 						mbutton.removeClass('active');
 						element.removeClass('new-taxonomy');
@@ -834,13 +926,22 @@
 			var label = element.find('label');
 			var mbutton = element.find('i.modify');
 
-			label.attr('contenteditable',false);
+/*			label.attr('contenteditable',false);
 			mbutton.removeClass('active');
-			element.attr('data-editing',0);
+			element.attr('data-editing',0); */
 
 			var origin = element.attr('data-orgin');
 			var name = label.text();
+			if(!name) {
+				this.alertMessage(label,'분류항목이름을 입력하세요');
+				return;
+			} else {
+				this.removeAlert(label);
+			}
 			if( origin == name ) {
+				label.attr('contenteditable',false);
+				mbutton.removeClass('active');
+				element.attr('data-editing',0);
 				return;
 			}
 			var url = '/admin/fields/terms';
@@ -858,7 +959,16 @@
 					var message = json.message;
 					self.removeLoading();
 					if(error <= 0) {
-						self.abortDialog(message,0);
+						if(error == -3) {
+							self.alertMessage(label, message);
+						} else {
+							self.abortDialog(message,0);
+							self.removeAlert(label);
+						}
+					} else {
+						label.attr('contenteditable',false);
+						mbutton.removeClass('active');
+						element.attr('data-editing',0);
 					}
 				},
 				error: function( jqXHR, textStatus, errorThrown ) {
@@ -966,6 +1076,58 @@
 				this.focus_id = 0;
 			}
 			this.mode = 'dialog';
+		},
+
+		alertMessage: function(element,message) {
+			element.focus();
+			element.addClass('cadb-input-alert');
+			var alertID = 'cadb-alert-'+element.attr('data-alert');
+			var contain = element.parent();
+			contain.addClass('cadb-field-alert');
+			var alerts = jQuery('span#'+alertID);
+			if(!alerts.length) {
+				var ui = this.uniqueID(8);
+				var alerts = jQuery('<span id="cadb-alert-' + ui + '" class="cadb-message-alert">'+message+'</span>');
+				alerts.appendTo('body');
+				var l = element.offset().left;
+				var t = element.offset().top + element.outerHeight() + 8;
+				alerts.css({
+					'left' : l+'px',
+					'top' : t+'px'
+				});
+				element.attr('data-alert',ui);
+			} else {
+				alerts.text(message);
+			}
+		},
+
+		uniqueID: function(size) {
+			var getRandomNumber = function(range) {
+				return Math.floor(Math.random() * range);
+			};
+
+			var getRandomChar = function() {
+				var chars = "abcdefghijklmnopqurstuvwxyzABCDEFGHIJKLMNOPQURSTUVWXYZ";
+				return chars.substr( getRandomNumber(62), 1 );
+			};
+
+			var randomID = function(size) {
+				var str = "";
+				for(var i = 0; i < size; i++) {
+					str += getRandomChar();
+				}
+				return str;
+			};
+
+			return randomID(size);
+		},
+
+		removeAlert: function(element) {
+			var contain = element.parent();
+			var alertID = 'cadb-alert-'+element.attr('data-alert');
+			element.removeClass('cadb-input-alert');
+			contain.removeClass('cadb-field-alert');
+			jQuery('span#'+alertID).remove();
 		},
 
 		loading: function() {

@@ -29,6 +29,13 @@ class Privilege extends \CADB\Objects  {
 				if($permit == true) {
 					return true;
 				}
+			} else {
+				for($d = min($row['depth'],4); $d>=1; $d--) {
+					if($row['p'.$d]) {
+						$ret = self::checkOrganize($row['p'.$d]);
+						if($ret == true) return true;
+					}
+				}
 			}
 		}
 
@@ -48,5 +55,18 @@ class Privilege extends \CADB\Objects  {
 			return $__Acl->checkAcl($_SESSION['acl'][$domain][$oid]);
 		}
 		return false;
+	}
+
+	public static function checkOrganizes($orgs) {
+		$__Acl = \CADB\Acl::instance();
+		if( $__Acl->imMaster() ) return true;
+
+		for($d = min($orgs['depth'],4); $d>=1; $d--) {
+			if($orgs['p'.$d]) {
+				$ret = self::checkOrganize($orgs['p'.$d]);
+				if($ret == true) return true;
+			}
+		}
+		return self::checkOrganize($orgs['oid']);
 	}
 }

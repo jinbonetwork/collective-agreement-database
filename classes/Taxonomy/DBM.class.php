@@ -27,6 +27,16 @@ class DBM extends \CADB\Objects {
 		return self::fetchTaxonomy($row);
 	}
 
+	public static function searchTaxonomy($f,$v) {
+		$dbm = \CADB\DBM::instance();
+
+		$que = "SELECT * FROM {taxonomy} WHERE `".$f."` = '".$v."'";
+		while( $row = $dbm->getFetchArray($que) ) {
+			$taxonomy[$row['cid']] = self::fetchTaxonomy($row);
+		}
+		return $taxonomy;
+	}
+
 	public static function getTaxonomyTerms($tid) {
 		$dbm = \CADB\DBM::instance();
 
@@ -46,6 +56,27 @@ class DBM extends \CADB\Objects {
 	}
 
 	public static function insert($args) {
+		$dbm = \CADB\DBM::instance();
+
+		$que = "INSERT INTO {taxonomy} (`subject`,`skey`,`active`) VALUES (?,?,?)";
+		$dbm->execute($que,array("sdd", $args['subject'],1,1));
+
+		$insert_cid = $dbm->getLastInsertId();
+
+		$t_args = array(
+			'cid' => $insert_cid,
+			'parent' => 0,
+			'idx' => 1,
+			'nsubs' => 0,
+			'name' => $args['subject']
+		);
+
+		self::insertTerm($t_args);
+
+		return $insert_cid;
+	}
+
+	public static function insertTerm($args) {
 		$dbm = \CADB\DBM::instance();
 
 		if(!isset($args['parent'])) $args['parent'] = 0;
@@ -91,7 +122,16 @@ class DBM extends \CADB\Objects {
 		return $insert_vid;
 	}
 
-	public static function modify($terms,$args) {
+	public static function modify($taxonomy,$args) {
+		$dbm = \CADB\DBM::instance();
+
+		$que = "UPDATE {taxonomy} SET subject = ?, skey = ?, active = ? WHERE cid = ?";
+		$dbm->execute($que, array("sddd",$args['subject'], $args['skey'], $args['active'], $args['cid']));
+
+		return $args['cid'];
+	}
+
+	public static function modifyTerm($terms,$args) {
 		$dbm = \CADB\DBM::instance();
 
 		if($terms['parent'] != $args['parent']) {
@@ -131,7 +171,14 @@ class DBM extends \CADB\Objects {
 		return $args['vid'];
 	}
 
-	public static function delete($terms) {
+	public static function delete($args) {
+		$dbm = \CADB\DBM::instance();
+
+		$que = "DELETE FROM {taxonomy} WHERE cid = ?";
+		$dbm->execute($que,array("d",$args['cid']));
+	}
+
+	public static function deleteTerm($terms) {
 		$dbm = \CADB\DBM::instance();
 
 		$que = "DELETE FROM {taxonomy_terms} WHERE `cid` = ? AND `tid` = ?";

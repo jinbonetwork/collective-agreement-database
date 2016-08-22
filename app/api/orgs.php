@@ -24,7 +24,7 @@ class orgs extends \CADB\Controller {
 					$this->organize['f7'] = '정보없음';
 				}
 				$this->fields['owner'] = array('subject' => '운영자','type'=>'int','multiple'=>false);
-				if(\CADB\Privilege::checkOrganize($this->organize['oid'])) {
+				if(\CADB\Privilege::checkOrganizes($this->organize)) {
 					$this->organize['owner'] = 1;
 				} else {
 					$this->organize['owner'] = 0;
@@ -70,7 +70,7 @@ class orgs extends \CADB\Controller {
 			if($total_cnt && $this->params['page'] <= $total_page) {
 				$this->organize = \CADB\Organize::getList($this->params['q'],$this->params['page'],($this->params['limit'] ? $this->params['limit'] : 20),$args);
 				for($i=0; $i<count($this->organize); $i++) {
-					if(\CADB\Privilege::checkOrganize($this->organize[$i]['oid'])) {
+					if(\CADB\Privilege::checkOrganizes($this->organize[$i])) {
 						$this->organize[$i]['owner'] = 1;
 					} else {
 						$this->organize[$i]['owner'] = 0;
