@@ -173,7 +173,8 @@
 .app-admin table.member-list .modify a,
 .app-admin table.orgs-list .modify a,
 .app-admin ul.articles-list li.article-item > div .buttons a.modify,
-.app-admin ul.standards-list li.standard-item > div .buttons a.modify {
+.app-admin ul.standards-list li.standard-item > div .buttons a.modify,
+.app-admin ul.standards-list li.standard-item > div .buttons a.fork {
 	background: #5a91e2;
 }
 .app-admin table.member-list .delete a,

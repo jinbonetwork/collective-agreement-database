@@ -25,7 +25,7 @@ class edit extends \CADB\Controller {
 		}
 
 		$this->taxonomylist = \CADB\Taxonomy\DBM::getTaxonomyList();
-		$taxonomys = \CADB\Guide::getTaxonomy($this->guide['nid']);
+		$taxonomys = \CADB\Guide\DBM::getTaxonomy($this->guide['cid']);
 		$this->taxonomy = \CADB\Taxonomy::getTaxonomy($taxonomys);
 		$this->taxonomy_terms = \CADB\Taxonomy::getTaxonomyTerms($taxonomys);
 		$this->current_taxonomys = $taxonomys;

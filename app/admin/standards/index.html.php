@@ -6,7 +6,7 @@
 				<button type="submit">찾기</button>
 			</form>
 			<div class="standard-button">
-				<a class="add" href="<?php print \CADB\Lib\url("admin/standards/add"); ?>">모범단협추가</a>
+				<!--a class="add" href="<?php print \CADB\Lib\url("admin/standards/add"); ?>">모범단협추가</a-->
 			</div>
 		</div>
 		<ul class="standards-list">
@@ -17,6 +17,7 @@
 					<a href="<?php print \CADB\Lib\url("admin/standards/edit").$queryString."nid=".$standard['nid']; ?>"><?php print $standard['subject']; ?></a>
 					<div class="buttons">
 						<a class="modify" href="<?php print \CADB\Lib\url("admin/standards/edit").$queryString."nid=".$standard['nid']; ?>">수정</a>
+						<a class="fork" href="<?php print \CADB\Lib\url("admin/standards/fork").$queryString."nid=".$standard['nid']."&output=html"; ?>">복사</a>
 						<a class="delete" href="<?php print \CADB\Lib\url("admin/standards/delete").$queryString."nid=".$standard['nid']; ?>">삭제</a>
 					</div>
 				</div>
@@ -42,5 +43,5 @@
 			</ul>
 		</div>
 		<div class="standard-button">
-			<a class="add" href="<?php print \CADB\Lib\url("admin/standards/add"); ?>">모범단협추가</a>
+			<!--a class="add" href="<?php print \CADB\Lib\url("admin/standards/add"); ?>">모범단협추가</a-->
 		</div>

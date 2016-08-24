@@ -24,6 +24,11 @@
 						<input type="checkbox" name="cid" id="guide-cid-<?php print $cid; ?>" value="<?php print $cid; ?>"<?php print (in_array($cid,$current_taxonomys) ? " checked": ""); ?>><label for="guide-cid-<?php print $cid; ?>"><?php print $taxo['subject']; ?></label>
 <?php				}?>
 					</fieldset>
+					<fieldset>
+						<label class="field-title" for="guide-current">기본</label>
+						<input type="checkbox" name="current" id="guide-current" value="1"<?php print ($guide['current'] ? ' checked' : ''); ?> />
+						<label for="guide-current">이 모범단협을 기본단협으로 지정합니다.</label>
+					</fieldset>
 					<button type="button" class="delete">삭제</button>
 					<button type="submit">저장</button>
 				</form>
