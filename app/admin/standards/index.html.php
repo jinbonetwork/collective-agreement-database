@@ -1,26 +1,28 @@
-		<h3>단협 목록</h3>
-		<div class="article-list-header">
-			<form class="article-search" action="<?php print \CADB\Lib\url("admin/articles"); ?>" method="get" onsubmit="return check_agreement_search(this);">
-				<label for="agreement_q">단협검색</label>
+		<h3>모범단협 목록</h3>
+		<div class="standard-list-header">
+			<form class="standard-search" action="<?php print \CADB\Lib\url("admin/standards"); ?>" method="get" onsubmit="return check_agreement_search(this);">
+				<label for="agreement_q">모범단협검색</label>
 				<input type="text" id="agreement_q" name="q" value="<?php print $params['q']; ?>" />
 				<button type="submit">찾기</button>
 			</form>
-			<div class="article-button">
-				<a class="add" href="<?php print \CADB\Lib\url("admin/articles/add"); ?>">단협추가</a>
+			<div class="standard-button">
+				<a class="add" href="<?php print \CADB\Lib\url("admin/standards/add"); ?>">모범단협추가</a>
 			</div>
 		</div>
-		<ul class="articles-list">
-<?php	foreach($articles as $article) {?>
-			<li class="article-item">
+		<ul class="standards-list">
+<?php if(is_array($standards)) {
+		foreach($standards as $standard) {?>
+			<li class="standard-item">
 				<div>
-					<a href=""><?php print $article['subject']; ?></a>
+					<a href="<?php print \CADB\Lib\url("admin/standards/edit").$queryString."nid=".$standard['nid']; ?>"><?php print $standard['subject']; ?></a>
 					<div class="buttons">
-						<a class="modify" href="<?php print \CADB\Lib\url("admin/articles/edit").$queryString."nid=".$article['nid']; ?>">수정</a>
-						<a class="delete" href="<?php print \CADB\Lib\url("admin/articles/delete").$queryString."nid=".$article['nid']; ?>">삭제</a>
+						<a class="modify" href="<?php print \CADB\Lib\url("admin/standards/edit").$queryString."nid=".$standard['nid']; ?>">수정</a>
+						<a class="delete" href="<?php print \CADB\Lib\url("admin/standards/delete").$queryString."nid=".$standard['nid']; ?>">삭제</a>
 					</div>
 				</div>
 			</li>
-<?php	}?>
+<?php	}
+	}?>
 		</ul>
 		<div class="page-nav-wrapper">
 			<ul class="page-nav">
@@ -39,6 +41,6 @@
 <?php	}?>
 			</ul>
 		</div>
-		<div class="article-button">
-			<a class="add" href="<?php print \CADB\Lib\url("admin/articles/add"); ?>">단협추가</a>
+		<div class="standard-button">
+			<a class="add" href="<?php print \CADB\Lib\url("admin/standards/add"); ?>">모범단협추가</a>
 		</div>

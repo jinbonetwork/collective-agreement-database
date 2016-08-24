@@ -207,6 +207,19 @@
 		"priority":"100000",
 		"deps":["jquery","modernizr","jquery-sortable"]
 	},
+	"app-guide-edit": {
+		"js": [
+			{
+				"uri": "resources/script/app-guide-edit.js",
+				"position": "footer"
+			}
+		],
+		"css": [
+			"resources/css/app-guide-edit.css"
+		],
+		"priority":"100000",
+		"deps":["jquery","modernizr","medium-editor"]
+	},
 	"app-admin": {
 		"js": [
 			{

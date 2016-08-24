@@ -1,0 +1,307 @@
+.guide-edit {
+}
+.guide-edit h4.sub-title {
+	margin: 0;
+	padding: 10px 0 10px 0;
+	border-bottom: 1px solid #333;
+}
+.guide-edit h4.sub-title:before {
+	font-family: "FontAwesome";
+	content: "\f096";
+	padding-right: 15px;
+}
+
+/* guide-info */
+.guide-info-container {
+	margin-bottom: 25px;
+}
+.guide-info-container form {
+	margin: 19px 0 0 0;
+	padding: 10px 5px;
+	position: relative;
+	z-index: 1;
+	border: 1px solid #5a91e2;
+	border-radius: 10px;
+}
+.guide-info-container form fieldset {
+	margin: 0 100px 0 0;
+	padding: 5px 0 5px 60px;;
+	border: 0;
+	position: relative;
+	z-index: 2;
+}
+.guide-info-container form fieldset label.field-title {
+	position: absolute;
+	z-index: 3;
+	left: 10px;
+	top: 7px;
+}
+.guide-info-container form fieldset input,
+.guide-info-container form fieldset textarea {
+	border: 1px solid #ccc !important;
+	line-height: 1.5em;
+	padding: 4px !important;
+}
+.guide-info-container form fieldset input.year {
+	width: 80px;
+}
+.guide-info-container form fieldset textarea {
+	width: 100%;
+	height: 80px;
+}
+.guide-info-container form button {
+	position: absolute;
+	z-index: 3;
+	right: 10px;
+	bottom: 8px;
+	width: 80px;
+	height: auto;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	background: #5a91e2;
+	color: #fff;
+}
+.guide-info-container form button.delete {
+	bottom: 50px;
+	background: #f00;
+}
+
+/* guide-clause */
+.guide-clause-container:after {
+	clear: both;
+	content: ' ';
+	display: block;
+}
+.guide-clause-indexes-wrap {
+	width: 40%;
+	float: left;
+}
+.guide-clause-indexes-wrap .guide-clause-indexes {
+	margin-right: 25px;
+	padding: 25px;
+	background: #f5f6f8;
+	color: #9fa0a0;
+}
+.guide-clause-indexes-wrap .guide-clause-indexes label {
+	display: inline-block;
+	padding: 10px 10px;
+	margin-bottom: 15px;
+	background: #fff;
+	border: 1px solid #5a91e2;
+	border-radius: 5px;
+	font-weight: bold;
+	font-size: 1.0em;
+	color: #5a91e2;
+}
+.guide-clause-indexes-wrap .guide-clause-indexes label:before {
+	font-family: "FontAwesome";
+	content: "\f00b";
+	padding-right: 15px;
+}
+.guide-clause-indexes-wrap .guide-clause-indexes dl {
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+.guide-clause-indexes-wrap .guide-clause-indexes dl dt {
+	cursor: pointer;
+	font-weight: bold;
+	margin: 0;
+	padding: 5px 15px 3px 15px;
+	background: #5a91e2;
+	color: #fff;
+	line-height: 30px;
+}
+.guide-clause-indexes-wrap .guide-clause-indexes dl.collapsed dt {
+	background: #fff;
+	color: #595757;
+}
+.guide-clause-indexes-wrap .guide-clause-indexes dl dt:after {
+	float: right;
+	font-family: "FontAwesome";
+	content: "\f106";
+	padding-left: 15px;
+}
+.guide-clause-indexes-wrap .guide-clause-indexes dl.collapsed dt:hover {
+	background: #ebeef2;
+}
+.guide-clause-indexes-wrap .guide-clause-indexes dl.collapsed dt:after {
+	content: "\f107";
+}
+.guide-clause-indexes-wrap .guide-clause-indexes dl dd.chapter-articles {
+	line-height: 1.3em;
+	margin: 0;
+	padding: 0;
+	background: #fff;
+	transition: max-height 0.6s;
+	-webkit-transition: max-height 0.6s;
+	-moz-transition: max-height 0.6s;
+	-ms-transition: max-height 0.6s;
+	-o-transition: max-height 0.6s;
+	max-height: auto;
+	overflow: hidden;
+}
+.guide-clause-indexes-wrap .guide-clause-indexes dl.collapsed dd.chapter-articles {
+	padding: 0;
+	max-height: 0;
+}
+.guide-clause-indexes-wrap .guide-clause-indexes dl dd.chapter-articles article {
+	margin: 0;
+	padding: 0;
+}
+.guide-clause-indexes-wrap .guide-clause-indexes dl dd.chapter-articles article span {
+	padding: 6px 15px 6px 30px;
+	display: block;
+	cursor: pointer;
+}
+.guide-clause-indexes-wrap .guide-clause-indexes dl dd.chapter-articles article span:hover {
+	background: #ebeef2;
+}
+.guide-clause-indexes-wrap .guide-clause-indexes dl dd.chapter-articles article.current span {
+	background: #5a91e2;
+	color: #fff;
+}
+
+.guide-clause-indexes-wrap .guide-clause-indexes .console {
+	margin: 0;
+	padding: 0;
+}
+.guide-clause-indexes-wrap .guide-clause-indexes dd.console {
+	display: none;
+}
+.guide-clause-indexes-wrap .guide-clause-indexes dl.collapsed dd.console {
+	display: block;
+}
+.guide-clause-indexes-wrap .guide-clause-indexes .console button {
+	position: relative;
+	display: block;
+	width: 100%;
+	height: 10px;
+	padding: 5px;
+	border: 0;
+	outline: 0;
+	background: #fff;
+	text-indent: -10000px;
+}
+.guide-clause-indexes-wrap .guide-clause-indexes .console button:before,
+.guide-clause-indexes-wrap .guide-clause-indexes .console button:after {
+	position: absolute;
+	top: 50%;
+	right: 0;
+	display: none;
+}
+.guide-clause-indexes-wrap .guide-clause-indexes .console button:before {
+	width: 20px;
+	height: 20px;
+	line-height: 20px;
+	text-align: center;
+	margin: -10px 0 0 -26px;
+	text-indent: 0;
+	border-radius: 3px;
+	background-color: #EEEEEE;
+	font-size: 11px;
+	font-family: 'FontAwesome';
+	content: '\F055';
+	color: #FFFFFF;
+}
+.guide-clause-indexes-wrap .guide-clause-indexes .console button:after {
+	content: '';
+	width: 0;
+	height: 0;
+	margin: -6px 0 0 -6px;
+	border-color: transparent #EEEEEE;
+	border-style: solid;
+	border-width: 6px 0 6px 6px
+}
+.guide-clause-indexes-wrap .guide-clause-indexes .console:hover button,
+.guide-clause-indexes-wrap .guide-clause-indexes .console.extended button {
+	background-color: #EEEEEE;
+/*	height: 11px; */
+}
+.guide-clause-indexes-wrap .guide-clause-indexes .console:hover button:before,
+.guide-clause-indexes-wrap .guide-clause-indexes .console:hover button:after,
+.guide-clause-indexes-wrap .guide-clause-indexes .console.extended button:before,
+.guide-clause-indexes-wrap .guide-clause-indexes .console.extended button:after {
+	display: block;
+}
+.guide-clause-indexes-wrap .guide-clause-indexes .console:hover button:hover {
+	background-color: #CCCCCC;
+	cursor: pointer;
+}
+.guide-clause-indexes-wrap .guide-clause-indexes .console:hover button:hover:before {
+	background-color: #333333;
+}
+.guide-clause-indexes-wrap .guide-clause-indexes .console:hover button:hover:after {
+	border-color: transparent #333333;
+}
+
+/* document */
+.guide-clause-document-wrap {
+	width: 60%;
+	float: left;
+}
+.guide-clause-document {
+}
+.guide-clause-document h4 {
+	background: #5a91e2;
+	color: #fff;
+	margin: 15px 0 10px 0;
+	padding: 8px 10px;
+}
+.guide-clause-document h4:before {
+	font-family: "FontAwesome";
+	content: "\f02b";
+	padding-right: 10px;
+}
+.guide-clause-document #guide-clause-content {
+	min-height: 50px;
+}
+.guide-clause-document p {
+	margin-bottom: 15px;
+}
+.guide-clause-document blockquote {
+	position: relative;
+	margin: 0;
+	padding: 10px 20px;
+	margin: 0 20px;
+}
+.guide-clause-document blockquote:before {
+	position: absolute;
+	left: 0;
+	top: 0;
+	font-size: 0.85em;
+	font-family: "FontAwesome";
+	content: "\f10d";
+}
+.guide-clause-document blockquote:after {
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	font-size: 0.85em;
+	font-family: "FontAwesome";
+	content: "\f10e";
+}
+.guide-clause-document .guide-clause-field.parent {
+	display: none;
+}
+.guide-clause-document .guide-clause-field.article {
+	display: block;
+}
+.guide-clause-document .guide-clause-field .guide-clause-field-content {
+	min-height: 50px;
+}
+.guide-clause-document .button {
+	padding-top: 15px;
+	text-align: center;
+}
+.guide-clause-document .button button {
+	width: auto;
+	height: auto;
+	padding: 10px 20px;
+	background: #5a91e2;
+	color: #fff;
+	margin:0 4px;
+}
+.guide-clause-document .button button.delete {
+	background: #ff0000;
+}

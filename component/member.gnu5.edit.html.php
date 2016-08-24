@@ -30,7 +30,7 @@
 					</div>
 				</fieldset>
 				<fieldset class="fields-member">
-					<label class="field" for="mb_nick">닉네임</label>
+					<label class="field" for="mb_nick">소속</label>
 					<div class="member-form">
 						<input type="text" id="mb_nick" name="mb_nick" value="<?php print $member['mb_nick']; ?>" />
 					</div>

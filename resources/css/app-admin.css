@@ -61,20 +61,23 @@
 
 /* articles list */
 .app-admin .orgs-list-header,
-.app-admin .article-list-header {
+.app-admin .article-list-header,
+.app-admin .standard-list-header {
 	*zoom: 1;
 	margin-bottom: 15px;
 	box-shadow: 0px 2px 2px #dee0e0;
 }
 .app-admin .orgs-list-header:after,
-.app-admin .article-list-header:after {
+.app-admin .article-list-header:after,
+.app-admin .standard-list-header:after {
 	clear: both;
 	content: ' ';
 	display: block;
 }
 .app-admin .member-list-header form.member-search,
 .app-admin .orgs-list-header form.orgs-search,
-.app-admin .article-list-header form.article-search {
+.app-admin .article-list-header form.article-search,
+.app-admin .standard-list-header form.standard-search {
 	float: left;
 	padding-left: 10px;
 	padding-bottom: 5px;
@@ -86,7 +89,8 @@
 }
 .app-admin .member-list-header form.member-search input[type="text"],
 .app-admin .orgs-list-header form.orgs-search input[type="text"],
-.app-admin .article-list-header form.article-search input[type="text"] {
+.app-admin .article-list-header form.article-search input[type="text"],
+.app-admin .standard-list-header form.standard-search input[type="text"] {
 	display: inline-block;
 	border: 1px solid #5a91e2;
 	width: 200px;
@@ -96,7 +100,8 @@
 }
 .app-admin .member-list-header form.member-search button[type="submit"],
 .app-admin .orgs-list-header form.orgs-search button[type="submit"],
-.app-admin .article-list-header form.article-search button[type="submit"] {
+.app-admin .article-list-header form.article-search button[type="submit"],
+.app-admin .standard-list-header form.standard-search button[type="submit"] {
 	display: inline-block;
 	width: auto;
 	padding: 5px 8px;
@@ -107,25 +112,31 @@
 }
 .app-admin .member-list-header form.member-search button[type="submit"]:before,
 .app-admin .orgs-list-header form.orgs-search button[type="submit"]:before,
-.app-admin .article-list-header form.article-search button[type="submit"]:before {
+.app-admin .article-list-header form.article-search button[type="submit"]:before,
+.app-admin .standard-list-header form.standard-search button[type="submit"]:before {
 	font-family: "FontAwesome";
 	content: "\f00e";
 	margin-right: 5px;
 }
-.app-admin .article-list-header form.article-button {
+.app-admin .article-list-header form.article-button,
+.app-admin .standard-list-header form.standard-button {
 	float: right;
 }
-.app-admin ul.articles-list {
+.app-admin ul.articles-list,
+.app-admin ul.standards-list {
 }
-.app-admin ul.articles-list li.article-item {
+.app-admin ul.articles-list li.article-item,
+.app-admin ul.standards-list li.standard-item {
 	padding: 10px 10px;
 	border-bottom: 1px dotted #ccc;
 }
-.app-admin ul.articles-list li.article-item > div {
+.app-admin ul.articles-list li.article-item > div,
+.app-admin ul.standards-list li.standard-item > div {
 	position: relative;
 	padding-right: 120px;
 }
-.app-admin ul.articles-list li.article-item > div .buttons {
+.app-admin ul.articles-list li.article-item > div .buttons,
+.app-admin ul.standards-list li.standard-item > div .buttons {
 	position: absolute;
 	top: 0;
 	right: 0;
@@ -134,7 +145,8 @@
 .app-admin table.orgs-list .delete a,
 .app-admin table.member-list .modify a,
 .app-admin table.member-list .delete a,
-.app-admin ul.articles-list li.article-item > div .buttons a {
+.app-admin ul.articles-list li.article-item > div .buttons a,
+.app-admin ul.standards-list li.standard-item > div .buttons a {
 	display: inline-block;
 	padding: 3px 5px;
 	border-radius: 10px;
@@ -153,18 +165,21 @@
 .app-admin table.orgs-list .delete a:hover,
 .app-admin table.member-list .modify a:hover,
 .app-admin table.member-list .delete a:hover,
-.app-admin ul.articles-list li.article-item > div .buttons a:hover {
+.app-admin ul.articles-list li.article-item > div .buttons a:hover,
+.app-admin ul.standards-list li.standard-item > div .buttons a:hover {
 	color: #ebeef2;
 	box-shadow: 0px 2px 2px #dee0e0;
 }
 .app-admin table.member-list .modify a,
 .app-admin table.orgs-list .modify a,
-.app-admin ul.articles-list li.article-item > div .buttons a.modify {
+.app-admin ul.articles-list li.article-item > div .buttons a.modify,
+.app-admin ul.standards-list li.standard-item > div .buttons a.modify {
 	background: #5a91e2;
 }
 .app-admin table.member-list .delete a,
 .app-admin table.orgs-list .delete a,
-.app-admin ul.articles-list li.article-item > div .buttons a.delete {
+.app-admin ul.articles-list li.article-item > div .buttons a.delete,
+.app-admin ul.standards-list li.standard-item > div .buttons a.delete {
 	background: #f00;
 }
 
@@ -194,12 +209,15 @@
 }
 .app-admin .page-nav-wrapper ul > li.n_page {
 }
-.app-admin .article-button {
+.app-admin .article-button,
+.app-admin .standard-button {
 	text-align: right;
 	padding: 4px 10px;
 }
 .app-admin .article-button a.fields,
-.app-admin .article-button a.add {
+.app-admin .article-button a.add,
+.app-admin .standard-button a.fields,
+.app-admin .standard-button a.add {
 	padding: 5px 8px;
 	border-radius: 15px;
 	color: #fff;
@@ -208,7 +226,9 @@
 	background: #5a91e2;
 }
 .app-admin .article-button a.fields:hover,
-.app-admin .article-button a.add:hover {
+.app-admin .article-button a.add:hover,
+.app-admin .standard-button a.fields:hover,
+.app-admin .standard-button a.add:hover {
 	color: #ebeef2;
 	box-shadow: 0px 2px 2px #dee0e0;
 }
