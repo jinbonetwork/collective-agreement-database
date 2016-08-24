@@ -103,6 +103,9 @@
 	padding: 0;
 	border: 0;
 }
+.guide-clause-indexes-wrap .guide-clause-indexes dl.dummy {
+	display: none;
+}
 .guide-clause-indexes-wrap .guide-clause-indexes dl dt {
 	cursor: pointer;
 	font-weight: bold;
@@ -241,6 +244,9 @@
 	float: left;
 }
 .guide-clause-document {
+}
+.guide-clause-document h3#guide-clause-subject {
+	border-bottom: 1px solid #5a91e2;
 }
 .guide-clause-document h4 {
 	background: #5a91e2;

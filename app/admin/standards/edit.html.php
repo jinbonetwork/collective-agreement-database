@@ -39,14 +39,28 @@
 					<div class="guide-clause-indexes">
 						<label class="">목차</label>
 						<div class="guide-clause-indexes-box">
-<?php					foreach($indexes as $id => $index) {?>
-							<dl id="guide-chapter-<?php print $index['id']; ?>" class="collapsed">
+							<dl id="guide-chapter-0" class="dummy" data-id="0" data-parent="0" data-index="0">
+								<dt class="chapter-title" data-id="0"></dt>
+								<dd class="console chapter-add-console">
+									<button type="button" class="clause-add">챕터추가</button>
+								</dd>
+								<dd class="chapter-articles">
+									<article id="" data-id="" data-parent="0" data-index="0" class="article">
+										<div class="console article-add-console">
+											<button type="button" class="clause-add">조항추가</button>
+										</div>
+									</article>
+								</dd>
+							</dl>
+<?php				if(is_array($indexes)) {
+						foreach($indexes as $id => $index) {?>
+							<dl id="guide-chapter-<?php print $index['id']; ?>" class="collapsed" data-id="<?php print $index['id']; ?>" data-parent="0" data-index="<?php print $index['idx']; ?>">
 								<dt class="chapter-title" data-id="<?php print $index['id']; ?>"><?php print $index['subject']; ?></dt>
 								<dd class="console chapter-add-console">
 									<button type="button" class="clause-add">챕터추가</button>
 								</dd>
 								<dd class="chapter-articles">
-									<article id="" data-id="" data-parent="<?php print $index['id']; ?>" data-index="i" class="article">
+									<article id="" data-id="" data-parent="<?php print $index['id']; ?>" data-index="0" class="dummy">
 										<div class="console article-add-console">
 											<button type="button" class="clause-add">조항추가</button>
 										</div>
@@ -63,13 +77,14 @@
 <?php						}?>
 								</dd>
 							</dl>
-<?php					}?>
+<?php					}
+					}?>
 						</div>
 					</div>
 				</div>
 				<div class="guide-clause-document-wrap">
 					<div class="guide-clause-document" data-id="<?php print $preamble['id']; ?>" data-parent="<?php print $preamble['parent']; ?>" data-index="<?php print $preamble['idx']; ?>">
-						<h3 id="guide-clause-subject" contenteditable="true"><?php print $preamble['subject']; ?></h3>
+						<h3 id="guide-clause-subject" contenteditable="true" placeholder="조항제목을 입력하세요"><?php print $preamble['subject']; ?></h3>
 						<div id="guide-clause-taxonomy">
 <?php					foreach($taxonomy_terms as $cid => $taxonomies) {?>
 							<select id="guide-clause-taxonomy-<?php print $cid; ?>" data-cid="<?php print $cid; ?>">

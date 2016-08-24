@@ -110,8 +110,21 @@
 			var self = this;
 			this.indexes.find('dl').each(function() {
 				$this = jQuery(this);
-				self.bindDl($this);
+				if($this.hasClass('dummy')) {
+					self.makeMarkup($this);
+				} else {
+					self.bindDl($this);
+				}
 			});
+		},
+
+		makeMarkup: function(element) {
+			this.chapter = element.clone();
+			this.chapter.removeClass('dummy').addClass('collapsed');
+
+			this.article = this.chapter.find('dd.chapter-articles article.dummry').clone();;
+			this.article.removeClass('dummry').addClass('article');
+			this.article.prepend('<span></span>');
 		},
 
 		bindDl: function(element) {
@@ -131,8 +144,10 @@
 				if(cId != $this.attr('data-id')) {
 					self.getClause($this.attr('data-id'));
 				}
+				self.Root.find('.console').removeClass('extended');
 			});
-			element.find('dd article').each(function() {
+			self.bindnewChapter(element.find('dd.console'));
+			element.find('dd.chapter-articles article').each(function() {
 				$this = jQuery(this);
 				self.bindDd($this);
 			});
@@ -149,6 +164,46 @@
 					self.Root.find('dd article').removeClass('current');
 					element.addClass('current');
 				}
+				self.Root.find('.console').removeClass('extended');
+			});
+			self.bindnewArticle(element.find('.console'));
+		},
+
+		bindnewChapter: function(element) {
+			var self = this;
+			element.bind('click',function(e) {
+				self.documents.attr('data-id',0);
+				self.documents.attr('data-parent',0);
+				var idx = parseInt(jQuery(this).parents('dl').attr('data-index')) + 1;
+				self.documents.attr('data-index',idx);
+				self.documents.find('h3#guide-clause-subject').text('').focus();
+				self.documents.find('div#guide-clause-content').html('');
+				self.documents.find('div.guide-clause-field').each(function(i) {
+					var $this = jQuery(this);
+					$this.removeClass('article').addClass('parent');
+					$this.find('.guide-clause-field-content').html('');
+				});
+				self.initContentEditor();
+				jQuery(this).addClass('extended');
+			});
+		},
+
+		bindnewArticle: function(element) {
+			var self = this;
+			element.bind('click',function(e) {
+				self.documents.attr('data-id',0);
+				self.documents.attr('data-parent',jQuery(this).parents('article').attr('data-parent'));
+				var idx = parseInt(jQuery(this).parents('article.article').attr('data-index')) + 1;
+				self.documents.attr('data-index',idx);
+				self.documents.find('h3#guide-clause-subject').text('').focus();
+				self.documents.find('div#guide-clause-content').html('');
+				self.documents.find('div.guide-clause-field').each(function(i) {
+					var $this = jQuery(this);
+					$this.addClass('article').removeClass('parent');
+					$this.find('.guide-clause-field-content').html('');
+				});
+				self.initContentEditor();
+				jQuery(this).addClass('extended');
 			});
 		},
 
@@ -178,10 +233,14 @@
 				});
 				content.data('editor',editor);
 			}
-			this.documents.find('button.modify').bind('click',function(e) {
-				e.preventDefault();
-				self.saveClause();
-			});
+			var mbutton = this.documents.find('button.modify');
+			if(mbutton.data('bind-event') != true) {
+				mbutton.bind('click',function(e) {
+					e.preventDefault();
+					self.saveClause();
+				});
+				mbutton.data('bind-event',true);
+			}
 		},
 
 		getClause: function(id) {
@@ -275,8 +334,10 @@
 
 			var params = "table=clause";
 			if(!id) {
+				var mode = 'add';
 				params += "&mode=add";
 			} else {
+				var mode = 'modify';
 				params += "&mode=modify";
 				params += "&id="+id;
 			}
@@ -320,12 +381,21 @@
 					if(error < 0) {
 						self.abortDialog(message, 0 )
 					} else {
-						var id = parseInt(self.documents.attr('data-id'));
 						var p = parseInt(self.documents.attr('data-parent'));
-						if(p > 0) {
-							self.indexes.find('dd.chapter-articles article#guide-article-'+id+' span').text(s);
+						if(mode == 'modify') {
+							var id = parseInt(self.documents.attr('data-id'));
+							if(p > 0) {
+								self.indexes.find('dd.chapter-articles article#guide-article-'+id+' span').text(s);
+							} else {
+								self.indexes.find('dl#guide-chapter-'+id+' dt.chapter-title').text(s);
+							}
 						} else {
-							self.indexes.find('dl#guide-chapter-'+id+' dt.chapter-title').text(s);
+							self.documents.attr('data-id',error);
+							if(p > 0) {
+								self.appendArticle();
+							} else {
+								self.appendChapter();
+							}
 						}
 					}
 				},
@@ -334,6 +404,72 @@
 					self.abortDialog(jqXHR.responseText,0);
 				}
 			});
+		},
+
+		appendChapter: function() {
+			var chapter = this.chapter.clone();
+			chapter.attr('id','guide-chapter-'+this.documents.attr('data-id'));
+			chapter.attr('data-id',this.documents.attr('data-id'));
+			chapter.attr('data-parent',this.documents.attr('data-parent'));
+			chapter.attr('data-index',this.documents.attr('data-index'));
+			chapter.find('dt.chapter-title').attr('data-id',this.documents.attr('data-id'));
+			chapter.find('dt.chapter-title').text(this.documents.find('#guide-clause-subject').text());
+			chapter.find('dd.chapter-articles article').atrr('data-parent',this.documents.attr('data-id'));
+			chapter.removeClass('collapsed').addClass('current');
+
+			self.bindDl(chapter);
+			chapter.insertBefore(this.indexes.find('dl[data-index="'+this.documents.attr('data-index')+'"]'));
+
+			this.resortChapters();
+		},
+
+		removeChapter: function(id) {
+			var obj = this.indexes.find('dl#guide-chapter-'+id);
+			if(obj.length > 0) {
+				var art = obj.find('dd.chapter-articles article.article');
+				if(art.length > 0) {
+					return;
+				}
+				obj.remove();
+				this.resortChapters();
+			}
+		},
+
+		appendArticle: function() {
+			var article = this.aritlce.clone();
+			article.attr('id','guide-article-'+this.documents.attr('data-id'));
+			article.attr('data-id',this.documents.attr('data-id'));
+			article.attr('data-parent',this.documents.attr('data-parent'));
+			article.attr('data-index',this.documents.attr('data-index'));
+			article.find('span').text(this.documents.find('#guide-clause-subject').text());
+
+			this.bindDd(article);
+			chapter.insertBefore(this.indexes.find('dl#guide-chapter-'+this.documents.attr('data-parent')+' dd.chapter-articles article.article[data-index="'+this.documents.attr('data-index')+'"]'));
+
+			this.resortArticles(this.documents.attr('data-parent'));
+		},
+
+		removeArticles: function(parents,id) {
+			this.indexes.find('dl#guide-chapter-'+parents+' dd.chapter-articles article#guide-article-'+id).remove();
+			this.resortArticles(parents);
+		},
+
+		resortChapter: function() {
+			this.indexes.find('dl').each(function(i) {
+				$this = jQuery(this);
+				if(!$this.hasClass('dummy')) {
+					$this.attr('data-index',(i+1));
+				}
+			});
+		},
+
+		resortArticles: function(id) {
+			var dl = this.indexes.find('dl#guide-chapter-'+id);
+			if(dl.length > 0) {
+				dl.find('dd.chapter-articles article.article').each(function(i) {
+					jQuery(this).attr('data-index',(i+1));
+				});
+			}
 		},
 
 		abortDialog: function(message,fid) {
