@@ -52,7 +52,11 @@ class Organize extends \CADB\Objects  {
 		}
 		if($que) {
 			if(self::$mode == 'admin') {
-				$que .= " ORDER BY o.p1 ASC, o.p2 ASC, o.p3 ASC, o.p4 ASC LIMIT ".(($page-1)*$limit).",".$limit;
+				if($limit == 0) {
+					$que .= " ORDER BY o.p1 ASC, o.p2 ASC, o.p3 ASC, o.p4 ASC";
+				} else {
+					$que .= " ORDER BY o.p1 ASC, o.p2 ASC, o.p3 ASC, o.p4 ASC LIMIT ".(($page-1)*$limit).",".$limit;
+				}
 			} else if(self::$mode == 'depth') {
 				$que .= " ORDER BY o.depth ASC, o.oid ASC";
 			} else {

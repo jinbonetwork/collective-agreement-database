@@ -13,8 +13,15 @@ class index extends \CADB\Controller {
 
 		\CADB\Organize::setMode('admin');
 		$fields = \CADB\Organize::getFieldInfo(1);
+		$cids = array();
 		foreach($fields as $f => $v) {
 			$this->fields[] = array('field' => 'f'.$f, 'subject' => $v['subject'],'type'=>$v['type'], 'multiple'=>( $v['multiple'] ? true : false ),'cid'=>$v['cid']);     
+			if($v['type'] == 'taxonomy') {
+				$cids[] = $v['cid'];
+			}
+		}
+		if(@count($cids)) {
+			$this->taxonomy_terms = \CADB\Taxonomy::getTaxonomyTerms($cids);
 		}
 
 		foreach($this->params as $k => $v) {

@@ -3,11 +3,40 @@
 			<form class="orgs-search" action="<?php print \CADB\Lib\url("admin/orgs"); ?>" method="get" onsubmit="return check_orgs_search(this);">
 				<label for="orgs_q">조직검색</label>
 				<input type="text" id="orgs_q" name="q" value="<?php print $params['q']; ?>" />
+				<button type="button" class="option">옵션</button>
+				<div id="org-search-option" class="collapsed">
+					<div class="org-search-option-container">
+<?php			foreach($fields as $field) {
+					if($field['type'] == 'taxonomy') {?>
+						<fieldset data-q="o<?php print substr($field['field'],1); ?>">
+							<legend><?php print $field['subject']; ?></legend>
+							<ul>
+<?php 						foreach($taxonomy_terms[$field['cid']] as $tid => $term) {
+								$checked = "";
+								if($field['multiple']) {
+									if(@in_array($tid,$params['o'.substr($field['field'],1)]))
+										$checked = " checked";
+								} else {
+									if($tid == $params['o'.substr($field['field'],1)])
+										$checked = " checked";
+								}?>
+								<li>
+									<input id="<?php print $field['cid'];?>-<?php print $tid; ?>" name="o<?php print substr($field['field'],1); ?><?php print ($field['multiple'] ? '[]' : ''); ?>" type="<?php print ($field['multiple'] ? 'checkbox' : 'radio'); ?>" value="<?php print $tid; ?>"<?php print $checked; ?> />
+									<label for="<?php print $field['cid'];?>-<?php print $tid; ?>"><?php print $term['name']; ?></label>
+								</li>
+<?php						}?>
+							</ul>
+						</fieldset>
+<?php				}
+				}?>
+					</div>
+				</div>
 				<button type="submit">찾기</button>
 			</form>
 			<div class="article-button">
 				<a class="fields" href="<?php print \CADB\Lib\url("admin/orgs/fields"); ?>">필드관리</a>
 				<a class="add" href="<?php print \CADB\Lib\url("admin/orgs/add"); ?>">조직추가</a>
+				<a class="excel" href="<?php print \CADB\Lib\url("admin/orgs/excel"); ?>">Excel다운로드</a>
 			</div>
 		</div>
 		<table class="orgs-list" border="0" cellspacing="0" cellpadding="0" width="100%">
@@ -74,4 +103,5 @@
 		</div>
 		<div class="article-button">
 			<a class="add" href="<?php print \CADB\Lib\url("admin/orgs/add"); ?>">조직추가</a>
+			<a class="excel" href="<?php print \CADB\Lib\url("admin/orgs/excel"); ?>">Excel다운로드</a>
 		</div>

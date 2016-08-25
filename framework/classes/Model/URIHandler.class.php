@@ -156,7 +156,7 @@ final class URIHandler extends \CADB\Objects {
 		fputs($fp,serialize($this->params));
 		fclose($fp);
 		foreach($this->params as $k => $v) {
-			if($this->isJson($v)) {
+			if(!is_array($v) && $this->isJson($v)) {
 				$this->params[$k] = json_decode($v,true);
 			}
 		}

@@ -11,5 +11,9 @@
 	[
 		"../config/tcpdf_config.php",
 		"TCPDF/tcpdf.php"
+	],
+	"PHPExcel":
+	[
+		"PHPExcel/Classes/PHPExcel.php"
 	]
 }

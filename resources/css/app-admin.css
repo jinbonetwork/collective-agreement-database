@@ -99,6 +99,7 @@
 	border-radius: 14px;
 }
 .app-admin .member-list-header form.member-search button[type="submit"],
+.app-admin .orgs-list-header form.orgs-search button[type="button"],
 .app-admin .orgs-list-header form.orgs-search button[type="submit"],
 .app-admin .article-list-header form.article-search button[type="submit"],
 .app-admin .standard-list-header form.standard-search button[type="submit"] {
@@ -122,6 +123,68 @@
 .app-admin .standard-list-header form.standard-button {
 	float: right;
 }
+.app-admin .orgs-list-header form.orgs-search #org-search-option {
+	position: fixed;
+	z-index: 999999;
+	left: 5%;
+	top: 212px;
+	max-height: 60%;
+	width: 90%;
+	color: #454545;
+	background: #fff;
+	overflow-y: auto;
+	border: 1px solid #ccc;
+	border-radius: 10px;
+	transition: max-height 0.6s;
+	-webkit-transition: max-height 0.6s;
+	-moz-transition: max-height 0.6s;
+	-ms-transition: max-height 0.6s;
+	-o-transition: max-height 0.6s;
+}
+.app-admin .orgs-list-header form.orgs-search #org-search-option.collapsed {
+	max-height: 0;
+}
+.app-admin .orgs-list-header form.orgs-search #org-search-option .org-search-option-container {
+	padding: 20px;
+	position: relative;
+}
+.app-admin .orgs-list-header form.orgs-search #org-search-option .org-search-option-container:after {
+	clear: both;
+	content: '';
+	display: block;
+}
+.app-admin .orgs-list-header form.orgs-search #org-search-option .org-search-option-container fieldset {
+	position: relative;
+	width: 10%;
+	float: left;
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+.app-admin .orgs-list-header form.orgs-search #org-search-option .org-search-option-container fieldset legend {
+	border: 1px solid #ccc;
+	width: 100%;
+	text-align: center;
+	cursor: pointer;
+	padding: 6px 0;
+}
+.app-admin .orgs-list-header form.orgs-search #org-search-option .org-search-option-container fieldset legend:hover,
+.app-admin .orgs-list-header form.orgs-search #org-search-option .org-search-option-container fieldset legend:active {
+	border: 1px solid #5a91e2;
+	background: #5a91e2;
+	color: #fff;
+}
+
+.app-admin .orgs-list-header form.orgs-search #org-search-option .org-search-option-container fieldset ul {
+	width: 100%;
+	margin: 0;
+	padding: 10px 5px;
+	list-style: none;
+}
+.app-admin .orgs-list-header form.orgs-search #org-search-option .org-search-option-container fieldset ul li {
+	text-align: justify;
+}
+
 .app-admin ul.articles-list,
 .app-admin ul.standards-list {
 }
@@ -217,6 +280,7 @@
 }
 .app-admin .article-button a.fields,
 .app-admin .article-button a.add,
+.app-admin .article-button a.excel,
 .app-admin .standard-button a.fields,
 .app-admin .standard-button a.add {
 	padding: 5px 8px;
@@ -228,6 +292,7 @@
 }
 .app-admin .article-button a.fields:hover,
 .app-admin .article-button a.add:hover,
+.app-admin .article-button a.excel:hover,
 .app-admin .standard-button a.fields:hover,
 .app-admin .standard-button a.add:hover {
 	color: #ebeef2;
