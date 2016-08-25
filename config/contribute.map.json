@@ -15,5 +15,9 @@
 	"PHPExcel":
 	[
 		"PHPExcel/Classes/PHPExcel.php"
+	],
+	"PHPExcel_IOFactory":
+	[
+		"PHPExcel/Classes/PHPExcel/IOfactory.php"
 	]
 }

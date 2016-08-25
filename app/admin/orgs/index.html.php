@@ -36,7 +36,7 @@
 			<div class="article-button">
 				<a class="fields" href="<?php print \CADB\Lib\url("admin/orgs/fields"); ?>">필드관리</a>
 				<a class="add" href="<?php print \CADB\Lib\url("admin/orgs/add"); ?>">조직추가</a>
-				<a class="excel" href="<?php print \CADB\Lib\url("admin/orgs/excel"); ?>">Excel다운로드</a>
+				<a class="excel" href="<?php print \CADB\Lib\url("admin/orgs/excel").$queryString; ?>">Excel다운로드</a>
 			</div>
 		</div>
 		<table class="orgs-list" border="0" cellspacing="0" cellpadding="0" width="100%">
