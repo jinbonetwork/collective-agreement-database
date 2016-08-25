@@ -31,3 +31,6 @@
 [submodule "contribute/jquery.scrollTo"]
 	path = contribute/jquery.scrollTo
 	url = https://github.com/flesler/jquery.scrollTo.git
+[submodule "contribute/PHPExcel"]
+	path = contribute/PHPExcel
+	url = https://github.com/PHPOffice/PHPExcel.git
