@@ -1,5 +1,5 @@
         <h3><?php print $guide['subject']; ?> 수정하기</h3>
-		<div class="guide-edit">
+		<div class="guide-edit" data-nid="<?php print $guide['nid']; ?>">
 			<div class="guide-info-container">
 				<h4 class="sub-title">모범단협 기본정보</h4>
 				<form method="POST" action="">
@@ -45,7 +45,7 @@
 									<button type="button" class="clause-add">챕터추가</button>
 								</dd>
 								<dd class="chapter-articles">
-									<article id="" data-id="" data-parent="0" data-index="0" class="article">
+									<article id="" data-id="" data-parent="0" data-index="0" class="dummy">
 										<div class="console article-add-console">
 											<button type="button" class="clause-add">조항추가</button>
 										</div>
@@ -84,15 +84,26 @@
 				</div>
 				<div class="guide-clause-document-wrap">
 					<div class="guide-clause-document" data-id="<?php print $preamble['id']; ?>" data-parent="<?php print $preamble['parent']; ?>" data-index="<?php print $preamble['idx']; ?>">
+						<div class="delete-message">
+							<span>삭제되었습니다.</span>
+						</div>
 						<h3 id="guide-clause-subject" contenteditable="true" placeholder="조항제목을 입력하세요"><?php print $preamble['subject']; ?></h3>
 						<div id="guide-clause-taxonomy">
 <?php					foreach($taxonomy_terms as $cid => $taxonomies) {?>
-							<select id="guide-clause-taxonomy-<?php print $cid; ?>" data-cid="<?php print $cid; ?>">
-								<option value="0">[<?php print $taxonomy[$cid]['subject'];?>] 선택</option>
-<?php						foreach($taxonomies as $t => $taxo) {?>
-								<option value="<?php print $t; ?>"<?php print ($preamble['terms'][$t] ? " selected" : ""); ?>><?php print $taxo['name']; ?></option>
-<?php						}?>
-							</select>
+							<div id="guide-clause-taxonomy-<?php print $cid; ?>" class="guide-clause-taxonomy-item" data-cid="<?php print $cid; ?>">
+								<label><?php print $taxonomy[$cid]['subject']; ?> 분류</label>
+								<div class="guide-clause-taxonomy-value" data-tid="0">[<?php print $taxonomy[$cid]['subject'];?>] 선택</div>
+								<ul class="guide-clause-taxonomy-list" data-cid="<?php print $cid; ?>">
+<?php					foreach($taxonomies[0] as $t => $taxo) {?>
+									<li data-tid="<?php print $t; ?>" class="<?php print ($preamble['terms'][$t] ? "selected" : ""); ?><?php print ($taxo['parent'] ? " sub" : ""); ?>"><?php print $taxo['name']; ?></li>
+<?php						if($taxo['nsubs']) {
+								foreach($taxonomies[$t] as $tt => $taxoo) {?>
+									<li data-tid="<?php print $tt; ?>" class="<?php print ($preamble['terms'][$tt] ? "selected" : ""); ?><?php print ($taxoo['parent'] ? " sub" : ""); ?>"><?php print $taxoo['name']; ?></li>
+<?php							}
+							}
+						}?>
+								</ul>
+							</div>
 <?php					}?>
 						</div>
 						<div id="guide-clause-content">
@@ -102,7 +113,7 @@
 					if($field['table'] == 'guide_clause') {?>
 						<div id="guide-clause-field-f<?php print $fid; ?>" class="guide-clause-field<?php print ($preamble['parent'] ? ' article' : ' parent') ?>" data-fid="<?php print $fid; ?>">
 							<h4><?php print $field['subject']; ?></h4>
-							<div class="guide-clause-field-content">
+							<div id="guide-clause-field-f<?php print $fid; ?>-content" class="guide-clause-field-content">
 <?php							print $preamble['f'.$fid]; ?>
 							</div>
 						</div>

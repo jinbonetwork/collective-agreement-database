@@ -248,6 +248,75 @@
 .guide-clause-document h3#guide-clause-subject {
 	border-bottom: 1px solid #5a91e2;
 }
+.guide-clause-document #guide-clause-taxonomy {
+	margin-bottom: 20px;
+}
+.guide-clause-document .guide-clause-taxonomy-item {
+	position: relative;
+	padding: 0 0 0  130px;
+}
+.guide-clause-document .guide-clause-taxonomy-item label {
+	position: absolute;
+	top: 3px;
+	left: 0;
+}
+.guide-clause-document .guide-clause-taxonomy-item .guide-clause-taxonomy-value {
+	padding: 3px 10px;
+	border: 1px solid #ccc;
+	cursor: pointer;
+}
+.guide-clause-document .guide-clause-taxonomy-item .guide-clause-taxonomy-value:after {
+	float: right;
+	font-family: "FontAwesome";
+	content: "\f107";
+	padding-left: 15px
+}
+.guide-clause-document .guide-clause-taxonomy-item ul.guide-clause-taxonomy-list {
+	position: absolute;
+	left: 130px;
+	top: 0;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	height: 300px;
+	overflow-y: auto;
+	background: #fff;
+	display: none;
+	border: 1px solid #ccc;
+}
+.guide-clause-document .guide-clause-taxonomy-item ul.guide-clause-taxonomy-list.show {
+	display: inline-block;
+	z-index: 9999999;
+}
+.guide-clause-document .guide-clause-taxonomy-item ul.guide-clause-taxonomy-list li {
+	white-space: nowrap;
+	padding: 5px 10px;
+	margin: 0;
+	cursor: pointer;
+}
+.guide-clause-document .guide-clause-taxonomy-item ul.guide-clause-taxonomy-list li.sub {
+	padding-left: 30px;
+}
+.guide-clause-document .guide-clause-taxonomy-item ul.guide-clause-taxonomy-list li.selected,
+.guide-clause-document .guide-clause-taxonomy-item ul.guide-clause-taxonomy-list li:hover {
+	background: #5a91e2;
+	color: #fff;
+}
+
+.guide-clause-document .delete-message {
+	display: none;
+	margin: 50px;
+	text-align: center;
+}
+.guide-clause-document .delete-message span {
+	display: inline-block;
+	margin: 0 auto;
+	padding: 20px 30px;
+	background: #f22;
+	color: #fff;
+	font-size: 1.2em;
+	font-weight: bold;
+}
 .guide-clause-document h4 {
 	background: #5a91e2;
 	color: #fff;
@@ -310,4 +379,25 @@
 }
 .guide-clause-document .button button.delete {
 	background: #ff0000;
+}
+.guide-clause-document.new .button button.delete {
+	display: none;
+}
+.guide-clause-document.delete .delete-message {
+	display: block;
+}
+.guide-clause-document.delete #guide-clause-subject,
+.guide-clause-document.delete #guide-clause-taxonomy,
+.guide-clause-document.delete #guide-clause-content,
+.guide-clause-document.delete .guide-clause-field,
+.guide-clause-document.delete .button {
+	display: none;
+}
+.taxonomy-background {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	left: 0;
+	top: 0;
+	z-index: 999;
 }

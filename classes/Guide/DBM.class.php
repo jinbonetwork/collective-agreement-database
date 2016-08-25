@@ -143,6 +143,81 @@ class DBM extends \CADB\Objects {
 		return $taxo;
 	}
 
+	public static function getClauseTaxonomyTerms($nid,$id) {
+		$dbm = \CADB\DBM::instance();
+
+		$que = "SELECT r.*,t.cid,t.name FROM {taxonomy_term_relative} AS r LEFT JOIN {taxonomy_terms} AS t ON r.tid = t.tid WHERE r.`table` = 'guide_clause' AND r.`rid` = ".$nid." AND r.`fid` = ".$id;
+		while($row = $dbm->getFetchArray($que)) {
+			$taxo[$row['tid']] = $row;
+		}
+		return $taxo;
+	}
+
+	public static function addClause($args,$fields) {
+		$dbm = \CADB\DBM::instance();
+
+		$que = "UPDATE {guide_clause} SET idx = idx + 1 WHERE `parent` = ".$args['parent']." AND `idx` >= ".$args['idx']." ORDER BY idx DESC";
+		$dbm->query($que);
+
+		$que = "INSERT INTO {guide_clause} (`nid`,`parent`,`idx`,`subject`, `content`";
+		$que2 = ") VALUES (?, ?, ?, ?, ?";
+		$array1 = 'array("dddss';
+		$array2 = '$'."args['nid'], ".'$'."args['parent'], ".'$'."args['idx'], ".'$'."args['subject'], ".'$'."args['content']";
+		foreach($args as $k => $v) {
+			if(substr($k,0,1) == 'f') {
+				$key = (int)substr($k,1);
+				switch($fields[$key]['iscolumn']) {
+					case 1:
+						$que .= ", `".$k."`";
+						$que2 .= ", ?";
+						$array2 .= ', $'."args['".$k."']";
+						switch($fields[$key]['type']) {
+							case 'int':
+								$array1 .= 'd';
+								break;
+							default:
+								$array1 .= 's';
+								break;
+						}
+						break;
+					default:
+						$custom[$key] = $v;
+						break;
+				}
+			}
+		}
+
+		$que .= ", `custom`";
+		$que2 .= ", ?)";
+		$que = $que.$que2;
+
+		$array1 .= 's",';
+		$array2 .= ", serialize(".'$'."custom))";
+		$eval_str = '$'."q_args = ".$array1.$array2.";";
+		eval($eval_str);
+
+		if( $dbm->execute($que,$q_args) < 1) {
+			self::setErrorMsg($que." 가 DB에 반영되지 않았습니다.");
+			return -1;
+		}
+
+		$insert_id = $dbm->getLastInsertId();
+
+		if($args['tid']) {
+			if(!is_array($args['tid'])) {
+				$tids = array($args['tid']);
+			} else {
+				$tids = $args['tid'];
+			}
+			for($i=0; $i<@count($args['tid']); $i++) {
+				$que = "INSERT INTO {taxonomy_term_relative} (`tid`, `table`, `rid`, `fid`) VALUES (?,?,?,?)";
+				$dbm->execute($que,array("dsdd",$tids[$i],'guide_clause',$args['nid'],$insert_id));
+			}
+		}
+
+		return $insert_id;
+	}
+
 	public static function modifyClause($clause,$args,$fields) {
 		$dbm = \CADB\DBM::instance();
 
@@ -156,7 +231,7 @@ class DBM extends \CADB\Objects {
 					case 1:
 						$que .= ", `".$k."` = ?";
 						$array2 .= ', $'."args['".$k."']";
-						switch(self::$fields[$key]['type']) {
+						switch($fields[$key]['type']) {
 							case 'int':
 								$array1 .= 'd';
 								break;
@@ -176,9 +251,24 @@ class DBM extends \CADB\Objects {
 		$array2 .= ", serialize(".'$'."custom), ".'$'."args['id'])";
 
 		$eval_str = '$'."q_args = ".$array1.$array2.";";
+
 		eval($eval_str);
 
-		$dbm->execute($que,$q_args);
+		if( $dbm->execute($que,$q_args) < 1) {
+			self::setErrorMsg($que." 가 DB에 반영되지 않았습니다.");
+			return -1;
+		}
+
+		$terms = self::getClauseTerms($args['nid'],$args['id']);
+		if($args['tid']) {
+			if(!is_array($args['tid'])) {
+				$new_terms = array($args['tid']);
+			} else {
+				$new_terms = $args['tid'];
+			}
+		}
+
+		self::rebuildTaxonomyTerms($args['nid'],$args['id'],$terms,$new_terms);
 
 		return $args['id'];
 	}
@@ -192,8 +282,39 @@ class DBM extends \CADB\Objects {
 		$que = "UPDATE {guide_clause} SET idx = idx - 1 WHERE nid = ".$clause['nid']." AND parent = ".$clause['parent']." AND idx >= ".$clause['idx']." ORDER BY idx ASC";
 		$dbm->query($que);
 
-		$que = "DELETE * FROM {taxonomy_term_relative} WHERE `table` = ? AND `rid` = ? AND `fid` = ?";
+		$que = "DELETE FROM {taxonomy_term_relative} WHERE `table` = ? AND `rid` = ? AND `fid` = ?";
 		$dbm->execute($que,array("sdd",'guide_clause',$clause['nid'],$clause['id']));
+	}
+
+	private static function rebuildTaxonomyTerms($nid,$id,$old_terms,$new_terms) {
+		$dbm = \CADB\DBM::instance();
+		$del_terms = array();
+		$add_terms = array();
+		if(is_array($old_terms)) {
+			foreach($old_terms as $t => $terms) {
+				if(@count($new_terms) > 0) {
+					if(!in_array($t,$new_terms)) {
+						$del_terms[] = $t;
+					}
+				} else {
+					$del_terms[] = $t;
+				}
+			}
+		}
+		for($i=0; $i<@count($new_terms); $i++) {
+			if(!$old_terms[$new_terms[$i]]) {
+				$add_terms[] = $new_terms[$i];
+			}
+		}
+
+		for($i=0; $i<@count($del_terms); $i++) {
+			$que = "DELETE FROM {taxonomy_term_relative} WHERE `tid` = ? AND `table` = ? AND `rid` = ? AND `fid` = ?";
+			$dbm->execute($que,array("dsdd",$del_terms[$i],'guide_clause',$nid,$id));
+		}
+		for($i=0; $i<@count($add_terms); $i++) {
+			$que = "INSERT INTO {taxonomy_term_relative} (`tid`, `table`, `rid`, `fid`) VALUES (?,?,?,?)";
+			$dbm->execute($que,array("dsdd",$add_terms[$i],'guide_clause',$nid,$id));
+		}
 	}
 
 	public static function fork($nid) {

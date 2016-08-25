@@ -6,6 +6,7 @@
 				<button type="submit">찾기</button>
 			</form>
 			<div class="standard-button">
+				<a class="fields" href="<?php print \CADB\Lib\url("admin/standards/fields"); ?>">필드관리</a>
 				<!--a class="add" href="<?php print \CADB\Lib\url("admin/standards/add"); ?>">모범단협추가</a-->
 			</div>
 		</div>
@@ -43,5 +44,6 @@
 			</ul>
 		</div>
 		<div class="standard-button">
+			<a class="fields" href="<?php print \CADB\Lib\url("admin/standards/fields"); ?>">필드관리</a>
 			<!--a class="add" href="<?php print \CADB\Lib\url("admin/standards/add"); ?>">모범단협추가</a-->
 		</div>

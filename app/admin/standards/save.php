@@ -93,8 +93,22 @@ class save extends \CADB\Controller {
 		}
 	}
 
+	private function addClause() {
+		$this->id = \CADB\Guide\DBM::addClause($this->params, $this->fields);
+		if($this->id > 0) {
+			\CADB\RespondJson::PrintResult( array( 'error' => $this->id, 'message' => '추가되었습니다' ) );
+		} else {
+			\CADB\RespondJson::PrintResult( array( 'error' => $this->id, 'message' => \CADB\Guide\DBM::error() ) );
+		}
+	}
+
 	private function modifyClause() {
 		$this->id = \CADB\Guide\DBM::modifyClause($this->clause, $this->params, $this->fields);
 		\CADB\RespondJson::PrintResult( array( 'error' => $this->id, 'message' => '수정되었습니다' ) );
+	}
+
+	private function deleteClause() {
+		\CADB\Guide\DBM::deleteClause($this->clause);
+		\CADB\RespondJson::PrintResult( array( 'error' => $this->clause['id'], 'message' => '삭제되었습니다' ) );
 	}
 }
