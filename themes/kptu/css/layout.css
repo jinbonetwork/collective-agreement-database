@@ -143,6 +143,7 @@ ul {
 	width: 33px;
 	height: 35px;
 	background-position: 0px -60px;
+	margin-right: 8px;
 }
 .logo.logo-DB-project-banner {
 	width: 60px;
@@ -251,6 +252,12 @@ body {
 	width: 210px;
 	font-weight: 700;
 	color: #9fa0a0;
+	opacity: 0.6;
+	transition: opacity 0.8s;
+}
+.inner-container > .footer:hover {
+	opacity: 1;
+	transition: opacity 0.8s;
 }
 	.inner-container > .footer a {
 		color: #5a91e2;

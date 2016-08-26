@@ -250,12 +250,12 @@ body {
 	}
 		.general-keyword > div {
 			line-height: 36px;
-			margin: 0 10px 10px 0;
+			margin: 0 5px 10px 0;
 		}
 		.general-keyword > .header {
 			color: #5a91e2;
 			font-size: 1.5em;
-			width: 50px;
+			width: 35px;
 			text-align: center;
 		}
 		.general-keyword .key-list {
