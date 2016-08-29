@@ -156,6 +156,7 @@ class DBM extends \CADB\Objects {
 				$dbm->execute($que, array("dd", $terms['cid'], $terms['parent']));
 			}
 		} else {
+			if(!$args['idx']) $args['idx'] = $terms['idx'];
 			if($terms['idx'] != $args['idx']) {
 				if($terms['idx'] > $args['idx']) {
 					$que = "UPDATE {taxonomy_terms} SET idx = idx + 1 WHERE `cid` = ".$args['cid']." AND `parent` = ".$args['parent']." AND idx >= ".$args['idx']." AND idx < ".$terms['idx']." ORDER BY idx DESC";

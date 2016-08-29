@@ -61,6 +61,23 @@ class terms extends \CADB\Controller {
 	}
 
 	private function add() {
+		if($this->params['after_tid']) {
+			$beforeterms = \CADB\Taxonomy\DBM::getTaxonomyTerms($this->params['after_tid']);
+			if($beforeterms) {
+				$this->params['parent'] = $beforeterms['parent'];
+				$this->params['idx'] = $beforeterms['idx']+1;
+			} else {
+				\CADB\RespondJson::ResultPage( array( -4, '존재하지 않는 이전분류 번호입니다.') );
+			}
+		} else if($this->params['before_tid']) {
+			$beforeterms = \CADB\Taxonomy\DBM::getTaxonomyTerms($this->params['before_tid']);
+			if($beforeterms) {
+				$this->params['parent'] = $beforeterms['parent'];
+				$this->params['idx'] = $beforeterms['idx'];
+			} else {
+				\CADB\RespondJson::ResultPage( array( -4, '존재하지 않는 다음분류 번호입니다.') );
+			}
+		}
 		$this->tid = \CADB\Taxonomy\DBM::insertTerm($this->params);
 		$this->params['tid'] = $this->tid;
 		$this->terms = \CADB\Taxonomy\DBM::getTaxonomyTerms($this->tid);

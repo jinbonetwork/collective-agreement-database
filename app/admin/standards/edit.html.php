@@ -95,10 +95,10 @@
 								<div class="guide-clause-taxonomy-value" data-tid="0">[<?php print $taxonomy[$cid]['subject'];?>] 선택</div>
 								<ul class="guide-clause-taxonomy-list" data-cid="<?php print $cid; ?>">
 <?php					foreach($taxonomies[0] as $t => $taxo) {?>
-									<li data-tid="<?php print $t; ?>" class="<?php print ($preamble['terms'][$t] ? "selected" : ""); ?><?php print ($taxo['parent'] ? " sub" : ""); ?>"><?php print $taxo['name']; ?></li>
+									<li data-tid="<?php print $t; ?>" data-vid="<?php print $taxo['vid'] ;?>" data-parent="0" class="<?php print ($preamble['terms'][$t] ? "selected" : ""); ?><?php print ($taxo['parent'] ? " sub" : ""); ?>"><div class="taxonomy-name"><?php print $taxo['name']; ?></div><div class="taxonomy-control"><i class="fa fa-gear" title="관리패널열기"></i></div></li>
 <?php						if($taxo['nsubs']) {
 								foreach($taxonomies[$t] as $tt => $taxoo) {?>
-									<li data-tid="<?php print $tt; ?>" class="<?php print ($preamble['terms'][$tt] ? "selected" : ""); ?><?php print ($taxoo['parent'] ? " sub" : ""); ?>"><?php print $taxoo['name']; ?></li>
+									<li data-tid="<?php print $tt; ?>" data-vid="<?php print $taxoo['vid']; ?>" data-parent="<?php print $t; ?>" class="<?php print ($preamble['terms'][$tt] ? "selected" : ""); ?><?php print ($taxoo['parent'] ? " sub" : ""); ?>"><div class="taxonomy-name"><?php print $taxoo['name']; ?></div><div class="taxonomy-control"><i class="fa fa-gear" title="관리패널열기"></i></div></li>
 <?php							}
 							}
 						}?>

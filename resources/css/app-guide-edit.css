@@ -292,7 +292,11 @@
 	white-space: nowrap;
 	padding: 5px 10px;
 	margin: 0;
-	cursor: pointer;
+	position: relative;
+	padding: 4px 30px 4px 0;
+}
+.guide-clause-document .guide-clause-taxonomy-item ul.guide-clause-taxonomy-list li.editing {
+	padding-right: 60px;
 }
 .guide-clause-document .guide-clause-taxonomy-item ul.guide-clause-taxonomy-list li.sub {
 	padding-left: 30px;
@@ -301,6 +305,99 @@
 .guide-clause-document .guide-clause-taxonomy-item ul.guide-clause-taxonomy-list li:hover {
 	background: #5a91e2;
 	color: #fff;
+}
+.guide-clause-document .guide-clause-taxonomy-item ul.guide-clause-taxonomy-list.editing li:hover {
+	background: #fff;
+	color: #595757;
+}
+.guide-clause-document .guide-clause-taxonomy-item ul.guide-clause-taxonomy-list li.editing {
+	color: #595757;
+	background: #f4f4f4;
+}
+.guide-clause-document .guide-clause-taxonomy-item ul.guide-clause-taxonomy-list li.add {
+	display: none;
+}
+.guide-clause-document .guide-clause-taxonomy-item ul.guide-clause-taxonomy-list li div.taxonomy-name {
+	width: 100%;
+	cursor: pointer;
+}
+.guide-clause-document .guide-clause-taxonomy-item ul.guide-clause-taxonomy-list li div.taxonomy-name.editing {
+	border: 1px solid #5a91e2;
+	cursor: text;
+}
+.guide-clause-document .guide-clause-taxonomy-item ul.guide-clause-taxonomy-list li button.save {
+	position: absolute;
+	right: 30px;
+	top: 3px;
+	font-size: 11px;
+	background: #5a91e2;
+	color: #fff;
+	width: 30px;
+	height: 23px;
+	border-radius: 0;
+	text-align: center;
+	vertical-align: middle;
+}
+.guide-clause-document .guide-clause-taxonomy-item ul.guide-clause-taxonomy-list li div.taxonomy-control {
+	position: absolute;
+	right: 0;
+	top: 4px;
+	width: 30px;
+	text-align: center;
+}
+.guide-clause-document .guide-clause-taxonomy-item ul.guide-clause-taxonomy-list li div.taxonomy-control i.fa {
+	cursor: pointer;
+}
+.guide-clause-document .guide-clause-taxonomy-item ul.guide-clause-taxonomy-list li div.taxonomy-control i.fa-close {
+	color: #f00;
+}
+.guide-clause-document .guide-clause-taxonomy-item ul.guide-clause-taxonomy-list li div.taxonomy-control-panel {
+	position: absolute;
+	z-index: 99999999;
+	right: 5px;
+	top: 5px;
+	width: 180px;
+	padding: 15px;
+	background: #333;
+	color: #fff;
+	border-radius: 10px;
+	font-size: 12px;
+}
+.guide-clause-document .guide-clause-taxonomy-item ul.guide-clause-taxonomy-list li div.taxonomy-control-panel i.fa-close {
+	position: absolute;
+	z-index: 999999999;
+	right: 5px;
+	top: 5px;
+	font-size: 14px;
+	cursor: pointer;
+}
+.guide-clause-document .guide-clause-taxonomy-item ul.guide-clause-taxonomy-list li div.taxonomy-control-panel button {
+	background: none;
+	color: #fff;
+	display: block;
+	border-radius: 0;
+	height: auto;
+	text-align: left;
+	padding: 2px;
+}
+.guide-clause-document .guide-clause-taxonomy-item ul.guide-clause-taxonomy-list li div.taxonomy-control-panel button:hover {
+	color: #5a91e2;
+}
+.guide-clause-document .guide-clause-taxonomy-item ul.guide-clause-taxonomy-list li div.taxonomy-control-panel button:before {
+	font-family: "FontAwesome";
+	padding-right: 10px;
+}
+.guide-clause-document .guide-clause-taxonomy-item ul.guide-clause-taxonomy-list li div.taxonomy-control-panel button.modify:before {
+	content: "\f044";
+}
+.guide-clause-document .guide-clause-taxonomy-item ul.guide-clause-taxonomy-list li div.taxonomy-control-panel button.add:before {
+	content: "\f063";
+}
+.guide-clause-document .guide-clause-taxonomy-item ul.guide-clause-taxonomy-list li div.taxonomy-control-panel button.reply:before {
+	content: "\f149";
+}
+.guide-clause-document .guide-clause-taxonomy-item ul.guide-clause-taxonomy-list li div.taxonomy-control-panel button.delete:before {
+	content: "\f014";
 }
 
 .guide-clause-document .delete-message {

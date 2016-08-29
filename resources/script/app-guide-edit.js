@@ -330,7 +330,10 @@
 					var taxo_back = jQuery('<div class="taxonomy-background"></div>');
 					taxo_back.appendTo('body');
 					taxo_back.bind('click',function(e) {
-						self.unbindSelectTaxonomy();
+						if(self.editTaxonomyMode == true)
+							self.closeTaxonomyControl();
+						else
+							self.unbindSelectTaxonomy();
 					});
 				});
 				element.data('bind-event', true);
@@ -340,24 +343,322 @@
 		activateSelectTaxonomy: function(element) {
 			var self = this;
 			element.find('li').each(function() {
-				$this = jQuery(this);
-				if( $this.data('bind-event') != true ) {
-					$this.bind('click',function(e) {
+				var $this = jQuery(this);
+				var $tn = $this.find('div.taxonomy-name');
+				self.selectTaxonomy($tn);
+
+				var $cn = $this.find('i.fa-gear');
+				self.bind_showTaxonomyTermControl($cn);
+			});
+		},
+
+		selectTaxonomy: function($tn) {
+			var self = this;
+			if( $tn.data('bind-event') != true ) {
+				$tn.bind('click',function(e) {
+					if(!jQuery(this).parents('ul.guide-clause-taxonomy-list').hasClass('editing')) {
 						var selected = self.documents.find('.guide-clause-taxonomy-value');
 						selected.text(jQuery(this).text());
 						selected.attr('data-tid', jQuery(this).attr('data-tid'));
-						jQuery(this).addClass('selected').siblings().removeClass('selected');
+						jQuery(this).parent().addClass('selected').siblings().removeClass('selected');
 						self.unbindSelectTaxonomy();
-					});
-					$this.data('bind-event', true);
-				}
-			});
+					}
+				});
+				$tn.data('bind-event', true);
+			}
 		},
 
 		unbindSelectTaxonomy: function() {
 			this.select_taxonomy_mode = false;
 			this.documents.find('ul.guide-clause-taxonomy-list').removeClass('show');
 			jQuery('.taxonomy-background').remove();
+		},
+
+		bind_showTaxonomyTermControl: function(element) {
+			var self = this;
+			if(element.data('bind-event') != true ) {
+				element.bind('click', function(e) {
+					self.showTaxonomyTermControl(element);
+				});
+				element.data('bind-event', true);
+			}
+		},
+
+		showTaxonomyTermControl: function(element) {
+			var self = this;
+			this.editTaxonomyMode = true;
+
+			var container = element.parents('li');
+			container.addClass('editing');
+			container.parents('ul.guide-clause-taxonomy-list').addClass('editing');
+			var tid = parseInt(container.attr('data-tid'));
+			var cid = parseInt(container.parents('.guide-clause-taxonomy-item').attr('data-cid'));
+			var parents = parseInt(container.attr('data-parent'));
+			var controll = jQuery('<div class="taxonomy-control-panel" data-cid="' + cid + '" data-tid="' + tid + '"><i class="fa fa-close"></i><div class="inner"></div></div>');
+
+			var modify = jQuery('<button class="modify"><span>수정하기</span></button>');
+			modify.bind('click', function(e) {
+				self.modifyTaxonomyTerm(tid);
+			});
+			modify.appendTo(controll.find('.inner'));
+
+			var insert = jQuery('<button class="add"><span>아래에 새분류삽입</span></button>');
+			insert.bind('click', function(e) {
+				var li = jQuery(this).parents('li');
+				if(li.hasClass('sub')) {
+					self.addTaxonomyTerm(cid, tid,'after');
+				} else {
+					var tid2 = 0;
+					while( ( li = li.next() ) ) {
+						if(!li.hasClass('sub')) {
+							tid2 = li.attr('data-tid');
+							self.addTaxonomyTerm(cid, tid2,'before');
+							break;
+						}
+					}
+					if(!tid2) {
+						self.addTaxonomyTerm(cid, 0, 'append');
+					}
+				}
+			});
+			insert.appendTo(controll.find('.inner'));
+
+			if(!container.hasClass('sub')) {
+				var insert2 = jQuery('<button class="reply"><span>아래에 서브 분류삽입</span></button>');
+				insert2.bind('click', function(e) {
+					var li = jQuery(this).parents('li');
+					var tid2 = 0;
+					li = li.next();
+					if(!li || !li.hasClass('sub')) {
+						self.addTaxonomyTerm(cid, tid, 'prepend');
+					} else {
+						var tid2 = li.attr('data-tid');
+						container.removeClass('editing');
+						container.find('.taxonomy-name').removeClass('editing');
+						self.addTaxonomyTerm(cid, tid2, 'before');
+					}
+				});
+				insert2.appendTo(controll.find('.inner'));
+			}
+
+			var deletes = jQuery('<button class="delete"><span>삭제하기</span></button>');
+			deletes.bind('click', function(e) {
+				self.deleteTaxonomyTerm(cid,tid);
+			});
+			deletes.appendTo(controll.find('div.inner'));
+
+			controll.appendTo(container);
+			this.taxonomy_controll = controll;
+
+			this.taxonomy_controll.find('i.fa-close').click(function(e) {
+				self.closeTaxonomyControl();
+				jQuery(this).parent().remove();
+			});
+		},
+
+		removeTaxonomyControl: function() {
+			this.taxonomy_controll.remove();
+		},
+
+		closeTaxonomyControl: function() {
+			this.editTaxonomyMode = false;
+			this.documents.find('ul.guide-clause-taxonomy-list.editing li.editing').removeClass('editing');
+			this.documents.find('ul.guide-clause-taxonomy-list.editing li.add').remove();
+			this.documents.find('ul.guide-clause-taxonomy-list.editing').removeClass('editing');
+			this.removeTaxonomyControl();
+			this.resetTaxonomyTerm();
+		},
+
+		modifyTaxonomyTerm: function(tid) {
+			var self = this;
+
+			this.removeTaxonomyControl();
+			var tl = this.documents.find('ul.guide-clause-taxonomy-list li[data-tid="'+tid+'"]');
+			var tn = tl.find('.taxonomy-name');
+			tn.addClass('editing').attr('contenteditable',true).attr('data-orgin',tn.text()).focus();
+			var b = jQuery('<button class="save">저장</button>');
+			b.bind('click',function(e) {
+				self.saveTaxnomyTerm(jQuery(this));
+			});
+			b.appendTo(tl);
+		},
+
+		addTaxonomyTerm: function(cid, tid,direction) {
+			var self = this;
+
+			this.removeTaxonomyControl();
+			var li = this.documents.find('ul.guide-clause-taxonomy-list[data-cid="' + cid + '"] li[data-tid="'+tid+'"]');
+			li.removeClass('editing');
+			li.find('.taxonomy-name').removeClass('editing');
+
+			var classes = 'current editing add '+direction;
+			var issub = false;
+			if(li.hasClass('sub') || direction == 'prepend') {
+				classes += ' sub';
+				issub = true;
+			}
+
+			var obj = jQuery('<li class="'+classes+'" data-parent="' + ( direction == 'prepend' ? li.attr('data-tid') : li.attr('data-parent') ) + '" data-tid="' + ( direction != 'prepend' ? tid : 0 ) + '"><div class="taxonomy-name editing"></div><button class="save">추가</button><div class="taxonomy-control"><i class="fa fa-close" title="취소"></i></div></li>');
+
+			if(direction == 'after')
+				obj.insertAfter(li);
+			else if(direction == 'before')
+				obj.insertBefore(li);
+			else if(direction == 'prepend')
+				obj.insertAfter(li);
+			else if(direction == 'append') {
+				var ul = li.parents('ul');
+				obj.appendTo(ul);
+			}
+
+			obj.find('button.save').bind('click',function(e) {
+				self.saveTaxnomyTerm(jQuery(this));
+			});
+			var c = obj.find('i.fa-close');
+			c.bind('click', function(e) {
+				jQuery(this).parents('li').slideUp('normal',function() {
+					self.closeTaxonomyControl();
+					jQuery(this).remove();
+				});
+			});
+			obj.slideDown('normal',function() {
+				jQuery(this).find('.taxonomy-name').attr('contenteditable',true).focus();
+			});
+		},
+
+		saveTaxnomyTerm: function(element) {
+			var self = this;
+			var ul = element.parents('ul.guide-clause-taxonomy-list');
+			var cid = ul.attr('data-cid');
+
+			var li = element.parents('li');
+			if(li.hasClass('add')) {
+				var mode = 'add';
+			} else {
+				var mode = 'modify';
+			}
+			if(mode == 'add' && ( li.hasClass('before') || li.hasClass('after') ) ) {
+				var after_tid = li.attr('data-tid');
+				var tid = 0;
+				var vid = 0;
+			} else if(mode == 'modify') {
+				var after_tid = 0;
+				var tid = li.attr('data-tid');
+				var vid = li.attr('data-vid');
+			}
+			var parents = li.attr('data-parent');
+			var tn = li.find('.taxonomy-name');
+			if(mode == 'modify') {
+				if(tn.attr('data-orgin') == tn.text()) {
+					this.closeTaxonomyControl();
+					return;
+				}
+			}
+			if(!tn.text()) {
+				this.alertMessage(tn, '조항분류 이름을 입력하세요.');
+				return;
+			} else {
+				this.removeAlert(tn);
+			}
+
+			var url = '/admin/fields/terms';
+			var params = "mode=" + mode + "&cid=" + cid + "&parent= " + parents;
+			if(mode == 'add' && ( li.hasClass('prepend') || li.hasClass('append') ) ) {
+			} else {
+				params += "&tid=" + tid;
+				if(mode == 'modify') params += "&vid=" + vid;
+			}
+			if(after_tid) {
+				if( li.hasClass('after') )
+					params += "&after_tid="+after_tid;
+				else if( li.hasClass('before') )
+					params += "&before_tid="+after_tid;
+			}
+			params += "&name=" + tn.text();
+
+			jQuery.ajax({
+				url: url,
+				data: params,
+				dataType: 'json',
+				method: 'POST',
+				beforeSend: function() {
+					self.loading();
+				},
+				success: function(json) {
+					var error = parseInt(json.error);
+					var message = json.message;
+					self.removeLoading();
+					if(error <= 0) {
+						if(error == -3) {
+							self.alertMessage(tn, message);
+						} else {
+							self.abortDialog(message,0);
+							self.removeAlert(tn);
+						}
+					} else {
+						if(mode == 'add') {
+							li.attr('data-tid',message.tid);
+							li.attr('data-vid',message.vid);
+							li.removeClass('add');
+
+							self.selectTaxonomy(li.find('div.taxonomy-name'));
+
+							var c = li.find('div.taxonomy-control');
+							c.find('i.fa-close').remove();
+							var cl = jQuery('<i class="fa fa-gear" title="관리패널열기"></i>');
+							self.bind_showTaxonomyTermControl(cl);
+							cl.appendTo(c);
+						}
+						self.closeTaxonomyControl();
+					}
+				},
+				error: function( jqXHR, textStatus, errorThrown ) {
+					self.removeLoading();
+					self.abortDialog(jqXHR.responseText,0);
+				}
+			});
+		},
+
+		deleteTaxonomyTerm: function(cid,tid) {
+			var self = this;
+
+			this.removeTaxonomyControl();
+			var li = this.documents.find('ul.guide-clause-taxonomy-list[data-cid="' + cid + '"] li[data-tid="'+tid+'"]');
+
+			var url = '/admin/fields/terms';
+			var params = "mode=delete&cid=" + cid + "&parent= " + li.attr('data-parent') + "&tid=" + tid;
+
+			jQuery.ajax({
+				url: url,
+				data: params,
+				dataType: 'json',
+				method: 'POST',
+				beforeSend: function() {
+					self.loading();
+				},
+				success: function(json) {
+					var error = parseInt(json.error);
+					var message = json.message;
+					self.removeLoading();
+					if(error <= 0) {
+						self.abortDialog(message,0);
+						self.removeAlert(tn);
+					} else {
+						li.remove();
+						self.closeTaxonomyControl();
+					}
+				},
+				error: function( jqXHR, textStatus, errorThrown ) {
+					self.removeLoading();
+					self.abortDialog(jqXHR.responseText,0);
+				}
+			});
+		},
+
+		resetTaxonomyTerm: function() {
+			this.documents.find('ul.guide-clause-taxonomy-list li').removeClass('editing');
+			this.documents.find('ul.guide-clause-taxonomy-list li .taxonomy-name').removeClass('editing').attr('contenteditable',false);;
+			this.documents.find('ul.guide-clause-taxonomy-list li button.save').remove();
 		},
 
 		getClause: function(id) {
