@@ -1,7 +1,7 @@
 <?php
 namespace CADB\Member;
         
-class DBM extends \CADB\Objects  {
+class DBM extends \CADB\Objects {
 	private static $fields;
 	public static $errmsg;
 				        

@@ -28,6 +28,7 @@ class GNU5 extends \CADB\Objects {
 					if(!count($_SESSION['acl'])) {
 						$_SESSION['user']['glevel'] = BITWISE_ATHENTICATED;
 					}
+					\CADB\Log::accessLog('login');
 				}
 			}
 		}

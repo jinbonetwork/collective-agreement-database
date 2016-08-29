@@ -15,6 +15,7 @@ $IV = array(
 class logout extends \CADB\Controller {
 
 	public function process() {
+		\CADB\Log::accessLog('logout');
 		\CADB\Lib\logout();
 
 		if($_GET['requestURI']) {
