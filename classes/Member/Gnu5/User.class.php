@@ -3,6 +3,7 @@ namespace CADB\Member\Gnu5;
         
 class User extends \CADB\Objects  {
 	private static $fields;
+	private static $log;
 	public static $errmsg;
 				        
 	public static function instance() {
@@ -156,10 +157,6 @@ class User extends \CADB\Objects  {
 			mb_10
 		) VALUES (?,password(".$args['mb_password']."),?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
-		$fp = fopen("/tmp/cadb.txt","w");
-		fputs($fp,$que."\n");
-		fclose($fp);
-
 		$dbm->execute($que,array(
 			"ssssssdsssssdsssssssssssssssssssdddsssssssssssss",
 			$args['mb_id'],
@@ -214,11 +211,15 @@ class User extends \CADB\Objects  {
 
 		$insert_mb_no = $dbm->getLastInsertId();
 
+		self::$log = "회원 ".$args['mb_id']."(".$args['mb_name'].") 를 GNU5 회원테이블에 추가했습니다.\n";
+
 		if(is_array($args['roles']) && @count($args['roles']) > 0) {
 			foreach($args['roles'] as $role) {
 				\CADB\Member\DBM::addPrivileges($insert_mb_no,$args['mb_id'],$role['oid'],$row['role']);
 			}
 		}
+		self::$log .= \CADB\Member\DBM::getLog();
+		\CADB\Log::memberLog('insert',$insert_mb_no,self::$log);
 
 		return $insert_mb_no;
 	}
@@ -241,6 +242,8 @@ class User extends \CADB\Objects  {
 		}
 		$dbm->execute($que,array("ssssdd",$args['mb_id'], $args['mb_name'],$args['mb_nick'],$args['mb_email'],$args['mb_level'],$args['mb_no']));
 
+		self::$log = "회원 ".$args['mb_id']."(".$args['mb_name'].")의 회원정보를".($args['mb_password'] ? "(비밀번호 수정)" : "")." GNU5 회원테이블에서 수정했습니다.\n";
+
 		$n_role = array();
 		if(is_array($args['roles']) && @count($args['roles']) > 0) {
 			foreach($args['roles'] as $role) {
@@ -258,6 +261,8 @@ class User extends \CADB\Objects  {
 				}
 			}
 		}
+		self::$log .= \CADB\Member\DBM::getLog();
+		\CADB\Log::memberLog('modify',$args['mb_no'],self::$log);
 
 		return $args['mb_no'];
 	}
@@ -268,7 +273,11 @@ class User extends \CADB\Objects  {
 		$que = "DELETE FROM `g5_member` WHERE mb_no = ?";
 		$dbm->execute($que,array("d",$mb_no));
 
+		self::$log = $mb_id."(".$mb_no.") 회원을 GNU5 테이블에서 삭제했습니다.\n";
+
 		\CADB\Member\DBM::deletePrivilegeByID($mb_id);
+		self::$log .= \CADB\Member\DBM::getLog();
+		\CADB\Log::memberLog('delete',$mb_no,self::$log);
 
 		return 0;
 	}

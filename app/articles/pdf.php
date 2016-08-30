@@ -19,6 +19,8 @@ class pdf extends \CADB\Controller {
 			Error('존재하지 않는 단체협약입니다.');
 		}
 
+		\CADB\Log::articleLog('pdf',$this->params['nid'],($this->params['did'] ? $this->params['did'] : 0), "단체협약: [".$this->articles['subject']."]을 PDF 조회했습니다.");
+
 		$pdf = new \TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 		// set document information
 		$pdf->SetCreator(PDF_CREATOR);

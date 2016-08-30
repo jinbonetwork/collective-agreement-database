@@ -3,6 +3,7 @@ namespace CADB\Organize;
 
 class DBM extends \CADB\Objects  {
 	private static $fields;
+	private static $log;
 	public static $errmsg;
 
 	public static function instance() {
@@ -134,6 +135,8 @@ class DBM extends \CADB\Objects  {
 			}
 		}
 
+		self::$log = "조직: ".$fullname." 을 추가했습니다.\n";
+
 		if( self::reBuildTaxonomy($insert_oid, ( $revision ? $args['vid'] : $insert_oid ), $taxonomy_map) < 0 ) {
 			return -1;
 		}
@@ -145,6 +148,8 @@ class DBM extends \CADB\Objects  {
 				return -1;
 			}
 		}
+
+		\CADB\Log::orgLog('insert',$insert_oid,$insert_oid,self::$log);
 
 		return $insert_oid;
 	}
@@ -282,7 +287,11 @@ class DBM extends \CADB\Objects  {
 			}
 		}
 
+		self::$log = "조직: ".$fullname." 을 수정했습니다.\n";
+
 		self::reBuildTaxonomy($organize['oid'], $organize['vid'], $taxonomy_map);
+
+		\CADB\Log::orgLog('modify',$args['oid'],$args['vid'],self::$log);
 
 		return $args['oid'];
 	}
@@ -300,6 +309,10 @@ class DBM extends \CADB\Objects  {
 
 		$que = "DELETE FROM {taxonomy_term_relative} WHERE `table` = ? AND `rid` = ?";
 		$dbm->execute($que,array("sd",'organize',$oid));
+
+		self::$log = "조직 [".$oid."] 을 삭제했습니다.\n";
+
+		\CADB\Log::orgLog('delete',$oid,$oid,self::$log);
 
 		return 0;
 	}
@@ -354,6 +367,7 @@ class DBM extends \CADB\Objects  {
 											self::setErrorMsg( $que." 가 DB에 반영되지 않았습니다." );
 											return -1;
 										}
+										self::$log .= "[".$oid."] 조직에 ".$term['name']." 분류항목을 연결했습니다.\n";
 									}
 								}
 								break;
@@ -365,6 +379,7 @@ class DBM extends \CADB\Objects  {
 											self::setErrorMsg( $que." 가 DB에 반영되지 않았습니다." );
 											return -1;
 										}
+										self::$log .= "[".$oid."] 조직에 [".$tid."] 분류항목 연결을 해지했습니다.\n";
 									}
 								}
 								break;

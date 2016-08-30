@@ -3,6 +3,7 @@ namespace CADB\Taxonomy;
 
 class DBM extends \CADB\Objects {
 	private static $fields;
+	private static $log;
 	public static $errmsg;
 
 	public static function instance() {
@@ -45,6 +46,16 @@ class DBM extends \CADB\Objects {
 		return self::fetchTaxonomyTerms($row);
 	}
 
+	public static function getAllTaxonomyTerms() {
+		$dbm = \CADB\DBM::instance();
+
+		$que = "SELECT * FROM {taxonomy_terms} ORDER BY cid ASC";
+		while( $row = $dbm->getFetchArray($que) ) {
+			$terms[$row['tid']] = self::fetchTaxonomyTerms($row);
+		}
+		return $terms;
+	}
+
 	public static function searchTerms($cid, $f,$v) {
 		$dbm = \CADB\DBM::instance();
 
@@ -62,6 +73,9 @@ class DBM extends \CADB\Objects {
 		$dbm->execute($que,array("sdd", $args['subject'],1,1));
 
 		$insert_cid = $dbm->getLastInsertId();
+
+		self::$log = "분류 [".$args['subject']."] 을 추가했습니다.\n";
+		\CADB\Log::taxonomyLog('insert',$insert_cid,self::$log);
 
 		$t_args = array(
 			'cid' => $insert_cid,
@@ -119,6 +133,9 @@ class DBM extends \CADB\Objects {
 			$dbm->execute($que,array("dd", $args['cid'], $args['parent']));
 		}
 
+		self::$log = "분류항목 [".$args['name']."] 을 추가했습니다.\n";
+		\CADB\Log::taxonomytermLog('insert',$args['cid'],$insert_vid,$insert_vid,self::$log);
+
 		return $insert_vid;
 	}
 
@@ -127,6 +144,9 @@ class DBM extends \CADB\Objects {
 
 		$que = "UPDATE {taxonomy} SET subject = ?, skey = ?, active = ? WHERE cid = ?";
 		$dbm->execute($que, array("sddd",$args['subject'], $args['skey'], $args['active'], $args['cid']));
+
+		self::$log = "분류 [".$taxonomy['name']."] 을 수정했습니다.\n";
+		\CADB\Log::taxonomyLog('modify',$taxonomy['cid'],self::$log);
 
 		return $args['cid'];
 	}
@@ -169,6 +189,9 @@ class DBM extends \CADB\Objects {
 			$dbm->execute($que, array("sddd", $args['name'], $args['idx'], $args['vid'], $args['tid']));
 		}
 
+		self::$log = "분류항목 [".$terms['name']."] 을 수정했습니다.\n";
+		\CADB\Log::taxonomytermLog('modify',$terms['cid'],$terms['tid'],$terms['vid'],self::$log);
+
 		return $args['vid'];
 	}
 
@@ -177,6 +200,9 @@ class DBM extends \CADB\Objects {
 
 		$que = "DELETE FROM {taxonomy} WHERE cid = ?";
 		$dbm->execute($que,array("d",$args['cid']));
+
+		self::$log = "분류 [".$argis['name']."] 을 삭제했습니다.\n";
+		\CADB\Log::taxonomyLog('delete',$args['cid'],self::$log);
 	}
 
 	public static function deleteTerm($terms) {
@@ -192,6 +218,8 @@ class DBM extends \CADB\Objects {
 			$que = "UPDATE {taxonomy_terms} SET nsubs = nsubs - 1 WHERE `cid` = ? AND `tid` = ?";
 			$dbm->execute($que, array("dd", $terms['cid'], $terms['parent']));
 		}
+		self::$log = "분류항목 [".$terms['name']."] 을 삭제했습니다.\n";
+		\CADB\Log::taxonomytermLog('delete',$terms['cid'],$terms['tid'],$terms['vid'],self::$log);
 	}
 
 	private static function fetchTaxonomy($row) {

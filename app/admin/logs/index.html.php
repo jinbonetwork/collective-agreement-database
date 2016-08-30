@@ -8,29 +8,29 @@
 				<col class="oid" />
 				<col class="editor" />
 				<col class="modified" />
-				<col class="ipadddress" />
+				<col class="ipaddress" />
 				<col class="memo" />
 			</thead>
 			<tbody>
 				<tr>
-					<th>구분</th>
-					<th>행동</th>
-					<th>대상</th>
-					<th>작업자</th>
-					<th>작업일</th>
-					<th>IP</th>
-					<th>메모</th>
+					<th class="table">구분</th>
+					<th class="type">행동</th>
+					<th class="oid">대상</th>
+					<th class="editor">작업자</th>
+					<th class="modified">작업일</th>
+					<th class="ipaddress">IP</th>
+					<th class="memo">메모</th>
 				</tr>
 <?php	if(is_array($logs)) {
 			foreach($logs as $log) {?>
 				<tr>
-					<td><?php print $log['table']; ?></td>
-					<td><?php print $log['type']; ?></td>
-					<td><?php print $log['oid']; ?></td>
-					<td><?php print $log['name']; ?></td>
-					<td><?php print date("Y-m-d H:i:s",$log['modified']); ?></td>
-					<td><?php print $log['ipaddress']; ?></td>
-					<td><?php print $log['memo']; ?></td>
+					<td class="table" nowrap valign="top"><?php print $log['table']; ?></td>
+					<td class="type" nowrap valign="top"><?php print $log['type']; ?></td>
+					<td class="oid" nowrap valign="top"><?php print $this->viewArticle($log); ?></td>
+					<td class="editor" nowrap valign="top"><?php print $this->viewMember($log); ?></td>
+					<td class="modified" nowrap valign="top"><?php print date("Y-m-d H:i:s",$log['modified']); ?></td>
+					<td class="ipaddress" nowrap valign="top"><?php print $log['ipaddress']; ?></td>
+					<td class="memo" valign="top"><?php print nl2br($log['memo']); ?></td>
 				</tr>
 <?php		}
 		}?>

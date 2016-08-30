@@ -3,6 +3,7 @@ namespace CADB\Fields;
 
 class DBM extends \CADB\Objects {
 	public static $errmsg;
+	private static $log;
 
 	public static function instance() {
 		return self::_instance(__CLASS__);
@@ -57,6 +58,9 @@ class DBM extends \CADB\Objects {
 
 		$insert_fid = $dbm->getLastInsertId();
 
+		self::$log = "필드: ".$args['subject']." 를 추가했습니다.\n";
+		\CADB\Log::fieldLog('insert',$insert_fid,self::$log);
+
 		return $insert_fid;
 	}
 
@@ -75,6 +79,9 @@ class DBM extends \CADB\Objects {
 			$args['fid']
 		));
 
+		self::$log = "필드: ".$args['subject']." 를 수정했습니다.\n";
+		\CADB\Log::fieldLog('modify',$args['fid'],self::$log);
+
 		return $args['fid'];
 	}
 
@@ -86,6 +93,9 @@ class DBM extends \CADB\Objects {
 		$dbm->execute($que,array("d",$field['fid']));
 
 		$que = "UPDATE {fields} SET idx = idx - 1 WHERE `table` = '".$field['table']."' AND idx >= ".$field['idx']." ORDER BY idx ASC";
+
+		self::$log = "필드: ".$field['subject']." 를 삭제했습니다.\n";
+		\CADB\Log::fieldLog('delete',$field['fid'],self::$log);
 
 		$dbm->query($que);
 	}
@@ -118,9 +128,12 @@ class DBM extends \CADB\Objects {
 		$que = "ALTER TABLE {".$args['table']."} ADD COLUMN `f".$fid."` ".$type;
 		$dbm->query($que);
 
+		self::$log .= "필드: ".$fid." 를 ".$table." 에 칼럼으로 추가했습니다.\n";
+
 		if($args['indextype'] == 'fulltext') {
 			self::updateIndex($args);
 		}
+		\CADB\Log::fieldLog('delete',$fid,self::$log);
 	}
 
 	public static function dropColumn($fid,$args) {
@@ -129,9 +142,12 @@ class DBM extends \CADB\Objects {
 		$que = "ALTER TABLE {".$args['table']."} DROP COLUMN `f".$fid."`";
 		$dbm->query($que);
 
+		self::$log .= "필드: ".$fid." 를 ".$table." 에서 삭제했습니다.\n";
+
 		if($args['indextype'] == 'fulltext') {
 			self::updateIndex($args);
 		}
+		\CADB\Log::fieldLog('delete',$fid,self::$log);
 	}
 
 	public static function updateIndex($args) {
@@ -166,6 +182,7 @@ class DBM extends \CADB\Objects {
 			}
 			$que .= ") WITH PARSER ".$context->getProperty('database.fulltext');
 			$dbm->query($que);
+			self::$log .= "테이블: ".$args['table']."의 fulltext index를 수정했습니다.\n";
 		}
 	}
 
@@ -174,6 +191,8 @@ class DBM extends \CADB\Objects {
 
 		$que = "DELETE FROM {taxonomy_term_relatve} WHERE `table` = ? AND `fid` = ?";
 		$dbm->execute($que,array("sd",$table,$fid));
+
+		self::$log .= "테이블: ".$table."의 필드: ".$fid."와 연관된 관계테이블을 삭제했습니다.\n";
 	}
 
 	public static function resort($table,$index) {
@@ -183,6 +202,8 @@ class DBM extends \CADB\Objects {
 			$que = "UPDATE {fields} SET `idx` = ? WHERE `table` = ? AND `fid` = ?";
 			$dbm->execute($que,array("dsd",($idx+1),$table,$fid));
 		}
+		self::$log .= "테이블: ".$table."의 필드순서를 재조정했습니다.\n";
+		\CADB\Log::fieldLog('modify',0,self::$log);
 	}
 
 	private static function fetchField($row) {

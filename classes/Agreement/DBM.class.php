@@ -3,6 +3,7 @@ namespace CADB\Agreement;
 
 class DBM extends \CADB\Objects  {
 	private static $fields;
+	private static $log;
 	public static $errmsg;
 
 	public static function instance() {
@@ -112,6 +113,8 @@ class DBM extends \CADB\Objects  {
 			}
 		}
 
+		self::$log = "단체협약: ".$args['subject']." 을 추가했습니다.";
+
 		if( self::reBuildTaxonomy($insert_nid, ( $revision ? $args['did'] : $insert_nid ), $taxonomy_map) < 0 ) {
 			return -1;
 		}
@@ -133,6 +136,8 @@ class DBM extends \CADB\Objects  {
 				return -1;
 			}
 		}
+
+		\CADB\Log::articleLog('insert',$insert_nid,$insert_nid,self::$log);
 
 		return $insert_nid;
 	}
@@ -254,6 +259,8 @@ class DBM extends \CADB\Objects  {
 		eval($eval_str);
 
 		$dbm->execute($que,$q_args);
+		self::$log = "단체협약: ".$args['subject']." 을 수정했습니다.";
+
 		self::reBuildTaxonomy($articles['nid'], $articles['did'], $taxonomy_map);
 		self::reBuildOrganize($articles['nid'], $articles['did'], $organize_map, $old_orgs);
 
@@ -261,6 +268,8 @@ class DBM extends \CADB\Objects  {
 		foreach($guide_cids as $cid) {
 			self::reBuildGuideTaxonomy($cid,$articles['nid'],$args['guide']);
 		}
+
+		\CADB\Log::articleLog('insert',$articles['nid'],$articles['did'],self::$log);
 
 		return $args['nid'];
 	}
@@ -278,6 +287,9 @@ class DBM extends \CADB\Objects  {
 
 		$que = "DELETE FROM {taxonomy_term_relative} WHERE `table` = ? AND `rid` = ?";
 		$dbm->execute($que,array("sd",'agreement',$nid));
+
+		self::$log = "단체협약번호: ".$nid." 을 삭제했습니다..";
+		\CADB\Log::articleLog('insert',$nid,0,self::$log);
 
 		return 0;
 	}
@@ -368,6 +380,9 @@ class DBM extends \CADB\Objects  {
 			}
 		}
 
+		self::$log = "단체협약번호 NID: ".$nid."/ DID: ".$did." 를 새 단협번호: ".$insert_nid."로 복사했습니다";
+		\CADB\Log::articleLog('fork',$insert_nid,$insert_nid,self::$log);
+
 		return $insert_nid;
 	}
 
@@ -387,6 +402,7 @@ class DBM extends \CADB\Objects  {
 											self::setErrorMsg( $que." 가 DB에 반영되지 않았습니다." );
 											return -1;
 										}
+										self::$log .= "\n분류[".$cid."]의 ".$term['name']."[".$tid."] 항목으로지정" ;
 									}
 								}
 								break;
@@ -398,6 +414,7 @@ class DBM extends \CADB\Objects  {
 											self::setErrorMsg( $que." 가 DB에 반영되지 않았습니다." );
 											return -1;
 										}
+										self::$log .= "\n분류[".$cid."]의 ".$term['name']."[".$tid."] 항목 삭제" ;
 									}
 								}
 								break;
@@ -422,6 +439,7 @@ class DBM extends \CADB\Objects  {
 					self::setErrorMsg( $que." 가 DB에 반영되지 않았습니다." );
 					return -1;
 				}
+				self::$log .= "\nOID: ".$oid.", VID: ".$vid." 조직연결" ;
 			}
 		}
 		if( is_array($old_map) ) {
@@ -432,6 +450,7 @@ class DBM extends \CADB\Objects  {
 						self::setErrorMsg( $que." 가 DB에 반영되지 않았습니다." );
 						return -1;
 					}
+					self::$log .= "\nOID: ".$oid.", VID: ".$vid." 조직 연결 해제" ;
 				} else if($org['change_owner'] || $org['change_vid']) {
 					$qc = 0;
 					$que = "UPDATE {agreement_organize} SET ";
@@ -457,6 +476,7 @@ class DBM extends \CADB\Objects  {
 						self::setErrorMsg( $que." 가 DB에 반영되지 않았습니다." );
 						return -1;
 					}
+					self::$log .= "\nOID: ".$oid.", VID: ".$vid." 조직 연결 수정" ;
 				}
 			}
 		}
@@ -484,6 +504,7 @@ class DBM extends \CADB\Objects  {
 								self::setErrorMsg( $que." 가 DB에 반영되지 않았습니다." );
 								return -1;
 							}
+							self::$log .= "\n모범단협 조항: ".$item['tid']." ".$fid." 책갈피에 연결";
 						}
 					}
 				}
@@ -500,6 +521,7 @@ class DBM extends \CADB\Objects  {
 								self::setErrorMsg( $que." 가 DB에 반영되지 않았습니다." );
 								return -1;
 							}
+							self::$log .= "\n모범단협 조항: ".$tid." ".$fid." 책갈피 연결 해제";
 						}
 					}
 				}

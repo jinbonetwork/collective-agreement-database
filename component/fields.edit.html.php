@@ -69,7 +69,7 @@
 									<button type="button" class="taxonomy-add">새분류추가</button>
 								</div>
 								<div class="new-taxonomy-container">
-									<input name="subject" type="text" class="text" />
+									<input name="taxonomy_subject" type="text" class="text" />
 									<button type="button" class="taxonomy-add-submit">추가</button>
 									<button type="button" class="taxonomy-add-cancel">취소</button>
 								</div>

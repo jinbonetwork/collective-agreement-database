@@ -308,6 +308,13 @@
 	box-shadow: 0px 2px 0 #dee0e0;
 	white-space: nowrap;
 }
+.app-admin .logs-list th {
+	line-height: 1.3em;
+	padding: 5px 8px;
+	border-bottom: 1px solid #5a91e2;
+	box-shadow: 0px 2px 0 #dee0e0;
+	white-space: nowrap;
+}
 .app-admin .member-list th.delete,
 .app-admin .orgs-list th.delete {
 	border-right: 0;
@@ -332,6 +339,27 @@
 .app-admin .member-list td.delete,
 .app-admin .orgs-list td.delete {
 	border-right: 0;
+}
+
+.app-admin .logs-list td {
+	padding: 8px 5px;
+	line-height: 1.3em;
+}
+.app-admin .logs-list td.table,
+.app-admin .logs-list td.type,
+.app-admin .logs-list td.oid {
+	text-align: center;
+}
+.app-admin .logs-list td.oid a {
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	padding: 5px 8px;
+	text-decoration: none;
+}
+.app-admin .logs-list td.oid a:hover {
+	border: 1px solid #5a91e2;
+	background: #5a91e2;
+	color: #fff;
 }
 
 /* edit organize */

@@ -7,7 +7,7 @@ class index extends \CADB\Controller {
 	public function process() {
 		$this->layout = 'admin';
 		$this->fullscreen = true;
-		$this->css[] = 'app-admin-article.css';
+//		$this->css[] = 'app-admin-article.css';
 
 		$context = \CADB\Model\Context::instance();
 

@@ -3,6 +3,7 @@ namespace CADB\Guide;
 
 class DBM extends \CADB\Objects {
 	private static $fields;
+	private static $log;
 	public static $errmsg;
 	public static $oid;
 	public static $parentIndex;
@@ -115,6 +116,9 @@ class DBM extends \CADB\Objects {
 			$dbm->execute($que,array("dd",0,$args['nid']));
 		}
 
+		self::$log = "모범단협: ".$args['subject']." 의 기본정보를 수정했습니다.\n";
+		\CADB\Log::guideLog('modify', $args['nid'], $guide['vid'], 0, self::$log);
+
 		return $args['nid'];
 	}
 
@@ -124,13 +128,18 @@ class DBM extends \CADB\Objects {
 		$que = "DELETE FROM {guide} WHERE nid = ?";
 		$dbm->execute($que,array("d",$guide['nid']));
 
+		self::$log = "모범단협: ".$args['subject']." 의 기본정보를 삭제했습니다.\n";
+
 		if($guide['nid'] == $guide['vid']) {
 			$que = "DELETE FROM {guide_clause} WHERE nid = ?";
 			$dbm->execute($que,array("d",$guide['vid']));
+			self::$log .= "모범단협: ".$args['subject']." 은 완전삭제되어 해당모범 단협의 모든 조항들도 삭제했습니다.\n";
 
 			$que = "DELETE FROM {taxonomy_term_relative} WHERE `table` = ? AND `rid` = ?";
 			$dbm->execute($que,array("sd",'guide_clause',$guide['vid']));
+			self::$log .= "모범단협: ".$args['subject']." 은 완전삭제되어 해당모범 단협의 모든 조항 관계 테이블도 삭제했습니다.\n";
 		}
+		\CADB\Log::guideLog('delete', $guide['nid'], $guide['vid'], 0, self::$log);
 	}
 
 	public static function getClauseTerms($nid,$id) {
@@ -156,7 +165,7 @@ class DBM extends \CADB\Objects {
 	public static function addClause($args,$fields) {
 		$dbm = \CADB\DBM::instance();
 
-		$que = "UPDATE {guide_clause} SET idx = idx + 1 WHERE `parent` = ".$args['parent']." AND `idx` >= ".$args['idx']." ORDER BY idx DESC";
+		$que = "UPDATE {guide_clause} SET idx = idx + 1 WHERE `nid` = ".$args['nid']." AND `parent` = ".$args['parent']." AND `idx` >= ".$args['idx']." ORDER BY idx DESC";
 		$dbm->query($que);
 
 		$que = "INSERT INTO {guide_clause} (`nid`,`parent`,`idx`,`subject`, `content`";
@@ -203,6 +212,8 @@ class DBM extends \CADB\Objects {
 
 		$insert_id = $dbm->getLastInsertId();
 
+		self::$log = "모범단협 ".$args['nid']."의 세부조항[".$args['subject']."]을 추가했습니다.\n";
+
 		if($args['tid']) {
 			if(!is_array($args['tid'])) {
 				$tids = array($args['tid']);
@@ -212,8 +223,11 @@ class DBM extends \CADB\Objects {
 			for($i=0; $i<@count($args['tid']); $i++) {
 				$que = "INSERT INTO {taxonomy_term_relative} (`tid`, `table`, `rid`, `fid`) VALUES (?,?,?,?)";
 				$dbm->execute($que,array("dsdd",$tids[$i],'guide_clause',$args['nid'],$insert_id));
+				self::$log = "모범단협 ".$args['nid']."의 세부조항[".$args['subject']."]의 분류관계 테이블을 추가했습니다.\n";
 			}
 		}
+
+		\CADB\Log::guideLog('insert', $args['nid'], $guide['vid'], $insert_id, self::$log);
 
 		return $insert_id;
 	}
@@ -259,6 +273,8 @@ class DBM extends \CADB\Objects {
 			return -1;
 		}
 
+		self::$log = "모범단협 ".$args['nid']."의 세부조항[".$args['subject']."]를 수정했습니다.\n";
+
 		$terms = self::getClauseTerms($args['nid'],$args['id']);
 		if($args['tid']) {
 			if(!is_array($args['tid'])) {
@@ -269,6 +285,7 @@ class DBM extends \CADB\Objects {
 		}
 
 		self::rebuildTaxonomyTerms($args['nid'],$args['id'],$terms,$new_terms);
+		\CADB\Log::guideLog('modify',$args['nid'],$args['nid'],$args['id'],self::$log);
 
 		return $args['id'];
 	}
@@ -278,12 +295,15 @@ class DBM extends \CADB\Objects {
 
 		$que = "DELETE FROM {guide_clause} WHERE id = ?";
 		$dbm->execute($que,array("d",$clause['id']));
+		self::$log = "모범단협: ".$clause['nid']."의 세부조항: [".$clause['id']."] ".$clause['subject']."을 삭제했습니다.\n";
 
 		$que = "UPDATE {guide_clause} SET idx = idx - 1 WHERE nid = ".$clause['nid']." AND parent = ".$clause['parent']." AND idx >= ".$clause['idx']." ORDER BY idx ASC";
 		$dbm->query($que);
 
 		$que = "DELETE FROM {taxonomy_term_relative} WHERE `table` = ? AND `rid` = ? AND `fid` = ?";
 		$dbm->execute($que,array("sdd",'guide_clause',$clause['nid'],$clause['id']));
+		self::$log = "모범단협: ".$clause['nid']."의 세부조항: [".$clause['id']."] ".$clause['subject']."의 모범단협분류를 모두 연결해지했습니다.\n";
+		\CADB\Log::guideLog('delete',$clause['nid'],$clause['nid'],$clause['id'],self::$log);
 	}
 
 	private static function rebuildTaxonomyTerms($nid,$id,$old_terms,$new_terms) {
@@ -310,10 +330,12 @@ class DBM extends \CADB\Objects {
 		for($i=0; $i<@count($del_terms); $i++) {
 			$que = "DELETE FROM {taxonomy_term_relative} WHERE `tid` = ? AND `table` = ? AND `rid` = ? AND `fid` = ?";
 			$dbm->execute($que,array("dsdd",$del_terms[$i],'guide_clause',$nid,$id));
+			self::$log .= "모범단협: ".$nid." 의 세부조항: ".$id." 의 모범단협분류[".$del_terms[$i]."] 를 해제했습니다.\n"; 
 		}
 		for($i=0; $i<@count($add_terms); $i++) {
 			$que = "INSERT INTO {taxonomy_term_relative} (`tid`, `table`, `rid`, `fid`) VALUES (?,?,?,?)";
 			$dbm->execute($que,array("dsdd",$add_terms[$i],'guide_clause',$nid,$id));
+			self::$log .= "모범단협: ".$nid." 의 세부조항: ".$id." 의 모범단협분류[".$add_terms[$i]."] 를 추가했습니다.\n"; 
 		}
 	}
 
@@ -372,6 +394,7 @@ class DBM extends \CADB\Objects {
 			self::rollback($insert_nid);
 			return -1;
 		}
+		self::$log = "모범단협: ".$nid." 을 복사하여 새모범단협: ".$insert_nid." 으로 복사했습니다.\n";
 
 		$clause = array();
 		$que = "SELECT * FROM {guide_clause} WHERE nid = ".$nid." ORDER BY parent ASC, idx ASC";
@@ -386,6 +409,8 @@ class DBM extends \CADB\Objects {
 				}
 			}
 		}
+		self::$log .= "모범단협: ".$nid." 의 모든 세부조항을 복사하여 새모범단협: ".$insert_nid." 의 세부조항으로 복사했습니다.\n";
+		\CADB\Log::guideLog('fork',$insert_nid,$insert_nid,0,self::$log);
 
 		return $insert_nid;
 	}
