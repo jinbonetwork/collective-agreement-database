@@ -227,6 +227,7 @@ export default class SearchBar extends Component {
 
     const searchKeyword = this.input.value.trim();
     if (!searchKeyword && !countObj(this.state.query)) {
+      window.$('.keyword-input input[name="keyword"]').focus();
       return;
     }
 

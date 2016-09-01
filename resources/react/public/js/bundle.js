@@ -25224,6 +25224,7 @@
 
 	      var searchKeyword = this.input.value.trim();
 	      if (!searchKeyword && !countObj(this.state.query)) {
+	        window.$('.keyword-input input[name="keyword"]').focus();
 	        return;
 	      }
 
@@ -27007,7 +27008,6 @@
 	      return _react2.default.createElement(
 	        'div',
 	        null,
-	        '검색어를 입력해 주세요.',
 	        this.props.children
 	      );
 	    }
