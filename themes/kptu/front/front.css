@@ -226,20 +226,32 @@ body {
 .inner-container {
 	position: relative;
 }
-.search-keyword-container, .search-result-container {
-	max-width: 924px;
-	/* script: 항상 중간에 오도록 아래의 값들을 스크립로 변경해 준다. */
-	width: 80%;
-	margin-left: 10%;
-	margin-right: 10%;
-}
-.search-keyword-container {
+form.search-form {
 	position: fixed;
 	z-index: 100;
 	top: 0;
 	left: 0;
 	padding-top: 115px;
 	background: #ebeef2;
+	width: 100%;
+	transition: transform 0.6s;
+	-webkit-transition: -webkit-transform 0.6s;
+	-moz-transition: -moz-transform 0.6s;
+	-ms-transition: -ms-transform 0.6s;
+	-o-transition: -o-transform 0.6s;
+}
+.search-keyword-container, .search-result-container {
+	max-width: 924px;
+	width: 80%;
+	margin-left: 10%;
+	margin-right: 10%;
+}
+.collapsed-mode form.search-form {
+	transform: translateY(-100%);
+	-webkit-transform: translateY(-100%);
+	-moz-transform: translateY(-100%);
+	-ms-transform: translateY(-100%);
+	-o-transform: translateY(-100%);
 }
 	.general-keyword {
 		padding: 10px 0 0 10px;
@@ -292,9 +304,13 @@ body {
 		.general-keyword .keyword-input input[type="text"] {
 			line-height: 16px;
 		}
-	.categorized-keyword {}
+	.categorized-keyword {
+		position: relative;
+	}
 		.search-button {
-			float: right;
+			position: absolute;
+			right:0;
+			top: 0;
 			width: 20%;
 		}
 		.search-button.box {
@@ -360,6 +376,11 @@ body {
 				.example .chapters li {
 					margin-bottom: 1px;
 				}
+				.example .chapters li:after {
+					clear: both;
+					content: ' ';
+					display: block;
+				}
 				.example .chapters li:last-of-type {
 					margin-bottom: 0;
 				}
@@ -377,6 +398,37 @@ body {
 					z-index: 2;
 					border-left: solid 15px #5a91e2;
 					box-shadow: 0px 0px 20px #dee0e0;
+				}
+				.example .chapters .sub-article {
+					margin: 0;
+					padding: 0;
+					width: 100%;
+					color: #fff;
+					display: none;
+					overflow-x: hidden;
+					overflow-y: auto;
+					max-height: 170px;
+					transition: max-height 0.6s;
+					-webkit-transition: max-height 0.6s;
+					-moz-transition: max-height 0.6s;
+					-ms-transition: max-height 0.6s;
+					-o-transition: max-height 0.6s;
+				}
+				.example .chapters .sub-article.collapsed {
+					max-height: 0;
+				}
+				.example .chapters .sub-article ul {
+					margin: 0;
+					padding: 14px 7px;
+					background: #3e3a39;
+					list-style: none;
+					height: auto;
+				}
+				.example .chapters .sub-article ul li {
+					background: none;
+					padding: 0;
+					margin: 0 0 13px 0;
+					line-height: 1.2em;
 				}
 			.example .articles {
 				margin-left: 40%;
@@ -428,9 +480,55 @@ body {
 					padding-left: 8px;
 				}
 
+		.search-close-open {
+			height: 30px;
+			vertical-align: middle;
+			display: none;
+			transition: bottom 0.6s;
+			-webkit-transition: bottom 0.6s;
+			-moz-transition: bottom 0.6s;
+			-ms-transition: bottom 0.6s;
+			-o-transition: bottom 0.6s;
+			max-width: 924px;
+			width: 80%;
+			margin-left: 10%;
+			margin-right: 10%;
+			bottom: 0;
+		}
+		.collapsed-mode form.search-form .search-close-open {
+			position: absolute;
+			bottom: -115px;
+			left: 0;
+		}
+		.search-close-open button {
+			border-top-right-radius: 0;
+			border-top-left-radius: 0;
+			background: #ebeef2;
+			border-bottom: 1px solid #fff;
+		}
+		.search-close-open button i {
+			margin-right: 15px;
+		}
+		.search-close-open button .open {
+			display: none;
+		}
+		.collapsed-mode .search-close-open button .close {
+			display: none;
+		}
+		.collapsed-mode .search-close-open button .open {
+			display: block;
+		}
 .search-result-container {
 	padding-top: 303px; /* scritp: 이 값은 div.general-keyword와 div.categores의 높이에 따라 변해야 한다. */
 	padding-bottom: 60px;
+	transition: padding-top 0.6s;
+	-webkit-transition: padding-top 0.6s;
+	-moz-transition: padding-top 0.6s;
+	-ms-transition: padding-top 0.6s;
+	-o-transition: padding-top 0.6s;
+}
+.collapsed-mode .search-result-container {
+	padding-top: 115px !important;
 }
 	.search-result:after {
 		content: '';
@@ -443,6 +541,12 @@ body {
 		float: left;
 		width: 40%;
 	}
+		.example-result > .header {
+			padding: 30px 10px 30px 20px;
+			font-size: 1.2em;
+			font-weight: 700;
+			display: none;
+		}
 		.example-result > ul {
 			margin-right: 15px;
 		}
@@ -1384,4 +1488,113 @@ body {
 }
 .hidden {
 	display: none;
+}
+
+@media screen and (max-width: 640px) {
+	.container > .header .anchors {
+		position: absolute;
+		right: 10px;
+		top: 0;
+	}
+	.categories {
+		margin-right: 0;
+	}
+	.categories .selection > div {
+		margin-right: 0;
+	}
+	.search-button {
+		position:static;
+		width: 100%;
+		text-align: center;
+		margin-top: 15px;
+		margin-bottom: 15px;
+	}
+	.search-button > button {
+		width: 70%;
+	}
+	.example .chapters {
+		width: 100%;
+	}
+	.example .chapters ul {
+		margin-right: 0;
+	}
+	.example .chapters li.box {
+		min-height: 56px;
+		height: auto;
+	}
+	.example .chapters label.chapter-label,
+	.example .chapters input[type=radio]:checked + label {
+		position: relative;
+		padding-right: 30px;
+		border-left: 0;
+		box-shadow: none;
+	}
+	.example .chapters label.chapter-label:after {
+		position: absolute;
+		right: 13px;
+		top: 0px;
+		font-size: 1.2em;
+		font-weight: 700;
+		font-family: "FontAwesome";
+		content: "\f107";
+	}
+	.example .chapters label.active {
+		color: #5a91e2;
+		font-weight: bold;
+	}
+	.example .chapters .sub-article {
+		display: block;
+	}
+	.example .chapters .sub-article input[type=checkbox]:checked + label {
+		color: #5a91e2;
+	}
+	.example .chapters .sub-article label.checked {
+		color: #5a91e2;
+	}
+	.example .articles {
+		display: none;
+	}
+	.app .checkbox-wrap input[type="checkbox"] ~ label.checkbox > .checked {
+		left: 20px;
+	}
+	.search-close-open {
+		display: block;
+		width: 90%;
+		margin-left: 5%;
+		margin-right: 5%;
+	}
+	.width33 {
+		position: relative;
+		float: none;
+		width: 100%;
+	}
+	.search-result-container {
+		padding-top: 353px;
+	}
+	.search-keyword-container, .search-result-container {
+		width: 90%;
+		margin-right: 5%;
+		margin-left: 5%;
+	}
+	.example-result {
+		width: 100%;
+		float: none;
+		border-bottom: solid 2px #9fa0a0;
+		padding-bottom: 40px;
+	}
+	.example-result > .header {
+		display: block;
+	}
+	.example-result > ul {
+		margin-right: 0;
+	}
+	.organ-article-result {
+		margin-left: 0;
+	}
+}
+@media screen and (max-width: 480px) {
+	.categories .selection label {
+		padding-left: 10px;
+		letter-spacing: -0.075em;
+	}
 }

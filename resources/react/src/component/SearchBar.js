@@ -26,6 +26,7 @@ export default class SearchBar extends Component {
   render() {
     return (
       <form
+	    className="search-form"
         onSubmit={this.handleSubmit.bind(this)}
       >
         <div className="search-keyword-container">
@@ -44,10 +45,6 @@ export default class SearchBar extends Component {
           </div>
 
           <div className="categorized-keyword">
-            <div className="search-button box">
-              <button type="submit" name="search">검색</button>
-            </div>
-
             <div className="categories box">
               <div className="selection"><div className="radio-button">
                 <input type="radio" id="cat-example"
@@ -71,6 +68,7 @@ export default class SearchBar extends Component {
             <div className="sub-categories">
               <ArticleCategory
                 query={this.state.query}
+                chapterarticles={this.state.chapterArticles}
                 chapters={this.state.chapters}
                 articles={this.state.articles}
                 onChapterClick={this.handleChapterClick.bind(this)}
@@ -84,7 +82,13 @@ export default class SearchBar extends Component {
 				onSelectClick={this.handleSelectClick.bind(this)}
               />
             </div>
+            <div className="search-button box">
+              <button type="submit" name="search">검색</button>
+            </div>
           </div>
+        </div>
+        <div className="search-close-open">
+          <button type="button" onClick={this.handleToggleSearchBox.bind(this)}><span className="close"><i className="fa fa-angle-double-up"></i>검색창 닫기</span><span className="open"><i className="fa fa-angle-double-down"></i>검색창 열기</span></button>
         </div>
       </form>
     );
@@ -145,6 +149,22 @@ export default class SearchBar extends Component {
     });
   }
 
+  componentDidUpdate() {
+    var f = window.$('form.search-form');
+    var h = f.find('.general-keyword').outerHeight(true);
+    h += f.find('.categories').outerHeight(true);
+    if(f.find('.search-button').css('position') == 'static') {
+      h += f.find('.search-button').outerHeight(true);
+    }
+    if(f.find('.search-close-open').css('display') != 'none') {
+      h += f.find('.search-close-open').outerHeight(true);
+    }
+    h += parseInt(f.css('padding-top'));
+    window.$('.search-result-container').css({
+      'padding-top': h+'px'
+    });
+  }
+
   handleClickQueryLabel(field, value) {
     this.setState({
       query: toggleInQuery(this.state.query, field, value)
@@ -155,6 +175,7 @@ export default class SearchBar extends Component {
     this.setState({
       query: toggleInQuery(this.state.query, field, value)
     });
+	jQuery('label[for="article-'+value+'"]').toggleClass('checked');
   }
 
   handleSelectSelect(field, value) {
@@ -165,9 +186,14 @@ export default class SearchBar extends Component {
 
   handleChapterClick(field, value, nsubs) {
 	if(parseInt(nsubs)) {
-      this.setState({
-        articles: this.state.chapterArticles[value] || []
-      });
+      if(window.innerWidth > 640) {
+        this.setState({
+          articles: this.state.chapterArticles[value] || []
+        });
+      } else {
+	    jQuery('#chapter-'+value+'-article').toggleClass('collapsed');
+	    jQuery('#chapter-'+value+'-label').toggleClass('active');
+	  }
 	} else {
 	  this.setState({
 	    articles: [],
@@ -190,6 +216,10 @@ export default class SearchBar extends Component {
       window.$('.sub-categories .example').hide();
       window.$('.sub-categories .organization').slideToggle();
     }
+  }
+
+  handleToggleSearchBox(e) {
+    window.$('.inner-search-container').toggleClass('collapsed-mode');
   }
 
   handleSubmit(e) {

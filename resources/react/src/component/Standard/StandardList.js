@@ -11,6 +11,7 @@ const StandardList = ({
 
   return (
     <div className="example-result">
+      <div className="header">모범단협 검색결과</div>
       {rows}
     </div>
   );

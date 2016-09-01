@@ -24949,6 +24949,7 @@
 	      return _react2.default.createElement(
 	        'form',
 	        {
+	          className: 'search-form',
 	          onSubmit: this.handleSubmit.bind(this)
 	        },
 	        _react2.default.createElement(
@@ -24979,15 +24980,6 @@
 	          _react2.default.createElement(
 	            'div',
 	            { className: 'categorized-keyword' },
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'search-button box' },
-	              _react2.default.createElement(
-	                'button',
-	                { type: 'submit', name: 'search' },
-	                '검색'
-	              )
-	            ),
 	            _react2.default.createElement(
 	              'div',
 	              { className: 'categories box' },
@@ -25032,6 +25024,7 @@
 	              { className: 'sub-categories' },
 	              _react2.default.createElement(_ArticleCategory2.default, {
 	                query: this.state.query,
+	                chapterarticles: this.state.chapterArticles,
 	                chapters: this.state.chapters,
 	                articles: this.state.articles,
 	                onChapterClick: this.handleChapterClick.bind(this),
@@ -25044,6 +25037,35 @@
 	                onSelectSelect: this.handleSelectSelect.bind(this),
 	                onSelectClick: this.handleSelectClick.bind(this)
 	              })
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'search-button box' },
+	              _react2.default.createElement(
+	                'button',
+	                { type: 'submit', name: 'search' },
+	                '검색'
+	              )
+	            )
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'search-close-open' },
+	          _react2.default.createElement(
+	            'button',
+	            { type: 'button', onClick: this.handleToggleSearchBox.bind(this) },
+	            _react2.default.createElement(
+	              'span',
+	              { className: 'close' },
+	              _react2.default.createElement('i', { className: 'fa fa-angle-double-up' }),
+	              '검색창 닫기'
+	            ),
+	            _react2.default.createElement(
+	              'span',
+	              { className: 'open' },
+	              _react2.default.createElement('i', { className: 'fa fa-angle-double-down' }),
+	              '검색창 열기'
 	            )
 	          )
 	        )
@@ -25115,6 +25137,23 @@
 	      });
 	    }
 	  }, {
+	    key: 'componentDidUpdate',
+	    value: function componentDidUpdate() {
+	      var f = window.$('form.search-form');
+	      var h = f.find('.general-keyword').outerHeight(true);
+	      h += f.find('.categories').outerHeight(true);
+	      if (f.find('.search-button').css('position') == 'static') {
+	        h += f.find('.search-button').outerHeight(true);
+	      }
+	      if (f.find('.search-close-open').css('display') != 'none') {
+	        h += f.find('.search-close-open').outerHeight(true);
+	      }
+	      h += parseInt(f.css('padding-top'));
+	      window.$('.search-result-container').css({
+	        'padding-top': h + 'px'
+	      });
+	    }
+	  }, {
 	    key: 'handleClickQueryLabel',
 	    value: function handleClickQueryLabel(field, value) {
 	      this.setState({
@@ -25127,6 +25166,7 @@
 	      this.setState({
 	        query: (0, _utils.toggleInQuery)(this.state.query, field, value)
 	      });
+	      jQuery('label[for="article-' + value + '"]').toggleClass('checked');
 	    }
 	  }, {
 	    key: 'handleSelectSelect',
@@ -25139,9 +25179,14 @@
 	    key: 'handleChapterClick',
 	    value: function handleChapterClick(field, value, nsubs) {
 	      if (parseInt(nsubs)) {
-	        this.setState({
-	          articles: this.state.chapterArticles[value] || []
-	        });
+	        if (window.innerWidth > 640) {
+	          this.setState({
+	            articles: this.state.chapterArticles[value] || []
+	          });
+	        } else {
+	          jQuery('#chapter-' + value + '-article').toggleClass('collapsed');
+	          jQuery('#chapter-' + value + '-label').toggleClass('active');
+	        }
 	      } else {
 	        this.setState({
 	          articles: [],
@@ -25166,6 +25211,11 @@
 	        window.$('.sub-categories .example').hide();
 	        window.$('.sub-categories .organization').slideToggle();
 	      }
+	    }
+	  }, {
+	    key: 'handleToggleSearchBox',
+	    value: function handleToggleSearchBox(e) {
+	      window.$('.inner-search-container').toggleClass('collapsed-mode');
 	    }
 	  }, {
 	    key: 'handleSubmit',
@@ -26776,6 +26826,7 @@
 
 	var ArticleCategory = function ArticleCategory(_ref) {
 	  var query = _ref.query;
+	  var chapterarticles = _ref.chapterarticles;
 	  var chapters = _ref.chapters;
 	  var articles = _ref.articles;
 	  var onChapterClick = _ref.onChapterClick;
@@ -26787,7 +26838,9 @@
 	    var nsubs = _ref2.nsubs;
 
 	    var id = 'chapter-' + value;
+	    var id2 = 'chapter-' + value + '-label';
 	    var field = 'a11';
+	    var aRows = makeChapterArticleRows(query, chapterarticles, value, nsubs, onCheckboxClick);
 	    return _react2.default.createElement(
 	      'li',
 	      { key: id, className: 'box' },
@@ -26801,10 +26854,11 @@
 	        }),
 	        _react2.default.createElement(
 	          'label',
-	          { htmlFor: id },
+	          { htmlFor: id, id: id2, className: 'chapter-label' },
 	          name
 	        )
-	      )
+	      ),
+	      aRows
 	    );
 	  });
 
@@ -26864,6 +26918,55 @@
 	};
 
 	exports.default = ArticleCategory;
+
+
+	function makeChapterArticleRows(query, chapterarticles, parents, nsubs, onCheckboxClick) {
+	  if (parseInt(nsubs)) {
+	    var Rows = chapterarticles[parents].map(function (_ref4) {
+	      var value = _ref4.value;
+	      var name = _ref4.name;
+
+	      var id = 'article-' + value;
+	      var field = 'a11';
+	      var checked = (0, _utils.inQuery)(query, field, value);
+
+	      return _react2.default.createElement(
+	        'li',
+	        { key: id, className: 'checkbox-wrap' },
+	        _react2.default.createElement('input', { type: 'checkbox', name: 'article',
+	          id: id, checked: checked,
+	          onChange: function onChange() {
+	            return onCheckboxClick(field, value);
+	          }
+	        }),
+	        _react2.default.createElement(
+	          'label',
+	          { className: 'checkbox', htmlFor: id },
+	          _react2.default.createElement('i', { className: 'unchecked fa fa-square-o' }),
+	          _react2.default.createElement('i', { className: 'checked fa fa-check-square' })
+	        ),
+	        ' ',
+	        _react2.default.createElement(
+	          'label',
+	          { className: 'label', htmlFor: id },
+	          name
+	        )
+	      );
+	    });
+	    var cid = 'chapter-' + parents + '-article';
+	    return _react2.default.createElement(
+	      'div',
+	      { className: 'sub-article collapsed', id: cid },
+	      _react2.default.createElement(
+	        'ul',
+	        null,
+	        Rows
+	      )
+	    );
+	  } else {
+	    return '';
+	  }
+	}
 
 /***/ },
 /* 242 */
@@ -27092,6 +27195,11 @@
 	  return _react2.default.createElement(
 	    'div',
 	    { className: 'example-result' },
+	    _react2.default.createElement(
+	      'div',
+	      { className: 'header' },
+	      '모범단협 검색결과'
+	    ),
 	    rows
 	  );
 	};

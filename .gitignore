@@ -8,3 +8,4 @@ files/*/
 npm-debug.log
 resources/react/node_modules
 resources/react/css
+resources/react/build.sh
