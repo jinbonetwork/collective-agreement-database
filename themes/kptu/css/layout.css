@@ -271,3 +271,11 @@ body {
 	.inner-container > .footer .banner {
 		float: right;
 	}
+
+@media screen and (max-width: 640px) {
+	.container > .header .anchors {
+		position: absolute;
+		right: 10px;
+		top: 0;
+	}
+}

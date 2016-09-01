@@ -1,5 +1,5 @@
 #login-container {
-	padding-top: 30%;
+	padding-top: 20%;
 	width: 250px;
 	margin: auto;
 }
@@ -33,4 +33,15 @@ fieldset {
 	padding-top: 15px;
 	text-align: center;
 	color: #999;
+}
+
+@media screen and (max-width: 640px) {
+	#login-container {
+		padding-top: 25%;
+	}
+}
+@media screen and (max-width: 480px) {
+	#login-container {
+		padding-top: 30%;
+	}
 }
