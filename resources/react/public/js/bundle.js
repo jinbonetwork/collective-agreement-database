@@ -25138,6 +25138,12 @@
 	        }
 	        _this3.setState({ query: query });
 	      });
+
+	      window.$('.keyword-input input[name="keyword"]').cadbautocomplete({
+	        callback: function callback() {
+	          window.$('.search-button.box button[type="submit"]').click();
+	        }
+	      });
 	    }
 	  }, {
 	    key: 'componentDidUpdate',

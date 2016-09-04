@@ -147,6 +147,12 @@ export default class SearchBar extends Component {
       }
       this.setState({ query });
     });
+
+	window.$('.keyword-input input[name="keyword"]').cadbautocomplete({
+		callback: function() {
+			window.$('.search-button.box button[type="submit"]').click();
+		}
+	});
   }
 
   componentDidUpdate() {

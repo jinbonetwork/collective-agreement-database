@@ -1,0 +1,26 @@
+.autocomplete-box {
+	position: absolute;
+	z-index: 100000000;
+	max-height: 70%;
+	overflow-y: auto;
+	overflow-x: hidden;
+	background: #fff;
+	color: #595757;
+	box-shadow: 0px 5px 5px #dee0e0;
+}
+.autocomplete-box.hidding {
+	display: none;
+}
+.autocomplete-box ul {
+	margin: 0;
+	padding: 10px;
+	list-style: none;
+}
+.autocomplete-box ul li.autocomplete-item {
+	padding: 4px 6px;
+	margin: 0;
+	cursor: pointer;
+}
+.autocomplete-box ul li.autocomplete-item:hover {
+	background: #f2f2f2;
+}

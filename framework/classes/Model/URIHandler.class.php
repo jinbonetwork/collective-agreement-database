@@ -108,6 +108,9 @@ final class URIHandler extends \CADB\Objects {
 									break;
 							}
 							break;
+						case 'autocomplete':
+							$pathPart = CADB_APP_PATH."api/autocomplete";
+							break;
 						default:
 							$pathPart = CADB_APP_PATH."api";
 							break;
