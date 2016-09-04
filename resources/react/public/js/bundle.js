@@ -25079,7 +25079,7 @@
 	      var queryStr = window.location.search;
 
 	      // make search bar category options
-	      var url = '/api';
+	      var url = site_base_uri + '/api';
 	      _axios2.default.get(url).then(function (_ref2) {
 	        var data = _ref2.data;
 

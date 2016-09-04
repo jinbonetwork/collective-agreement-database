@@ -43,7 +43,7 @@
 					self.removeAlert($this);
 				}
 
-				var url = "/admin/standards/save";
+				var url = site_base_uri+"/admin/standards/save";
 				var params = jQuery.param($this.serializeArray());
 
 				jQuery.ajax({
@@ -73,7 +73,7 @@
 			});
 
 			this.info.find('button.delete').click(function(e) {
-				var url = "/admin/standards/save";
+				var url = site_base_uri+"/admin/standards/save";
 				var params = "table="+this.info.find('input[name="table"]').val();
 				params += "mode=delete";
 				params += "nid="+this.info.find('input[name="nid"]').val();
@@ -561,7 +561,7 @@
 				this.removeAlert(tn);
 			}
 
-			var url = '/admin/fields/terms';
+			var url = site_base_uri+'/admin/fields/terms';
 			var params = "mode=" + mode + "&cid=" + cid + "&parent= " + parents;
 			if(mode == 'add' && ( li.hasClass('prepend') || li.hasClass('append') ) ) {
 			} else {
@@ -625,7 +625,7 @@
 			this.removeTaxonomyControl();
 			var li = this.documents.find('ul.guide-clause-taxonomy-list[data-cid="' + cid + '"] li[data-tid="'+tid+'"]');
 
-			var url = '/admin/fields/terms';
+			var url = site_base_uri+'/admin/fields/terms';
 			var params = "mode=delete&cid=" + cid + "&parent= " + li.attr('data-parent') + "&tid=" + tid;
 
 			jQuery.ajax({
@@ -664,7 +664,7 @@
 		getClause: function(id) {
 			var self = this;
 
-			var url = '/admin/standards/clause';
+			var url = site_base_uri+'/admin/standards/clause';
 			var params = 'id='+id;
 
 			jQuery.ajax({
@@ -778,7 +778,7 @@
 				}
 			});
 
-			var url = "/admin/standards/save";
+			var url = site_base_uri+"/admin/standards/save";
 
 			jQuery.ajax({
 				url:  url,
@@ -846,7 +846,7 @@
 			params += "&parent="+parents;
 			params += "&nid="+this.Root.attr('data-nid');
 
-			var url = "/admin/standards/save";
+			var url = site_base_uri+"/admin/standards/save";
 
 			jQuery.ajax({
 				url:  url,

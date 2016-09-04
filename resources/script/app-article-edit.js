@@ -669,7 +669,7 @@ var maxGuideIndex = 0;
 
 		save: function() {
 			var self = this;
-			var url = "/api/save/articles";
+			var url = site_base_uri+"/api/save/articles";
 
 			var params = 'nid='+this.Root.find('input[name="nid"]').val();
 			params += '&did='+this.Root.find('input[name="did"]').val();
@@ -846,7 +846,7 @@ var maxGuideIndex = 0;
 
 		deletes: function() {
 			var self = this;
-			var url = "/api/save/articles";
+			var url = site_base_uri+"/api/save/articles";
 
 			var params = 'nid='+this.Root.find('input[name="nid"]').val()+'&mode=delete';
 
@@ -890,7 +890,7 @@ var maxGuideIndex = 0;
 
 		fork: function() {
 			var self = this;
-			var url = "/api/save/articles";
+			var url = site_base_uri+"/api/save/articles";
 
 			var params = 'nid='+this.Root.find('input[name="nid"]').val();
 			params += '&did='+this.Root.find('input[name="did"]').val();

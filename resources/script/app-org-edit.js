@@ -96,7 +96,7 @@
 
 					var oq = orgs.f.attr('data-q');
 					if(oq != q) {
-						var url = "/api/orgs";
+						var url = site_base_uri+"/api/orgs";
 
 						jQuery.ajax({
 							url: url,
@@ -327,7 +327,7 @@
 
 		save: function() {
 			var self = this;
-			var url = "/api/save/orgs";
+			var url = site_base_uri+"/api/save/orgs";
 
 			var params = 'oid='+this.Root.find('input[name="oid"]').val();
 			params += '&vid='+this.Root.find('input[name="vid"]').val();
@@ -495,7 +495,7 @@
 
 		deletes: function() {
 			var self = this;
-			var url = "/api/save/orgs";
+			var url = site_base_uri+"/api/save/orgs";
 
 			var params = 'oid='+this.Root.find('input[name="oid"]').val()+'&mode=delete';
 

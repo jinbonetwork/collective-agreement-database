@@ -242,7 +242,7 @@
 
 		save: function() {
 			var self = this;
-			var url = "/admin/member/save";
+			var url = site_base_uri+"/admin/member/save";
 			var mode = this.Root.find('input[name="mode"]').val();
 
 			var params = 'mb_no='+this.Root.find('input[name="mb_no"]').val();
@@ -389,7 +389,7 @@
 
 		deletes: function() {
 			var self = this;
-			var url = "/admin/member/delete";
+			var url = site_base_uri+"/admin/member/delete";
 
 			var params = 'mb_no='+this.Root.find('input[name="mb_no"]').val()+'&mode=delete';
 

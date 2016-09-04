@@ -23,21 +23,29 @@ class DBM extends \CADB\Objects  {
 		if($args['sub1']) {
 			$fullname .= ($fullname ? " " : "").$args['sub1'];
 			$depth = 2;
+		} else {
+			$args['sub1'] = '';
 		}
 		if(empty($args['p2'])) $args['p2'] = 0;
 		if($args['sub2']) {
 			$fullname .= ($fullname ? " " : "").$args['sub2'];
 			$depth = 3;
+		} else {
+			$args['sub2'] = '';
 		}
 		if(empty($args['p3'])) $args['p3'] = 0;
 		if($args['sub3']) {
 			$fullname .= ($fullname ? " " : "").$args['sub3'];
 			$depth = 4;
+		} else {
+			$args['sub3'] = '';
 		}
 		if(empty($args['p4'])) $args['p4'] = 0;
 		if($args['sub4']) {
 			$fullname .= ($fullname ? " " : "").$args['sub4'];
 			$depth = 5;
+		} else {
+			$args['sub4'] = '';
 		}
 
 		if(self::checkParent($depth,$args) < 0) {
@@ -280,10 +288,7 @@ class DBM extends \CADB\Objects  {
 					break;
 			}
 			if($p_que) {
-				if( $dbm->execute($que,array("dd",$insert_oid,$insert_oid)) < 1) {
-					self::setErrorMsg($que." 가 DB에 반영되지 않았습니다.");
-					return -1;
-				}
+				$dbm->execute($p_que,array("dd",$insert_oid,$insert_oid));
 			}
 		}
 

@@ -307,7 +307,7 @@
 
 		updateIndex: function() {
 			var self = this;
-			var url = "/admin/fields/resort";
+			var url = site_base_uri+"/admin/fields/resort";
 
 			var index = JSON.stringify(this.fields_index);
 			var params = "table="+this.table+"&index="+index;
@@ -337,7 +337,7 @@
 
 		saveField: function() {
 			var self = this;
-			var url = "/admin/fields/save";
+			var url = site_base_uri+"/admin/fields/save";
 			var params = jQuery.param(self.cform.find('form.field-form').serializeArray());
 
 			jQuery.ajax({
@@ -569,7 +569,7 @@
 
 		deletes: function(fid) {
 			var self = this;
-			var url = "/admin/fields/save";
+			var url = site_base_uri+"/admin/fields/save";
 
 			var params = "fid="+fid+"&mode=delete&table="+this.table;
 
@@ -657,7 +657,7 @@
 			} else {
 				this.removeAlert(ip);
 			}
-			var url = '/admin/fields/taxonomy';
+			var url = site_base_uri+'/admin/fields/taxonomy';
 			var params = 'mode=add&subject=' + subject;
 
 			jQuery.ajax({
@@ -698,7 +698,7 @@
 			var self = this;
 			var f = this.tform.clone();
 
-			var url = '/api/taxonomy';
+			var url = site_base_uri+'/api/taxonomy';
 			var params = 'cid='+cid+"&type=1";
 
 			jQuery.ajax({
@@ -837,7 +837,7 @@
 			} else {
 				this.removeAlert(label);
 			}
-			var url = '/admin/fields/terms';
+			var url = site_base_uri+'/admin/fields/terms';
 			var params = "mode=add&cid=" + element.attr('data-cid') + "&parent=" + element.attr('data-parent') + "&idx=" + element.attr('data-idx') + "&name=" + name;
 			console.log(params);
 			jQuery.ajax({
@@ -945,7 +945,7 @@
 				element.attr('data-editing',0);
 				return;
 			}
-			var url = '/admin/fields/terms';
+			var url = site_base_uri+'/admin/fields/terms';
 			var params = "mode=modify&cid=" + element.attr('data-cid') + "&tid=" + element.attr('data-tid') + "&vid=" + element.attr('data-vid') + "&parent=" + element.attr('data-parent') + "&idx=" + element.attr('data-idx') + "&name=" + name;
 			jQuery.ajax({
 				url: url,
@@ -982,7 +982,7 @@
 		deleteTaxonomyTerms: function(element) {
 			var self = this;
 
-			var url = '/admin/fields/terms';
+			var url = site_base_uri+'/admin/fields/terms';
 			var params = "mode=delete&cid=" + element.attr('data-cid') + "&tid=" + element.attr('data-tid') + "&vid=" + element.attr('data-vid') + "&parent=" + element.attr('data-parent') + "&idx=" + element.attr('data-idx');
 			console.log(params);
 			jQuery.ajax({

@@ -98,7 +98,7 @@ export default class SearchBar extends Component {
     const queryStr = window.location.search;
 
     // make search bar category options
-    const url = '/api';
+    const url = site_base_uri+'/api';
     axios.get(url)
     .then(({ data }) => {
       // store label for query option label
