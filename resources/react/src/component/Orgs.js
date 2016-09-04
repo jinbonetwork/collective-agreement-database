@@ -40,7 +40,7 @@ export default class Orgs extends Component {
   }
 
   doSearch() {
-    const api = '/api/orgs';
+    const api = site_base_uri+'/api/orgs';
     const query = window.location.search;
     const url = `${api}${query}`;
 

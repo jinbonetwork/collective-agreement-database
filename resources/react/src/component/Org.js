@@ -31,7 +31,7 @@ export default class Org extends Component {
   }
 
   doSearch() {
-    const api = '/api/orgs';
+    const api = site_base_uri+'/api/orgs';
     const oid = this.props.params.oid;
     const url = `${api}/${oid}`;
 

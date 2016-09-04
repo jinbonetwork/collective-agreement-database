@@ -27127,7 +27127,7 @@
 	    value: function doSearch() {
 	      var _this2 = this;
 
-	      var api = '/api/all';
+	      var api = site_base_uri + '/api/all';
 	      var query = window.location.search;
 	      var url = '' + api + query;
 
@@ -27509,7 +27509,7 @@
 	    value: function doSearch() {
 	      var _this2 = this;
 
-	      var api = '/api/standards';
+	      var api = site_base_uri + '/api/standards';
 	      var sid = this.state.id;
 	      var tid = this.state.tid;
 
@@ -27768,7 +27768,7 @@
 	    key: 'onClickArticle',
 	    value: function onClickArticle() {
 	      var self = this;
-	      var api = '/api/articles';
+	      var api = site_base_uri + '/api/articles';
 	      var query = window.location.search;
 	      var url = api + '/' + this.state.article.nid + query;
 
@@ -27873,7 +27873,7 @@
 	  }, {
 	    key: 'onOrgClick',
 	    value: function onOrgClick() {
-	      var api = '/api/orgs';
+	      var api = site_base_uri + '/api/orgs';
 	      var url = api + '/' + this.state.org.oid;
 
 	      (0, _utils.showSearching)('white');
@@ -28292,7 +28292,7 @@
 	    value: function doSearch(oid) {
 	      var _this3 = this;
 
-	      var api = '/api/orgs';
+	      var api = site_base_uri + '/api/orgs';
 	      var url = api + '/' + oid;
 
 	      howSearching();
@@ -28942,7 +28942,7 @@
 	    value: function doSearch(init) {
 	      var _this2 = this;
 
-	      var api = '/api/articles';
+	      var api = site_base_uri + '/api/articles';
 	      var query = window.location.search;
 	      if (init === true) {
 	        var url = '' + api + query + '&mode=init';
@@ -29279,7 +29279,7 @@
 	    value: function doSearch() {
 	      var _this2 = this;
 
-	      var api = '/api/articles';
+	      var api = site_base_uri + '/api/articles';
 	      var aid = this.props.params.aid;
 	      var url = api + '/' + aid;
 
@@ -29413,7 +29413,7 @@
 	    value: function doSearch() {
 	      var _this2 = this;
 
-	      var api = '/api/orgs';
+	      var api = site_base_uri + '/api/orgs';
 	      var query = window.location.search;
 	      var url = '' + api + query;
 
@@ -29511,7 +29511,7 @@
 	    value: function doSearch() {
 	      var _this2 = this;
 
-	      var api = '/api/orgs';
+	      var api = site_base_uri + '/api/orgs';
 	      var oid = this.props.params.oid;
 	      var url = api + '/' + oid;
 
@@ -29677,7 +29677,7 @@
 	    value: function doSearch(init) {
 	      var _this2 = this;
 
-	      var api = '/api/standards';
+	      var api = site_base_uri + '/api/standards';
 	      var sid = window.location.pathname.split("/").splice(-1)[0];
 	      if (init === true) {
 	        var url = api + '/' + sid + '?mode=init';
@@ -29984,7 +29984,7 @@
 	    value: function componentDidMount() {
 	      var _this3 = this;
 
-	      var url = '/api';
+	      var url = site_base_uri + '/api';
 
 	      _axios2.default.get(url).then(function (_ref) {
 	        var data = _ref.data;

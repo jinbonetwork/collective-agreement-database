@@ -87,7 +87,7 @@ export default class Article extends Component {
   }
 
   doSearch() {
-    const api = '/api/articles';
+    const api = site_base_uri+'/api/articles';
     const aid = this.props.params.aid;
     const url = `${api}/${aid}`;
 

@@ -20,7 +20,7 @@ export default class ArticleOrg extends Component{
   }
 
   onOrgClick() {
-    const api = '/api/orgs';
+    const api = site_base_uri+'/api/orgs';
     const url = `${api}/${this.state.org.oid}`;
 
     showSearching('white');

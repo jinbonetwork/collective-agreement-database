@@ -175,7 +175,7 @@ export default class Orgv extends Component{
   }
 
   doSearch(oid) {
-    const api = '/api/orgs';
+    const api = site_base_uri+'/api/orgs';
     const url = `${api}/${oid}`;
 
     howSearching();

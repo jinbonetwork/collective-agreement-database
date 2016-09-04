@@ -46,7 +46,7 @@ export default class ArticleItem extends Component{
 
   onClickArticle() {
     var self = this;
-    const api = '/api/articles';
+    const api = site_base_uri+'/api/articles';
     const query = window.location.search;
     const url = `${api}/${this.state.article.nid}${query}`;
 

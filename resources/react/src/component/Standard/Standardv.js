@@ -117,7 +117,7 @@ export default class Standardv extends Component{
   }
 
   doSearch() {
-    const api = '/api/standards';
+    const api = site_base_uri+'/api/standards';
     const sid = this.state.id;
 	const tid = this.state.tid;
 	
