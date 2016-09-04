@@ -228,7 +228,7 @@ abstract class Controller {
 	}
 
 	private function BaseURIScript() {
-		$urlscript = "\t".'<script type="text/javascript">'."\n\t\t".'var site_base_uri = "'.(ROOT == '.' ? '' : ROOT."/").'";'."\n\t</script>\n";
+		$urlscript = "\t".'<script type="text/javascript">'."\n\t\t".'var site_base_uri = "'.rtrim(CADB_URI,'/').'";'."\n\t</script>\n";
 		return $urlscript;
 	}
 

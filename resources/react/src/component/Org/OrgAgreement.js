@@ -40,12 +40,13 @@ export default class OrgAgreement extends Component{
 
 function makeItem(nids) {
   const { nid, did, subject } = nids;
+  const basename = site_base_uri;
 
   return (
     <li key={`organize-agreement-${nid}`} className="agreement">
-      <Link to={`/articles/${nid}`} className="agree-view"><span>{subject}</span></Link>
+      <a href={`${basename}/articles/${nid}`} className="agree-view"><span>{subject}</span></a>
 	  <div className="download">
-        <a href={`/articles/pdf?nid=${nid}`} className="pdf-download"><span>다운받기</span></a>
+        <a href={`${basename}/articles/pdf?nid=${nid}`} className="pdf-download"><span>다운받기</span></a>
       </div>
     </li>
   );

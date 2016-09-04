@@ -48,7 +48,7 @@ export default class Articles extends Component {
   }
 
   doSearch(init) {
-    const api = '/api/articles';
+    const api = site_base_uri+'/api/articles';
     const query = window.location.search;
     if(init === true) {
       var url = `${api}${query}&mode=init`;

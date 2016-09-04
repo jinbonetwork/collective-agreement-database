@@ -44,6 +44,7 @@ export default class Main extends Component {
   }
 
   doSearch(searchKeyword, query) {
+    const base_uri = site_base_uri;
     const queries = [];
     if (searchKeyword) {
       queries.push(`q=${searchKeyword}`);
@@ -57,7 +58,7 @@ export default class Main extends Component {
     const queryString = queries.join('&');
 
     this.setState({ shouldSearch: true });
-    this.context.router.push(`/search?${queryString}`);
+    this.context.router.push(`${base_uri}/search?${queryString}`);
   }
 }
 

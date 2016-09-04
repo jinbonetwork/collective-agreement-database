@@ -20,10 +20,10 @@ define('CADB_VERSION', '0.5');
  **/
 define('CADB_PATH',str_replace('/config/config.php','',str_replace('\\', '/', __FILE__)));
 if(!defined('CADB_URI')) {
-	if(ROOT != '.')
-//		define('CADB_URI',"/".ROOT.rtrim(str_replace('index.php', '', $_SERVER["SCRIPT_NAME"])));
-		define('CADB_URI',ROOT."/");
-	else
+	if(ROOT != '.') {
+		$document_root = str_replace($_SERVER["SCRIPT_NAME"],'',$_SERVER['SCRIPT_FILENAME']);
+		define('CADB_URI','/'.str_replace($document_root,"",rtrim(dirname(__FILE__),"/config")));
+	} else
 		define('CADB_URI',rtrim(str_replace('index.php', '', $_SERVER["SCRIPT_NAME"])));
 }
 

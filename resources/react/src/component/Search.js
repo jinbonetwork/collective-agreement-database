@@ -56,7 +56,7 @@ export default class Search extends Component {
   }
 
   doSearch() {
-    const api = '/api/all';
+    const api = site_base_uri+'/api/all';
     const query = window.location.search;
     const url = `${api}${query}`;
 

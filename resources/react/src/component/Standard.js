@@ -68,7 +68,7 @@ export default class Standard extends Component {
   }
 
   doSearch(init) {
-    const api = '/api/standards';
+    const api = site_base_uri+'/api/standards';
     const sid = window.location.pathname.split("/").splice(-1)[0];
 	if(init === true) {
     	var url = `${api}/${sid}?mode=init`;

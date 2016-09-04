@@ -64,7 +64,7 @@ export default class Articles extends Component {
   }
 
   componentDidMount() {
-    const url = '/api';
+    const url = site_base_uri+'/api';
 
     axios.get(url)
     .then(({ data }) => {

@@ -5,6 +5,7 @@ const StandardIndexes = ({
   indexes, onIndexClick
 }) => {
   const indexRows = indexes.map(({ id, subject, nsubs, articles }) => {
+    const basename = site_base_uri;
     const did = `guide-chapter-${id}`;
     const k = `guide-chapter-title-${id}`;
 	const items = articles.map(makeItem);
@@ -23,7 +24,7 @@ const StandardIndexes = ({
       return (
         <dl id={did} key={did} className="collapsed">
           <dt key={k} className="chapter-title">
-            <Link to={`/standards/${id}`}><span>{subject}</span></Link>
+            <Link to={`${basename}/standards/${id}`}><span>{subject}</span></Link>
           </dt>
         </dl>
 	  );
@@ -42,6 +43,7 @@ function makeItem(article) {
   const { id, subject } = article;
   const k=`guide-article-${id}`;
   const sid = window.location.pathname.split("/").splice(-1)[0];
+  const basename = site_base_uri;
 
-  return <article key={k} id={k} className="article"><Link to={`/standards/${id}`}><span>{subject}</span></Link></article>;
+  return <article key={k} id={k} className="article"><Link to={`${basename}/standards/${id}`}><span>{subject}</span></Link></article>;
 }

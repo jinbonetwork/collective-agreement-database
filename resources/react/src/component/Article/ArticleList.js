@@ -10,6 +10,7 @@ const ArticleList = ({
              : <div className="no-result">검색 결과가 없습니다.</div>;
   const more = result.articles && result.articles.more || 0;
   const moreClass = ( more ? 'more-box show' : 'more-box hide');
+  const basename = site_base_uri;
   const query = window.location.search;
   const totalCount = result.articles && result.articles.total_cnt || 0;
 
@@ -19,7 +20,7 @@ const ArticleList = ({
         <span className="result-counts">{totalCount}</span>개
       </div>
       {rows}
-	  <div className={moreClass}><Link to={`/articles${query}`}><span>더보기</span></Link></div>
+	  <div className={moreClass}><Link to={`${basename}/articles${query}`}><span>더보기</span></Link></div>
     </div>
   );
 };

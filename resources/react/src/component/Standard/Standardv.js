@@ -113,11 +113,11 @@ export default class Standardv extends Component{
   }
 
   onStandardGo() {
-    window.location = '/standards/'+this.state.id;
+    window.location = site_base_uri+'/standards/'+this.state.id;
   }
 
   doSearch() {
-    const api = '/api/standards';
+    const api = site_base_uri+'/api/standards';
     const sid = this.state.id;
 	const tid = this.state.tid;
 	
