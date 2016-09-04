@@ -22,11 +22,12 @@ export default class ArticleItem extends Component{
     const rows = (this.state.article.f30 ? this.state.article.f30.map(this.makeOrgMap) : []);
     const o_button = (rows.length > 0 ? <span className="view-organize" onClick={this.toggleOrgs.bind(this)}>교섭 참가 단위</span> : '');
     const items = (rows.length > 0 ? <div className="article-orgsmap collapsed"><ul>{rows}</ul></div> : '');
+	const basename = site_base_uri;
     return (
       <li key={this.state.nid} className="article-item">
         <div className="header">
           <div className="title">
-            <div className="organ-name"><Link to={`/articles/${this.state.article.nid}`} dangerouslySetInnerHTML={{ __html: this.state.article.subject }} /></div>
+            <div className="organ-name"><Link to={`${basename}/articles/${this.state.article.nid}`} dangerouslySetInnerHTML={{ __html: this.state.article.subject }} /></div>
             {o_button}
           </div>
           <div className="info">

@@ -24748,17 +24748,19 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	var cadb_base_uri = site_base_uri + '/';
+
 	exports.default = _react2.default.createElement(
 	  _reactRouter.Route,
-	  { path: '/', component: _Main2.default },
+	  { path: cadb_base_uri, component: _Main2.default },
 	  _react2.default.createElement(_reactRouter.IndexRoute, { component: _Home2.default }),
-	  _react2.default.createElement(_reactRouter.Route, { path: '/search', component: _Search2.default }),
-	  _react2.default.createElement(_reactRouter.Route, { path: '/articles', component: _Articles2.default }),
-	  _react2.default.createElement(_reactRouter.Route, { path: '/articles/:aid', component: _Article2.default }),
-	  _react2.default.createElement(_reactRouter.Route, { path: '/orgs', component: _Orgs2.default }),
-	  _react2.default.createElement(_reactRouter.Route, { path: '/orgs/:oid', component: _Org2.default }),
-	  _react2.default.createElement(_reactRouter.Route, { path: '/standards/:sid', component: _Standard2.default }),
-	  _react2.default.createElement(_reactRouter.Route, { path: '/sandbox', component: _Sandbox2.default }),
+	  _react2.default.createElement(_reactRouter.Route, { path: 'search', component: _Search2.default }),
+	  _react2.default.createElement(_reactRouter.Route, { path: 'articles', component: _Articles2.default }),
+	  _react2.default.createElement(_reactRouter.Route, { path: 'articles/:aid', component: _Article2.default }),
+	  _react2.default.createElement(_reactRouter.Route, { path: 'orgs', component: _Orgs2.default }),
+	  _react2.default.createElement(_reactRouter.Route, { path: 'orgs/:oid', component: _Org2.default }),
+	  _react2.default.createElement(_reactRouter.Route, { path: 'standards/:sid', component: _Standard2.default }),
+	  _react2.default.createElement(_reactRouter.Route, { path: 'sandbox', component: _Sandbox2.default }),
 	  _react2.default.createElement(_reactRouter.Route, { path: '*', component: _NotFound2.default })
 	);
 
@@ -24851,6 +24853,7 @@
 	  }, {
 	    key: 'doSearch',
 	    value: function doSearch(searchKeyword, query) {
+	      var base_uri = site_base_uri;
 	      var queries = [];
 	      if (searchKeyword) {
 	        queries.push('q=' + searchKeyword);
@@ -24864,7 +24867,7 @@
 	      var queryString = queries.join('&');
 
 	      this.setState({ shouldSearch: true });
-	      this.context.router.push('/search?' + queryString);
+	      this.context.router.push(base_uri + '/search?' + queryString);
 	    }
 	  }]);
 
@@ -27502,7 +27505,7 @@
 	  }, {
 	    key: 'onStandardGo',
 	    value: function onStandardGo() {
-	      window.location = '/standards/' + this.state.id;
+	      window.location = site_base_uri + '/standards/' + this.state.id;
 	    }
 	  }, {
 	    key: 'doSearch',
@@ -27581,6 +27584,7 @@
 	  );
 	  var more = result.articles && result.articles.more || 0;
 	  var moreClass = more ? 'more-box show' : 'more-box hide';
+	  var basename = site_base_uri;
 	  var query = window.location.search;
 	  var totalCount = result.articles && result.articles.total_cnt || 0;
 
@@ -27605,7 +27609,7 @@
 	      { className: moreClass },
 	      _react2.default.createElement(
 	        _reactRouter.Link,
-	        { to: '/articles' + query },
+	        { to: basename + '/articles' + query },
 	        _react2.default.createElement(
 	          'span',
 	          null,
@@ -27711,6 +27715,7 @@
 	          rows
 	        )
 	      ) : '';
+	      var basename = site_base_uri;
 	      return _react2.default.createElement(
 	        'li',
 	        { key: this.state.nid, className: 'article-item' },
@@ -27723,7 +27728,7 @@
 	            _react2.default.createElement(
 	              'div',
 	              { className: 'organ-name' },
-	              _react2.default.createElement(_reactRouter.Link, { to: '/articles/' + this.state.article.nid, dangerouslySetInnerHTML: { __html: this.state.article.subject } })
+	              _react2.default.createElement(_reactRouter.Link, { to: basename + '/articles/' + this.state.article.nid, dangerouslySetInnerHTML: { __html: this.state.article.subject } })
 	            ),
 	            o_button
 	          ),
@@ -28269,18 +28274,19 @@
 	  }, {
 	    key: 'onOrgClick',
 	    value: function onOrgClick(oid) {
+	      var basename = site_base_uri;
 	      if (this.state.type == 'overlay') {
 	        this.doSearch(oid);
 	      } else {
 	        if (oid) {
-	          window.location = '/orgs/' + oid;
+	          window.location = basename + '/orgs/' + oid;
 	        }
 	      }
 	    }
 	  }, {
 	    key: 'onOrgEdit',
 	    value: function onOrgEdit() {
-	      window.location = '/orgs/edit?oid=' + this.state.org.oid;
+	      window.location = site_base_uri + '/orgs/edit?oid=' + this.state.org.oid;
 	    }
 	  }, {
 	    key: 'onOrgClose',
@@ -28418,13 +28424,14 @@
 	  var did = nids.did;
 	  var subject = nids.subject;
 
+	  var basename = site_base_uri;
 
 	  return _react2.default.createElement(
 	    'li',
 	    { key: 'organize-agreement-' + nid, className: 'agreement' },
 	    _react2.default.createElement(
-	      _reactRouter.Link,
-	      { to: '/articles/' + nid, className: 'agree-view' },
+	      'a',
+	      { href: basename + '/articles/' + nid, className: 'agree-view' },
 	      _react2.default.createElement(
 	        'span',
 	        null,
@@ -28436,7 +28443,7 @@
 	      { className: 'download' },
 	      _react2.default.createElement(
 	        'a',
-	        { href: '/articles/pdf?nid=' + nid, className: 'pdf-download' },
+	        { href: basename + '/articles/pdf?nid=' + nid, className: 'pdf-download' },
 	        _react2.default.createElement(
 	          'span',
 	          null,
@@ -28646,6 +28653,7 @@
 	  );
 	  var more = result.orgs && result.orgs.more || 0;
 	  var moreClass = more ? 'more-box show' : 'more-box hide';
+	  var basename = site_base_uri;
 	  var query = window.location.search;
 	  var totalCount = result.orgs && result.orgs.total_cnt || 0;
 
@@ -28670,7 +28678,7 @@
 	      { className: moreClass },
 	      _react2.default.createElement(
 	        _reactRouter.Link,
-	        { to: '/orgs' + query },
+	        { to: basename + '/orgs' + query },
 	        _react2.default.createElement(
 	          'span',
 	          null,
@@ -29777,6 +29785,7 @@
 	    var nsubs = _ref2.nsubs;
 	    var articles = _ref2.articles;
 
+	    var basename = site_base_uri;
 	    var did = 'guide-chapter-' + id;
 	    var k = 'guide-chapter-title-' + id;
 	    var items = articles.map(makeItem);
@@ -29814,7 +29823,7 @@
 	          { key: k, className: 'chapter-title' },
 	          _react2.default.createElement(
 	            _reactRouter.Link,
-	            { to: '/standards/' + id },
+	            { to: basename + '/standards/' + id },
 	            _react2.default.createElement(
 	              'span',
 	              null,
@@ -29841,13 +29850,14 @@
 
 	  var k = 'guide-article-' + id;
 	  var sid = window.location.pathname.split("/").splice(-1)[0];
+	  var basename = site_base_uri;
 
 	  return _react2.default.createElement(
 	    'article',
 	    { key: k, id: k, className: 'article' },
 	    _react2.default.createElement(
 	      _reactRouter.Link,
-	      { to: '/standards/' + id },
+	      { to: basename + '/standards/' + id },
 	      _react2.default.createElement(
 	        'span',
 	        null,

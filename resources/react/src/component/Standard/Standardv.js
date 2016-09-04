@@ -113,7 +113,7 @@ export default class Standardv extends Component{
   }
 
   onStandardGo() {
-    window.location = '/standards/'+this.state.id;
+    window.location = site_base_uri+'/standards/'+this.state.id;
   }
 
   doSearch() {

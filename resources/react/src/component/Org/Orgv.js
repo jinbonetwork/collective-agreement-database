@@ -157,17 +157,18 @@ export default class Orgv extends Component{
   }
 
   onOrgClick(oid) {
+    const basename = site_base_uri;
     if(this.state.type == 'overlay') {
       this.doSearch(oid);
     } else {
       if(oid) {
-        window.location = `/orgs/${oid}`;
+        window.location = `${basename}/orgs/${oid}`;
       }
     }
   }
 
   onOrgEdit() {
-  	window.location = '/orgs/edit?oid='+this.state.org.oid;
+  	window.location = site_base_uri+'/orgs/edit?oid='+this.state.org.oid;
   }
 
   onOrgClose() {
