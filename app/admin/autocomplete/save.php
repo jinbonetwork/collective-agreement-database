@@ -110,6 +110,7 @@ class save extends \CADB\Controller {
 		$name = trim($name);
 		if($name) {
 			for($l=0; $l<mb_strlen($name,'utf-8'); $l++) {
+				if($name[$l] == ' ') continue;
 				$key = mb_substr($name,0,($l+1),'utf-8');
 				if(!$this->autocomplete[$key]) $this->autocomplete[$key] =  array();
 				if(!$this->autocomplete[$key][$fullname]) {
