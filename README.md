@@ -12,9 +12,12 @@
 =============
 
 * PHP 5.4 이상.
+  * phpredis module : https://github.com/phpredis/phpredis
 * MySQL 5.7.6 이상.
 * Mecab 최신버젼.
 * npm(nodeJS)과 webpack이 global 설치되어 있어야 합니다.
+* redis 3.2.3 이상
+  * http://redis.io/
 
 3. 설치
 =======
@@ -58,6 +61,30 @@
 ```
 cd contribute/TCPDF/tools
 ls ../../NanumBarunGothic/fonts/*.ttf | xargs -I TTF php tcpdf_addfont.php -i TTF
+```
+
+7) redis 설치
+-------------
+* redis 서버 설치.
+```
+$ /usr/local/src
+$ wget http://download.redis.io/releases/redis-3.2.3.tar.gz
+$ tar xzvpf redis-3.2.3.tar.gz
+$ cd redis-3.2.3
+$ make -j4 && make install -j4
+$ cd utils
+$ sh install_server.sh
+```
+* phpredis 설치
+```
+$ git clone https://github.com/phpredis/phpredis
+$ cd phpredis
+$ phpize
+$ ./configure (--enable-redis-igbinary)
+$ make -j4
+$ make install
+$ vim php.ini
+extension=redis.so
 ```
 
 4. document

@@ -41,8 +41,8 @@ class DBM extends \CADB\Objects {
 			}
 		}
 
-		$que = "INSERT INTO {fields} (`table`,`idx`,`subject`,`iscolumn`,`type`,`multiple`,`required`,`cid`,`active`,`system`,`indextype`) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
-		$dbm->execute($que,array("sdsdsddddds",
+		$que = "INSERT INTO {fields} (`table`,`idx`,`subject`,`iscolumn`,`type`,`multiple`,`required`,`cid`,`active`,`system`,`autocomplete`, `indextype`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+		$dbm->execute($que,array("sdsdsdddddds",
 			$args['table'],
 			$args['idx'],
 			$args['subject'],
@@ -53,6 +53,7 @@ class DBM extends \CADB\Objects {
 			($args['cid'] ? $args['cid'] : 0),
 			($args['active'] ? 1 : 0),
 			($args['system'] ? 1 : 0),
+			($args['autocomplete'] ? 1 : 0),
 			($args['indextype'] ? $args['indextype'] : 'none')
 		));
 
@@ -67,14 +68,15 @@ class DBM extends \CADB\Objects {
 	public static function modify($field, $args) {
 		$dbm = \CADB\DBM::instance();
 
-		$que = "UPDATE {fields} SET subject = ?, multiple = ?, required = ?, active = ?, system = ?, indextype = ? WHERE fid = ?";
+		$que = "UPDATE {fields} SET subject = ?, multiple = ?, required = ?, active = ?, system = ?, autocomplete = ?, indextype = ? WHERE fid = ?";
 
-		$dbm->execute($que,array("sddddsd",
+		$dbm->execute($que,array("sdddddsd",
 			$args['subject'],
 			($args['multiple'] ? 1 : 0),
 			($args['required'] ? 1 : 0),
 			($args['active'] ? 1 : 0),
 			($args['system'] ? 1 : 0),
+			($args['autocomplete'] ? 1 : 0),
 			($args['indextype'] ? $args['indextype'] : 'none'),
 			$args['fid']
 		));

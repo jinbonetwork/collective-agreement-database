@@ -57,7 +57,7 @@ class save extends \CADB\Controller {
 			if( empty($this->params['iscolumn']) ) $this->params['iscolumn'] = 0;
 			if($mode == 'modify') {
 				if($this->params['iscolumn'] != $this->field['iscolumn']) {
-					\CADB\RespondJson::ResultPage( array( -5, '입력방식은 변경할 수 없습니다') );
+					\CADB\RespondJson::ResultPage( array( -5, 'field column 여부는 변경할 수 없습니다.'.$this->params['iscolumn']." ".$this->field['iscolumn']) );
 				}
 			}
 
@@ -83,7 +83,7 @@ class save extends \CADB\Controller {
 				}
 			}
 			if(!$this->params['iscolumn'] & $this->params['indextype'] != 'none') {
-				\CADB\RespondJson::ResultPage( array( -10, '칼럼이 아니면 검색키로 사용할 수 없습니다.') );
+				\CADB\RespondJson::ResultPage( array( -11, '칼럼이 아니면 검색키로 사용할 수 없습니다.') );
 			}
 		}
 	}

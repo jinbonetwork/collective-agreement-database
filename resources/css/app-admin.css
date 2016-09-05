@@ -425,6 +425,34 @@ form#member-edit-form fieldset.buttons button.delete {
 form#member-edit-form fieldset.buttons button.delete.show {
 	display: inline-block;
 }
+
+.app-admin #autocomplete-admin-page .manual,
+.app-admin #autocomplete-admin-page .reset {
+	padding: 0 20px 0 20px;
+	margin: 0 0 30px 0;
+	line-height: 1.5em;
+}
+.app-admin #autocomplete-admin-page .manual ul.autocomplete-items {
+	margin: 10px;
+	border: 1px solid #ccc;
+	padding: 20px;
+	list-style: none;
+}
+.app-admin #autocomplete-admin-page .reset ul {
+	margin: 0 0 20px 0;
+	padding: 0;
+	list-style: none;
+}
+.app-admin #autocomplete-admin-page .reset button {
+	padding-top: 20px;
+	padding-bottom: 20px;
+	background-color: #5a91e2;
+	color: #ffffff;
+}
+.app-admin #autocomplete-admin-page .reset button:hover {
+	background-color: #3d3d3d;
+}
+
 .saving {
 }
 .saving .saving-background{

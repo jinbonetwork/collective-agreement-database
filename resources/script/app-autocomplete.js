@@ -2,7 +2,6 @@
 	function CADBAutocomplete(element,options) {
 		var self = this;
 		this.settings = $.extend({}, $.fn.cadbautocomplete.defaults, options);
-		console.log(this.settings);
 
 		this.Root = jQuery(element);
 
@@ -26,23 +25,10 @@
 			var self = this;
 
 			this.Root.addClass('cadb-autocomplete-input');
-			var l = this.Root.offset().left;
-			var t = this.Root.offset().top;
-			var w = this.Root.outerWidth(true);
-			var h = this.Root.outerHeight();
-			var max_w = jQuery(window).width() - l - 40;
-			var min_w = w;
 
 			this.searchBox = jQuery(this.settings.selectBox);
 			this.searchBox.addClass('cadb-autocomplete-search');
-			this.searchBox.css({
-				'position': 'absolute',
-				'z-index': 100000000,
-				'left': l+'px',
-				'top': (l + h)+'px',
-				'max-width': max_w+'px',
-				'min-width': min_w+'px'
-			});
+			this.setSize();
 
 			this.Root.keyup(function(event) {
 				$this = jQuery(this);
@@ -66,6 +52,9 @@
 			this.Root.focus(function(e) {
 				self.search(jQuery(this).val());
 			});
+			jQuery(window).resize(function(e) {
+				self.setSize();
+			});
 		},
 
 		keyinit: function() {
@@ -85,6 +74,24 @@
 			});
 		},
 
+		setSize: function() {
+			var l = this.Root.offset().left;
+			var t = this.Root.offset().top;
+			var w = this.Root.outerWidth(true);
+			var h = this.Root.outerHeight();
+			var max_w = jQuery(window).width() - l - 40;
+			var min_w = w;
+
+			this.searchBox.css({
+				'position': 'absolute',
+				'z-index': 100000000,
+				'left': l+'px',
+				'top': (t + h + 10)+'px',
+				'max-width': max_w+'px',
+				'min-width': min_w+'px'
+			});
+		},
+
 		search: function(q) {
 			var self = this;
 			if(!q) return;
@@ -93,6 +100,7 @@
 				this.searchBoxActivate = true;
 				return;
 			}
+			this.query = q;
 			var url = site_base_uri + '/api/autocomplete';
 			var params = "q="+q;
 			var container = this.searchBox.find('ul');
@@ -110,7 +118,7 @@
 						self.searchBox.removeClass('hidding');
 						self.searchBoxActivate = true;
 						for(var i=0; i<parseInt(json.result.total_cnt); i++) {
-							var l = jQuery('<li class="autocomplete-item"><span class="autocomplete-name">'+json.recommand[i]+'</span></li>');
+							var l = jQuery('<li class="autocomplete-item"><span class="autocomplete-name" data-name="'+json.recommand[i]+'">'+json.recommand[i].replace(self.query,'<strong>'+self.query+'</strong>')+'</span></li>');
 							self.bindClick(l);
 							l.appendTo(container);
 						}
@@ -127,7 +135,7 @@
 
 			element.click(function(e) {
 				$this = jQuery(this);
-				var query = $this.find('.autocomplete-name').text();
+				var query = $this.find('.autocomplete-name').attr('data-name');
 				self.Root.val(query);
 				if(self.settings.callback && typeof(self.settings.callback) == 'function') {
 					self.settings.callback();

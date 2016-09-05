@@ -8,7 +8,12 @@ class autocomplete extends \CADB\Controller {
 		$this->params['output'] = 'json';
 		$context = \CADB\Model\Context::instance();
 
-		if(!$this->params['q']) {
+		if(!($rdb = $context->getProperty('service.redis'))) {
+			$this->result = array(
+				'found' => false,
+				'error' => "자동완성 기능이 활성화되어 있지 않습니다."
+			);
+		} else if(!$this->params['q']) {
 			$this->result = array(
 				'found' => false,
 				'error' => "자동완성할 키워드를 입력하세요."
@@ -17,7 +22,7 @@ class autocomplete extends \CADB\Controller {
 			$redis = new \Redis();
 			try {
 				$redis->connect('127.0.0.1','6379', 2.5, NULL, 150);
-				if($redis->select(1) == false) {
+				if($redis->select($rdb) == false) {
 					$this->result = array(
 						'found' => false,
 						'error' => "index 1 database 에 연결할 수 없습니다."

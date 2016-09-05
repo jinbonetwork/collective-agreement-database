@@ -66,6 +66,7 @@
 				obj.multiple = ( $this.hasClass('multiple') ? 1 : 0);
 				obj.required = ( $this.hasClass('required') ? 1 : 0);
 				obj.active = ( $this.hasClass('active') ? 1 : 0);
+				obj.autocomplete = ( $this.hasClass('autocomplete') ? 1 : 0);
 				obj.system = ( $this.hasClass('system') ? 1 : 0);
 				obj.type = $this.attr('data-type');
 				obj.cid = $this.attr('data-cid');
@@ -215,7 +216,9 @@
 			if(mode == 'modify') {
 				f.find('input#idx').val( parseInt(f.attr('data-target')) );
 				f.find('input#subject').val(item.subject);
-				f.find('input#iscolumn').val(item.iscolumn);
+				if(item.iscolumn) {
+					f.find('input#iscolumn').attr('checked',true);
+				}
 				if(item.iscolumn) {
 					f.find('.field-form').addClass('iscolumn');
 				}
@@ -273,6 +276,7 @@
 			if(mode == 'modify') {
 				f.find('input#required').attr('checked', ( item.required ? true : false ) );
 				f.find('input#active').attr('checked', ( item.active ? true : false ) );
+				f.find('input#autocomplete').attr('checked', ( item.autocomplete ? true : false ) );
 				f.find('select#indextype').val(item.indextype);
 				f.find('.field-form button.submit').text('수정');
 			} else {
@@ -423,6 +427,9 @@
 			item.active = parseInt(data.active);
 			if(parseInt(data.active))
 				item.obj.addClass('active');
+			item.autocomplete = parseInt(data.autocomplete);
+			if(parseInt(data.autocomplete))
+				item.obj.addClass('autocomplete');
 			item.system = parseInt(data.system);
 			if(parseInt(data.system))
 				item.obj.addClass('system');
@@ -494,6 +501,12 @@
 				item.obj.addClass('active');
 			} else {
 				item.obj.removeClass('active');
+			}
+			item.autocomplete = parseInt(data.autocomplete);
+			if( parseInt(data.autocomplete) ) {
+				item.obj.addClass('autocomplete');
+			} else {
+				item.obj.removeClass('autocomplete');
 			}
 			item.system = parseInt(data.system);
 			if( parseInt(data.system) ) {

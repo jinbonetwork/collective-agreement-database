@@ -7,6 +7,9 @@
 				<li class="agreement"><a href="<?php print \CADB\Lib\url("admin/articles"); ?>">단체협약관리</a></li>
 				<li class="member"><a href="<?php print \CADB\Lib\url("admin/member"); ?>">회원관리</a></li>
 				<li class="gnu5"><a href="<?php print \CADB\Lib\url("gnu5/adm"); ?>" target="_blank">GNU5</a></li>
+<?php 		if($context->getProperty('service.redis')) {?>
+				<li class="autocomplete"><a href="<?php print \CADB\Lib\url("admin/autocomplete"); ?>">자동완성</a></li>
+<?php		}?>
 				<li class="log"><a href="<?php print \CADB\Lib\url("admin/logs"); ?>">로그</a></li>
 			</ul>
 		</div>

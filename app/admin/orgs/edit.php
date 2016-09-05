@@ -9,7 +9,7 @@ class edit extends \CADB\Controller {
 		$this->layout = 'admin';
 
 		if(!$this->params['oid']) {
-			Error("조직 고유아이디를 입력하세요.");
+			\CADB\Lib\Error("조직 고유아이디를 입력하세요.");
 		}
 
 		if(!$this->themes) $this->themes = $context->getProperty('service.themes');
@@ -17,7 +17,7 @@ class edit extends \CADB\Controller {
 		$this->fields = \CADB\Organize::getFieldInfo(1);
 		$this->organize = \CADB\Organize::getOrganizeByOid($this->params['oid']);
 		if(!$this->organize) {
-			Error("조직정보를 검색할 수 없습니다.");
+			\CADB\Lib\Error("조직정보를 검색할 수 없습니다.");
 		}
 		$agreement = \CADB\Agreement::getAgreementsByOid($this->params['oid']);
 //		$this->fields['nid'] = array('subject' => '단체협약','type'=>'int','multiple'=>true);

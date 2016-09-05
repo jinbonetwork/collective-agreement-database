@@ -3,7 +3,7 @@
 				<i class="fa fa-chain sortable"></i>
 				<ol class="field-list sortable" data-table="<?php print $table; ?>">
 <?php			foreach($fields as $fid => $field) {?>
-					<li data-fid="<?php print $fid; ?>" data-idx="<?php print $field['idx']; ?>" class="field<?php print($field['iscolumn'] ? ' iscolumn' : '').($field['multiple'] ? ' multiple' : '').($field['required'] ? ' required' : '').' '.$field['type'].($field['active'] ? ' active' : '').($field['system'] ? ' system' : ''); ?>" data-type="<?php print $field['type']; ?>" data-cid="<?php print $field['cid']; ?>" data-indextype="<?php print $field['indextype']; ?>">
+					<li data-fid="<?php print $fid; ?>" data-idx="<?php print $field['idx']; ?>" class="field<?php print($field['iscolumn'] ? ' iscolumn' : '').($field['multiple'] ? ' multiple' : '').($field['required'] ? ' required' : '').' '.$field['type'].($field['active'] ? ' active' : '').($field['autocomplete'] ? ' autocomplete' : '').($field['system'] ? ' system' : ''); ?>" data-type="<?php print $field['type']; ?>" data-cid="<?php print $field['cid']; ?>" data-indextype="<?php print $field['indextype']; ?>">
 						<div class="inner"><label><?php print $field['subject']; ?></label></div>
 					</li>
 <?php			}?>
@@ -84,16 +84,25 @@
 					</fieldset>
 <?php			if($field['system']) {?>
 					<fieldset class="field-item">
-						<label class="field-title" for="active">시스템필드</label>
+						<label class="field-title" for="system">시스템필드</label>
 						<div class="field-item-content">
 							이 필드는 시스템 고정 필드입니다.
+						</div>
+					</fieldset>
+<?php			}
+				$context = \CADB\Model\Context::instance();
+				if($context->getProperty('service.redis')) {?>
+					<fieldset class="field-item">
+						<label class="field-title" for="autocomplete">자동완성</label>
+						<div class="field-item-content">
+							<input type="checkbox" id="autocomplete" name="autocomplete" value="1" class="cadb-field-column" tabindex="10" /><label for="autocomplete">이 필드를 자동완성 기능에 포함합니다.</label>
 						</div>
 					</fieldset>
 <?php			}?>
 					<fieldset class="field-item indextype">
 						<label class="field-title" for="indextype">검색키사용</label>
 						<div class="field-item-content">
-							<select id="indextype" name="indextype" class="cadb-field-column" tabindex="10">
+							<select id="indextype" name="indextype" class="cadb-field-column" tabindex="11">
 								<option value="none">사용안함</option>
 								<option value="fulltext">사용</option>
 							</select>

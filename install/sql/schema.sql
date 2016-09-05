@@ -47,6 +47,7 @@ CREATE TABLE `cadb_fields` (
 	`cid`		int(10),
 	`active`	char(1) DEFAULT '1',
 	`system`	char(1) DEFAULT '0',
+	`autocomplete` char(1) DEFAULT '0',
 	`indextype`	char(128) DEFAULT 'none',
 
 	PRIMARY KEY (`table`,`idx`,`fid`),
