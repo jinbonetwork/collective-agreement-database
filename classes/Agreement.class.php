@@ -234,6 +234,7 @@ class Agreement extends \CADB\Objects  {
 					if(self::$summary_method['type'] == 'string')
 						$v = self::matchKeywordContent($v,self::$summary_method['value']);
 				} else if($k == 'content') {
+					$v = mb_convert_encoding($v,'utf-8','utf-8');
 					if($summary) {
 						$p = 0;
 						switch(self::$summary_method['type']) {
