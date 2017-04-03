@@ -359,7 +359,7 @@
 					if(!jQuery(this).parents('ul.guide-clause-taxonomy-list').hasClass('editing')) {
 						var selected = self.documents.find('.guide-clause-taxonomy-value');
 						selected.text(jQuery(this).text());
-						selected.attr('data-tid', jQuery(this).attr('data-tid'));
+						selected.attr('data-tid', jQuery(this).parent().attr('data-tid'));
 						jQuery(this).parent().addClass('selected').siblings().removeClass('selected');
 						self.unbindSelectTaxonomy();
 					}
