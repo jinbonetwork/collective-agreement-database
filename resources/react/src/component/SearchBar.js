@@ -52,7 +52,7 @@ export default class SearchBar extends Component {
                   onClick={this.handleCategoryClick.bind(this)}
                 />
                 <label htmlFor="cat-example">
-                  2015 모범 단체협약안<i className="fa fa-angle-down"></i>
+                  2017 모범 단체협약안<i className="fa fa-angle-down"></i>
                 </label>
               </div></div>
               <div className="selection"><div className="radio-button">
