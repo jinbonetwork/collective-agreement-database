@@ -6,6 +6,7 @@ $Acl = 'administrator';
 class index extends \CADB\Controller {
 	public function process() {
 		$context = \CADB\Model\Context::instance();
+		\CADB\Lib\importResource('app-search-option');
 
 		$this->search_option = \CADB\Options::getOption('search_option');
 		$this->column_cnt = @count($this->search_option);

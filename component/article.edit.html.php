@@ -8,7 +8,7 @@
 			<div class="form-header-fixed app-page">
 				<fieldset class="fields-guide-group collapsed">
 <?php			foreach($guide_taxonomy_terms as $cid => $g_taxonomy_terms) {
-					\CADB\View\Component::getComponent('form/guide', array( 'cid'=>$cid, 'guide_taxonomy_terms' => $g_taxonomy_terms ) );
+					\CADB\View\Component::getComponent('form/guide', array( 'cid'=>$cid, 'guide_subject' => $guide_subject, 'guide_taxonomy_terms' => $g_taxonomy_terms ) );
 				}?>
 				</fieldset>
 				<fieldset class="fields-title">

@@ -24,6 +24,10 @@ class edit extends \CADB\Controller {
 			\CADB\Lib\Error('접근 권한이 없습니다.');
 		}
 
+		$current_guide = \CADB\Guide\DBM::getCurrent();
+		$guide_subject = preg_split("/ /i",$current_guide['subject']);
+		$this->guide_subject = implode(" ",array_slice($guide_subject,1));
+
 		$g_cids = \CADB\Guide::getTaxonomy();
 		foreach($g_cids as $id) {
 			$this->guide_taxonomy_terms[$id] = \CADB\Guide::getRelativeGuideTerm($id);

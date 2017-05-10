@@ -220,6 +220,19 @@
 		"priority":"100000",
 		"deps":["jquery","modernizr","medium-editor"]
 	},
+	"app-search-option": {
+		"js": [
+			{
+				"uri": "resources/script/app-search-option.js",
+				"position": "footer"
+			}
+		],
+		"css": [
+			"resources/css/app-search-option.css"
+		],
+		"priority":"100000",
+		"deps":["jquery","modernizr"]
+	},
 	"app-autocomplete": {
 		"js": [
 			{

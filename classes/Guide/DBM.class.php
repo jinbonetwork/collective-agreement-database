@@ -58,6 +58,14 @@ class DBM extends \CADB\Objects {
 		return self::fetchGuide($row);
 	}
 
+	public static function getCurrent() {
+		$dbm = \CADB\DBM::instance();
+
+		$que = "SELECT * FROM {guide} WHERE `current` = 1 ORDER BY nid DESC LIMIT 1";
+		$row = $dbm->getFetchArray($que);
+		return self::fetchGuide($row);
+	}
+
 	public static function getClauses($nid) {
 		$dbm = \CADB\DBM::instance();
 

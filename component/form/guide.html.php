@@ -1,4 +1,4 @@
-		<div class="radio-button"><label for="cat-example"><span>2015 모범 단체협약안</span><i class="fa fa-angle-down"></i></label></div>
+		<div class="radio-button"><label for="cat-example"><span><?php print $guide_subject; ?></span><i class="fa fa-angle-down"></i></label></div>
 		<div class="guide-sub-category">
 			<ul id="guide-<?php print $cid; ?>" data-cid="<?php print $cid; ?>" class="guide-items">
 				<li id="guide-search" class="guide-chapter">
