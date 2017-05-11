@@ -15,10 +15,10 @@
 			foreach($articles as $article) {?>
 				<li class="article-item">
 					<div>
-						<a href="<?php print \CADB\Lib\url("admin/articles/edit").$queryString."nid=".$article['nid']; ?>"><?php print $article['subject']; ?></a>
+						<a href="<?php print \CADB\Lib\url("admin/articles/edit").$queryString."oid=".$article['oid']."&nid=".$article['nid']; ?>"><?php print $article['subject']; ?></a>
 						<div class="buttons">
-							<a class="modify" href="<?php print \CADB\Lib\url("admin/articles/edit").$queryString."nid=".$article['nid']; ?>">수정</a>
-							<a class="delete" href="<?php print \CADB\Lib\url("admin/articles/delete").$queryString."nid=".$article['nid']; ?>">삭제</a>
+							<a class="modify" href="<?php print \CADB\Lib\url("admin/articles/edit").$queryString."oid=".$article['oid']."&nid=".$article['nid']; ?>">수정</a>
+							<a class="delete" href="<?php print \CADB\Lib\url("admin/articles/delete").$queryString."oid=".$article['oid']."&nid=".$article['nid']; ?>">삭제</a>
 						</div>
 					</div>
 				</li>

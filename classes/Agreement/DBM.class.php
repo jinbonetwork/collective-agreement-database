@@ -16,6 +16,50 @@ class DBM extends \CADB\Objects  {
 		return self::$fields;
 	}
 
+	public static function totalCnt($q,$args=null) {
+		$dbm = \CADB\DBM::instance();
+
+        self::getFieldInfo();
+
+		$que = self::makeQuery($q,"count(distinct(a.nid)) AS cnt");
+		if($que) {
+			$row = $dbm->getFetchArray($que);
+		}
+		return ($row['cnt'] ? $row['cnt'] : 0);
+	}
+
+	public static function getList($q,$page=1,$limit=20,$args=null) {
+		if(!$page) $page = 1;
+		$dbm = \CADB\DBM::instance();
+
+		self::getFieldInfo();
+
+		$que = self::makeQuery($q,"a.*, o.oid".($q ? ", match(a.subject,a.content) against ('".$q."' IN NATURAL LANGUAGE MODE) AS score" : ""));
+		if($que) {
+			if($limit == 0) {
+				$que .= " ORDER BY o.p1 ASC, o.p2 ASC, o.p3 ASC, o.p4 ASC";
+			} else {
+				$que .= " ORDER BY o.p1 ASC, o.p2 ASC, o.p3 ASC, o.p4 ASC LIMIT ".(($page-1)*$limit).",".$limit;
+			}
+			$articles = array();
+			while($row = $dbm->getFetchArray($que)) {
+				$articles[] = \CADB\Agreement::fetchAgreement($row,true);
+			}
+		}
+
+		return $articles;
+	}
+
+	private static function makeQuery($q,$result) {
+		if($q) {
+			$que = "SELECT ".$result." FROM {agreement} AS a LEFT JOIN {agreement_organize} AS r ON a.nid = r.nid LEFT JOIN {organize} AS o ON r.oid = o.oid WHERE match(a.subject,a.content) against('".$q."' IN BOOLEAN MODE) AND a.current = '1'";
+		} else {
+			$que = "SELECT ".$result." FROM {agreement} AS a LEFT JOIN {agreement_organize} AS r ON a.nid = r.nid LEFT JOIN {organize} AS o ON r.oid = o.oid WHERE a.current = '1'";
+		}
+
+		return $que;
+	}
+
 	public static function insert($fields,$args,$revision = false) {
 		$dbm = \CADB\DBM::instance();
 

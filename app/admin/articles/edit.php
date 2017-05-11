@@ -16,9 +16,19 @@ class edit extends \CADB\Controller {
 		if(!$this->themes) $this->themes = $context->getProperty('service.themes');
 
 		$this->fields = \CADB\Agreement::getFieldInfo(1);
-		$this->articles = \CADB\Agreement::getAgreement($this->params['nid'],($this->params['did'] ? $this->params['did'] : 0));
+		if( $this->params['nid'] ) {
+			$this->articles = \CADB\Agreement::getAgreement($this->params['nid'],($this->params['did'] ? $this->params['did'] : 0));
+		}
 		if(!$this->articles) {
-			\CADB\Lib\Error('존재하지 않는 단체협약입니다.');
+			if( $this->params['oid'] ){
+				$articles = \CADB\Agreement::getAgreementsByOid($this->params['oid'],0,1);
+				$this->articles = $articles[0];
+				if( $this->articles ) {
+					\CADB\Lib\RedirectURL("admin/articles/edit?oid=".$this->params['oid']."&nid=".$this->articles['nid']);
+				}
+			} else {
+				\CADB\Lib\Error('존재하지 않는 단체협약입니다.');
+			}
 		}
 		if(\CADB\Privilege::checkAgreement($this->articles) == false) {
 			\CADB\Lib\Error('접근 권한이 없습니다.');

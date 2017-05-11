@@ -225,6 +225,7 @@ class Agreement extends \CADB\Objects  {
 	}
 
 	public static function fetchAgreement($row,$summary=false) {
+		if(!$row) return null;
 		if($row['custom']) $row['custom'] = unserialize($row['custom']);
 		foreach($row as $k => $v) {
 			if(in_array($k,  array('current','created'))) continue;
