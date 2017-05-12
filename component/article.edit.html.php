@@ -46,9 +46,9 @@
 				</fieldset>
 <?php		}?>
 			<fieldset class="buttons">
-				<button type="submit"><?php print ($articles['nid'] ? "수정하기" : "추가하기"); ?></button>
-				<button type="button" class="article-fork<?php print ($articles['nid'] ? ' show' : ''); ?>">복사하기</button>
-				<button type="button" class="article-delete<?php print ($articles['nid'] ? ' show' : ''); ?>">삭제하기</button>
+				<button type="submit"><?php print (\CADB\Lib\isMaster() || $articles['nid'] ? "수정하기" : "추가하기"); ?></button>
+				<button type="button" class="article-fork<?php print (\CADB\Lib\isMaster() || $articles['nid'] ? ' show' : ''); ?>">복사하기</button>
+				<button type="button" class="article-delete<?php print (\CADB\Lib\isMaster() || $articles['nid'] ? ' show' : ''); ?>">삭제하기</button>
 			</fieldset>
 			</div>
 		</fieldset>
