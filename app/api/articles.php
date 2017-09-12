@@ -27,7 +27,7 @@ class articles extends \CADB\Controller {
 			}
 		}
 		if($this->params['nid']) {
-			$this->articles = \CADB\Agreement::getAgreement( $this->params['nid'], ($this->params['did'] ? $this->params['did'] : 0), $this->params['q'], $args );
+			$this->articles = \CADB\Agreement::getAgreement( $this->params['nid'], ($this->params['did'] ? $this->params['did'] : 0), $this->params['q'], $args, 0 );
 			if(\CADB\Privilege::checkAgreement($this->articles)) {
 				$this->articles['owner'] = 1;
 			} else {
